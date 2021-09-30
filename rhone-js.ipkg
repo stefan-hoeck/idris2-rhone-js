@@ -1,0 +1,12 @@
+package rhone-js
+version    = 0.0.1
+authors    = "Stefan Höck"
+depends    = base    >= 0.5.1
+           , contrib >= 0.5.1
+           , rhone   >= 0.0.1
+
+modules    = Text.Html
+           , Text.Html.Attribute
+           , Text.Html.Node
+
+sourcedir  = "src"
