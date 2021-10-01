@@ -59,37 +59,42 @@ Show InputType where
   show Week     = "week"
 
 public export
-record Attribute where
-  constructor MkAttr
-  attr : String
+data Attribute : Type where
+  StrAttr  : (name : String) -> (value : String) -> Attribute
+  BoolAttr : (name : String) -> (value : Bool) -> Attribute
+
+export
+displayAttribute : Attribute -> String
+displayAttribute (StrAttr nm va)     = #"\#{nm}="\#{va}""#
+displayAttribute (BoolAttr nm True)  = nm
+displayAttribute (BoolAttr nm False) = ""
 
 public export
 record Mod (a : Type) where
   constructor MkMod
-  appMod : a -> String
+  appMod : a -> Attribute
 
 export
-mkMod : String -> (a -> String) -> Mod a
-mkMod nm f = MkMod $ \va => #"\#{nm}="\#{f va}""#
+mkMod : String -> (String -> a -> Attribute) -> Mod a
+mkMod nm f = MkMod $ f nm
 
 export
 strMod : String -> Mod String
-strMod nm =  mkMod nm id
+strMod nm =  mkMod nm StrAttr
 
 export
 showMod : Show a => String -> Mod a
-showMod nm = mkMod nm show
+showMod nm = mkMod nm $ \s => StrAttr s . show
 
 export
 boolMod : String -> Mod Bool
-boolMod nm = mkMod nm $ \b => if b then nm else ""
+boolMod nm = mkMod nm BoolAttr
 
 infixr 2 .=
 
-export
+export %inline
 (.=) : Mod a -> a -> Attribute
-m .= v = MkAttr $ m.appMod v
-
+(.=) = appMod
 
 export
 accesskey : Mod String

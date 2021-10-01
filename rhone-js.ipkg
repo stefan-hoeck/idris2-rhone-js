@@ -1,11 +1,16 @@
 package rhone-js
 version    = 0.0.1
 authors    = "Stefan Höck"
-depends    = base    >= 0.5.1
-           , contrib >= 0.5.1
-           , rhone   >= 0.0.1
+depends    = base      >= 0.5.1
+           , contrib   >= 0.5.1
+           , dom       >= 0.1.0
+           , elab-util >= 0.5.0
+           , rhone     >= 0.0.1
+           , sop       >= 0.5.0
 
-modules    = Text.Html
+modules    = Control.Monad.Dom
+           , Experimental.Syntax
+           , Text.Html
            , Text.Html.Attribute
            , Text.Html.Node
 
