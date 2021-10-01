@@ -8,10 +8,17 @@ depends    = base      >= 0.5.1
            , rhone     >= 0.0.1
            , sop       >= 0.5.0
 
+opts       = "--codegen javascript"
+
+main       = Experimental.Main
+executable = "rhonejs.js"
+
 modules    = Control.Monad.Dom
            , Experimental.Syntax
+
            , Text.Html
            , Text.Html.Attribute
-           , Text.Html.Node
+           , Text.Html.Node.Ref
+           , Text.Html.Node.Type
 
 sourcedir  = "src"

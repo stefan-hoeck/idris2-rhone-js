@@ -1,5 +1,8 @@
 module Text.Html.Attribute
 
+import Data.List
+import Data.String
+
 public export
 data Dir = LTR | RTL
 
@@ -63,11 +66,25 @@ data Attribute : Type where
   StrAttr  : (name : String) -> (value : String) -> Attribute
   BoolAttr : (name : String) -> (value : Bool) -> Attribute
 
+public export
+Attributes : Type
+Attributes = List Attribute
+
 export
-displayAttribute : Attribute -> String
-displayAttribute (StrAttr nm va)     = #"\#{nm}="\#{va}""#
-displayAttribute (BoolAttr nm True)  = nm
-displayAttribute (BoolAttr nm False) = ""
+displayAttribute : Attribute -> Maybe String
+displayAttribute (StrAttr nm va)     = Just #"\#{nm}="\#{va}""#
+displayAttribute (BoolAttr nm True)  = Just nm
+displayAttribute (BoolAttr nm False) = Nothing
+
+export
+displayAttributes : Attributes -> String
+displayAttributes = fastConcat . intersperse " " . mapMaybe displayAttribute
+
+export
+getId : Attributes -> Maybe String
+getId (StrAttr "id" v :: _) = Just v
+getId (_ :: t)              = getId t
+getId []                    = Nothing
 
 public export
 record Mod (a : Type) where
@@ -90,7 +107,7 @@ export
 boolMod : String -> Mod Bool
 boolMod nm = mkMod nm BoolAttr
 
-infixr 2 .=
+infixl 8 .=
 
 export %inline
 (.=) : Mod a -> a -> Attribute
