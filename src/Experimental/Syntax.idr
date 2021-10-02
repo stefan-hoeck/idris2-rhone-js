@@ -35,11 +35,14 @@ compStyle = Ref Style "compstyle" []
 nonlist : String
 nonlist = "nonlist"
 
-incButton : String
-incButton = "incbutton"
+incbtn : String
+incbtn = "incbtn"
 
-outputLine : String
-outputLine = "outputline"
+lstline : String
+lstline = "lstline"
+
+lstlbl : String
+lstlbl = "lstlbl"
 
 output : String
 output = "output"
@@ -52,54 +55,63 @@ css : List Rule
 css = [ elem Body     !! [ BackgroundColor .= black 
                          , Display         .= Flex
                          , FlexDirection   .= Column
+                         , Height          .= perc 100
                          ]
  
 
       , id "content"  !! [ AlignSelf       .= Center
                          , BackgroundColor .= "#101010"
                          , Display         .= Flex
+                         , Flex            .= "1"
                          , FlexDirection   .= Column
-                         , MinHeight       .= perc 100
                          , JustifyContent  .= FlexStart
                          , Padding         .= VH (Pt 20) (Pt 0)
                          , MinWidth        .= perc 70
                          ]
 
-      , class nonlist   !! [ ListStyleType .= None
-                           , Display         .= Flex
-                           , FlexDirection   .= Column
-                           , JustifyContent  .= FlexStart
-                           , Margin  .= All (Pt 5)
-                           , BackgroundColor .= palegreen
-                           ]
+      , class nonlist !! [ ListStyleType   .= None
+                         , Display         .= Flex
+                         , Flex            .= "1"
+                         , FlexDirection   .= Column
+                         , JustifyContent  .= FlexStart
+                         , Margin          .= All (Pt 5)
+                         , BackgroundColor .= palegreen
+                         ]
 
-      , class outputLine !! [ Display .= Flex
-                            , Margin  .= All (Pt 5)
-                            , BackgroundColor .= palegreen
-                            ]
+      , class lstline !! [ Display         .= Flex
+                         , Margin          .= All (Pt 5)
+                         ]
 
-      , class output     !! [ Display         .= Flex
-                            , Margin          .= Left (Pt 20)
-                            , BackgroundColor .= palegreen
-                            ]
+      , class lstlbl  !! [ Margin          .= All (Pt 5)
+                         , Width           .= perc 20
+                         ]
 
-      , class incButton !! [ Padding .= All (Pt 5)
-                           , Margin  .= All (Pt 5)
-                           , Width   .= perc 10
-                           ]
+      , class output  !! [ Padding         .= All (Pt 5)
+                         , Margin          .= All (Pt 5)
+                         , Width           .= perc 10
+                         ]
+
+      , class incbtn  !! [ Padding         .= All (Pt 5)
+                         , Margin          .= All (Pt 5)
+                         , Width           .= perc 10
+                         ]
       ]
 
 --------------------------------------------------------------------------------
 --          View
 --------------------------------------------------------------------------------
 
+line : (lbl: String) -> List Html.Node -> Html.Node
+line lbl ns = div_ [ class .= lstline ] $ 
+                   label_ [ class .= lstlbl ] [Text lbl] :: ns
+
 content : Html.Node
-content = ul_ [ class .= nonlist ]
-              [ li_ [] [ button [Click] [class .= incButton] ["+"]]
-              , li_ [] [ button [Click] [class .= incButton] ["-"]]
-              , li_ [ class .= outputLine ]
-                    [ label_ [] ["Count:"], div [] [class .= output] ["0"] ]
-              ]
+content =
+  div_ [ class .= nonlist ]
+       [ line "Increase counter:" [ button [Click] [class .= incbtn] ["+"] ]
+       , line "Decrease counter:" [ button [Click] [class .= incbtn] ["-"] ]
+       , line "Count:"            [ div [] [class .= output] ["0"] ]
+       ]
 
 --------------------------------------------------------------------------------
 --          Controller
