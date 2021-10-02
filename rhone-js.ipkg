@@ -14,6 +14,8 @@ main       = Experimental.Main
 executable = "rhonejs.js"
 
 modules    = Control.Monad.Dom
+           , Experimental.Event
+           , Experimental.Reactimate
            , Experimental.Syntax
 
            , Text.Html

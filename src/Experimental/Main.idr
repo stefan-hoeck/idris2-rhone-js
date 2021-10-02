@@ -6,6 +6,6 @@ import JS
 import Text.Html as Html
 
 main : IO ()
-main = do
-  ref <- newIORef 0
-  runJS $ runDom {io = JSIO} ui ref
+main = pure () --do
+  -- ref <- newIORef 0
+  -- runJS $ runDom {io = JSIO} ui ref
