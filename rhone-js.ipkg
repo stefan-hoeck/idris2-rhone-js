@@ -23,6 +23,10 @@ modules    = Control.Monad.Dom
 
            , Experimental.Syntax
 
+           , Text.CSS
+           , Text.CSS.Rule
+           , Text.CSS.Selector
+
            , Text.Html
            , Text.Html.Attribute
            , Text.Html.Event
