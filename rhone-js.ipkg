@@ -24,6 +24,10 @@ modules    = Control.Monad.Dom
            , Experimental.Syntax
 
            , Text.CSS
+           , Text.CSS.Color
+           , Text.CSS.Declaration
+           , Text.CSS.Flexbox
+           , Text.CSS.Property
            , Text.CSS.Rule
            , Text.CSS.Selector
 
