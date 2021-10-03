@@ -136,7 +136,10 @@ comp20 = "#b8cfe6"
 public export
 coreCSS : List Rule
 coreCSS =
-  [ elem Body !!
+  [ elem Html !!
+      [ Height          .= perc 100]
+
+  , elem Body !!
       [ BackgroundColor .= black 
       , Color           .= base100
       , Display         .= Flex
