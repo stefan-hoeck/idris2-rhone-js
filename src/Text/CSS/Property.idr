@@ -3,8 +3,9 @@ module Text.CSS.Property
 import Text.CSS.Color
 import Text.CSS.Dir
 import Text.CSS.Flexbox
+import Text.CSS.Length
 import Text.CSS.ListStyleType
-import Text.CSS.Size
+import Text.CSS.Percentage
 
 %default total
 
@@ -29,7 +30,8 @@ namespace Display
 namespace FontSize
   public export
   data FontSize : Type where
-    FS       : Size -> FontSize
+    FL       : Length -> FontSize
+    FP       : Percentage -> FontSize
     XXSmall  : FontSize
     XSmall   : FontSize
     Small    : FontSize
@@ -41,7 +43,8 @@ namespace FontSize
 
   export
   render : FontSize -> String
-  render (FS x)   = render x
+  render (FL x)   = render x
+  render (FP x)   = render x
   render XXSmall  = "xx-small"
   render XSmall   = "x-small"
   render Small    = "small"
@@ -52,24 +55,37 @@ namespace FontSize
   render XXXLarge = "xxx-large"
 
   export %inline
-  pt : Bits16 -> FontSize
-  pt = FS . Pt
+  FromLength FontSize where
+    fromLength = FL
 
   export %inline
-  px : Bits16 -> FontSize
-  px = FS . Px
+  FromPercentage FontSize where
+    fromPercentage = FP
+
+namespace BorderRadius
+  public export
+  data BorderRadius : Type where
+    BL : Length -> BorderRadius
+    BP : Percentage -> BorderRadius
+    BS : String -> BorderRadius
+
+  export
+  render : BorderRadius -> String
+  render (BL x) = render x
+  render (BP x) = render x
+  render (BS x) = x
 
   export %inline
-  em : Double -> FontSize
-  em = FS . Em
+  FromLength BorderRadius where
+    fromLength = BL
 
   export %inline
-  rem : Double -> FontSize
-  rem = FS . Rem
+  FromPercentage BorderRadius where
+    fromPercentage = BP
 
   export %inline
-  perc : Bits16 -> FontSize
-  perc = FS . Perc
+  FromString BorderRadius where
+    fromString = BS
 
 namespace BorderStyle
   public export
@@ -102,46 +118,65 @@ namespace BorderStyle
 namespace BorderWidth
   public export
   data BorderWidth : Type where
-    BW     : Size -> BorderWidth
+    BL     : Length -> BorderWidth
     Thin   : BorderWidth
     Medium : BorderWidth
     Thick  : BorderWidth
 
   export
   render : BorderWidth -> String
-  render (BW x) = render x
+  render (BL x) = render x
   render Thin   = "thin"
   render Medium = "medium"
   render Thick  = "thick"
 
+  export %inline
+  FromLength BorderWidth where
+    fromLength = BL
+
+namespace TextAlign
+  public export
+  data TextAlign : Type where
+    ||| The same as left if direction is left-to-right and right if direction is right-to-left.
+    Start   : TextAlign
+    ||| The same as right if direction is left-to-right and left if direction is right-to-left.
+    End     : TextAlign
+    ||| The inline contents are aligned to the left edge of the line box.
+    Left    : TextAlign
+    ||| The inline contents are aligned to the right edge of the line box.
+    Right   : TextAlign
+    ||| The inline contents are centered within the line box.
+    Center  : TextAlign
+    ||| The inline contents are justified. Text should be spaced to line up its left and right edges to the left and right edges of the line box, except for the last line.
+    Justify : TextAlign
+
+  export
+  render : TextAlign -> String
+  render Start   = "start"
+  render End     = "end"
+  render Left    = "left"
+  render Right   = "right"
+  render Center  = "center"
+  render Justify = "justify"
+
 namespace Width
   public export
   data Width : Type where
-    WI       : Size -> Width
+    WL       : Length -> Width
+    WP       : Percentage -> Width
 
   export
   render : Width -> String
-  render (WI x)   = render x
+  render (WL x)   = render x
+  render (WP x)   = render x
 
   export %inline
-  pt : Bits16 -> Width
-  pt = WI . Pt
+  FromLength Width where
+    fromLength = WL
 
   export %inline
-  px : Bits16 -> Width
-  px = WI . Px
-
-  export %inline
-  em : Double -> Width
-  em = WI . Em
-
-  export %inline
-  rem : Double -> Width
-  rem = WI . Rem
-
-  export %inline
-  perc : Bits16 -> Width
-  perc = WI . Perc
+  FromPercentage Width where
+    fromPercentage = WP
 
 public export
 data Property : Type -> Type where
@@ -149,6 +184,7 @@ data Property : Type -> Type where
   AlignSelf       : Property FlexAlign
   BackgroundColor : Property Color
   BorderColor     : Property (Dir Color)
+  BorderRadius    : Property BorderRadius
   BorderStyle     : Property (Dir BorderStyle)
   BorderWidth     : Property (Dir BorderWidth)
   Color           : Property Color
@@ -156,16 +192,18 @@ data Property : Type -> Type where
   Display         : Property Display
   Flex            : Property String
   FlexDirection   : Property FlexDirection
+  FontFamily      : Property String
   FontSize        : Property FontSize
   Height          : Property Width
   JustifyContent  : Property FlexJustify
-  Margin          : Property (Dir Size)
+  ListStyleType   : Property ListStyleType
+  Margin          : Property (Dir Length)
   MaxHeight       : Property Width
   MaxWidth        : Property Width
   MinHeight       : Property Width
   MinWidth        : Property Width
-  Padding         : Property (Dir Size)
-  ListStyleType   : Property ListStyleType
+  Padding         : Property (Dir Length)
+  TextAlign       : Property TextAlign
   Width           : Property Width
 
 export
@@ -174,6 +212,7 @@ renderProp AlignItems y      = "align-items: "      ++ render y
 renderProp AlignSelf y       = "align-self: "       ++ render y
 renderProp BackgroundColor y = "background-color: " ++ render y
 renderProp BorderColor y     = render "border-color" render y
+renderProp BorderRadius y    = "border-radius: "    ++ render y
 renderProp BorderStyle y     = render "border-style" render y
 renderProp BorderWidth y     = render "border-width" render y
 renderProp Color y           = "color: "            ++ render y
@@ -181,6 +220,7 @@ renderProp Direction y       = "direction: "        ++ render y
 renderProp Display y         = "display: "          ++ render y
 renderProp Flex y            = "flex: "             ++ y
 renderProp FlexDirection y   = "flex-direction: "   ++ render y
+renderProp FontFamily y      = "font-family: "      ++ y
 renderProp FontSize y        = "font-size: "        ++ render y
 renderProp Height y          = "height: "           ++ render y
 renderProp JustifyContent y  = "justify-content: "  ++ render y
@@ -191,4 +231,5 @@ renderProp MinHeight y       = "min-height: "       ++ render y
 renderProp MinWidth y        = "min-width: "        ++ render y
 renderProp Padding y         = render "padding" render y
 renderProp ListStyleType y   = "list-style-type: "  ++ render y
+renderProp TextAlign y       = "text-align: "       ++ render y
 renderProp Width y           = "width: "            ++ render y

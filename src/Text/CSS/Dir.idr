@@ -1,6 +1,8 @@
 module Text.CSS.Dir
 
 import Data.List
+import Text.CSS.Length
+import Text.CSS.Percentage
 
 %default total
 
@@ -43,3 +45,11 @@ render prop f d =
   let vs  = fastConcat . intersperse " " . map f $ vals d
       pre = prfx d
    in #"\#{prop}\#{pre}: \#{vs}"#
+
+export %inline
+FromLength a => FromLength (Dir a) where
+  fromLength = All . fromLength
+
+export %inline
+FromPercentage a => FromPercentage (Dir a) where
+  fromPercentage = All . fromPercentage

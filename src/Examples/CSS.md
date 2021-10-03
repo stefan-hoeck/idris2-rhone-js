@@ -53,6 +53,11 @@ come up in most examples:
 public export
 btn : String
 btn = "btn"
+
+-- an input widget
+public export
+widget : String
+widget = "widget"
 ```
 
 ### CSS Rules
@@ -64,20 +69,86 @@ to purists; suggestions of improvements are welcome.
 Here are the core rules for laying out the web page.
 
 ```idris
+export
+lightest_grey : Color
+lightest_grey = "#adadad"
+
+export
+lighter_grey : Color
+lighter_grey = "#6d6d6d"
+
+export
+light_grey : Color
+light_grey = "#4d4d4d"
+
+export
+dark_grey : Color
+dark_grey = "#1d1d1d"
+
+export
+darker_grey : Color
+darker_grey = "#0d0d0d"
+
+export
+base100 : Color
+base100 = "#e57200"
+
+export
+base80 : Color
+base80 = "#e68a2e"
+
+export
+base60 : Color
+base60 = "#e6a15c"
+
+export
+base40 : Color
+base40 = "#e6b88a"
+
+export
+base20 : Color
+base20 = "#e6cfb8"
+
+export
+base0 : Color
+base0 = "#e6e6e6"
+
+export
+comp100 : Color
+comp100 = "#0073e5"
+
+export
+comp80 : Color
+comp80 = "#2e8ae6"
+
+export
+comp60 : Color
+comp60 = "#5ca1e6"
+
+export
+comp40 : Color
+comp40 = "#8ab8e6"
+
+export
+comp20 : Color
+comp20 = "#b8cfe6"
+
 public export
 coreCSS : List Rule
 coreCSS =
   [ elem Body !!
       [ BackgroundColor .= black 
+      , Color           .= base100
       , Display         .= Flex
       , FlexDirection   .= Column
+      , FontFamily      .= "Helvetica, Arial, sans-serif"
       , Height          .= perc 100
-      , Margin          .= All (Pt 0)
+      , Margin          .= pt 0
       ]
  
   , id "content" !!
       [ AlignSelf       .= Center
-      , BackgroundColor .= "#101010"
+      , BackgroundColor .= darker_grey
       , Display         .= Flex
       , Flex            .= "1"
       , FlexDirection   .= Column
@@ -86,9 +157,36 @@ coreCSS =
       , MinWidth        .= perc 70
       ]
 
-  , class btn !!
-      [ Padding         .= All (Pt 5)
+  , class btn !! 
+      [ Padding         .= pt 5 ]
+
+  , class widget !! 
+      [ BackgroundColor .= lighter_grey
+      , BorderRadius    .= px 10
+      , BorderStyle     .= All Solid
+      , BorderWidth     .= px 3
+      , BorderColor     .= All comp100
+      , Color           .= darker_grey
+      , FontSize        .= Large
       ]
+
+  , Pseudo (class widget) Hover !!
+      [ BackgroundColor .= lightest_grey
+      , BorderColor     .= All comp60
+      ]
+
+  , Pseudo (class widget) Active !!
+      [ BackgroundColor .= lightest_grey
+      , BorderColor     .= All comp60
+      ]
+
+  , Pseudo (class widget) Disabled !!
+      [ BackgroundColor .= light_grey
+      , BorderColor     .= All dark_grey
+      ]
+
+  , Pseudo (class widget) Invalid !!
+      [ BorderColor     .= All red ]
   ]
 ```
 

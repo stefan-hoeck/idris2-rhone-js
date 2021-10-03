@@ -170,7 +170,7 @@ data Selector :  (dept : Nat)
   Class  : String -> Selector 0 b1 b2
   Elem   : {str : _} -> (0 tpe : ElementType str t) -> Selector 0 b1 b2
   Many   : List (Selector 0 True True) -> Selector 1 True True
-  Pseudo : Selector 0 False False -> PseudoClass -> Selector 0 True False
+  Pseudo : Selector 0 False False -> PseudoClass -> Selector 0 True b2
 
 export %inline
 class : String -> Selector 0 False False

@@ -50,28 +50,30 @@ css =
       , Flex            .= "1"
       , FlexDirection   .= Column
       , JustifyContent  .= FlexStart
-      , Margin          .= All (Pt 5)
-      , BackgroundColor .= palegreen
+      , Margin          .= pt 5
       ]
 
   , class lstline !!
-      [ Display         .= Flex
-      , Margin          .= All (Pt 5)
+      [ AlignItems      .= FlexStart
+      , Display         .= Flex
+      , Margin          .= pt 5
       ]
 
   , class lstlbl  !!
-      [ Margin          .= All (Pt 5)
+      [ FontSize        .= Large
+      , Margin          .= pt 5
       , Width           .= perc 20
       ]
 
   , class output  !!
-      [ Padding         .= All (Pt 5)
-      , Margin          .= All (Pt 5)
+      [ FontSize        .= Large
+      , Margin          .= pt 5
+      , TextAlign       .= End
       , Width           .= perc 10
       ]
 
-  , classes [btn,inc]  !!
-      [ Margin          .= All (Pt 5)
+  , class inc  !!
+      [ Margin          .= pt 5
       , Width           .= perc 10
       ]
   ]
@@ -85,7 +87,7 @@ line lbl ns = div_ [ class .= lstline ] $
                    label_ [ class .= lstlbl ] [Text lbl] :: ns
 
 incbtn : (lbl: String) -> Html.Node
-incbtn lbl = button [Click] [classes .= [btn,inc]] [Text lbl]
+incbtn lbl = button [Click] [classes .= [widget,btn,inc]] [Text lbl]
 
 content : Html.Node
 content =

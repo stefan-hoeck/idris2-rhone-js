@@ -1,12 +1,12 @@
 module Text.CSS
 
-import public Text.CSS.Color as CSS
-import public Text.CSS.Dir as CSS
-import public Text.CSS.Declaration as CSS
-import public Text.CSS.Flexbox as CSS
-import public Text.CSS.ListStyleType as CSS
-import public Text.CSS.Property as CSS
-import public Text.CSS.Rule as CSS
-import public Text.CSS.Selector as CSS
-import public Text.CSS.Size as CSS
-import public Text.CSS.Value as CSS
+import public Text.CSS.Color
+import public Text.CSS.Dir
+import public Text.CSS.Declaration
+import public Text.CSS.Flexbox
+import public Text.CSS.Length
+import public Text.CSS.ListStyleType
+import public Text.CSS.Percentage
+import public Text.CSS.Property
+import public Text.CSS.Rule
+import public Text.CSS.Selector
