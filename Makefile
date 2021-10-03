@@ -15,6 +15,10 @@ clean-install-with-src: clean install
 lib:
 	${IDRIS2} --build ${lib_pkg}
 
+.PHONY: page
+page: lib
+	cp build/exec/rhonejs.js js/rhonejs.js
+
 .PHONY: install
 install:
 	${IDRIS2} --install ${lib_pkg}

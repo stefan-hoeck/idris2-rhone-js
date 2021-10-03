@@ -2,7 +2,7 @@
 
 This is an experimental library about putting a nice API on top
 of [idris2-dom](https://github.com/stefan-hoeck/idris2-dom).
-For declaring the interaction between different parts of
+For declaring the interactions between different parts of
 a web page, [idris2-rhone](https://github.com/stefan-hoeck/idris2-rhone),
 a small arrowized FRP (functional reactive programming) library
 in the spirit of [dunai](https://hackage.haskell.org/package/dunai)
