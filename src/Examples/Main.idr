@@ -1,4 +1,4 @@
-module Experimental.Main
+module Examples.Main
 
 import Control.Monad.Dom
 
@@ -8,7 +8,7 @@ import Data.MES
 import Data.MSF
 import Data.Nat
 
-import Experimental.Syntax
+import Examples.Syntax
 import JS
 import Text.Html as Html
 

@@ -34,3 +34,7 @@ innerHtmlAt ref n = do
   innerHtml ref n2
   listenToNode n2
   pure res
+
+export
+rawInnerHtmlAt : MonadDom m => ElemRef t es -> String -> m ()
+rawInnerHtmlAt ref = ignore . innerHtml ref . Raw

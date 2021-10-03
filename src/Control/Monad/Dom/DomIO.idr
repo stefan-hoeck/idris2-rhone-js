@@ -18,12 +18,9 @@ import Web.Raw.UIEvents
 --------------------------------------------------------------------------------
 
 lookupRef : LiftJSIO m => (ref : ElemRef t es) -> m (Maybe t)
-lookupRef Body          = liftJSIO $ document >>= to body
 lookupRef (Ref et id _) = liftJSIO $ htmlElementById et id
 
 lookupRefAsElement : LiftJSIO m => (ref : ElemRef t es) -> m (Maybe Element)
-lookupRefAsElement Body          =
-  liftJSIO $ map (\h => up h) <$> (document >>= to body)
 lookupRefAsElement (Ref _ id _)  = liftJSIO $ getElementById id
 
 listenImpl :  (handler : DomEvent -> JSIO ())
@@ -36,7 +33,6 @@ listenImpl h el DblClick =
   ondblclick el !> (\e => toMouseInfo e >>= h . DblClick)
 
 listenRefImpl : (handler : DomEvent -> JSIO ()) -> ElemRef t es -> JSIO ()
-listenRefImpl _ Body          = pure ()
 listenRefImpl h (Ref _ id es) = do
   Just el <- castElementById_ id | Nothing => pure ()
   traverse_ (listenImpl h el) es

@@ -11,7 +11,7 @@ depends    = base      >= 0.5.1
 
 opts       = "--codegen javascript"
 
-main       = Experimental.Main
+main       = Examples.Main
 executable = "rhonejs.js"
 
 modules    = Control.Monad.Dom
@@ -21,7 +21,8 @@ modules    = Control.Monad.Dom
            , Control.Monad.Dom.Ref
            , Control.Monad.Dom.Util
 
-           , Experimental.Syntax
+           , Examples.CSS
+           , Examples.Syntax
 
            , Text.CSS
            , Text.CSS.Color

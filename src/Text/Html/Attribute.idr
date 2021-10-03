@@ -100,8 +100,12 @@ strMod : String -> Mod String
 strMod nm =  mkMod nm StrAttr
 
 export
+dispMod : String -> (a -> String) -> Mod a
+dispMod nm f =  mkMod nm $ \s => StrAttr s . f
+
+export
 showMod : Show a => String -> Mod a
-showMod nm = mkMod nm $ \s => StrAttr s . show
+showMod nm = dispMod nm show
 
 export
 boolMod : String -> Mod Bool
@@ -152,6 +156,10 @@ cite = strMod "cite"
 export
 class : Mod String
 class = strMod "class"
+
+export
+classes : Mod (List String)
+classes = dispMod "class" (fastConcat . intersperse " ")
 
 export
 cols : Mod Bits32

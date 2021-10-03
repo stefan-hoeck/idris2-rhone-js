@@ -11,10 +11,9 @@ import Web.Dom
 --------------------------------------------------------------------------------
 
 public export
-data ElemRef : Type -> List EventType -> Type where
-  Body  : ElemRef HTMLElement []
-  Ref :  (tpe    : ElementType str t)
-      -> (id     : String)
+data ElemRef : (t : Type) -> (events : List EventType) -> Type where
+  Ref :  (tpe : ElementType str t)
+      -> (id : String)
       -> (events : List EventType)
       -> ElemRef t events
 
