@@ -11,3 +11,21 @@ is used.
 This is still very much work in progress and *a lot* of stuff
 is still missing, but a small and very simple example web page
 is already available. Tutorials and documentation are in the making.
+
+## Dependencies
+
+This project makes use of several other Idris2 projects:
+
+  * [idris2-elab-util](https://github.com/stefan-hoeck/idris2-elab-util)
+  * [idris2-sop](https://github.com/stefan-hoeck/idris2-sop)
+  * [idris2-dom](https://github.com/stefan-hoeck/idris2-dom)
+  * [idris2-rhone](https://github.com/stefan-hoeck/idris2-rhone)
+
+It is being developed against the current main branch of Idris2.
+The latest commit has been built against Idris 2, version 0.5.1-3536f8dab.
+
+## Building the Example Page
+
+After downloading and installing the dependencies listed above,
+you can build the example page with `make page` and have a look at
+it by loading `rhone.html` into your browser.
