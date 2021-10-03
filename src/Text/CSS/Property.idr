@@ -8,6 +8,15 @@ import Text.CSS.Size
 
 %default total
 
+namespace Direction
+  public export
+  data Direction = LTR | RTL
+
+  export
+  render : Direction -> String
+  render LTR = "ltr"
+  render RTL = "rtl"
+
 namespace Display
   public export
   data Display : Type where
@@ -143,6 +152,7 @@ data Property : Type -> Type where
   BorderStyle     : Property (Dir BorderStyle)
   BorderWidth     : Property (Dir BorderWidth)
   Color           : Property Color
+  Direction       : Property Direction
   Display         : Property Display
   Flex            : Property String
   FlexDirection   : Property FlexDirection
@@ -167,6 +177,7 @@ renderProp BorderColor y     = render "border-color" render y
 renderProp BorderStyle y     = render "border-style" render y
 renderProp BorderWidth y     = render "border-width" render y
 renderProp Color y           = "color: "            ++ render y
+renderProp Direction y       = "direction: "        ++ render y
 renderProp Display y         = "display: "          ++ render y
 renderProp Flex y            = "flex: "             ++ y
 renderProp FlexDirection y   = "flex-direction: "   ++ render y
