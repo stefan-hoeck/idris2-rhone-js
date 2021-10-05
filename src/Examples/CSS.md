@@ -58,6 +58,25 @@ btn = "btn"
 public export
 widget : String
 widget = "widget"
+
+-- a column of input widgets,
+-- each on its own line with a label
+-- on the left.
+public export
+widgetList : String
+widgetList = "widgetList"
+
+-- a single line in a column
+-- of input widgets.
+public export
+widgetLine : String
+widgetLine = "widgetline"
+
+-- a label on the left of an input
+-- widget.
+public export
+widgetLabel : String
+widgetLabel = "widgetlabel"
 ```
 
 ### CSS Rules
@@ -190,6 +209,27 @@ coreCSS =
 
   , Pseudo (class widget) Invalid !!
       [ BorderColor     .= All red ]
+
+  , class widgetList !!
+      [ ListStyleType   .= None
+      , Display         .= Flex
+      , Flex            .= "1"
+      , FlexDirection   .= Column
+      , JustifyContent  .= FlexStart
+      , Margin          .= pt 5
+      ]
+
+  , class widgetLine !!
+      [ AlignItems      .= FlexStart
+      , Display         .= Flex
+      , Margin          .= pt 5
+      ]
+
+  , class widgetLabel !!
+      [ FontSize        .= Large
+      , Margin          .= pt 5
+      , Width           .= perc 20
+      ]
   ]
 ```
 
@@ -202,3 +242,7 @@ export
 applyCSS : MonadDom m => List Rule -> m ()
 applyCSS = rawInnerHtmlAt appStyle . unlines . map render
 ```
+
+The code above sends the rendered CSS rules to
+html content of the style element with id `appstyle` in
+the document header.

@@ -8,21 +8,21 @@ import Data.MES
 import Data.MSF
 import Data.Nat
 
-import Examples.Syntax
+import Examples.Reset
 import JS
 import Text.Html as Html
 
 %default total
 
-reactimateDom : DomIO JSIO (MES (DomIO JSIO) DomEvent ()) -> JSIO ()
-reactimateDom mkMES = do
+reactimateDom : DomIO JSIO (MSF (DomIO JSIO) DomEvent $ Event ()) -> JSIO ()
+reactimateDom mkMSF = do
   hRef  <- newIORef {a = Maybe $ DomEvent -> JSIO ()} Nothing
   idRef <- newIORef {a = Nat} 0
   let env = MkDomEnv idRef $ \ev => do
               Just h <- readIORef hRef | Nothing => pure ()
               h ev
-  MkMES sf <- mkMES.runDom env
-  sfRef    <- newIORef sf
+  sf    <- mkMSF.runDom env
+  sfRef <- newIORef sf
 
   writeIORef hRef . Just $ \ev => do
     sf1      <- readIORef sfRef

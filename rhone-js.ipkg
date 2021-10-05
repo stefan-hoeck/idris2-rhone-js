@@ -21,6 +21,7 @@ modules    = Control.Monad.Dom
            , Control.Monad.Dom.Util
 
            , Examples.CSS
+           , Examples.Reset
            , Examples.Syntax
 
            , Text.CSS

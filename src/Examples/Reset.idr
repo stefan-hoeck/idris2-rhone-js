@@ -1,10 +1,8 @@
-module Examples.Syntax
+module Examples.Reset
 
 import JS
-import Control.Category
 import Control.Monad.Dom
 import Data.Event
-import Data.MES
 import Data.MSF
 import Data.String
 import Examples.CSS
@@ -54,17 +52,19 @@ css =
 --------------------------------------------------------------------------------
 
 line : (lbl: String) -> List Html.Node -> Html.Node
-line lbl ns = div_ [ class .= widgetLine ] $ 
-                   label_ [ class .= widgetLabel ] [Text lbl] :: ns
+line lbl ns =
+  div_ [ class .= widgetLine ] $ 
+       label_ [ class .= widgetLabel ] [Text lbl] :: ns
 
-incbtn : (lbl: String) -> Html.Node
-incbtn lbl = button [Click] [classes .= [widget,btn,inc]] [Text lbl]
+btn : (lbl: String) -> Html.Node
+btn lbl = button [Click] [classes .= [widget,btn,inc]] [Text lbl]
 
 content : Html.Node
 content =
   div_ [ class .= widgetList ]
-       [ line "Increase counter:" [ incbtn "+" ]
-       , line "Decrease counter:" [ incbtn "-" ]
+       [ line "Reset counter:"    [ btn "Reset" ]
+       , line "Increase counter:" [ btn "+" ]
+       , line "Decrease counter:" [ btn "-" ]
        , line "Count:"            [ div [] [class .= output] ["0"] ]
        ]
 
@@ -77,9 +77,9 @@ ui : MonadDom m => m (MSF m DomEvent $ Event ())
 ui = do
   applyCSS $ coreCSS ++ css
 
-  [plus, minus, out] <- innerHtmlAt contentDiv content
+  [reset, plus, minus, out] <- innerHtmlAt contentDiv content
+  
+  let val = ((1 `on` click plus) <|> (-1 `on` click minus) <|> once 0) ?>>
+            accumulateWith (+) 0
 
-  pure $   (1 `on` click plus) <|> (-1 `on` click minus)
-       ?>> accumulateWith (+) 0
-       >>> show {ty = Int32}
-       ^>> text out
+  pure $ (val `resetOn` click reset) ?>> show {ty = Int16} ^>> text out
