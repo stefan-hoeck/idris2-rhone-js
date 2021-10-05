@@ -10,12 +10,7 @@ import Text.Html as Html
 import Text.CSS as CSS
 import Web.Dom
 
-click : ElemRef e (h :: t) -> MSF m DomEvent (Event ())
-click (Ref _ id _) =
-  when $ \case Click x => if id == x.id then Just () else Nothing
-               _       => Nothing
-
-text : MonadDom m => ElemRef t es -> MSF m String ()
+text : MonadDom e m => ElemRef t -> MSF m String ()
 text ref = arrM $ text ref
 
 --------------------------------------------------------------------------------
@@ -51,35 +46,39 @@ css =
 --          View
 --------------------------------------------------------------------------------
 
-line : (lbl: String) -> List Html.Node -> Html.Node
+Ev : Type
+Ev = Int32 -> Int32
+
+line : (lbl: String) -> List (Node Ev) -> Node Ev
 line lbl ns =
-  div_ [ class .= widgetLine ] $ 
-       label_ [ class .= widgetLabel ] [Text lbl] :: ns
+  div [class widgetLine] $ 
+      label [class widgetLabel] [Text lbl] :: ns
 
-btn : (lbl: String) -> Html.Node
-btn lbl = button [Click] [classes .= [widget,btn,inc]] [Text lbl]
+btn : Ev -> (lbl: String) -> Node Ev
+btn ev lbl = button [onClick ev, classes [widget,btn,inc]] [Text lbl]
 
-content : Html.Node
+content : Node Ev
 content =
-  div_ [ class .= widgetList ]
-       [ line "Reset counter:"    [ btn "Reset" ]
-       , line "Increase counter:" [ btn "+" ]
-       , line "Decrease counter:" [ btn "-" ]
-       , line "Count:"            [ div [] [class .= output] ["0"] ]
-       ]
+  div [ class widgetList ]
+      [ line "Reset counter:"    [ btn (const 0) "Reset" ]
+      , line "Increase counter:" [ btn (+ 1)     "+" ]
+      , line "Decrease counter:" [ btn (+ (-1))  "-" ]
+      , line "Count:"            [ div [class output] ["0"] ]
+      ]
 
 --------------------------------------------------------------------------------
 --          Controller
 --------------------------------------------------------------------------------
 
 export
-ui : MonadDom m => m (MSF m DomEvent $ Event ())
+ui : MonadDom Ev m => m (MSF m Ev ())
 ui = do
   applyCSS $ coreCSS ++ css
+  innerHtml contentDiv content
+  pure ?foo
 
-  [reset, plus, minus, out] <- innerHtmlAt contentDiv content
-  
-  let val = ((1 `on` click plus) <|> (-1 `on` click minus) <|> once 0) ?>>
-            accumulateWith (+) 0
-
-  pure $ (val `resetOn` click reset) ?>> show {ty = Int16} ^>> text out
+--   
+--   let val = ((1 `on` click plus) <|> (-1 `on` click minus) <|> once 0) ?>>
+--             accumulateWith (+) 0
+-- 
+--   pure $ (val `resetOn` click reset) ?>> show {ty = Int16} ^>> text out

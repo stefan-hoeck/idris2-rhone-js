@@ -1,7 +1,9 @@
 module Text.Html.Attribute
 
 import Data.List
+import Data.Maybe
 import Data.String
+import Text.Html.Event
 
 public export
 data Dir = LTR | RTL
@@ -62,269 +64,290 @@ Show InputType where
   show Week     = "week"
 
 public export
-data Attribute : Type where
-  StrAttr  : (name : String) -> (value : String) -> Attribute
-  BoolAttr : (name : String) -> (value : Bool) -> Attribute
+data Attribute : (event : Type) -> Type where
+  Id    : (value : String) -> Attribute event
+  Str   : (name : String) -> (value : String) -> Attribute event
+  Bool  : (name : String) -> (value : Bool) -> Attribute event
+  Event : DOMEvent event -> Attribute event 
 
 public export
-Attributes : Type
-Attributes = List Attribute
+Attributes : Type -> Type
+Attributes = List . Attribute
 
 export
-displayAttribute : Attribute -> Maybe String
-displayAttribute (StrAttr nm va)     = Just #"\#{nm}="\#{va}""#
-displayAttribute (BoolAttr nm True)  = Just nm
-displayAttribute (BoolAttr nm False) = Nothing
+displayAttribute : Attribute ev -> Maybe String
+displayAttribute (Id va)        = Just #"id="\#{va}""#
+displayAttribute (Str nm va)    = Just #"\#{nm}="\#{va}""#
+displayAttribute (Bool nm True) = Just nm
+displayAttribute (Bool _ False) = Nothing
+displayAttribute (Event _)      = Nothing
 
 export
-displayAttributes : Attributes -> String
+displayAttributes : Attributes ev -> String
 displayAttributes = fastConcat . intersperse " " . mapMaybe displayAttribute
 
 export
-getId : Attributes -> Maybe String
-getId (StrAttr "id" v :: _) = Just v
-getId (_ :: t)              = getId t
-getId []                    = Nothing
-
-public export
-record Mod (a : Type) where
-  constructor MkMod
-  appMod : a -> Attribute
+getId : Attributes ev -> Maybe String
+getId (Id v :: _) = Just v
+getId (_    :: t) = getId t
+getId []          = Nothing
 
 export
-mkMod : String -> (String -> a -> Attribute) -> Mod a
-mkMod nm f = MkMod $ f nm
+getEvents : Attributes ev -> List (DOMEvent ev)
+getEvents = go Nil
+  where go : List (DOMEvent ev) -> Attributes ev -> List (DOMEvent ev)
+        go es []              = es
+        go es (Event e :: xs) = go (e :: es) xs
+        go es (_ :: xs)       = go es xs
 
 export
-strMod : String -> Mod String
-strMod nm =  mkMod nm StrAttr
+dispAttr : String -> (a -> String) -> a -> Attribute ev
+dispAttr nm f =  Str nm . f
 
 export
-dispMod : String -> (a -> String) -> Mod a
-dispMod nm f =  mkMod nm $ \s => StrAttr s . f
-
-export
-showMod : Show a => String -> Mod a
-showMod nm = dispMod nm show
-
-export
-boolMod : String -> Mod Bool
-boolMod nm = mkMod nm BoolAttr
-
-infixl 8 .=
+showAttr : Show a => String -> a -> Attribute ev
+showAttr nm = dispAttr nm show
 
 export %inline
-(.=) : Mod a -> a -> Attribute
-(.=) = appMod
+accesskey : String -> Attribute ev
+accesskey = Str "accesskey"
+
+export %inline
+action : String -> Attribute ev
+action = Str "action"
+
+export %inline
+alt : String -> Attribute ev
+alt = Str "alt"
+
+export %inline
+autocapitalize : Bool -> Attribute ev
+autocapitalize = Bool "autocapitalize"
+
+export %inline
+autocomplete : Bool -> Attribute ev
+autocomplete = Bool "autocomplete"
+
+export %inline
+autofocus : Bool -> Attribute ev
+autofocus = Bool "autofocus"
+
+export %inline
+autoplay : Bool -> Attribute ev
+autoplay = Bool "autoplay"
+
+export %inline
+checked : Bool -> Attribute ev
+checked = Bool "checked"
+
+export %inline
+cite : String -> Attribute ev
+cite = Str "cite"
+
+export %inline
+class : String -> Attribute ev
+class = Str "class"
+
+export %inline
+classes : List String -> Attribute ev
+classes = dispAttr "class" (fastConcat . intersperse " ")
+
+export %inline
+cols : Bits32 -> Attribute ev
+cols = showAttr "cols"
+
+export %inline
+colspan : Bits32 -> Attribute ev
+colspan = showAttr "colspan"
+
+export %inline
+contenteditable : Bool -> Attribute ev
+contenteditable = Bool "contenteditable"
+
+export %inline
+controls : Bool -> Attribute ev
+controls = Bool "controls"
+
+export %inline
+data_ : String -> Attribute ev
+data_ = Str "data"
+
+export %inline
+dir : Dir -> Attribute ev
+dir = showAttr "dir"
+
+export %inline
+disabled : Bool -> Attribute ev
+disabled = Bool "disabled"
+
+export %inline
+download : String -> Attribute ev
+download = Str "download"
+
+export %inline
+draggable : Bool -> Attribute ev
+draggable = Bool "draggable"
+
+export %inline
+for : String -> Attribute ev
+for = Str "for"
+
+export %inline
+form : String -> Attribute ev
+form = Str "form"
+
+export %inline
+height : Bits32 -> Attribute ev
+height = showAttr "height"
+
+export %inline
+hidden : Bool -> Attribute ev
+hidden = Bool "hidden"
+
+export %inline
+href : String -> Attribute ev
+href = Str "href"
+
+export %inline
+hreflang : String -> Attribute ev
+hreflang = Str "hreflang"
+
+export %inline
+id : String -> Attribute ev
+id = Id
+
+export %inline
+label : String -> Attribute ev
+label = Str "label"
+
+export %inline
+lang : String -> Attribute ev
+lang = Str "lang"
+
+export %inline
+loading : LoadType -> Attribute ev
+loading = showAttr "loading"
+
+export %inline
+list : String -> Attribute ev
+list = Str "list"
+
+export %inline
+loop : Bool -> Attribute ev
+loop = Bool "loop"
+
+export %inline
+maxlength : Bits32 -> Attribute ev
+maxlength = showAttr "maxlength"
+
+export %inline
+minlength : Bits32 -> Attribute ev
+minlength = showAttr "minlength"
+
+export %inline
+multiple : Bool -> Attribute ev
+multiple = Bool "multiple"
+
+export %inline
+muted : Bool -> Attribute ev
+muted = Bool "muted"
+
+export %inline
+name : String -> Attribute ev
+name = Str "name"
+
+export %inline
+placeholder : String -> Attribute ev
+placeholder = Str "placeholder"
+
+export %inline
+readonly : Bool -> Attribute ev
+readonly = Bool "readonly"
+
+export %inline
+required : Bool -> Attribute ev
+required = Bool "required"
+
+export %inline
+reverse : Bool -> Attribute ev
+reverse = Bool "reverse"
+
+export %inline
+rows : Bits32 -> Attribute ev
+rows = showAttr "rows"
+
+export %inline
+rowspan : Bits32 -> Attribute ev
+rowspan = showAttr "rowspan"
+
+export %inline
+selected : String -> Attribute ev
+selected = Str "selected"
+
+export %inline
+spellcheck : Bool -> Attribute ev
+spellcheck = Bool "spellcheck"
+
+export %inline
+src : String -> Attribute ev
+src = Str "src"
+
+export %inline
+style : String -> Attribute ev
+style = Str "style"
+
+export %inline
+target : String -> Attribute ev
+target = Str "target"
+
+export %inline
+title : String -> Attribute ev
+title = Str "title"
+
+export %inline
+type : InputType -> Attribute ev
+type = showAttr "type"
+
+export %inline
+value : String -> Attribute ev
+value = Str "value"
+
+export %inline
+width : Bits32 -> Attribute ev
+width = showAttr "width"
+
+export %inline
+wrap : Bool -> Attribute ev
+wrap = Bool "wrap"
+
+--------------------------------------------------------------------------------
+--          Events
+--------------------------------------------------------------------------------
+
+export %inline
+click : (MouseInfo -> Maybe ev) -> Attribute ev
+click = Event . Click
+
+export %inline
+onClick : ev -> Attribute ev
+onClick = click . const . Just
 
 export
-accesskey : Mod String
-accesskey = strMod "accesskey"
+onLeftClick : ev -> Attribute ev
+onLeftClick va = click $ \mi => toMaybe (mi.button == 0) va
 
 export
-action : Mod String
-action = strMod "action"
+onRightClick : ev -> Attribute ev
+onRightClick va = click $ \mi => toMaybe (mi.button == 2) va
 
 export
-alt : Mod String
-alt = strMod "alt"
+onMiddleClick : ev -> Attribute ev
+onMiddleClick va = click $ \mi => toMaybe (mi.button == 1) va
 
-export
-autocapitalize : Mod Bool
-autocapitalize = boolMod "autocapitalize"
+export %inline
+dblClick : (MouseInfo -> Maybe ev) -> Attribute ev
+dblClick = Event . DblClick
 
-export
-autocomplete : Mod Bool
-autocomplete = boolMod "autocomplete"
-
-export
-autofocus : Mod Bool
-autofocus = boolMod "autofocus"
-
-export
-autoplay : Mod Bool
-autoplay = boolMod "autoplay"
-
-export
-checked : Mod Bool
-checked = boolMod "checked"
-
-export
-cite : Mod String
-cite = strMod "cite"
-
-export
-class : Mod String
-class = strMod "class"
-
-export
-classes : Mod (List String)
-classes = dispMod "class" (fastConcat . intersperse " ")
-
-export
-cols : Mod Bits32
-cols = showMod "cols"
-
-export
-colspan : Mod Bits32
-colspan = showMod "colspan"
-
-export
-contenteditable : Mod Bool
-contenteditable = boolMod "contenteditable"
-
-export
-controls : Mod Bool
-controls = boolMod "controls"
-
-export
-data_ : Mod String
-data_ = strMod "data"
-
-export
-dir : Mod Dir
-dir = showMod "dir"
-
-export
-disabled : Mod Bool
-disabled = boolMod "disabled"
-
-export
-download : Mod String
-download = strMod "download"
-
-export
-draggable : Mod Bool
-draggable = boolMod "draggable"
-
-export
-for : Mod String
-for = strMod "for"
-
-export
-form : Mod String
-form = strMod "form"
-
-export
-height : Mod Bits32
-height = showMod "height"
-
-export
-hidden : Mod Bool
-hidden = boolMod "hidden"
-
-export
-href : Mod String
-href = strMod "href"
-
-export
-hreflang : Mod String
-hreflang = strMod "hreflang"
-
-export
-id : Mod String
-id = strMod "id"
-
-export
-label : Mod String
-label = strMod "label"
-
-export
-lang : Mod String
-lang = strMod "lang"
-
-export
-loading : Mod LoadType
-loading = showMod "loading"
-
-export
-list : Mod String
-list = strMod "list"
-
-export
-loop : Mod Bool
-loop = boolMod "loop"
-
-export
-maxlength : Mod Bits32
-maxlength = showMod "maxlength"
-
-export
-minlength : Mod Bits32
-minlength = showMod "minlength"
-
-export
-multiple : Mod Bool
-multiple = boolMod "multiple"
-
-export
-muted : Mod Bool
-muted = boolMod "muted"
-
-export
-name : Mod String
-name = strMod "name"
-
-export
-placeholder : Mod String
-placeholder = strMod "placeholder"
-
-export
-readonly : Mod Bool
-readonly = boolMod "readonly"
-
-export
-required : Mod Bool
-required = boolMod "required"
-
-export
-reverse : Mod Bool
-reverse = boolMod "reverse"
-
-export
-rows : Mod Bits32
-rows = showMod "rows"
-
-export
-rowspan : Mod Bits32
-rowspan = showMod "rowspan"
-
-export
-selected : Mod String
-selected = strMod "selected"
-
-export
-spellcheck : Mod Bool
-spellcheck = boolMod "spellcheck"
-
-export
-src : Mod String
-src = strMod "src"
-
-export
-style : Mod String
-style = strMod "style"
-
-export
-target : Mod String
-target = strMod "target"
-
-export
-title : Mod String
-title = strMod "title"
-
-export
-type : Mod InputType
-type = showMod "type"
-
-export
-value : Mod String
-value = strMod "value"
-
-export
-width : Mod Bits32
-width = showMod "width"
-
-export
-wrap : Mod Bool
-wrap = boolMod "wrap"
+export %inline
+onDblClick : ev -> Attribute ev
+onDblClick = dblClick . const . Just

@@ -1,7 +1,7 @@
 module Control.Monad.Dom.Interface
 
-import Text.Html.Event
-import Text.Html.Node as Html
+import Data.SOP
+import Text.Html
 import Web.Dom
 
 %default total
@@ -11,11 +11,10 @@ import Web.Dom
 --------------------------------------------------------------------------------
 
 public export
-data ElemRef : (t : Type) -> (events : List EventType) -> Type where
-  Ref :  (tpe : ElementType str t)
-      -> (id : String)
-      -> (events : List EventType)
-      -> ElemRef t events
+record ElemRef (t : Type) where
+  constructor MkRef
+  tpe : ElementType s t
+  id  : String
 
 public export
 data Position = BeforeBegin | AfterBegin | BeforeEnd | AfterEnd
@@ -32,13 +31,6 @@ positionStr AfterEnd    = "afterend"
 --------------------------------------------------------------------------------
 
 public export
-interface Monad m => MonadDom m where
-  unique : m Nat
-
-  insertAdjacent : ElemRef t es -> Position -> Html.Node -> m ()
-
-  innerHtml : ElemRef t es -> Html.Node -> m ()
-
-  text : ElemRef t es -> String -> m ()
-
-  listenTo : ElemRef t es -> m ()
+interface Monad m => MonadDom (0 ev : Type) (0 m : Type -> Type) | m where
+  uniqueId : m String
+  getElem  : ElemRef t -> m (Maybe t)
