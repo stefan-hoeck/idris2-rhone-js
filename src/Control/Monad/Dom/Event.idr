@@ -1,38 +1,49 @@
 module Control.Monad.Dom.Event
 
 import JS
+import Text.Html.Event
 import Web.Dom
 import Web.Raw.UIEvents
 
 %default total
 
-%foreign "browser:lambda:(et)=> et.target.id === undefined ? '' : et.target.id"
-prim__etId : Event -> PrimIO String
-
-etId : HasIO io => Event -> io String
-etId et = primIO $ prim__etId et
-
---------------------------------------------------------------------------------
---          Mouse Event
---------------------------------------------------------------------------------
-
-public export
-record MouseInfo where
-  constructor MkMouseInfo
-  id    : String
-  shift : Bool
-  meta  : Bool
+%foreign "browser:lambda:x=>x.target.value || x.target.innerHTML || ''"
+prim__input : Event -> PrimIO String
 
 export
-toMouseInfo : MouseEvent -> JSIO MouseInfo
-toMouseInfo e =
-  [| MkMouseInfo (etId $ up e) (shiftKey e) (metaKey e) |]
+mouseInfo : MouseEvent -> JSIO MouseInfo
+mouseInfo e =
+  [| MkMouseInfo
+     (button e)
+     (buttons e)
+     (clientX e)
+     (clientY e)
+     (screenX e)
+     (screenY e)
+     (altKey e)
+     (ctrlKey e)
+     (metaKey e)
+     (shiftKey e)
+  |]
 
---------------------------------------------------------------------------------
---          Event
---------------------------------------------------------------------------------
+export
+keyInfo : KeyboardEvent -> JSIO KeyInfo
+keyInfo e =
+  [| MkKeyInfo
+     (key e)
+     (code e)
+     (location e)
+     (isComposing e)
+     (altKey e)
+     (ctrlKey e)
+     (metaKey e)
+     (shiftKey e)
+  |]
 
-public export
-data DomEvent : Type where
-  Click    : (info : MouseInfo) -> DomEvent
-  DblClick : (info : MouseInfo) -> DomEvent
+export
+inputInfo : InputEvent -> JSIO InputInfo
+inputInfo e = MkInputInfo <$> primIO (prim__input $ up e)
+
+export
+changeInfo : Event -> JSIO InputInfo
+changeInfo e = MkInputInfo <$> primIO (prim__input e)

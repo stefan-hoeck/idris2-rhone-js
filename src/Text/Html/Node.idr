@@ -10,606 +10,313 @@ import Web.Dom
 %default total
 
 public export
-data Node : Type where
-  El   :  {tag : String}
+data Node : (event : Type) -> Type where
+  El   :  {0 ev, el : Type}
+       -> {tag : String}
        -> (tpe : ElementType tag el)
-       -> (extract : Bool)
-       -> List EventType
-       -> List Attribute
-       -> List Node
-       -> Node
+       -> List (Attribute ev)
+       -> List (Node ev)
+       -> Node ev
 
-  Raw  : String -> Node
+  Raw  : String -> Node ev
 
-  Text : String -> Node
+  Text : String -> Node ev
 
 public export %inline
-FromString Node where
+FromString (Node ev) where
   fromString = Text
 
 public export %inline
-a : List EventType -> List Attribute -> List Node -> Node
-a = El A True
+a : List (Attribute ev) -> List (Node ev) -> Node ev
+a = El A
 
 public export %inline
-area : List EventType -> List Attribute -> List Node -> Node
-area = El Area True
+area : List (Attribute ev) -> List (Node ev) -> Node ev
+area = El Area
 
 public export %inline
-audio : List EventType -> List Attribute -> List Node -> Node
-audio = El Audio True
+audio : List (Attribute ev) -> List (Node ev) -> Node ev
+audio = El Audio
 
 public export %inline
-base : List EventType -> List Attribute -> List Node -> Node
-base = El Base True
+base : List (Attribute ev) -> List (Node ev) -> Node ev
+base = El Base
 
 public export %inline
-blockquote : List EventType -> List Attribute -> List Node -> Node
-blockquote = El Blockquote True
+blockquote : List (Attribute ev) -> List (Node ev) -> Node ev
+blockquote = El Blockquote
 
 public export %inline
-body : List EventType -> List Attribute -> List Node -> Node
-body = El Body True
+body : List (Attribute ev) -> List (Node ev) -> Node ev
+body = El Body
 
 public export %inline
-br : List EventType -> List Attribute -> List Node -> Node
-br = El Br True
+br : List (Attribute ev) -> List (Node ev) -> Node ev
+br = El Br
 
 public export %inline
-button : List EventType -> List Attribute -> List Node -> Node
-button = El Button True
+button : List (Attribute ev) -> List (Node ev) -> Node ev
+button = El Button
 
 public export %inline
-canvas : List EventType -> List Attribute -> List Node -> Node
-canvas = El Canvas True
+canvas : List (Attribute ev) -> List (Node ev) -> Node ev
+canvas = El Canvas
 
 public export %inline
-caption : List EventType -> List Attribute -> List Node -> Node
-caption = El Caption True
+caption : List (Attribute ev) -> List (Node ev) -> Node ev
+caption = El Caption
 
 public export %inline
-col : List EventType -> List Attribute -> List Node -> Node
-col = El Col True
+col : List (Attribute ev) -> List (Node ev) -> Node ev
+col = El Col
 
 public export %inline
-colgroup : List EventType -> List Attribute -> List Node -> Node
-colgroup = El Colgroup True
+colgroup : List (Attribute ev) -> List (Node ev) -> Node ev
+colgroup = El Colgroup
 
 public export %inline
-data_ : List EventType -> List Attribute -> List Node -> Node
-data_ = El Data True
+data_ : List (Attribute ev) -> List (Node ev) -> Node ev
+data_ = El Data
 
 public export %inline
-datalist : List EventType -> List Attribute -> List Node -> Node
-datalist = El Datalist True
+datalist : List (Attribute ev) -> List (Node ev) -> Node ev
+datalist = El Datalist
 
 public export %inline
-del : List EventType -> List Attribute -> List Node -> Node
-del = El Del True
+del : List (Attribute ev) -> List (Node ev) -> Node ev
+del = El Del
 
 public export %inline
-details : List EventType -> List Attribute -> List Node -> Node
-details = El Details True
+details : List (Attribute ev) -> List (Node ev) -> Node ev
+details = El Details
 
 public export %inline
-dialog : List EventType -> List Attribute -> List Node -> Node
-dialog = El Dialog True
+dialog : List (Attribute ev) -> List (Node ev) -> Node ev
+dialog = El Dialog
 
 public export %inline
-div : List EventType -> List Attribute -> List Node -> Node
-div = El Div True
+div : List (Attribute ev) -> List (Node ev) -> Node ev
+div = El Div
 
 public export %inline
-dl : List EventType -> List Attribute -> List Node -> Node
-dl = El Dl True
+dl : List (Attribute ev) -> List (Node ev) -> Node ev
+dl = El Dl
 
 public export %inline
-embed : List EventType -> List Attribute -> List Node -> Node
-embed = El Embed True
+embed : List (Attribute ev) -> List (Node ev) -> Node ev
+embed = El Embed
 
 public export %inline
-fieldset : List EventType -> List Attribute -> List Node -> Node
-fieldset = El FieldSet True
+fieldset : List (Attribute ev) -> List (Node ev) -> Node ev
+fieldset = El FieldSet
 
 public export %inline
-form : List EventType -> List Attribute -> List Node -> Node
-form = El Form True
+form : List (Attribute ev) -> List (Node ev) -> Node ev
+form = El Form
 
 public export %inline
-h1 : List EventType -> List Attribute -> List Node -> Node
-h1 = El H1 True
+h1 : List (Attribute ev) -> List (Node ev) -> Node ev
+h1 = El H1
 
 public export %inline
-h2 : List EventType -> List Attribute -> List Node -> Node
-h2 = El H2 True
+h2 : List (Attribute ev) -> List (Node ev) -> Node ev
+h2 = El H2
 
 public export %inline
-h3 : List EventType -> List Attribute -> List Node -> Node
-h3 = El H3 True
+h3 : List (Attribute ev) -> List (Node ev) -> Node ev
+h3 = El H3
 
 public export %inline
-h4 : List EventType -> List Attribute -> List Node -> Node
-h4 = El H4 True
+h4 : List (Attribute ev) -> List (Node ev) -> Node ev
+h4 = El H4
 
 public export %inline
-h5 : List EventType -> List Attribute -> List Node -> Node
-h5 = El H5 True
+h5 : List (Attribute ev) -> List (Node ev) -> Node ev
+h5 = El H5
 
 public export %inline
-h6 : List EventType -> List Attribute -> List Node -> Node
-h6 = El H6 True
+h6 : List (Attribute ev) -> List (Node ev) -> Node ev
+h6 = El H6
 
 public export %inline
-hr : List EventType -> List Attribute -> List Node -> Node
-hr = El HR True
+hr : List (Attribute ev) -> List (Node ev) -> Node ev
+hr = El HR
 
 public export %inline
-html : List EventType -> List Attribute -> List Node -> Node
-html = El Html True
+html : List (Attribute ev) -> List (Node ev) -> Node ev
+html = El Html
 
 public export %inline
-iframe : List EventType -> List Attribute -> List Node -> Node
-iframe = El IFrame True
+iframe : List (Attribute ev) -> List (Node ev) -> Node ev
+iframe = El IFrame
 
 public export %inline
-ime : List EventType -> List Attribute -> List Node -> Node
-ime = El Ime True
+ime : List (Attribute ev) -> List (Node ev) -> Node ev
+ime = El Ime
 
 public export %inline
-input : List EventType -> List Attribute -> List Node -> Node
-input = El Input True
+input : List (Attribute ev) -> List (Node ev) -> Node ev
+input = El Input
 
 public export %inline
-ins : List EventType -> List Attribute -> List Node -> Node
-ins = El Ins True
+ins : List (Attribute ev) -> List (Node ev) -> Node ev
+ins = El Ins
 
 public export %inline
-label : List EventType -> List Attribute -> List Node -> Node
-label = El Label True
+label : List (Attribute ev) -> List (Node ev) -> Node ev
+label = El Label
 
 public export %inline
-legend : List EventType -> List Attribute -> List Node -> Node
-legend = El Legend True
+legend : List (Attribute ev) -> List (Node ev) -> Node ev
+legend = El Legend
 
 public export %inline
-li : List EventType -> List Attribute -> List Node -> Node
-li = El Li True
+li : List (Attribute ev) -> List (Node ev) -> Node ev
+li = El Li
 
 public export %inline
-link : List EventType -> List Attribute -> List Node -> Node
-link = El Link True
+link : List (Attribute ev) -> List (Node ev) -> Node ev
+link = El Link
 
 public export %inline
-map : List EventType -> List Attribute -> List Node -> Node
-map = El Map True
+map : List (Attribute ev) -> List (Node ev) -> Node ev
+map = El Map
 
 public export %inline
-menu : List EventType -> List Attribute -> List Node -> Node
-menu = El Menu True
+menu : List (Attribute ev) -> List (Node ev) -> Node ev
+menu = El Menu
 
 public export %inline
-meta : List EventType -> List Attribute -> List Node -> Node
-meta = El Meta True
+meta : List (Attribute ev) -> List (Node ev) -> Node ev
+meta = El Meta
 
 public export %inline
-meter : List EventType -> List Attribute -> List Node -> Node
-meter = El Meter True
+meter : List (Attribute ev) -> List (Node ev) -> Node ev
+meter = El Meter
 
 public export %inline
-object : List EventType -> List Attribute -> List Node -> Node
-object = El Object True
+object : List (Attribute ev) -> List (Node ev) -> Node ev
+object = El Object
 
 public export %inline
-ol : List EventType -> List Attribute -> List Node -> Node
-ol = El Ol True
+ol : List (Attribute ev) -> List (Node ev) -> Node ev
+ol = El Ol
 
 public export %inline
-optgroup : List EventType -> List Attribute -> List Node -> Node
-optgroup = El OptGroup True
+optgroup : List (Attribute ev) -> List (Node ev) -> Node ev
+optgroup = El OptGroup
 
 public export %inline
-option : List EventType -> List Attribute -> List Node -> Node
-option = El Option True
+option : List (Attribute ev) -> List (Node ev) -> Node ev
+option = El Option
 
 public export %inline
-output : List EventType -> List Attribute -> List Node -> Node
-output = El Output True
+output : List (Attribute ev) -> List (Node ev) -> Node ev
+output = El Output
 
 public export %inline
-p : List EventType -> List Attribute -> List Node -> Node
-p = El P True
+p : List (Attribute ev) -> List (Node ev) -> Node ev
+p = El P
 
 public export %inline
-param : List EventType -> List Attribute -> List Node -> Node
-param = El Param True
+param : List (Attribute ev) -> List (Node ev) -> Node ev
+param = El Param
 
 public export %inline
-picture : List EventType -> List Attribute -> List Node -> Node
-picture = El Picture True
+picture : List (Attribute ev) -> List (Node ev) -> Node ev
+picture = El Picture
 
 public export %inline
-pre : List EventType -> List Attribute -> List Node -> Node
-pre = El Pre True
+pre : List (Attribute ev) -> List (Node ev) -> Node ev
+pre = El Pre
 
 public export %inline
-progress : List EventType -> List Attribute -> List Node -> Node
-progress = El Progress True
+progress : List (Attribute ev) -> List (Node ev) -> Node ev
+progress = El Progress
 
 public export %inline
-q : List EventType -> List Attribute -> List Node -> Node
-q = El Q True
+q : List (Attribute ev) -> List (Node ev) -> Node ev
+q = El Q
 
 public export %inline
-script : List EventType -> List Attribute -> List Node -> Node
-script = El Script True
+script : List (Attribute ev) -> List (Node ev) -> Node ev
+script = El Script
 
 public export %inline
-select : List EventType -> List Attribute -> List Node -> Node
-select = El Select True
+select : List (Attribute ev) -> List (Node ev) -> Node ev
+select = El Select
 
 public export %inline
-slot : List EventType -> List Attribute -> List Node -> Node
-slot = El Slot True
+slot : List (Attribute ev) -> List (Node ev) -> Node ev
+slot = El Slot
 
 public export %inline
-source : List EventType -> List Attribute -> List Node -> Node
-source = El Source True
+source : List (Attribute ev) -> List (Node ev) -> Node ev
+source = El Source
 
 public export %inline
-span : List EventType -> List Attribute -> List Node -> Node
-span = El Span True
+span : List (Attribute ev) -> List (Node ev) -> Node ev
+span = El Span
 
 public export %inline
-style : List EventType -> List Attribute -> List Node -> Node
-style = El Style True
+style : List (Attribute ev) -> List (Node ev) -> Node ev
+style = El Style
 
 public export %inline
-table : List EventType -> List Attribute -> List Node -> Node
-table = El Table True
+table : List (Attribute ev) -> List (Node ev) -> Node ev
+table = El Table
 
 public export %inline
-tbody : List EventType -> List Attribute -> List Node -> Node
-tbody = El Tbody True
+tbody : List (Attribute ev) -> List (Node ev) -> Node ev
+tbody = El Tbody
 
 public export %inline
-td : List EventType -> List Attribute -> List Node -> Node
-td = El Td True
+td : List (Attribute ev) -> List (Node ev) -> Node ev
+td = El Td
 
 public export %inline
-template : List EventType -> List Attribute -> List Node -> Node
-template = El Template True
+template : List (Attribute ev) -> List (Node ev) -> Node ev
+template = El Template
 
 public export %inline
-textarea : List EventType -> List Attribute -> List Node -> Node
-textarea = El TextArea True
+textarea : List (Attribute ev) -> List (Node ev) -> Node ev
+textarea = El TextArea
 
 public export %inline
-tfoot : List EventType -> List Attribute -> List Node -> Node
-tfoot = El Tfoot True
+tfoot : List (Attribute ev) -> List (Node ev) -> Node ev
+tfoot = El Tfoot
 
 public export %inline
-th : List EventType -> List Attribute -> List Node -> Node
-th = El Th True
+th : List (Attribute ev) -> List (Node ev) -> Node ev
+th = El Th
 
 public export %inline
-thead : List EventType -> List Attribute -> List Node -> Node
-thead = El Thead True
+thead : List (Attribute ev) -> List (Node ev) -> Node ev
+thead = El Thead
 
 public export %inline
-time : List EventType -> List Attribute -> List Node -> Node
-time = El Time True
+time : List (Attribute ev) -> List (Node ev) -> Node ev
+time = El Time
 
 public export %inline
-title : List EventType -> List Attribute -> List Node -> Node
-title = El Title True
+title : List (Attribute ev) -> List (Node ev) -> Node ev
+title = El Title
 
 public export %inline
-tr : List EventType -> List Attribute -> List Node -> Node
-tr = El Tr True
+tr : List (Attribute ev) -> List (Node ev) -> Node ev
+tr = El Tr
 
 public export %inline
-track : List EventType -> List Attribute -> List Node -> Node
-track = El Track True
+track : List (Attribute ev) -> List (Node ev) -> Node ev
+track = El Track
 
 public export %inline
-ul : List EventType -> List Attribute -> List Node -> Node
-ul = El Ul True
+ul : List (Attribute ev) -> List (Node ev) -> Node ev
+ul = El Ul
 
 public export %inline
-video : List EventType -> List Attribute -> List Node -> Node
-video = El Video True
-
-public export %inline
-a_ : List Attribute -> List Node -> Node
-a_ = El A False []
-
-public export %inline
-area_ : List Attribute -> List Node -> Node
-area_ = El Area False []
-
-public export %inline
-audio_ : List Attribute -> List Node -> Node
-audio_ = El Audio False []
-
-public export %inline
-base_ : List Attribute -> List Node -> Node
-base_ = El Base False []
-
-public export %inline
-blockquote_ : List Attribute -> List Node -> Node
-blockquote_ = El Blockquote False []
-
-public export %inline
-body_ : List Attribute -> List Node -> Node
-body_ = El Body False []
-
-public export %inline
-br_ : List Attribute -> List Node -> Node
-br_ = El Br False []
-
-public export %inline
-button_ : List Attribute -> List Node -> Node
-button_ = El Button False []
-
-public export %inline
-canvas_ : List Attribute -> List Node -> Node
-canvas_ = El Canvas False []
-
-public export %inline
-caption_ : List Attribute -> List Node -> Node
-caption_ = El Caption False []
-
-public export %inline
-col_ : List Attribute -> List Node -> Node
-col_ = El Col False []
-
-public export %inline
-colgroup_ : List Attribute -> List Node -> Node
-colgroup_ = El Colgroup False []
-
-public export %inline
-data__ : List Attribute -> List Node -> Node
-data__ = El Data False []
-
-public export %inline
-datalist_ : List Attribute -> List Node -> Node
-datalist_ = El Datalist False []
-
-public export %inline
-del_ : List Attribute -> List Node -> Node
-del_ = El Del False []
-
-public export %inline
-details_ : List Attribute -> List Node -> Node
-details_ = El Details False []
-
-public export %inline
-dialog_ : List Attribute -> List Node -> Node
-dialog_ = El Dialog False []
-
-public export %inline
-div_ : List Attribute -> List Node -> Node
-div_ = El Div False []
-
-public export %inline
-dl_ : List Attribute -> List Node -> Node
-dl_ = El Dl False []
-
-public export %inline
-embed_ : List Attribute -> List Node -> Node
-embed_ = El Embed False []
-
-public export %inline
-fieldset_ : List Attribute -> List Node -> Node
-fieldset_ = El FieldSet False []
-
-public export %inline
-form_ : List Attribute -> List Node -> Node
-form_ = El Form False []
-
-public export %inline
-h1_ : List Attribute -> List Node -> Node
-h1_ = El H1 False []
-
-public export %inline
-h2_ : List Attribute -> List Node -> Node
-h2_ = El H2 False []
-
-public export %inline
-h3_ : List Attribute -> List Node -> Node
-h3_ = El H3 False []
-
-public export %inline
-h4_ : List Attribute -> List Node -> Node
-h4_ = El H4 False []
-
-public export %inline
-h5_ : List Attribute -> List Node -> Node
-h5_ = El H5 False []
-
-public export %inline
-h6_ : List Attribute -> List Node -> Node
-h6_ = El H6 False []
-
-public export %inline
-hr_ : List Attribute -> List Node -> Node
-hr_ = El HR False []
-
-public export %inline
-html_ : List Attribute -> List Node -> Node
-html_ = El Html False []
-
-public export %inline
-iframe_ : List Attribute -> List Node -> Node
-iframe_ = El IFrame False []
-
-public export %inline
-ime_ : List Attribute -> List Node -> Node
-ime_ = El Ime False []
-
-public export %inline
-input_ : List Attribute -> List Node -> Node
-input_ = El Input False []
-
-public export %inline
-ins_ : List Attribute -> List Node -> Node
-ins_ = El Ins False []
-
-public export %inline
-label_ : List Attribute -> List Node -> Node
-label_ = El Label False []
-
-public export %inline
-legend_ : List Attribute -> List Node -> Node
-legend_ = El Legend False []
-
-public export %inline
-li_ : List Attribute -> List Node -> Node
-li_ = El Li False []
-
-public export %inline
-link_ : List Attribute -> List Node -> Node
-link_ = El Link False []
-
-public export %inline
-map_ : List Attribute -> List Node -> Node
-map_ = El Map False []
-
-public export %inline
-menu_ : List Attribute -> List Node -> Node
-menu_ = El Menu False []
-
-public export %inline
-meta_ : List Attribute -> List Node -> Node
-meta_ = El Meta False []
-
-public export %inline
-meter_ : List Attribute -> List Node -> Node
-meter_ = El Meter False []
-
-public export %inline
-object_ : List Attribute -> List Node -> Node
-object_ = El Object False []
-
-public export %inline
-ol_ : List Attribute -> List Node -> Node
-ol_ = El Ol False []
-
-public export %inline
-optgroup_ : List Attribute -> List Node -> Node
-optgroup_ = El OptGroup False []
-
-public export %inline
-option_ : List Attribute -> List Node -> Node
-option_ = El Option False []
-
-public export %inline
-output_ : List Attribute -> List Node -> Node
-output_ = El Output False []
-
-public export %inline
-p_ : List Attribute -> List Node -> Node
-p_ = El P False []
-
-public export %inline
-param_ : List Attribute -> List Node -> Node
-param_ = El Param False []
-
-public export %inline
-picture_ : List Attribute -> List Node -> Node
-picture_ = El Picture False []
-
-public export %inline
-pre_ : List Attribute -> List Node -> Node
-pre_ = El Pre False []
-
-public export %inline
-progress_ : List Attribute -> List Node -> Node
-progress_ = El Progress False []
-
-public export %inline
-q_ : List Attribute -> List Node -> Node
-q_ = El Q False []
-
-public export %inline
-script_ : List Attribute -> List Node -> Node
-script_ = El Script False []
-
-public export %inline
-select_ : List Attribute -> List Node -> Node
-select_ = El Select False []
-
-public export %inline
-slot_ : List Attribute -> List Node -> Node
-slot_ = El Slot False []
-
-public export %inline
-source_ : List Attribute -> List Node -> Node
-source_ = El Source False []
-
-public export %inline
-span_ : List Attribute -> List Node -> Node
-span_ = El Span False []
-
-public export %inline
-style_ : List Attribute -> List Node -> Node
-style_ = El Style False []
-
-public export %inline
-table_ : List Attribute -> List Node -> Node
-table_ = El Table False []
-
-public export %inline
-tbody_ : List Attribute -> List Node -> Node
-tbody_ = El Tbody False []
-
-public export %inline
-td_ : List Attribute -> List Node -> Node
-td_ = El Td False []
-
-public export %inline
-template_ : List Attribute -> List Node -> Node
-template_ = El Template False []
-
-public export %inline
-textarea_ : List Attribute -> List Node -> Node
-textarea_ = El TextArea False []
-
-public export %inline
-tfoot_ : List Attribute -> List Node -> Node
-tfoot_ = El Tfoot False []
-
-public export %inline
-th_ : List Attribute -> List Node -> Node
-th_ = El Th False []
-
-public export %inline
-thead_ : List Attribute -> List Node -> Node
-thead_ = El Thead False []
-
-public export %inline
-time_ : List Attribute -> List Node -> Node
-time_ = El Time False []
-
-public export %inline
-title_ : List Attribute -> List Node -> Node
-title_ = El Title False []
-
-public export %inline
-tr_ : List Attribute -> List Node -> Node
-tr_ = El Tr False []
-
-public export %inline
-track_ : List Attribute -> List Node -> Node
-track_ = El Track False []
-
-public export %inline
-ul_ : List Attribute -> List Node -> Node
-ul_ = El Ul False []
-
-public export %inline
-video_ : List Attribute -> List Node -> Node
-video_ = El Video False []
+video : List (Attribute ev) -> List (Node ev) -> Node ev
+video = El Video
 
 --------------------------------------------------------------------------------
 --          Rendering Html
@@ -629,16 +336,16 @@ escape = fastConcat . map esc . unpack
         esc '\t'         = "\t"
         esc c            = if c < ' ' then "" else singleton c
 
-attrs : List Attribute -> String
+attrs : List (Attribute ev) -> String
 attrs as = let s = displayAttributes as in if null s then "" else " " ++ s
 
 export
-render : Node -> String
-render (Raw x)                = x
-render (Text x)               = escape x
-render (El {tag} _ _ _ as ns) =
-  #"<\#{tag}\#{attrs as}>\#{go Nil ns}</\#{tag}>"#
+render : Node ev -> String
+render n = case n of
+  Raw x             => x
+  Text x            => escape x
+  El {tag} _ as ns  => #"<\#{tag}\#{attrs as}>\#{go Nil ns}</\#{tag}>"#
 
-  where go : List String -> List Node -> String
+  where go : List String -> List (Node ev) -> String
         go ss (n :: ns) = go (render n :: ss) ns
         go ss []        = fastConcat $ reverse ss

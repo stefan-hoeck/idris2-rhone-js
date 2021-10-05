@@ -32,12 +32,12 @@ typed element from the DOM:
 
 ```idris
 public export
-contentDiv : ElemRef HTMLDivElement []
-contentDiv = Ref Div "content" []
+contentDiv : ElemRef HTMLDivElement
+contentDiv = MkRef Div "content"
 
 public export
-appStyle : ElemRef HTMLStyleElement []
-appStyle = Ref Style "appstyle" []
+appStyle : ElemRef HTMLStyleElement
+appStyle = MkRef Style "appstyle"
 ```
 
 Note: The empty lists in the declarations above refer to
@@ -227,7 +227,6 @@ coreCSS =
 
   , class widgetLabel !!
       [ FontSize        .= Large
-      , Margin          .= pt 5
       , Width           .= perc 20
       ]
   ]
@@ -239,10 +238,10 @@ for effectful interactions with the DOM:
 
 ```idris
 export
-applyCSS : MonadDom m => List Rule -> m ()
+applyCSS : LiftJSIO m => List Rule -> m ()
 applyCSS = rawInnerHtmlAt appStyle . unlines . map render
 ```
 
-The code above sends the rendered CSS rules to
+The code above sends the rendered CSS rules to the
 html content of the style element with id `appstyle` in
 the document header.

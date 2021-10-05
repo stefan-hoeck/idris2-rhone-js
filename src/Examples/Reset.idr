@@ -1,22 +1,21 @@
 module Examples.Reset
 
 import JS
+import Control.MonadRec
 import Control.Monad.Dom
-import Data.Event
+import Control.Category
 import Data.MSF
-import Data.String
+import Data.SOP
 import Examples.CSS
 import Text.Html as Html
 import Text.CSS as CSS
 import Web.Dom
 
-click : ElemRef e (h :: t) -> MSF m DomEvent (Event ())
-click (Ref _ id _) =
-  when $ \case Click x => if id == x.id then Just () else Nothing
-               _       => Nothing
+innerHtml : LiftJSIO m => ElemRef t -> MSF m (Node ev) ()
+innerHtml ref = arrM $ rawInnerHtmlAt ref . render
 
-text : MonadDom m => ElemRef t es -> MSF m String ()
-text ref = arrM $ text ref
+text : LiftJSIO m => ElemRef t -> MSF m String ()
+text ref = arr Text >>> innerHtml {ev = ()} ref
 
 --------------------------------------------------------------------------------
 --          CSS Classes
@@ -27,6 +26,9 @@ inc = "inc"
 
 output : String
 output = "output"
+
+grid : String
+grid = "grid"
 
 --------------------------------------------------------------------------------
 --          CSS
@@ -41,6 +43,11 @@ css =
       , Width           .= perc 10
       ]
 
+  , class grid  !!
+      [ Display         .= Flex
+      , FlexWrap        .= "wrap"
+      ]
+
   , class inc  !!
       [ Margin          .= pt 5
       , Width           .= perc 10
@@ -51,35 +58,37 @@ css =
 --          View
 --------------------------------------------------------------------------------
 
-line : (lbl: String) -> List Html.Node -> Html.Node
+public export
+Ev : Type
+Ev = Int32 -> Int32
+
+out : ElemRef Div
+out = MkRef Div "outdiv"
+
+line : (lbl: String) -> List (Node Ev) -> Node Ev
 line lbl ns =
-  div_ [ class .= widgetLine ] $ 
-       label_ [ class .= widgetLabel ] [Text lbl] :: ns
+  div [class widgetLine] $ 
+      label [class widgetLabel] [Text lbl] :: ns
 
-btn : (lbl: String) -> Html.Node
-btn lbl = button [Click] [classes .= [widget,btn,inc]] [Text lbl]
+btn : Ev -> (lbl: String) -> Node Ev
+btn ev lbl = button [onClick ev, classes [widget,btn,inc]] [Text lbl]
 
-content : Html.Node
+content : Node Ev
 content =
-  div_ [ class .= widgetList ]
-       [ line "Reset counter:"    [ btn "Reset" ]
-       , line "Increase counter:" [ btn "+" ]
-       , line "Decrease counter:" [ btn "-" ]
-       , line "Count:"            [ div [] [class .= output] ["0"] ]
-       ]
+  div [ class widgetList ]
+      [ line "Reset counter:"    [ btn (const 0) "Reset" ]
+      , line "Increase counter:" [ btn (+ 1)     "+" ]
+      , line "Decrease counter:" [ btn (+ (-1))  "-" ]
+      , line "Count:"            [ div [id out.id, class output] [Text "0"] ]
+      ]
 
 --------------------------------------------------------------------------------
 --          Controller
 --------------------------------------------------------------------------------
 
 export
-ui : MonadDom m => m (MSF m DomEvent $ Event ())
+ui : MonadRec m => LiftJSIO m => MonadDom Ev m => m (MSF m Ev ())
 ui = do
   applyCSS $ coreCSS ++ css
-
-  [reset, plus, minus, out] <- innerHtmlAt contentDiv content
-  
-  let val = ((1 `on` click plus) <|> (-1 `on` click minus) <|> once 0) ?>>
-            accumulateWith (+) 0
-
-  pure $ (val `resetOn` click reset) ?>> show {ty = Int16} ^>> text out
+  innerHtmlAt contentDiv content
+  pure $ accumulateWith apply 0 >>> arr show >>> text out
