@@ -227,7 +227,6 @@ coreCSS =
 
   , class widgetLabel !!
       [ FontSize        .= Large
-      , Margin          .= pt 5
       , Width           .= perc 20
       ]
   ]

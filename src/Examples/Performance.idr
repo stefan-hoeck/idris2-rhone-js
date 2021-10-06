@@ -36,6 +36,9 @@ output = "output"
 buttonLine : String
 buttonLine = "buttonline"
 
+numButtons : String
+numButtons = "numbuttons"
+
 grid : String
 grid = "grid"
 
@@ -49,7 +52,7 @@ css =
       [ FontSize        .= Large
       , Margin          .= pt 5
       , TextAlign       .= End
-      , Width           .= perc 10
+      , Width           .= perc 20
       ]
 
   , class grid  !!
@@ -58,9 +61,14 @@ css =
       ]
 
   , class incSmall !!
-      [ Margin          .= pt 1
+      [ FlexBasis       .= perc 5
       , FontSize        .= XXSmall
-      , Width           .= perc 3
+      ]
+
+  , class numButtons !!
+      [ Margin          .= pt 5
+      , TextAlign       .= End
+      , Width           .= perc 20
       ]
   ]
 
@@ -105,13 +113,13 @@ content =
       [ line "Number of buttons:"
           [ input [ onInput Validate
                   , onEnterDown Reload
-                  , class widget
+                  , classes [ widget, numButtons ]
                   , placeholder "Enter a positive integer"
                   ] []
-          , div [id time.id] []
           ]
       , line "Sum:" [ div [id out.id, class output] [Text "0"] ]
-      , div [id buttons.id, class buttonLine] []
+      , div [id time.id, class widgetLine] []
+      , div [id buttons.id, class widgetLine] []
       ]
 
 --------------------------------------------------------------------------------
@@ -121,12 +129,16 @@ content =
 %foreign "javascript:lambda:() => new Date().getTime()"
 prim__time : PrimIO Int32
 
+dispTime : Nat -> Int32 -> String
+dispTime 1 ms = #"\#Loaded one button in \#{show ms} ms."#
+dispTime n ms = #"\#Loaded \#{show n} buttons in \#{show ms} ms."#
+
 btnsSF : MonadRec m => LiftJSIO m => MonadDom Ev m => Nat -> m (MSF m Ev ())
 btnsSF n = do
   t1 <- primIO prim__time
   innerHtmlAt buttons (btns n)
   t2 <- primIO prim__time
-  rawInnerHtmlAt time (#"\#{show $ t2 - t1} ms"#)
+  rawInnerHtmlAt time (dispTime n $ t2 - t1)
   pure $ accumulateWith add 0 >>> arr show >>> text out
 
   where add : Ev -> Bits32 -> Bits32

@@ -27,6 +27,25 @@ namespace Display
   render : Display -> String
   render Flex = "flex"
 
+namespace FlexBasis
+  public export
+  data FlexBasis : Type where
+    FL       : Length -> FlexBasis
+    FP       : Percentage -> FlexBasis
+
+  export
+  render : FlexBasis -> String
+  render (FL x)   = render x
+  render (FP x)   = render x
+
+  export %inline
+  FromLength FlexBasis where
+    fromLength = FL
+
+  export %inline
+  FromPercentage FlexBasis where
+    fromPercentage = FP
+
 namespace FontSize
   public export
   data FontSize : Type where
@@ -191,6 +210,7 @@ data Property : Type -> Type where
   Direction       : Property Direction
   Display         : Property Display
   Flex            : Property String
+  FlexBasis       : Property FlexBasis
   FlexDirection   : Property FlexDirection
   FlexWrap        : Property String
   FontFamily      : Property String
@@ -220,7 +240,8 @@ renderProp Color y           = "color: "            ++ render y
 renderProp Direction y       = "direction: "        ++ render y
 renderProp Display y         = "display: "          ++ render y
 renderProp Flex y            = "flex: "             ++ y
-renderProp FlexWrap y        = "flex-wrap: "             ++ y
+renderProp FlexBasis y       = "flex-basis: "       ++ render y
+renderProp FlexWrap y        = "flex-wrap: "        ++ y
 renderProp FlexDirection y   = "flex-direction: "   ++ render y
 renderProp FontFamily y      = "font-family: "      ++ y
 renderProp FontSize y        = "font-size: "        ++ render y
