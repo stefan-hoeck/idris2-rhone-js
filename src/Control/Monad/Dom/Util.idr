@@ -34,6 +34,6 @@ import Text.Html
 --   listenToNode n2
 --   pure res
 
-export
-rawInnerHtmlAt : MonadDom e m => ElemRef t -> String -> m ()
-rawInnerHtmlAt ref = innerHtml ref . Raw
+-- export
+-- rawInnerHtmlAt : MonadDom e m => ElemRef t -> String -> m ()
+-- rawInnerHtmlAt ref = innerHtml ref . Raw
