@@ -239,7 +239,7 @@ for effectful interactions with the DOM:
 
 ```idris
 export
-applyCSS : MonadDom e m => List Rule -> m ()
+applyCSS : LiftJSIO m => List Rule -> m ()
 applyCSS = rawInnerHtmlAt appStyle . unlines . map render
 ```
 

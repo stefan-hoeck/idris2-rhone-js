@@ -1,5 +1,6 @@
 module Text.Html.Node
 
+import Control.WellFounded
 import Data.String
 import Text.Html.Attribute
 import Text.Html.Event
@@ -38,6 +39,16 @@ mutual
     Raw  : String -> Node [] ev
 
     Text : String -> Node [] ev
+
+public export
+Sized (NodeList ts ev) where
+  size []       = 0
+  size (h :: t) = S $ size t
+
+export
+fromList : List (Node [] ev) -> NodeList [] ev
+fromList []        = []
+fromList (x :: xs) = x :: fromList xs
 
 public export %inline
 FromString (Node [] ev) where

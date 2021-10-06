@@ -7,6 +7,7 @@ depends    = base      >= 0.5.1
            , elab-util >= 0.5.0
            , rhone     >= 0.0.1
            , sop       >= 0.5.0
+           , tailrec   >= 0.1.0
 
 opts       = "--codegen javascript"
 
@@ -17,8 +18,6 @@ modules    = Control.Monad.Dom
            , Control.Monad.Dom.DomIO
            , Control.Monad.Dom.Event
            , Control.Monad.Dom.Interface
-           , Control.Monad.Dom.Ref
-           , Control.Monad.Dom.Util
 
            , Examples.CSS
            , Examples.Reset
