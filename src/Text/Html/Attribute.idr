@@ -351,3 +351,11 @@ dblClick = Event . DblClick
 export %inline
 onDblClick : ev -> Attribute ev
 onDblClick = dblClick . const . Just
+
+export
+onInput : (String -> ev) -> Attribute ev
+onInput f = Event . Input $ Just . f . value
+
+export
+onEnterDown : ev -> Attribute ev
+onEnterDown va = Event . KeyDown $ \k => toMaybe (k.code == "Enter") va

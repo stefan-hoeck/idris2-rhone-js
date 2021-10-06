@@ -1,7 +1,9 @@
 module Control.Monad.Dom.DomIO
 
+import Control.MonadRec
 import Control.Monad.Dom.Event
 import Control.Monad.Dom.Interface
+import Control.WellFounded
 import Data.MSF
 import Data.IORef
 import JS
@@ -72,6 +74,21 @@ Applicative io => Applicative (DomIO ev io) where
 export
 Monad io => Monad (DomIO ev io) where
   v >>= f = MkDom $ \ref => v.runDom ref >>= (`runDom` ref) . f
+
+
+convR :  {0 a,e,b,st : Type}
+      -> {0 rel : a -> a -> Type}
+      -> (f : (v : a) -> st -> DomIO e m (Step rel v st b))
+      -> (env : DomEnv e)
+      -> (v : a)
+      -> (ini : st)
+      -> m (Step rel v st b)
+convR f env v s1 = runDom (f v s1) env
+
+export
+Monad io => MonadRec io => MonadRec (DomIO e io) where
+  tailRecM f x ini acc =
+    MkDom $ \env => tailRecM (convR f env) x ini acc
 
 export
 HasIO io => HasIO (DomIO ev io) where

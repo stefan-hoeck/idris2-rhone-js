@@ -192,6 +192,7 @@ data Property : Type -> Type where
   Display         : Property Display
   Flex            : Property String
   FlexDirection   : Property FlexDirection
+  FlexWrap        : Property String
   FontFamily      : Property String
   FontSize        : Property FontSize
   Height          : Property Width
@@ -219,6 +220,7 @@ renderProp Color y           = "color: "            ++ render y
 renderProp Direction y       = "direction: "        ++ render y
 renderProp Display y         = "display: "          ++ render y
 renderProp Flex y            = "flex: "             ++ y
+renderProp FlexWrap y        = "flex-wrap: "             ++ y
 renderProp FlexDirection y   = "flex-direction: "   ++ render y
 renderProp FontFamily y      = "font-family: "      ++ y
 renderProp FontSize y        = "font-size: "        ++ render y

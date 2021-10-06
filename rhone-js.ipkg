@@ -20,8 +20,8 @@ modules    = Control.Monad.Dom
            , Control.Monad.Dom.Interface
 
            , Examples.CSS
+           , Examples.Performance
            , Examples.Reset
-           , Examples.Syntax
 
            , Text.CSS
            , Text.CSS.Color
