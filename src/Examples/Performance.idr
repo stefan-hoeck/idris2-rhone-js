@@ -7,13 +7,8 @@ import Examples.CSS
 import Rhone.JS
 import Text.CSS
 
+%default total
 %language ElabReflection
-
-innerHtml : LiftJSIO m => ElemRef t -> MSF m (Node ev) ()
-innerHtml ref = arrM $ rawInnerHtmlAt ref . render
-
-text : LiftJSIO m => ElemRef t -> MSF m String ()
-text ref = arr Text >>> innerHtml {ev = ()} ref
 
 --------------------------------------------------------------------------------
 --          CSS Classes

@@ -5,6 +5,8 @@ import Data.Maybe
 import Data.String
 import Text.Html.Event
 
+%default total
+
 public export
 data Dir = LTR | RTL
 

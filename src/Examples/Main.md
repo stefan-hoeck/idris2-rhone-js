@@ -25,7 +25,7 @@ module Examples.Main
 import Examples.Selector
 import Rhone.JS
 
---%default total
+%default total
 
 covering
 main : IO ()

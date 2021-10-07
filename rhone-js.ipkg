@@ -25,6 +25,8 @@ modules    = Control.Monad.Dom
            , Examples.Selector
 
            , Rhone.JS
+           , Rhone.JS.Sink
+           , Rhone.JS.Source
 
            , Text.CSS
            , Text.CSS.Color

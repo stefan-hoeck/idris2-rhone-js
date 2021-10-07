@@ -13,6 +13,8 @@ import Examples.CSS
 import Examples.Performance
 import Examples.Reset
 import Rhone.JS
+
+%default total
 ```
 
 This imports all example applications plus module `Examples.CSS`, where

@@ -13,6 +13,8 @@ module Examples.CSS
 import Data.String
 import Rhone.JS
 import Text.CSS
+
+%default total
 ```
 
 ### IDs and Classes

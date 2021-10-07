@@ -4,11 +4,7 @@ import Examples.CSS
 import Rhone.JS
 import Text.CSS
 
-innerHtml : LiftJSIO m => ElemRef t -> MSF m (Node ev) ()
-innerHtml ref = arrM $ rawInnerHtmlAt ref . render
-
-text : LiftJSIO m => ElemRef t -> MSF m String ()
-text ref = arr Text >>> innerHtml {ev = ()} ref
+%default total
 
 --------------------------------------------------------------------------------
 --          CSS Classes
@@ -19,9 +15,6 @@ inc = "inc"
 
 output : String
 output = "output"
-
-grid : String
-grid = "grid"
 
 --------------------------------------------------------------------------------
 --          CSS
@@ -34,11 +27,6 @@ css =
       , Margin          .= pt 5
       , TextAlign       .= End
       , Width           .= perc 10
-      ]
-
-  , class grid  !!
-      [ Display         .= Flex
-      , FlexWrap        .= "wrap"
       ]
 
   , class inc  !!

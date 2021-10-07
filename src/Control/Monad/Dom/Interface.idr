@@ -15,6 +15,9 @@ import Web.Dom
 --          Types
 --------------------------------------------------------------------------------
 
+||| A typed ID string referencing an element in the DOM.
+||| This can be used to access the element in question,
+||| for instance by invoking `getElementByRef`.
 public export
 record ElemRef (t : Type) where
   constructor MkRef
@@ -36,15 +39,26 @@ positionStr AfterEnd    = "afterend"
 --          Interface
 --------------------------------------------------------------------------------
 
+||| Interface for setting up interactions with the DOM
 public export
 interface Monad m => MonadDom (0 ev : Type) (0 m : Type -> Type) | m where
+  ||| Generates a new unique ID
   uniqueId      : m String
+
+  ||| Registers an event listener at the given DOM element,
+  ||| acting on events provided by the given `DOMEvent` value.
   registerEvent : ElemRef t -> DOMEvent ev -> m ()
 
 --------------------------------------------------------------------------------
 --          Node Preparation
 --------------------------------------------------------------------------------
 
+-- generates an `ElemRef` for the given HTMLElement type `t`,
+-- either by using the ID already defined in the attribute list,
+-- or by creating a new unique ID.
+--
+-- This ID will be used by `innerHtmlAt` to properly set up the
+-- necessary event listeners.
 getRef :  {str : String}
        -> MonadDom ev m
        => Attributes ev
@@ -58,7 +72,8 @@ PrepareRes : Type -> (Type -> Type) -> Type
 PrepareRes ev m = (List (Node ev), List (m ()))
 
 mutual
-  covering
+  -- tail-call optimized preparation of nodes
+  -- the totality checker needs a wee bit of help for this
   prepareNodes :  MonadDom ev m
                => MonadRec m
                => List (Node ev)
@@ -69,10 +84,12 @@ mutual
              -> m (Step Smaller vs (PrepareRes ev m) (PrepareRes ev m))
           go [] (      ns2,ens) = pure $ Done (reverse ns2, ens)
           go (h :: t) (ns2,ens) = do
-            (n2, en) <- prepareNode h
+            (n2, en) <- assert_total $ prepareNode h
             pure $ Cont t (reflexive {rel = LTE}) (n2 :: ns2, en ++ ens)
 
-  covering
+  -- inserts unique IDs where necessary and extracts a list of
+  -- actions, which will register the necessary event listeners
+  -- after creating the nodes in the DOM
   prepareNode :  MonadDom ev m
               => MonadRec m
               => Node ev
@@ -93,21 +110,38 @@ mutual
 --          Inserting Nodes
 --------------------------------------------------------------------------------
 
+||| Tries to retrieve an element of the given type by looking
+||| up its ID in the DOM. Unlike `getElementById`, this will throw
+||| an exception in the `JSIO` monad if the element is not found
+||| or can't be safely cast to the desired type.
 export
 strictGetElementById : SafeCast t => (tag,id : String) -> JSIO t
 strictGetElementById tag id = do
   Nothing <- castElementById t id | Just t => pure t
   throwError $ Caught #"Control.Monad.Dom.Interface.strictGetElementById: Could not find \#{tag} with id \#{id}"#
 
+||| Tries to retrieve a HTMLElement by looking
+||| up its ID in the DOM. Unlike `getElementById`, this will throw
+||| an exception in the `JSIO` monad if the element is not found
+||| or can't be safely cast to the desired type.
 export %inline
 strictGetHTMLElementById : (tag,id : String) -> JSIO HTMLElement
 strictGetHTMLElementById = strictGetElementById
 
+||| Tries to retrieve an element of the given type by looking
+||| up its ID in the DOM. Unlike `getElementById`, this will throw
+||| an exception in the `JSIO` monad if the element is not found
+||| or can't be safely cast to the desired type.
 export
 getElementByRef : SafeCast t => ElemRef t -> JSIO t
 getElementByRef (MkRef {tag} _ id) = strictGetElementById tag id
 
-export covering
+||| Sets up the reactive behavior of the given `Node` and
+||| inserts it as the only child of the given target.
+|||
+||| This adds unique IDs and event listeners to the generated
+||| nodes as required in their attributes.
+export
 innerHtmlAt :  LiftJSIO m
             => MonadRec m
             => MonadDom ev m
@@ -120,6 +154,10 @@ innerHtmlAt (MkRef {tag} _ id) n = do
   liftJSIO $ innerHTML elem .= render n2
   forM_ (\x => x) es
 
+||| Replaces the `innerHTML` property of the target with the
+||| given `String`. Warning: The string will not be escaped
+||| before being inserted, so don't use this with text from
+||| untrusted sources.
 export
 rawInnerHtmlAt : LiftJSIO m => ElemRef t -> String -> m ()
 rawInnerHtmlAt (MkRef {tag} _ id) str = liftJSIO $ do
