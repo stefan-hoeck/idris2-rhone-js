@@ -1,3 +1,5 @@
+||| This module provides the reference implementation of
+||| `Control.Monad.Dom.Interface.MonadDom`.
 module Control.Monad.Dom.DomIO
 
 import Control.MonadRec
@@ -17,6 +19,10 @@ import Web.Html
 --          Implementation Utilities
 --------------------------------------------------------------------------------
 
+||| The environment needed to perform the necessary `MonadDom event`
+||| operations: A mutable counter of natural number plus a string prefix
+||| to generate unique IDs for reactive components, plus
+||| an event handler to be registered at interactive elements.
 public export
 record DomEnv (event : Type) where
   constructor MkDomEnv
@@ -24,9 +30,13 @@ record DomEnv (event : Type) where
   unique   : IORef Nat
   handler  : event -> JSIO ()
 
+-- how to listen to a DOMEvent
 registerImpl : (ref : ElemRef t) -> DOMEvent e -> DomEnv e -> JSIO ()
 registerImpl r@(MkRef {tag} _ id) de (MkDomEnv _ _ h) = do
+  -- first, we look up the interactive HTML elemnt
   t <- strictGetHTMLElementById tag id
+  -- next, we inspect the DOM event and register our handler
+  -- accordingly
   case de of
     Input f      => oninput      t !> handle inputInfo f
     Change f     => onchange     t !> handle changeInfo f
@@ -54,6 +64,8 @@ createId (MkDomEnv pre u _) = do
 --          Implementation
 --------------------------------------------------------------------------------
 
+||| Reference implementation of `MonadDom event`. This is just
+||| a reader monad under the hood.
 public export
 record DomIO (event : Type) (io : Type -> Type) (a : Type) where
   constructor MkDom
@@ -107,34 +119,79 @@ LiftJSIO io => MonadDom ev (DomIO ev io) where
 --          Reactimate
 --------------------------------------------------------------------------------
 
+-- initialEvent: If `Just e`, evaluate the given `MSF` once with `e` to
+-- properly initialize all components.
+-- idPrefix: prefix for uniqe ids
 reactimateDom_ :  (initialEvent : Maybe ev)
                -> (idPrefix     : String)
                -> DomIO ev JSIO (MSF (DomIO ev JSIO) ev ())
                -> JSIO ()
 reactimateDom_ ie pre mkMSF = do
+
+  -- here we will put the properevent handler, once everyting
+  -- is ready. This is not Haskell, so we can't define
+  -- the handler lazily and satisfy the totality checker at
+  -- the same time
   hRef  <- newIORef {a = Maybe $ ev -> JSIO ()} Nothing
+
+  -- we use this as a mutable reference to store a counter
+  -- for generating unique IDs
   idRef <- newIORef {a = Nat} 0
+
+  -- the `DomEnv` needed to run `mkMSF`
   let env = MkDomEnv pre idRef $ \ev => do
               Just h <- readIORef hRef | Nothing => pure ()
               h ev
+
+  -- effectfully create the monadic streaming function
+  -- this will typically set up (a part of) the visible
+  -- user interface, hence the need for `env` with its
+  -- event handler and ability to generate unique IDs
   sf    <- mkMSF.runDom env
+
+  -- the current application state consists of the current
+  -- monadic streaming function, which will be stored in a
+  -- mutable ref
   sfRef <- newIORef sf
 
+  -- we can now implement the *real* event handler:
+  -- when an event is being fired, we evaluate the current
+  -- MSF and put the resulting continuation in the mutable ref
+  -- to be used when the next event occurs.
   let handle : ev -> JSIO ()
       handle = \e => do
         sf1      <- readIORef sfRef
         (_, sf2) <- runDom (step e sf1) env
         writeIORef sfRef sf2
 
+  -- we need to register the correct event handler, otherwise
+  -- nothing will run
   writeIORef hRef . Just $ handle
+
+  -- finally, we run the initial event (if any)
   traverse_ handle ie
 
+||| Sets up an event handler to invoke the given `MSF`
+||| whenever the handler is called with a new event
+||| value.
+|||
+||| Uses `idPrefix` as a prefix when generating unique IDs.
+||| If you need to properly setup all components by running
+||| the MSF with an initial event, use `reactimateDomIni`.
 export %inline
 reactimateDom : (idPrefix : String)
               -> DomIO ev JSIO (MSF (DomIO ev JSIO) ev ())
               -> JSIO ()
 reactimateDom = reactimateDom_ Nothing
 
+||| Sets up an event handler to invoke the given `MSF`
+||| whenever the handler is called with a new event
+||| value.
+|||
+||| Uses `idPrefix` as a prefix when generating unique IDs.
+|||
+||| A first evaluation step is run with the given event value
+||| to properly setup all components.
 export %inline
 reactimateDomIni :  ev
                  -> (idPrefix : String)
