@@ -1,3 +1,6 @@
+## The Basic Layout of a rhone-js Web Page
+
+```idris
 module Examples.Selector
 
 import Examples.CSS
@@ -40,3 +43,4 @@ ui = do
     \case "reset"       => liftJSIO (reactimateDom "ex" Reset.ui)
           "performance" => liftJSIO (reactimateDom "ex" Performance.ui)
           _             => pure ()
+```
