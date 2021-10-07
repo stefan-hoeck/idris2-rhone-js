@@ -10,7 +10,7 @@ my own skills in writing web applications in Idris2.
 
 All posts in this tutorial are literate Idris2 files that
 can be built and tried in your own browser. All you have to do
-is installing the necessary dependencies listed in the project
+is install the necessary dependencies listed in the project
 README, run `make page` from the project's root directory and
 load `rhone.html` in your browser afterwards.
 
@@ -37,9 +37,9 @@ This just imports and runs the user interface `ui` defined in module
 look at function `reactimateDomIni` once we understand the general
 structure of a rhone-js project. Function `runJS` comes from
 the [idris2-dom](https://github.com/stefan-hoeck/idris2-dom)
-library: To properly deal with the uncertainities of the
+library: To properly deal with the uncertainties of the
 JavaScript language, the core IO type we use most of the time
-is `JSIO`, which is just an alias for `EitherT JSErr IO`, where
+is `JSIO`, which is an alias for `EitherT JSErr IO`, where
 `JSErr` is an error type defined also in idris2-dom.
 Function `runJS` breaks out of the `Either` monad, by logging
 all errors to the console. This might not be the best solution for a
