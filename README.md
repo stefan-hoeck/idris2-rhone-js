@@ -19,6 +19,7 @@ This project makes use of several other Idris2 projects:
   * [idris2-elab-util](https://github.com/stefan-hoeck/idris2-elab-util)
   * [idris2-sop](https://github.com/stefan-hoeck/idris2-sop)
   * [idris2-dom](https://github.com/stefan-hoeck/idris2-dom)
+  * [idris2-tailrec](https://github.com/stefan-hoeck/idris2-tailrec)
   * [idris2-rhone](https://github.com/stefan-hoeck/idris2-rhone)
 
 It is being developed against the current main branch of Idris2.
