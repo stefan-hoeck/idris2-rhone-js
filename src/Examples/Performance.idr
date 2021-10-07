@@ -7,7 +7,6 @@ import Control.Category
 import Data.Event
 import Data.List.TR
 import Data.MSF
-import Data.SOP
 import Data.String
 import Generics.Derive
 import Examples.CSS
@@ -73,7 +72,7 @@ css =
   ]
 
 --------------------------------------------------------------------------------
---          View
+--          Model
 --------------------------------------------------------------------------------
 
 data Ev =
@@ -86,6 +85,16 @@ data Ev =
 validate : Ev -> Maybe Nat
 validate (Validate s) = Just $ cast s
 validate _            = Nothing
+
+add : Ev -> Bits32 -> Bits32
+add (Inc x)      y = x + y
+add (Validate _) y = y
+add Reload       _ = 0
+
+
+--------------------------------------------------------------------------------
+--          View
+--------------------------------------------------------------------------------
 
 out : ElemRef Div
 out = MkRef Div "outdiv"
@@ -139,16 +148,11 @@ btnsSF n = do
   innerHtmlAt buttons (btns n)
   t2 <- primIO prim__time
   rawInnerHtmlAt time (dispTime n $ t2 - t1)
-  pure $ accumulateWith add 0 >>> arr show >>> text out
-
-  where add : Ev -> Bits32 -> Bits32
-        add (Inc x)      y = x + y
-        add (Validate _) y = y
-        add Reload       _ = 0
+  pure $ accumulateWith add 0 >>> show ^>> text out
 
 export
 ui : MonadRec m => LiftJSIO m => MonadDom Ev m => m (MSF m Ev ())
 ui = do
   applyCSS $ coreCSS ++ css
   innerHtmlAt contentDiv content
-  pure $ switchOnM btnsSF ((when validate >>> stepper 0) `on` is Reload) neutral
+  pure $ switchOnM btnsSF (when validate >>> stepper 0 `on` is Reload) neutral
