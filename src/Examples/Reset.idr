@@ -1,15 +1,8 @@
 module Examples.Reset
 
-import JS
-import Control.MonadRec
-import Control.Monad.Dom
-import Control.Category
-import Data.MSF
-import Data.SOP
 import Examples.CSS
-import Text.Html as Html
-import Text.CSS as CSS
-import Web.Dom
+import Rhone.JS
+import Text.CSS
 
 innerHtml : LiftJSIO m => ElemRef t -> MSF m (Node ev) ()
 innerHtml ref = arrM $ rawInnerHtmlAt ref . render
@@ -86,8 +79,12 @@ content =
 --          Controller
 --------------------------------------------------------------------------------
 
+public export
+M : Type -> Type
+M = DomIO Ev JSIO
+
 export
-ui : MonadRec m => LiftJSIO m => MonadDom Ev m => m (MSF m Ev ())
+ui : M (MSF M Ev ())
 ui = do
   applyCSS $ coreCSS ++ css
   innerHtmlAt exampleDiv content

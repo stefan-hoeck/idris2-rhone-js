@@ -86,7 +86,7 @@ convR :  {0 a,e,b,st : Type}
 convR f env v s1 = runDom (f v s1) env
 
 export
-Monad io => MonadRec io => MonadRec (DomIO e io) where
+MonadRec io => MonadRec (DomIO e io) where
   tailRecM f x ini acc =
     MkDom $ \env => tailRecM (convR f env) x ini acc
 

@@ -1,18 +1,11 @@
 module Examples.Performance
 
-import JS
-import Control.MonadRec
-import Control.Monad.Dom
-import Control.Category
-import Data.Event
 import Data.List.TR
-import Data.MSF
 import Data.String
 import Generics.Derive
 import Examples.CSS
-import Text.Html as Html
-import Text.CSS as CSS
-import Web.Dom
+import Rhone.JS
+import Text.CSS
 
 %language ElabReflection
 
@@ -135,6 +128,10 @@ content =
 --          Controller
 --------------------------------------------------------------------------------
 
+public export
+M : Type -> Type
+M = DomIO Ev JSIO
+
 %foreign "javascript:lambda:() => new Date().getTime()"
 prim__time : PrimIO Int32
 
@@ -142,7 +139,7 @@ dispTime : Nat -> Int32 -> String
 dispTime 1 ms = #"\#Loaded one button in \#{show ms} ms."#
 dispTime n ms = #"\#Loaded \#{show n} buttons in \#{show ms} ms."#
 
-btnsSF : MonadRec m => LiftJSIO m => MonadDom Ev m => Nat -> m (MSF m Ev ())
+btnsSF : Nat -> M (MSF M Ev ())
 btnsSF n = do
   t1 <- primIO prim__time
   innerHtmlAt buttons (btns n)
@@ -151,7 +148,7 @@ btnsSF n = do
   pure $ accumulateWith add 0 >>> show ^>> text out
 
 export
-ui : MonadRec m => LiftJSIO m => MonadDom Ev m => m (MSF m Ev ())
+ui : M (MSF M Ev ())
 ui = do
   applyCSS $ coreCSS ++ css
   innerHtmlAt exampleDiv content

@@ -1,17 +1,13 @@
 module Examples.Selector
 
-import JS
-import Control.MonadRec
-import Control.Monad.Dom
-import Control.Category
-import Data.MSF
-import Data.String
 import Examples.CSS
 import Examples.Performance
 import Examples.Reset
-import Text.Html as Html
-import Text.CSS as CSS
-import Web.Dom
+import Rhone.JS
+
+public export
+MSel : Type -> Type
+MSel = DomIO String JSIO
 
 --------------------------------------------------------------------------------
 --          View
@@ -37,7 +33,7 @@ content =
 --------------------------------------------------------------------------------
 
 export
-ui : MonadRec m => LiftJSIO m => MonadDom String m => m (MSF m String ())
+ui : MSel (MSF MSel String ())
 ui = do
   innerHtmlAt contentDiv content
   pure . arrM $

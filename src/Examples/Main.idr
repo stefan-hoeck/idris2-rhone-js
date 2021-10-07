@@ -1,9 +1,7 @@
 module Examples.Main
 
-import Control.MonadRec
-import Control.Monad.Dom
 import Examples.Selector
-import JS
+import Rhone.JS
 
 --%default total
 

@@ -10,13 +10,9 @@ declaring CSS rules in a type-safe manner.
 ```idris
 module Examples.CSS
 
-import Control.Monad.Dom
-import Data.Maybe
 import Data.String
-import JS
+import Rhone.JS
 import Text.CSS
-import Text.Html as Html
-import Web.Dom
 ```
 
 ### IDs and Classes

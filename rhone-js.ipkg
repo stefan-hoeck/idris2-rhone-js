@@ -24,6 +24,8 @@ modules    = Control.Monad.Dom
            , Examples.Reset
            , Examples.Selector
 
+           , Rhone.JS
+
            , Text.CSS
            , Text.CSS.Color
            , Text.CSS.Declaration
