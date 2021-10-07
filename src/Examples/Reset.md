@@ -12,9 +12,9 @@ to decrease the counter, and one button to reset the counter to
 zero. On every button click, the user interface should be updated
 and display the actual count. In addition, we do not want users
 to increase or decrease the counter too much, so the corresponding
-buttons should be disabled if values get too large or too small.
+buttons should be disabled if values are getting too large or too small.
 Resetting the state makes no sense when the counter is at zero,
-so the "reset" button should be disabled in that case as well.
+so the *reset* button should be disabled in that case as well.
 
 
 ```idris
@@ -68,7 +68,7 @@ css =
 ```
 
 Next, we need to identify the dynamic components
-of our application, whose behavior or appearance will
+of our application whose behavior or appearance will
 change depending on the current state.
 There are four of them: The buttons for increasing and decreasing
 the counter, which will be disabled if the value gets to
@@ -102,13 +102,13 @@ line lbl ns =
 ```
 
 The three buttons all display some descriptive
-text and need to know about the event they throw
+text and need to know about the event they fire
 when they are being clicked:
 
 ```idris
 btn : ElemRef Button -> Ev -> (lbl: String) -> Node Ev
 btn ref ev lbl =
-button [id ref.id, onClick ev, classes [widget,btn,inc]] [Text lbl]
+  button [id ref.id, onClick ev, classes [widget,btn,inc]] [Text lbl]
 ```
 
 Finally, we can put the components together and define
@@ -138,7 +138,9 @@ M = DomIO Ev JSIO
 The actual controlling MSF is a simple state accumulator, the
 output of which will be broadcast to the different dynamic
 elements. `MSF m i o` comes with a `Monoid` implementation if
-`o` is a `Monoid`, so we use `concat` on a list to bundle the data sinks:
+`o` is a `Monoid`, so we use `concat` on a list to bundle the data sinks
+(a *sink* is a monadic streaming function that produces no interesting
+output of interest):
 
 ```idris
 msf : MSF M Ev ()
@@ -153,16 +155,18 @@ msf =
 
 In the code above, `(>>>)` is sequencing of computations defined in
 `Control.Category` in contrib, `(f ^>> g)` is an alias for
-`arr f >>> g`, that allows us to use a pure function in a sequence of
+`arr f >>> g`, that allows us to use pure functions in a sequence of
 computations directly, and `accumulateWith` is one of the looping
-combinators defined for monadic streaming function. The implementation
-of these functions is pretty simple, so I suggest you have a look
+combinators defined for monadic streaming functions. The implementation
+of these combinators is pretty simple, so I suggest you have a look
 at the code in the *rhone* library to get a better understanding
-of what's going on under the hood.
-
+of what's going on under the hood. The data sinks `text` and `disabled`
+are defined in module `Rhone.JS.Sink`. They merely use `arrM` to
+lift the corresponding effectful computations from the idris2-dom
+library to the MSF context.
 
 Finally, we put everything together in a single effectful
-computations: Registering the CSS rules, setting up the HTML
+computation: Applying the CSS rules, setting up the HTML
 content and registering all necessary event listeners,
 and returning the streaming function.
 
@@ -196,8 +200,8 @@ The resulting continuation is then written back to the mutable
 variable.
 
 When you look again at the [selector implementation](Selector.md), you
-will see that the MSF we defined there, will invoke `reactimateDomIni`
-on our `ui` function, whenever the user selected the `"reset"` application.
+will see that the MSF we defined there will invoke `reactimateDomIni`
+on our `ui` function whenever the user selected the `"reset"` application.
 
 Why the call to `reactimateDomIni`? When you have a closer look at
 the structure of `content` above, you will note that the initial output
@@ -206,6 +210,6 @@ attribute has not been set explicitly). This is not what we want: The current
 application state (the value 0) should be correctly shown and the
 *reset* button disabled accordingly. We could set these things up
 manually in `content`, but that would be a repetition of application
-logic. Its often better to setup everything, by invoking the `MSF`
-once with an *initialization event*. Thus, everything will behave
+logic. It's often better to setup everything by invoking the `MSF`
+once with an *initialization event*. Then, everything will behave
 correctly from the very beginning.

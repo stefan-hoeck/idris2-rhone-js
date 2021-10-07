@@ -226,3 +226,9 @@ the real DOM directly through a network of monadic streaming
 functions. Whether this will result in a nice way to write web applications
 or will lead to unmaintainable tangles of code, only time
 and experience will tell.
+
+### Whats next?
+
+In the [next part](Reset.md), I'll explain a first sample application
+with some real application state and reactive components in detail.
+Have fun!
