@@ -88,9 +88,10 @@ displayAttributes = fastConcat . intersperse " " . mapMaybe displayAttribute
 
 export
 getId : Attributes ev -> Maybe String
-getId (Id v :: _) = Just v
-getId (_    :: t) = getId t
-getId []          = Nothing
+getId (Id v       :: _) = Just v
+getId (Str "id" v :: t) = Just v
+getId (_          :: t) = getId t
+getId []                = Nothing
 
 export
 getEvents : Attributes ev -> List (DOMEvent ev)
