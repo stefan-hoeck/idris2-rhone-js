@@ -32,8 +32,12 @@ typed element from the DOM:
 
 ```idris
 public export
-contentDiv : ElemRef HTMLDivElement
-contentDiv = MkRef Div "content"
+contentDiv : ElemRef HTMLBodyElement
+contentDiv = MkRef Body "content"
+
+public export
+exampleDiv : ElemRef HTMLDivElement
+exampleDiv = MkRef Div "example"
 
 public export
 appStyle : ElemRef HTMLStyleElement
@@ -65,6 +69,22 @@ widget = "widget"
 public export
 widgetList : String
 widgetList = "widgetList"
+
+public export
+contentList : String
+contentList = "contentList"
+
+public export
+contentHeader : String
+contentHeader = "contentHeader"
+
+public export
+pageTitle : String
+pageTitle = "pageTitle"
+
+public export
+exampleSelector : String
+exampleSelector = "example_selector"
 
 -- a single line in a column
 -- of input widgets.
@@ -165,10 +185,10 @@ coreCSS =
       , FlexDirection   .= Column
       , FontFamily      .= "Helvetica, Arial, sans-serif"
       , Height          .= perc 100
-      , Margin          .= pt 0
+      , Margin          .= px 0
       ]
  
-  , id "content" !!
+  , class contentList !!
       [ AlignSelf       .= Center
       , BackgroundColor .= darker_grey
       , Display         .= Flex
@@ -176,11 +196,31 @@ coreCSS =
       , FlexDirection   .= Column
       , JustifyContent  .= FlexStart
       , Padding         .= VH (Pt 40) (Pt 20)
+      , MaxWidth        .= perc 70
       , MinWidth        .= perc 70
+      ]
+ 
+  , class pageTitle !!
+      [ BorderStyle     .= Bottom Solid
+      , BorderWidth     .= Bottom (px 5)
+      , BorderColor     .= Bottom base80
+      , FontSize        .= XLarge
+      , Margin          .= Bottom (px 40)
+      , Padding         .= Bottom (px 60)
+      , TextAlign       .= Center
+      ]
+ 
+  , class contentHeader !!
+      [ Display         .= Flex
+      , BorderStyle     .= Bottom Solid
+      , BorderWidth     .= Bottom (px 2)
+      , BorderColor     .= Bottom base80
+      , Margin          .= Bottom (px 40)
+      , Padding         .= Bottom (px 40)
       ]
 
   , class btn !! 
-      [ Padding         .= pt 5 ]
+      [ Padding         .= px 5 ]
 
   , class widget !! 
       [ BackgroundColor .= lighter_grey
@@ -207,6 +247,13 @@ coreCSS =
       , BorderColor     .= All dark_grey
       ]
 
+  , class exampleSelector  !!
+      [ FontSize        .= Large
+      , Margin          .= px 5
+      , Padding         .= px 5
+      , TextAlign       .= End
+      ]
+
   , Pseudo (class widget) Invalid !!
       [ BorderColor     .= All red ]
 
@@ -216,13 +263,12 @@ coreCSS =
       , Flex            .= "1"
       , FlexDirection   .= Column
       , JustifyContent  .= FlexStart
-      , Margin          .= pt 5
       ]
 
   , class widgetLine !!
       [ AlignItems      .= FlexStart
       , Display         .= Flex
-      , Margin          .= pt 5
+      , Margin          .= Bottom (px 5)
       ]
 
   , class widgetLabel !!

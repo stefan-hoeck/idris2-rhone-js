@@ -281,8 +281,8 @@ rowspan : Bits32 -> Attribute ev
 rowspan = showAttr "rowspan"
 
 export %inline
-selected : String -> Attribute ev
-selected = Str "selected"
+selected : Bool -> Attribute ev
+selected = Bool "selected"
 
 export %inline
 spellcheck : Bool -> Attribute ev
@@ -351,6 +351,10 @@ dblClick = Event . DblClick
 export %inline
 onDblClick : ev -> Attribute ev
 onDblClick = dblClick . const . Just
+
+export
+onChange : (String -> ev) -> Attribute ev
+onChange f = Event . Input $ Just . f . value
 
 export
 onInput : (String -> ev) -> Attribute ev

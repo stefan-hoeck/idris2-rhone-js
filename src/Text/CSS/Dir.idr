@@ -46,6 +46,13 @@ render prop f d =
       pre = prfx d
    in #"\#{prop}\#{pre}: \#{vs}"#
 
+export
+render2 : (prop,suffix : String) -> (a -> String) -> Dir a -> String
+render2 prop suffix f d = 
+  let vs  = fastConcat . intersperse " " . map f $ vals d
+      pre = prfx d
+   in #"\#{prop}\#{pre}-\#{suffix}: \#{vs}"#
+
 export %inline
 FromLength a => FromLength (Dir a) where
   fromLength = All . fromLength

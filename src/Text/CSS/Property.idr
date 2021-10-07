@@ -232,10 +232,10 @@ renderProp : Property t -> t -> String
 renderProp AlignItems y      = "align-items: "      ++ render y
 renderProp AlignSelf y       = "align-self: "       ++ render y
 renderProp BackgroundColor y = "background-color: " ++ render y
-renderProp BorderColor y     = render "border-color" render y
+renderProp BorderColor y     = render2 "border" "color" render y
 renderProp BorderRadius y    = "border-radius: "    ++ render y
-renderProp BorderStyle y     = render "border-style" render y
-renderProp BorderWidth y     = render "border-width" render y
+renderProp BorderStyle y     = render2 "border" "style" render y
+renderProp BorderWidth y     = render2 "border" "width" render y
 renderProp Color y           = "color: "            ++ render y
 renderProp Direction y       = "direction: "        ++ render y
 renderProp Display y         = "display: "          ++ render y

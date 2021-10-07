@@ -107,19 +107,37 @@ LiftJSIO io => MonadDom ev (DomIO ev io) where
 --          Reactimate
 --------------------------------------------------------------------------------
 
-export
-reactimateDom : DomIO ev JSIO (MSF (DomIO ev JSIO) ev ()) -> JSIO ()
-reactimateDom mkMSF = do
+reactimateDom_ :  (initialEvent : Maybe ev)
+               -> (idPrefix     : String)
+               -> DomIO ev JSIO (MSF (DomIO ev JSIO) ev ())
+               -> JSIO ()
+reactimateDom_ ie pre mkMSF = do
   hRef  <- newIORef {a = Maybe $ ev -> JSIO ()} Nothing
   idRef <- newIORef {a = Nat} 0
-  let env = MkDomEnv "uid" idRef $ \ev => do
+  let env = MkDomEnv pre idRef $ \ev => do
               Just h <- readIORef hRef | Nothing => pure ()
               h ev
   sf    <- mkMSF.runDom env
   sfRef <- newIORef sf
 
-  writeIORef hRef . Just $ \e => do
-    sf1      <- readIORef sfRef
-    (_, sf2) <- runDom (step e sf1) env
-    writeIORef sfRef sf2
-  pure ()
+  let handle : ev -> JSIO ()
+      handle = \e => do
+        sf1      <- readIORef sfRef
+        (_, sf2) <- runDom (step e sf1) env
+        writeIORef sfRef sf2
+
+  writeIORef hRef . Just $ handle
+  traverse_ handle ie
+
+export %inline
+reactimateDom : (idPrefix : String)
+              -> DomIO ev JSIO (MSF (DomIO ev JSIO) ev ())
+              -> JSIO ()
+reactimateDom = reactimateDom_ Nothing
+
+export %inline
+reactimateDomIni :  ev
+                 -> (idPrefix : String)
+                 -> DomIO ev JSIO (MSF (DomIO ev JSIO) ev ())
+                 -> JSIO ()
+reactimateDomIni = reactimateDom_ . Just

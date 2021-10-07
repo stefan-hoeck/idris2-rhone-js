@@ -90,5 +90,5 @@ export
 ui : MonadRec m => LiftJSIO m => MonadDom Ev m => m (MSF m Ev ())
 ui = do
   applyCSS $ coreCSS ++ css
-  innerHtmlAt contentDiv content
+  innerHtmlAt exampleDiv content
   pure $ accumulateWith apply 0 >>> arr show >>> text out

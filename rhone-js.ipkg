@@ -22,6 +22,7 @@ modules    = Control.Monad.Dom
            , Examples.CSS
            , Examples.Performance
            , Examples.Reset
+           , Examples.Selector
 
            , Text.CSS
            , Text.CSS.Color
