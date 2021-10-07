@@ -139,7 +139,7 @@ The actual controlling MSF is a simple state accumulator, the
 output of which will be broadcast to the different dynamic
 elements. `MSF m i o` comes with a `Monoid` implementation if
 `o` is a `Monoid`, so we use `concat` on a list to bundle the data sinks
-(a *sink* is a monadic streaming function that produces no interesting
+(a *sink* is a monadic streaming function that produces no
 output of interest):
 
 ```idris
@@ -211,5 +211,5 @@ application state (the value 0) should be correctly shown and the
 *reset* button disabled accordingly. We could set these things up
 manually in `content`, but that would be a repetition of application
 logic. It's often better to setup everything by invoking the `MSF`
-once with an *initialization event*. Then, everything will behave
+once with an *initialization event*. Then everything will behave
 correctly from the very beginning.
