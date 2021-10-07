@@ -35,4 +35,4 @@ clean:
 
 .PHONY: develop
 develop:
-	find -name "*.idr" | entr -d idris2 --typecheck ${lib_pkg}
+	find -regextype posix-extended -regex ".*\.(idr|md)" | entr -d idris2 --typecheck ${lib_pkg}
