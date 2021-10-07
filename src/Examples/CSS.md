@@ -23,7 +23,7 @@ import Web.Dom
 
 The `rhone.html` document at the project root defines two
 entry points for out single-page web page: A `style` element
-in the header, where our CSS rules go, and a `div` in the body,
+in the header, where our CSS rules go, and the body element,
 where the content of our web page goes. We typically refer
 to HTML elements via `ElemRef` values
 (defined in `Control.Monad.Dom.Interface`), which come with
@@ -43,10 +43,6 @@ public export
 appStyle : ElemRef HTMLStyleElement
 appStyle = MkRef Style "appstyle"
 ```
-
-Note: The empty lists in the declarations above refer to
-the events these elements will be able to throws. They
-are used in all the interactive examples in this section.
 
 I like to keep my CSS simple and use classes and pseudo
 classes whenever possible, so here are the ones that
@@ -70,18 +66,26 @@ public export
 widgetList : String
 widgetList = "widgetList"
 
+-- the main content, split into three rows:
+-- a title, the example selector, and the
+-- currently loaded example application
 public export
 contentList : String
 contentList = "contentList"
 
+-- the header row where the example selector
+-- resides
 public export
 contentHeader : String
 contentHeader = "contentHeader"
 
+-- the row with the page title
 public export
 pageTitle : String
 pageTitle = "pageTitle"
 
+-- the select box used to choose an example
+-- application
 public export
 exampleSelector : String
 exampleSelector = "example_selector"
@@ -279,8 +283,7 @@ coreCSS =
 ```
 
 Finally, we will need a way to apply our CSS rules
-upon loading the page. There is `Control.Class.MonadDom`
-for effectful interactions with the DOM:
+upon loading the page.
 
 ```idris
 export
