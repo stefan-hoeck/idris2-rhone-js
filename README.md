@@ -11,7 +11,7 @@ is used.
 This is still very much work in progress and *a lot* of stuff
 is still missing, but a small and very simple example web page
 is already available. A tutorial is in the making and can
-be found [here](src/Examples/Main.idr).
+be found [here](src/Examples/Main.md).
 
 ## Dependencies
 
