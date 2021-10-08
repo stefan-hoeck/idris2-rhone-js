@@ -6,6 +6,7 @@ import Control.MonadRec
 import Control.Monad.Dom.Event
 import Control.Monad.Dom.Interface
 import Control.WellFounded
+import Data.Contravariant
 import Data.MSF
 import Data.IORef
 import JS
@@ -29,6 +30,11 @@ record DomEnv (event : Type) where
   pre      : String
   unique   : IORef Nat
   handler  : event -> JSIO ()
+
+export
+Contravariant DomEnv where
+  contramap f  = record {handler $= (. f) }
+
 
 -- how to listen to a DOMEvent
 registerImpl : (ref : ElemRef t) -> DOMEvent e -> DomEnv e -> JSIO ()
@@ -70,6 +76,10 @@ public export
 record DomIO (event : Type) (io : Type -> Type) (a : Type) where
   constructor MkDom
   runDom : DomEnv event -> io a
+
+export
+mapEvent : (ev1 -> ev2) -> DomIO ev1 io a -> DomIO ev2 io a
+mapEvent f (MkDom runDom) = MkDom $ runDom . contramap f
 
 env : Monad m => DomIO ev m (DomEnv ev)
 env = MkDom pure

@@ -147,9 +147,9 @@ msf : MSF M Ev ()
 msf =
   accumulateWith apply 0 >>> concat
     [ show     ^>> text out
-    , (<= -10) ^>> disabled btnDec
-    , (>=  10) ^>> disabled btnInc
-    , (==   0) ^>> disabled btnReset
+    , (<= -10) ^>> disabledAt btnDec
+    , (>=  10) ^>> disabledAt btnInc
+    , (==   0) ^>> disabledAt btnReset
     ]
 ```
 

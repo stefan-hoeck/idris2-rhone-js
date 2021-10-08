@@ -1,0 +1,245 @@
+## Making Buttons: A look at Performance
+
+This tutorial's web application comes with the following
+ingredients: A validated text input where users are
+supposed to enter a positive natural number in the.
+When they hit `Enter` after entering their
+number, a corresponding number of buttons is created, each
+of which can be clicked exactly once before being disabled,
+and the sum of the values clicked will be accumulated and
+displayed at the UI. The sum should be reset when a new set
+of buttons is created.
+
+Since we want to have a look at the performance of this,
+we also include an output field for the time it took to
+create and display the buttons.
+
+Since we are going to iterate over large lists of
+items, we need to be conscious about stack space and make
+use of the tail-recursive functions from
+[idris2-tailrec](https://github.com/stefan-hoeck/idris2-tailrec).
+
+Here's the list of imports:
+
+```idris
+module Examples.Performance
+
+import Data.List.TR
+import Data.Nat
+import Data.String
+import Examples.CSS
+import Rhone.JS
+import Text.CSS
+
+%default total
+```
+
+## Model
+
+Since the buttons in the button grid have no effect
+on the behavior of the components responsible for
+creating the button grid, we can completely decouple
+the two parts. This is similar to what we did for
+the [example selector](Selector.md).
+
+This means we have two unrelated models, the first being just
+natural numbers that are summed up, the second being
+the events from the text input. For the latter, we use
+a custom data type:
+
+```idris
+data Ev : Type where
+  Valid   : (n : Nat) -> (0 prf : IsSucc n) -> Ev
+  Invalid : String -> Ev
+  Reload  : Ev
+```
+
+We provide some utility functions for input validation
+and reloading the buttons
+
+```idris
+validate : String -> Ev
+validate s = case cast {to = Nat} s of
+  Z   => Invalid #"Not a positive natural number: \#{s}"#
+  S k => Valid (S k) ItIsSucc
+
+validity : Ev -> String
+validity (Invalid s) = s
+validity _           = ""
+
+isReload : Ev -> Bool
+isReload Reload = True
+isReload _      = False
+```
+
+## View
+
+First, the CSS:
+
+```idris
+incSmall : String
+incSmall = "incSmall"
+
+output : String
+output = "output"
+
+buttonLine : String
+buttonLine = "buttonline"
+
+numButtons : String
+numButtons = "numbuttons"
+
+grid : String
+grid = "grid"
+
+css : List Rule
+css =
+  [ class output  !!
+      [ FontSize        .= Large
+      , Margin          .= pt 5
+      , TextAlign       .= End
+      , Width           .= perc 20
+      ]
+
+  , class grid  !!
+      [ Display         .= Flex
+      , FlexWrap        .= "wrap"
+      ]
+
+  , class incSmall !!
+      [ FlexBasis       .= perc 5
+      , FontSize        .= XXSmall
+      ]
+
+  , class numButtons !!
+      [ Margin          .= pt 5
+      , TextAlign       .= End
+      , Width           .= perc 20
+      ]
+  ]
+```
+
+Next, the reference IDs for the active components:
+
+```idris
+-- displays the current sum of clicks
+out : ElemRef Div
+out = MkRef Div "outdiv"
+
+-- displays the current sum of clicks
+numButtonsIn : ElemRef Input
+numButtonsIn = MkRef Input "numbuttons"
+
+-- where the created buttons go
+buttons : ElemRef Div
+buttons = MkRef Div "buttons"
+
+-- displays the time take to create the buttons
+time : ElemRef Div
+time = MkRef Div "time"
+```
+
+We have two labeled lines similar to the ones in
+[the last tutorial](Reset.md):
+
+```idris
+line : (lbl: String) -> List (Node Ev) -> Node Ev
+line lbl ns =
+  div [class widgetLine] $ 
+      label [class widgetLabel] [Text lbl] :: ns
+```
+
+And here's the function to create a single button:
+It must come with its own ID, since we need to
+disable it, once it has been clicked.
+
+```idris
+btnRef : Nat -> ElemRef Button
+btnRef n = MkRef Button #"BTN\#{show n}"#
+
+btn : Nat -> Node Nat
+btn n =
+  button
+    [id $ id (btnRef n), onClick n, classes [widget,btn,incSmall]]
+    [Text $ show n]
+```
+
+Next, we write the function to create a grid of buttons.
+Since we plan to create thousands of buttons at once, we must
+make sure do this in a stack-safe manner, otherwise our
+application will crash with a stack overflow error.
+List functions like `map` or `range` (used to implement
+the range syntax: `[1..1000]`) are (so far) not stack safe,
+so we use `mapTR` and `iterateTR` from `Data.List.TR`
+instead:
+
+```idris
+btns : (n : Nat) -> {auto 0 prf : IsSucc n} -> Node Nat
+btns n = div [class grid] . mapTR btn $ iterateTR n (+1) 1
+```
+
+And, finally, the overall layout of the application:
+
+```idris
+content : Node Ev
+content =
+  div [ class widgetList ]
+      [ line "Number of buttons:"
+          [ input [ id numButtonsIn.id
+                  , onInput validate
+                  , onEnterDown Reload
+                  , classes [ widget, numButtons ]
+                  , placeholder "Enter a positive integer"
+                  ] []
+          ]
+      , line "Sum:" [ div [id out.id, class output] [] ]
+      , div [id time.id, class widgetLine] []
+      , div [id buttons.id, class widgetLine] []
+      ]
+```
+
+## Controller
+
+```idris
+
+public export
+MI : Type -> Type
+MI = DomIO Ev JSIO
+
+public export
+MB : Type -> Type
+MB = DomIO Nat JSIO
+
+%foreign "javascript:lambda:() => new Date().getTime()"
+prim__time : PrimIO Int32
+
+dispTime : Nat -> Int32 -> String
+dispTime 1 ms = #"\#Loaded one button in \#{show ms} ms."#
+dispTime n ms = #"\#Loaded \#{show n} buttons in \#{show ms} ms."#
+
+btnsSF : (n : Nat) -> {auto 0 prf : IsSucc n} -> MB (MSF MB Nat ())
+btnsSF n = do
+  t1 <- primIO prim__time
+  innerHtmlAt buttons (btns n)
+  t2 <- primIO prim__time
+  rawInnerHtmlAt time (dispTime n $ t2 - t1)
+  rawInnerHtmlAt out "0"
+  pure $ concat  
+    [ accumulateWith (+) 0 >>> show ^>> text out
+    , arr btnRef &&& const True >>> disabled
+    ]
+
+msf : MSF MI Ev ()
+msf = concat
+  [ validity ^>> validityMessage numButtonsIn
+  , (arr (\case Valid n _ => btnsSF n; _ => pure neutral) `on` filter isReload) >>>
+    arrM (traverse_ $ liftJSIO . reactimateDom "btns")
+  ]
+
+export
+ui : MI (MSF MI Ev ())
+ui = do
+  applyCSS $ coreCSS ++ css
+  innerHtmlAt exampleDiv content
+  pure msf
+```
