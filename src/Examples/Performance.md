@@ -24,13 +24,16 @@ Here's the list of imports:
 ```idris
 module Examples.Performance
 
+import Data.DPair
 import Data.List.TR
 import Data.Nat
 import Data.String
+import Generics.Derive
 import Examples.CSS
 import Rhone.JS
 import Text.CSS
 
+%language ElabReflection
 %default total
 ```
 
@@ -48,28 +51,22 @@ the events from the text input. For the latter, we use
 a custom data type:
 
 ```idris
-data Ev : Type where
-  Valid   : (n : Nat) -> (0 prf : IsSucc n) -> Ev
-  Invalid : String -> Ev
-  Reload  : Ev
+data Ev = Reload | Validate
+
+%runElab derive "Ev" [Generic,Meta,Show,Eq]
+
+PosNat : Type
+PosNat = Subset Nat IsSucc
 ```
 
 We provide some utility functions for input validation
 and reloading the buttons
 
 ```idris
-validate : String -> Ev
+validate : String -> Either String PosNat
 validate s = case cast {to = Nat} s of
-  Z   => Invalid #"Not a positive natural number: \#{s}"#
-  S k => Valid (S k) ItIsSucc
-
-validity : Ev -> String
-validity (Invalid s) = s
-validity _           = ""
-
-isReload : Ev -> Bool
-isReload Reload = True
-isReload _      = False
+  Z       => Left #"Not a positive natural number: \#{s}"#
+  n@(S _) => Right $ Element n ItIsSucc
 ```
 
 ## View
@@ -127,8 +124,8 @@ out : ElemRef Div
 out = MkRef Div "outdiv"
 
 -- displays the current sum of clicks
-numButtonsIn : ElemRef Input
-numButtonsIn = MkRef Input "numbuttons"
+natInput : ElemRef Input
+natInput = MkRef Input "numbuttons"
 
 -- where the created buttons go
 buttons : ElemRef Div
@@ -143,7 +140,7 @@ We have two labeled lines similar to the ones in
 [the last tutorial](Reset.md):
 
 ```idris
-line : (lbl: String) -> List (Node Ev) -> Node Ev
+line : (lbl: String) -> List (Node e) -> Node e
 line lbl ns =
   div [class widgetLine] $ 
       label [class widgetLabel] [Text lbl] :: ns
@@ -174,8 +171,8 @@ so we use `mapTR` and `iterateTR` from `Data.List.TR`
 instead:
 
 ```idris
-btns : (n : Nat) -> {auto 0 prf : IsSucc n} -> Node Nat
-btns n = div [class grid] . mapTR btn $ iterateTR n (+1) 1
+btns : PosNat -> Node Nat
+btns (Element n _) = div [class grid] . mapTR btn $ iterateTR n (+1) 1
 ```
 
 And, finally, the overall layout of the application:
@@ -185,8 +182,8 @@ content : Node Ev
 content =
   div [ class widgetList ]
       [ line "Number of buttons:"
-          [ input [ id numButtonsIn.id
-                  , onInput validate
+          [ input [ id natInput.id
+                  , onInput (const Validate)
                   , onEnterDown Reload
                   , classes [ widget, numButtons ]
                   , placeholder "Enter a positive integer"
@@ -217,24 +214,22 @@ dispTime : Nat -> Int32 -> String
 dispTime 1 ms = #"\#Loaded one button in \#{show ms} ms."#
 dispTime n ms = #"\#Loaded \#{show n} buttons in \#{show ms} ms."#
 
-btnsSF : (n : Nat) -> {auto 0 prf : IsSucc n} -> MB (MSF MB Nat ())
+btnsSF : PosNat -> MB (MSF MB Nat ())
 btnsSF n = do
   t1 <- primIO prim__time
   innerHtmlAt buttons (btns n)
   t2 <- primIO prim__time
-  rawInnerHtmlAt time (dispTime n $ t2 - t1)
-  rawInnerHtmlAt out "0"
-  pure $ concat  
-    [ accumulateWith (+) 0 >>> show ^>> text out
-    , arr btnRef &&& const True >>> disabled
-    ]
+  rawInnerHtmlAt time (dispTime n.fst $ t2 - t1)
+  pure $   (accumulateWith (+) 0 >>> show ^>> text out)
+       <+> (arr btnRef &&& const True >>> disabled)
 
 msf : MSF MI Ev ()
-msf = concat
-  [ validity ^>> validityMessage numButtonsIn
-  , (arr (\case Valid n _ => btnsSF n; _ => pure neutral) `on` filter isReload) >>>
-    arrM (traverse_ $ liftJSIO . reactimateDom "btns")
-  ]
+msf = (
+        (   valueOf natInput
+        >>> arr validate
+        >>> observeWith (either id (const "") ^>> validityMessageAt natInput)
+        ) `rightOn` is Reload
+      ) >- arrM (liftJSIO . reactimateDom "btns" . btnsSF)
 
 export
 ui : MI (MSF MI Ev ())

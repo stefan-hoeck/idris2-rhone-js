@@ -115,5 +115,5 @@ setValidityMessageAt ref s =
 
 ||| Sets a custom validity message at the given target element
 export
-validityMessage : SetValidity t => LiftJSIO m => ElemRef t -> MSF m String ()
-validityMessage = arrM . setValidityMessageAt
+validityMessageAt : SetValidity t => LiftJSIO m => ElemRef t -> MSF m String ()
+validityMessageAt = arrM . setValidityMessageAt
