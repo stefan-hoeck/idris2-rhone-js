@@ -166,8 +166,8 @@ ui : MSel (MSF MSel String ())
 ui = do
   innerHtmlAt contentDiv content
   pure . arrM $
-    \case "reset"       => liftJSIO (reactimateDomIni (const 0) "ex" Reset.ui)
-          "performance" => liftJSIO (reactimateDom "ex" Performance.ui)
+    \case "reset"       => reactimateInDomIni (const 0) Reset.ui
+          "performance" => reactimateInDom Performance.ui
           _             => pure ()
 ```
 

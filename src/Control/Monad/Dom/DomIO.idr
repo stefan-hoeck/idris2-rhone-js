@@ -78,7 +78,7 @@ record DomIO (event : Type) (io : Type -> Type) (a : Type) where
   runDom : DomEnv event -> io a
 
 export
-mapEvent : (ev1 -> ev2) -> DomIO ev1 io a -> DomIO ev2 io a
+mapEvent : {0 a : _} -> (ev1 -> ev2) -> DomIO ev1 io a -> DomIO ev2 io a
 mapEvent f (MkDom runDom) = MkDom $ runDom . contramap f
 
 env : Monad m => DomIO ev m (DomEnv ev)
@@ -135,18 +135,15 @@ LiftJSIO io => MonadDom ev (DomIO ev io) where
 reactimateDom_ :  (initialEvent : Maybe ev)
                -> (idPrefix     : String)
                -> DomIO ev JSIO (MSF (DomIO ev JSIO) ev ())
+               -> (idRef        : IORef Nat)
                -> JSIO ()
-reactimateDom_ ie pre mkMSF = do
+reactimateDom_ ie pre mkMSF idRef = do
 
   -- here we will put the properevent handler, once everyting
   -- is ready. This is not Haskell, so we can't define
   -- the handler lazily and satisfy the totality checker at
   -- the same time
   hRef  <- newIORef {a = Maybe $ ev -> JSIO ()} Nothing
-
-  -- we use this as a mutable reference to store a counter
-  -- for generating unique IDs
-  idRef <- newIORef {a = Nat} 0
 
   -- the `DomEnv` needed to run `mkMSF`
   let env = MkDomEnv pre idRef $ \ev => do
@@ -192,7 +189,19 @@ export %inline
 reactimateDom : (idPrefix : String)
               -> DomIO ev JSIO (MSF (DomIO ev JSIO) ev ())
               -> JSIO ()
-reactimateDom = reactimateDom_ Nothing
+reactimateDom pre sf = newIORef 0 >>= reactimateDom_ Nothing pre sf
+
+||| Sets up an event handler to invoke the given `MSF`
+||| whenever the handler is called with a new event
+||| value.
+|||
+||| Uses the ID prefix and unique counter generator from
+||| the calling `DomIO` environment.
+export %inline
+reactimateInDom :  DomIO ev JSIO (MSF (DomIO ev JSIO) ev ())
+                -> DomIO ev2 JSIO ()
+reactimateInDom sf =
+  MkDom $ \env => reactimateDom_ Nothing env.pre sf env.unique
 
 ||| Sets up an event handler to invoke the given `MSF`
 ||| whenever the handler is called with a new event
@@ -207,4 +216,21 @@ reactimateDomIni :  ev
                  -> (idPrefix : String)
                  -> DomIO ev JSIO (MSF (DomIO ev JSIO) ev ())
                  -> JSIO ()
-reactimateDomIni = reactimateDom_ . Just
+reactimateDomIni e pre sf =
+  newIORef 0 >>= reactimateDom_ (Just e) pre sf
+
+||| Sets up an event handler to invoke the given `MSF`
+||| whenever the handler is called with a new event
+||| value.
+|||
+||| Uses the ID prefix and unique counter generator from
+||| the calling `DomIO` environment.
+|||
+||| A first evaluation step is run with the given event value
+||| to properly setup all components.
+export %inline
+reactimateInDomIni :  ev
+                   -> DomIO ev JSIO (MSF (DomIO ev JSIO) ev ())
+                   -> DomIO ev2 JSIO ()
+reactimateInDomIni v sf =
+  MkDom $ \env => reactimateDom_ (Just v) env.pre sf env.unique
