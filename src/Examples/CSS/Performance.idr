@@ -17,6 +17,10 @@ export
 natIn : ElemRef Input
 natIn = MkRef Input "performance_numbuttons"
 
+export
+btnRun : ElemRef HTMLButtonElement
+btnRun = MkRef Button "performance_run"
+
 -- where the created buttons go
 export
 buttons : ElemRef Div
@@ -56,9 +60,13 @@ css : List Rule
 css =
   [ id out.id  !!
       [ FontSize        .= Large
-      , Margin          .= pt 5
+      , Margin          .= px 5
       , TextAlign       .= End
       , Width           .= perc 20
+      ]
+
+  , id btnRun.id !!
+      [ Width           .= perc 10
       ]
 
   , class grid  !!
@@ -72,8 +80,8 @@ css =
       ]
 
   , class numButtons !!
-      [ Margin          .= pt 5
-      , Padding         .= pt 5
+      [ Margin          .= px 5
+      , Padding         .= px 5
       , TextAlign       .= End
       , Width           .= perc 20
       ]

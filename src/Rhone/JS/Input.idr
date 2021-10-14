@@ -4,6 +4,7 @@ import Control.Monad.Dom
 import Data.MSF
 import JS
 import Rhone.JS.Sink
+import Rhone.JS.Source
 import Web.Dom
 import Web.Html
 
@@ -19,5 +20,19 @@ input :  LiftJSIO m
 input get read ref =
       map read . get
   ^>> fireAndHold (read "")
+  >>> par [id, ifEvent (leftInvalid ref)]
+  >>> hd
+
+export
+getInput :  LiftJSIO m
+         => Eq ev
+         => ev
+         -> (read     : String -> Either String a)
+         -> (ref      : ElemRef HTMLInputElement)
+         -> MSF m ev (Either String a)
+getInput e read ref =
+      bool (e ==)
+  >>> collect [valueOf ref >>^ Ev . read, never]
+  >>> fireAndHold (read "")
   >>> par [id, ifEvent (leftInvalid ref)]
   >>> hd

@@ -43,6 +43,14 @@ dragon o (S k) =
       new = mapTR (rotateAround90 h) (reverse t)
    in Element (new ++ h :: t) (lemma new h t)
 
+firstDragon : Dragon
+firstDragon = Element [0,800] IsNonEmpty 
+
+nextDragon : Dragon -> Dragon
+nextDragon (Element (h :: t) prf) =
+  let new = mapTR (rotateAround90 h) (reverse t)
+   in Element (new ++ h :: t) (lemma new h t)
+
 dragonSVG : (n : Nat) -> Dragon -> String
 dragonSVG n (Element ps _) =
   let fact = pow 2 (cast (n + 2) / 2.0)
@@ -67,5 +75,12 @@ dragonSVG n (Element ps _) =
       """#
 
 export
-mkDragon : (n : Nat) -> String
-mkDragon n = dragonSVG n $ dragon (P 0 0) n
+mkDragons : (n : Nat) -> Subset (List String) NonEmpty
+mkDragons n =
+  let fd   = firstDragon
+   in Element (dragonSVG 0 fd :: go fd n 1) IsNonEmpty
+  where go : Dragon -> (rem : Nat) -> (iter : Nat) -> List String
+        go _  0     _ = Nil
+        go dr (S k) n =
+          let nextDr = nextDragon dr
+           in dragonSVG n nextDr :: go nextDr k (n+1)

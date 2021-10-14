@@ -30,6 +30,7 @@ Here's the list of imports:
 module Examples.Performance
 
 import Data.DPair
+import Data.Either
 import Data.List.TR
 import Data.Nat
 import Data.String
@@ -132,6 +133,7 @@ content =
                   , classes [ widget, numButtons ]
                   , placeholder "Enter a positive integer"
                   ] []
+          , button [id btnRun.id, onClick Reload, classes [widget,btn]] ["Run"]
           ]
       , line "Sum:" [ div [id out.id] [] ]
       , div [id time.id, class widgetLine] []
@@ -216,7 +218,8 @@ btnsSF n = do
 
 ```idris
 count : MSF MI Ev (Either String PosNat)
-count = valueOf natIn >>> validate ^>> observeWith (leftInvalid natIn)
+count =    getInput Validate validate natIn
+       >>> observeWith (isLeft ^>> disabledAt btnRun)
 
 msf : MSF MI Ev ()
 msf =   fan [count, is Reload]
