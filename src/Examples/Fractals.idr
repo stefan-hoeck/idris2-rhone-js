@@ -1,6 +1,7 @@
 module Examples.Fractals
 
 import Control.Applicative.Syntax
+import Data.DPair
 import Data.Either
 import Data.IORef
 import Data.MSF.Switch
@@ -40,11 +41,7 @@ data Fractal = Dragon
 
 %runElab derive "Fractal" [Generic,Meta,Show,Eq]
 
-data Ev = Fract Fractal
-        | Iter String
-        | Redraw String
-        | Run
-        | Next
+data Ev = Fract Fractal | Iter | Redraw | Run | Next
 
 %runElab derive "Ev" [Generic,Meta,Show,Eq]
 
@@ -95,15 +92,6 @@ record Config where
   iterations : Iterations
   redraw     : RedrawAfter
 
-0 tr : LTE k m -> LTE m n -> LTE k n
-tr = transitive {rel = LTE}
-
-calc : Config -> Iterations -> NP I [Iterations,String]
-calc (MkConfig _ (MkIterations is pis) _) (MkIterations n pn) =
-  case isLT n is of
-    Yes prf => [MkIterations (S n) $ tr prf pis, mkDragon n]
-    No _    => [0, mkDragon n]
-
 --------------------------------------------------------------------------------
 --          Controller
 --------------------------------------------------------------------------------
@@ -118,12 +106,14 @@ MSFEvent = Data.MSF.Event.Event
 msf : (timer : RedrawAfter -> JSIO ()) -> MSF M Ev ()
 msf timer = rswitchWhen (const ()) config fractal
   where fractal : Config -> MSF M Ev ()
-        fractal c = ifIs Next $ unfold (calc c) 0 >>> innerHtml out
+        fractal c = 
+          let Element dragons prf = mkDragons c.iterations.value
+           in ifIs Next $ cycle dragons >>> innerHtml out
 
         readAll : MSF M Ev (Either String Config)
         readAll =    MkConfig Dragon
-                <$$> input (\case Iter   s => Ev s; _ => NoEv) read txtIter
-                <**> input (\case Redraw s => Ev s; _ => NoEv) read txtRedraw
+                <$$> getInput Iter   read txtIter
+                <**> getInput Redraw read txtRedraw
                 >>>  observeWith (isLeft ^>> disabledAt btnRun)
 
         config : MSF M Ev (MSFEvent Config)
@@ -145,19 +135,19 @@ content =
   div [ class widgetList ]
       [ line "Number of iterations:"
           [ input [ id txtIter.id
-                  , onInput Iter
+                  , onInput (const Iter)
                   , onEnterDown Run
                   , class widget
-                  , placeholder #"Enter a natural number <= \#{show MaxIter}"#
+                  , placeholder #"Range: [0, \#{show MaxIter}]"#
 
                   ] []
           ]
       , line "Iteration delay [ms]:"
           [ input [ id txtRedraw.id
-                  , onInput Redraw
+                  , onInput (const Redraw)
                   , onEnterDown Run
                   , class widget
-                  , placeholder #"Enter a number in the range [100,10'000]"#
+                  , placeholder #"Range: [100,10'000]"#
                   ] []
           , button [id btnRun.id, onClick Run, classes [widget,btn]] ["Run"]
           ]
