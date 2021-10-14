@@ -40,11 +40,10 @@ text ref = arr Text >>> rawInnerHtml {ev = ()} ref
 ||| at the given target element.
 export
 attribute :  LiftJSIO m
-          => ElemRef t
-          -> (name : String)
-          -> MSF m (Maybe String) ()
-attribute (MkRef {tag} _ id) name =
-  arrM $ \m => liftJSIO $ do
+          => (name : String)
+          -> MSF m (NP I [ElemRef t, Maybe String]) ()
+attribute name =
+  arrM $ \[MkRef {tag} _ id, m] => liftJSIO $ do
     el <- strictGetElementById {t = Element} tag id
     case m of
       Just s  => setAttribute el name s
@@ -52,19 +51,28 @@ attribute (MkRef {tag} _ id) name =
 
 ||| Sets the attribute of the given name at the given target element.
 export
-attribute_ : LiftJSIO m => ElemRef t -> (name : String) -> MSF m String ()
-attribute_ ref name = Just ^>> attribute ref name
+attribute_ :  LiftJSIO m
+           => (name : String)
+           -> MSF m (NP I [ElemRef t, String]) ()
+attribute_ name = (\[a,b] => [a,Just b]) ^>> attribute name
 
 ||| Sets or unsets the boolean attribute of the given name at
 ||| the given target element.
 export
-boolAttribute : LiftJSIO m => ElemRef t -> (name : String) -> MSF m Bool ()
-boolAttribute ref name = (`toMaybe` "") ^>> attribute ref name
+boolAttribute :  LiftJSIO m
+              => (name : String)
+              -> MSF m (NP I [ElemRef t, Bool]) ()
+boolAttribute name = (\[a,b] => [a,toMaybe b ""]) ^>> attribute name
 
 ||| Sets or unsets the `disabled` attribute of the given element.
 export %inline
-disabled : LiftJSIO m => ElemRef t -> MSF m Bool ()
-disabled ref = boolAttribute ref "disabled"
+disabled : LiftJSIO m => MSF m (NP I [ElemRef t, Bool]) ()
+disabled = boolAttribute "disabled"
+
+||| Sets or unsets the `disabled` attribute of the given element.
+export %inline
+disabledAt : LiftJSIO m => ElemRef t -> MSF m Bool ()
+disabledAt = firstArg disabled
 
 --------------------------------------------------------------------------------
 --          Input Validation
@@ -104,8 +112,18 @@ export
 SetValidity HTMLTextAreaElement where
   setValidityMessage = setCustomValidity
 
+export
+setValidityMessageAt : SetValidity t => LiftJSIO m => ElemRef t -> String -> m ()
+setValidityMessageAt ref s =
+  liftJSIO (getElementByRef ref >>= (`setValidityMessage` s))
+
 ||| Sets a custom validity message at the given target element
 export
-validityMessage : SetValidity t => LiftJSIO m => ElemRef t -> MSF m String ()
-validityMessage ref =
-  arrM $ \s => liftJSIO (getElementByRef ref >>= (`setValidityMessage` s))
+validityMessageAt : SetValidity t => LiftJSIO m => ElemRef t -> MSF m String ()
+validityMessageAt = arrM . setValidityMessageAt
+
+||| Sets or unsets a custom validity message at the given target element
+||| depending on whether the input value is a `Left`.
+export
+leftInvalid : SetValidity t => LiftJSIO m => ElemRef t -> MSF m (Either String x) ()
+leftInvalid ref = either id (const "") ^>> validityMessageAt ref

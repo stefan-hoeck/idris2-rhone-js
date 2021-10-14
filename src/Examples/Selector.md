@@ -116,13 +116,13 @@ just attributes, and in the example above, the `select` element
 fires an event whenever the user changes the selected value
 (`onChange id`).
 
-### The Interactive Part: Monadic Streaming Functions
+### The Interactive Part: Monadic Stream Functions
 
 Now that we have the structure of our web page specified, we
 can have a quick look at how we define its interactive behavior.
 
 rhone-js is named after [idris2-rhone](https://github.com/stefan-hoeck/idris2-rhone)
-a port of monadic streaming functions (MSF) first introduced
+a port of monadic stream functions (MSF) first introduced
 in Haskell's [dunai](https://hackage.haskell.org/package/dunai)
 library and explained in detail in a nice
 [article](https://www.cs.nott.ac.uk/~psxip1/#FRPRefactored).
@@ -145,7 +145,7 @@ In the *rhone* library, we don't use this most general form,
 as it does not go well with the totality checker. Instead,
 our implementation of `MSF` encodes a rather large set
 of primitive operations in the data type itself. This gives
-us the benefit of provably total streaming functions, which is
+us the benefit of provably total stream functions, which is
 extremely valuable especially when we start using advanced
 components like event switches.
 
@@ -166,8 +166,8 @@ ui : MSel (MSF MSel String ())
 ui = do
   innerHtmlAt contentDiv content
   pure . arrM $
-    \case "reset"       => liftJSIO (reactimateDomIni (const 0) "ex" Reset.ui)
-          "performance" => liftJSIO (reactimateDom "ex" Performance.ui)
+    \case "reset"       => reactimateInDomIni (const 0) Reset.ui
+          "performance" => reactimateInDom Performance.ui
           _             => pure ()
 ```
 
@@ -185,7 +185,7 @@ necessary, render to text form, replace inner HTML of `contentDiv`
 with the rendered text, lookup reactive components by their
 IDs and register the event handlers.
 
-Afterwards, the monadic streaming function is created: We
+Afterwards, the monadic stream function is created: We
 use `arrM` to lift an effectful computation to the MSF context.
 This is just a pattern match on our event type (`String`), which consists
 of the values fired by the select element. If the value is one we
@@ -222,7 +222,7 @@ the web page - and thus the virtual DOM - consists of
 many elements.
 
 So far, rhone-js doesn't use a virtual DOM, but interacts with
-the real DOM directly through a network of monadic streaming
+the real DOM directly through a network of monadic stream
 functions. Whether this will result in a nice way to write web applications
 or will lead to unmaintainable tangles of code, only time
 and experience will tell.
