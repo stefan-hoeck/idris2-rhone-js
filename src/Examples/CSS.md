@@ -11,12 +11,14 @@ declaring CSS rules in a type-safe manner.
 module Examples.CSS
 
 import Data.String
-import Rhone.JS
+import public Examples.CSS.Core
+import public Examples.CSS.Fractals
+import public Examples.CSS.Performance
+import public Examples.CSS.Reset
 import Text.CSS
 
 %default total
 ```
-
 ### IDs and Classes
 
 The `rhone.html` document at the project root defines two
@@ -28,78 +30,9 @@ to HTML elements via `ElemRef` values
 an ID and a tag to allow us to safely request the properly
 typed element from the DOM:
 
-```idris
-public export
-contentDiv : ElemRef HTMLBodyElement
-contentDiv = MkRef Body "content"
-
-public export
-exampleDiv : ElemRef HTMLDivElement
-exampleDiv = MkRef Div "example"
-
-public export
-appStyle : ElemRef HTMLStyleElement
-appStyle = MkRef Style "appstyle"
-```
-
 I like to keep my CSS simple and use classes and pseudo
 classes whenever possible, so here are the ones that
 come up in most examples:
-
-```idris
--- a clickable button
-public export
-btn : String
-btn = "btn"
-
--- an input widget
-public export
-widget : String
-widget = "widget"
-
--- a column of input widgets,
--- each on its own line with a label
--- on the left.
-public export
-widgetList : String
-widgetList = "widgetList"
-
--- the main content, split into three rows:
--- a title, the example selector, and the
--- currently loaded example application
-public export
-contentList : String
-contentList = "contentList"
-
--- the header row where the example selector
--- resides
-public export
-contentHeader : String
-contentHeader = "contentHeader"
-
--- the row with the page title
-public export
-pageTitle : String
-pageTitle = "pageTitle"
-
--- the select box used to choose an example
--- application
-public export
-exampleSelector : String
-exampleSelector = "example_selector"
-
--- a single line in a column
--- of input widgets.
-public export
-widgetLine : String
-widgetLine = "widgetline"
-
--- a label on the left of an input
--- widget.
-public export
-widgetLabel : String
-widgetLabel = "widgetlabel"
-```
 
 ### CSS Rules
 
@@ -109,188 +42,15 @@ to purists; suggestions of improvements are welcome.
 
 Here are the core rules for laying out the web page.
 
-```idris
-export
-lightest_grey : Color
-lightest_grey = "#adadad"
-
-export
-lighter_grey : Color
-lighter_grey = "#6d6d6d"
-
-export
-light_grey : Color
-light_grey = "#4d4d4d"
-
-export
-dark_grey : Color
-dark_grey = "#1d1d1d"
-
-export
-darker_grey : Color
-darker_grey = "#0d0d0d"
-
-export
-base100 : Color
-base100 = "#e57200"
-
-export
-base80 : Color
-base80 = "#e68a2e"
-
-export
-base60 : Color
-base60 = "#e6a15c"
-
-export
-base40 : Color
-base40 = "#e6b88a"
-
-export
-base20 : Color
-base20 = "#e6cfb8"
-
-export
-base0 : Color
-base0 = "#e6e6e6"
-
-export
-comp100 : Color
-comp100 = "#0073e5"
-
-export
-comp80 : Color
-comp80 = "#2e8ae6"
-
-export
-comp60 : Color
-comp60 = "#5ca1e6"
-
-export
-comp40 : Color
-comp40 = "#8ab8e6"
-
-export
-comp20 : Color
-comp20 = "#b8cfe6"
-
-public export
-coreCSS : List Rule
-coreCSS =
-  [ elem Html !!
-      [ Height          .= perc 100]
-
-  , elem Body !!
-      [ BackgroundColor .= black 
-      , Color           .= base100
-      , Display         .= Flex
-      , FlexDirection   .= Column
-      , FontFamily      .= "Helvetica, Arial, sans-serif"
-      , Height          .= perc 100
-      , Margin          .= px 0
-      ]
- 
-  , class contentList !!
-      [ AlignSelf       .= Center
-      , BackgroundColor .= darker_grey
-      , Display         .= Flex
-      , Flex            .= "1"
-      , FlexDirection   .= Column
-      , JustifyContent  .= FlexStart
-      , Padding         .= VH (Pt 40) (Pt 20)
-      , MaxWidth        .= perc 70
-      , MinWidth        .= perc 70
-      ]
- 
-  , class pageTitle !!
-      [ BorderStyle     .= Bottom Solid
-      , BorderWidth     .= Bottom (px 5)
-      , BorderColor     .= Bottom base80
-      , FontSize        .= XLarge
-      , Margin          .= Bottom (px 40)
-      , Padding         .= Bottom (px 60)
-      , TextAlign       .= Center
-      ]
- 
-  , class contentHeader !!
-      [ Display         .= Flex
-      , BorderStyle     .= Bottom Solid
-      , BorderWidth     .= Bottom (px 2)
-      , BorderColor     .= Bottom base80
-      , Margin          .= Bottom (px 40)
-      , Padding         .= Bottom (px 40)
-      ]
-
-  , class btn !! 
-      [ Padding         .= px 5 ]
-
-  , class widget !! 
-      [ BackgroundColor .= lighter_grey
-      , BorderRadius    .= px 10
-      , BorderStyle     .= All Solid
-      , BorderWidth     .= px 3
-      , BorderColor     .= All comp100
-      , Color           .= darker_grey
-      , FontSize        .= Large
-      , Padding         .= px 5
-      , Margin          .= px 5
-      ]
-
-  , Pseudo (class widget) Hover !!
-      [ BackgroundColor .= lightest_grey
-      , BorderColor     .= All comp60
-      ]
-
-  , Pseudo (class widget) Active !!
-      [ BackgroundColor .= lightest_grey
-      , BorderColor     .= All comp60
-      ]
-
-  , Pseudo (class widget) Disabled !!
-      [ BackgroundColor .= light_grey
-      , BorderColor     .= All dark_grey
-      ]
-
-  , class exampleSelector  !!
-      [ FontSize        .= Large
-      , Margin          .= px 5
-      , Padding         .= px 5
-      , TextAlign       .= End
-      ]
-
-  , Pseudo (class widget) Invalid !!
-      [ BorderColor     .= All red ]
-
-  , class widgetList !!
-      [ ListStyleType   .= None
-      , Display         .= Flex
-      , Flex            .= "1"
-      , FlexDirection   .= Column
-      , JustifyContent  .= FlexStart
-      ]
-
-  , class widgetLine !!
-      [ AlignItems      .= FlexStart
-      , Display         .= Flex
-      , Margin          .= Bottom (px 5)
-      ]
-
-  , class widgetLabel !!
-      [ FontSize        .= Large
-      , Width           .= perc 20
-      ]
-  ]
-```
-
 Finally, we will need a way to apply our CSS rules
 upon loading the page.
 
 ```idris
 export
-applyCSS : LiftJSIO m => List Rule -> m ()
-applyCSS = rawInnerHtmlAt appStyle . unlines . map render
+allRules : String
+allRules =  fastUnlines . map render
+         $  coreCSS
+         ++ Fractals.css
+         ++ Performance.css
+         ++ Reset.css
 ```
-
-The code above sends the rendered CSS rules to the
-html content of the style element with id `appstyle` in
-the document header.

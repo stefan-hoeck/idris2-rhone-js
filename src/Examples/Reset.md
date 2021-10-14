@@ -20,9 +20,8 @@ so the *reset* button should be disabled in that case as well.
 ```idris
 module Examples.Reset
 
-import Examples.CSS
+import Examples.CSS.Reset
 import Rhone.JS
-import Text.CSS
 
 %default total
 ```
@@ -44,29 +43,6 @@ Ev = Int8 -> Int8
 First, we define some custom CSS rules for the
 elements specific to this application:
 
-```idris
-inc : String
-inc = "inc"
-
-output : String
-output = "output"
-
-css : List Rule
-css =
-  [ class output  !!
-      [ FontSize        .= Large
-      , Margin          .= pt 5
-      , TextAlign       .= End
-      , Width           .= perc 10
-      ]
-
-  , class inc  !!
-      [ Margin          .= pt 5
-      , Width           .= perc 10
-      ]
-  ]
-```
-
 Next, we need to identify the dynamic components
 of our application whose behavior or appearance will
 change depending on the current state.
@@ -75,20 +51,6 @@ the counter, which will be disabled if the value gets to
 small or too big, the reset button, which will be disabled
 if the counter is at zero, and the div element where we will output
 the current count:
-
-```idris
-out : ElemRef Div
-out = MkRef Div "outdiv"
-
-btnInc : ElemRef Button
-btnInc = MkRef Button "btninc"
-
-btnDec : ElemRef Button
-btnDec = MkRef Button "btndec"
-
-btnReset : ElemRef Button
-btnReset = MkRef Button "reset"
-```
 
 The DOM elements will be laid out as a list of
 four lines, each with a descriptive label at the
@@ -108,7 +70,7 @@ when they are being clicked:
 ```idris
 btn : ElemRef Button -> Ev -> (lbl: String) -> Node Ev
 btn ref ev lbl =
-  button [id ref.id, onClick ev, classes [widget,btn,inc]] [Text lbl]
+  button [id ref.id, onClick ev, classes [widget,btn,resetBtn]] [Text lbl]
 ```
 
 Finally, we can put the components together and define
@@ -121,7 +83,7 @@ content =
       [ line "Reset counter:"    [ btn btnReset (const 0) "Reset" ]
       , line "Increase counter:" [ btn btnInc   (+ 1)     "+" ]
       , line "Decrease counter:" [ btn btnDec   (+ (-1))  "-" ]
-      , line "Count:"            [ div [id out.id, class output] [] ]
+      , line "Count:"            [ div [id out.id] [] ]
       ]
 ```
 
@@ -174,7 +136,6 @@ and returning the stream function.
 export
 ui : M (MSF M Ev (), JSIO ())
 ui = do
-  applyCSS $ coreCSS ++ css
   innerHtmlAt exampleDiv content
   pure (msf, pure ())
 ```

@@ -33,10 +33,9 @@ import Data.DPair
 import Data.List.TR
 import Data.Nat
 import Data.String
-import Examples.CSS
+import Examples.CSS.Performance
 import Generics.Derive
 import Rhone.JS
-import Text.CSS
 
 %language ElabReflection
 %default total
@@ -78,69 +77,7 @@ validate s = case cast {to = Nat} s of
 
 First, the CSS:
 
-```idris
-incSmall : String
-incSmall = "incSmall"
-
-output : String
-output = "output"
-
-buttonLine : String
-buttonLine = "buttonline"
-
-numButtons : String
-numButtons = "numbuttons"
-
-grid : String
-grid = "grid"
-
-css : List Rule
-css =
-  [ class output  !!
-      [ FontSize        .= Large
-      , Margin          .= pt 5
-      , TextAlign       .= End
-      , Width           .= perc 20
-      ]
-
-  , class grid  !!
-      [ Display         .= Flex
-      , FlexWrap        .= "wrap"
-      ]
-
-  , class incSmall !!
-      [ FlexBasis       .= perc 5
-      , FontSize        .= XXSmall
-      ]
-
-  , class numButtons !!
-      [ Margin          .= pt 5
-      , Padding         .= pt 5
-      , TextAlign       .= End
-      , Width           .= perc 20
-      ]
-  ]
-```
-
 Next, the reference IDs for the active components:
-
-```idris
--- displays the current sum of clicks
-out : ElemRef Div
-out = MkRef Div "outdiv"
-
--- text fields where users can enter the number of buttons
-natIn : ElemRef Input
-natIn = MkRef Input "numbuttons"
-
--- where the created buttons go
-buttons : ElemRef Div
-buttons = MkRef Div "buttons"
-
--- displays the time take to create the buttons
-time : ElemRef Div
-time = MkRef Div "time"
-```
 
 We have two labeled lines similar to the ones from
 [the last tutorial](Reset.md):
@@ -163,7 +100,7 @@ btnRef n = MkRef Button #"BTN\#{show n}"#
 btn : Nat -> Node Nat
 btn n =
   button
-    [id $ id (btnRef n), onClick n, classes [widget,btn,incSmall]]
+    [id $ id (btnRef n), onClick n, classes [widget,btn,inc]]
     [Text $ show n]
 ```
 
@@ -196,7 +133,7 @@ content =
                   , placeholder "Enter a positive integer"
                   ] []
           ]
-      , line "Sum:" [ div [id out.id, class output] [] ]
+      , line "Sum:" [ div [id out.id] [] ]
       , div [id time.id, class widgetLine] []
       , div [id buttons.id, class widgetLine] []
       ]
@@ -289,7 +226,6 @@ msf =   fan [count, is Reload]
 export
 ui : MI (MSF MI Ev (), JSIO ())
 ui = do
-  applyCSS $ coreCSS ++ css
   innerHtmlAt exampleDiv content
   pure $ (ignore msf, pure ())
 ```

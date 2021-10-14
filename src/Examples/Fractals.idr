@@ -3,11 +3,10 @@ module Examples.Fractals
 import Data.Either
 import Data.MSF.Switch
 import Data.Nat
-import Examples.CSS
+import Examples.CSS.Fractals
 import Examples.Fractals.Dragon
 import Generics.Derive
 import Rhone.JS
-import Text.CSS
 
 %language ElabReflection
 %default total
@@ -81,19 +80,6 @@ calc (MkConfig (MkIterations is pis) _) (MkIterations n pn) =
     No _    => [0, mkDragon n]
 
 --------------------------------------------------------------------------------
---          IDs
---------------------------------------------------------------------------------
-
-out : ElemRef HTMLDivElement
-out = MkRef Div "fractalout"
-
-btnRun : ElemRef HTMLButtonElement
-btnRun = MkRef Button "btnrun"
-
-txtIter : ElemRef HTMLInputElement
-txtIter = MkRef Input "txtiter"
-
---------------------------------------------------------------------------------
 --          Controller
 --------------------------------------------------------------------------------
 
@@ -122,20 +108,6 @@ msf = rswitchWhen (const ()) config fractal
 --------------------------------------------------------------------------------
 --          CSS
 --------------------------------------------------------------------------------
-
-css : List Rule
-css =
-  [ id txtIter.id !!
-      [ Margin          .= pt 5
-      , TextAlign       .= End
-      , Width           .= perc 20
-      ]
-
-  , id out.id !!
-      [ Flex            .= "1"
-      , Margin          .= pt 5
-      ]
-  ]
 
 --------------------------------------------------------------------------------
 --          View
@@ -167,7 +139,6 @@ content =
 export
 ui : M (MSF M Ev (), JSIO ())
 ui = do
-  applyCSS $ coreCSS ++ css
   innerHtmlAt exampleDiv content
   h    <- handler <$> env 
   myID <- setInterval 2000 (h Next)
