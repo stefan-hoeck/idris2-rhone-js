@@ -46,7 +46,7 @@ data Ev = Fract Fractal
 %runElab derive "Ev" [Generic,Meta,Show,Eq]
 
 MaxIter : Nat
-MaxIter = 15
+MaxIter = 18
 
 record Iterations where
   constructor MkIterations
@@ -74,16 +74,11 @@ record Config where
 0 tr : LTE k m -> LTE m n -> LTE k n
 tr = transitive {rel = LTE}
 
-0 lte32 : LTE k MaxIter -> LT k 32
-lte32 prf = LTESucc $ tr prf %search
-
 calc : Config -> Iterations -> NP I [Iterations,String]
 calc (MkConfig (MkIterations is pis) _) (MkIterations n pn) =
   case isLT n is of
-    Yes prf => [ MkIterations (S n) $ tr prf pis
-               , mkDragon n (lte32 pn)]
-    No _    => [0, mkDragon n (lte32 pn)]
-    
+    Yes prf => [MkIterations (S n) $ tr prf pis, mkDragon n]
+    No _    => [0, mkDragon n]
 
 --------------------------------------------------------------------------------
 --          IDs
@@ -160,10 +155,8 @@ content =
                   , class widget
                   , placeholder #"Enter a natural number <= \#{show MaxIter}"#
                   ] []
+          , button [id btnRun.id, onClick Run, classes [widget,btn]] ["Run"]
           ]
-      , div
-          [ class widgetLine ]
-          [ button [id btnRun.id, onClick Run, classes [widget,btn]] ["Run"] ]
       , div [id out.id] []
       ]
 
@@ -177,5 +170,5 @@ ui = do
   applyCSS $ coreCSS ++ css
   innerHtmlAt exampleDiv content
   h    <- handler <$> env 
-  myID <- setInterval 500 (h Next)
+  myID <- setInterval 2000 (h Next)
   pure (msf, clearInterval myID)

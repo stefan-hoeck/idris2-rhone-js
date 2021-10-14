@@ -1,7 +1,8 @@
+||| Ugly code for calculating and rendering a dragon curve
+||| in SVG. TODO: Cleanup, document.
 module Examples.Fractals.Dragon
 
 import Data.DPair
-import Data.Nat
 import Data.List
 import Data.List.TR
 import Data.String
@@ -36,23 +37,23 @@ lemma []       v as2 = IsNonEmpty
 lemma (h :: t) v as2 = IsNonEmpty
 
 dragon : (origin : Point) -> Nat -> Dragon
-dragon o 0 = Element [o,o + 750] IsNonEmpty
+dragon o 0 = Element [o,o + 800] IsNonEmpty
 dragon o (S k) =
   let (Element (h :: t) prf) = dragon o k
       new = mapTR (rotateAround90 h) (reverse t)
    in Element (new ++ h :: t) (lemma new h t)
 
-dragonSVG : (n : Nat) -> (0 prf : LT n 32) -> Dragon -> String
-dragonSVG n prf (Element ps _) =
-  let fact = pow 2 (cast n / 2.0 + 1)
+dragonSVG : (n : Nat) -> Dragon -> String
+dragonSVG n (Element ps _) =
+  let fact = pow 2 (cast (n + 2) / 2.0)
       scale = 1.0 / fact
 
       attr = fastConcat $ mapTR (\(P x y) => #"\#{show x}, \#{show y} "#) ps
       header =
         the String #"""
                    <svg version="1.1"
-                        width="1000"
-                        height="1000"
+                        width="100%"
+                        viewBox="0 0 1000 1000"
                         xmlns="http://www.w3.org/2000/svg">
                    """#
    in #"""
@@ -66,5 +67,5 @@ dragonSVG n prf (Element ps _) =
       """#
 
 export
-mkDragon : (n : Nat) -> (0 prf : LT n 32) -> String
-mkDragon n prf = dragonSVG n prf $ dragon (P 0 0) n
+mkDragon : (n : Nat) -> String
+mkDragon n = dragonSVG n $ dragon (P 0 0) n

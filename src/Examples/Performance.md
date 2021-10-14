@@ -115,6 +115,7 @@ css =
 
   , class numButtons !!
       [ Margin          .= pt 5
+      , Padding         .= pt 5
       , TextAlign       .= End
       , Width           .= perc 20
       ]
