@@ -245,7 +245,7 @@ console. Since we plan to initialize the signal function
 with an input of zero, we must make sure the disabling
 part is only invoked on non-zero input.
 `isNot 0` has type `MSF MB Nat (Event Nat)`, this is what
-we call an *event stream*, a streaming function, which only
+we call an *event stream*, a stream function, which only
 holds a value on certain occasions. The signal functions
 that follow after can only be evaluated if an input value
 is available, so this makes sure that they are not being
@@ -256,9 +256,9 @@ result type.
 
 ```idris
 sumNats : MSF MB Nat ()
-sumNats = concat {t = List}
+sumNats = fan_
   [ accumulateWith (+) 0 >>> show ^>> text out
-  , isNot 0 >| arr btnRef &&& const True >>> disabled
+  , ifFalse (0 ==) $ fan [arr btnRef, const True] >>> disabled
   ]
 ```
 
@@ -277,12 +277,13 @@ btnsSF n = do
 ```
 
 ```idris
-msf : MSF MI Ev (Event ())
-msf =
-  when
-    (is Reload)
-    (valueOf natIn >>> validate ^>> observeWith (leftInvalid natIn))
-  ->- ifRight ->> arrM (reactimateInDomIni 0 . btnsSF)
+count : MSF MI Ev (Either String PosNat)
+count = valueOf natIn >>> validate ^>> observeWith (leftInvalid natIn)
+
+msf : MSF MI Ev ()
+msf =   fan [count, is Reload]
+    >>> rightOnEvent
+    >>> ifEvent (arrM (reactimateInDomIni 0 . btnsSF))
 
 export
 ui : MI (MSF MI Ev ())

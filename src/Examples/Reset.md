@@ -139,13 +139,13 @@ The actual controlling MSF is a simple state accumulator, the
 output of which will be broadcast to the different dynamic
 elements. `MSF m i o` comes with a `Monoid` implementation if
 `o` is a `Monoid`, so we use `concat` on a list to bundle the data sinks
-(a *sink* is a monadic streaming function that produces no
+(a *sink* is a monadic stream function that produces no
 output of interest):
 
 ```idris
 msf : MSF M Ev ()
 msf =
-  accumulateWith apply 0 >>> concat
+  accumulateWith apply 0 >>> fan_
     [ show     ^>> text out
     , (<= -10) ^>> disabledAt btnDec
     , (>=  10) ^>> disabledAt btnInc
@@ -157,9 +157,9 @@ In the code above, `(>>>)` is sequencing of computations defined in
 `Control.Category` in contrib, `(f ^>> g)` is an alias for
 `arr f >>> g`, that allows us to use pure functions in a sequence of
 computations directly, and `accumulateWith` is one of the looping
-combinators defined for monadic streaming functions. The implementation
+combinators defined for monadic stream functions. The implementation
 of these combinators is pretty simple, so I suggest you have a look
-at the code in the *rhone* library to get a better understanding
+at the code and tutorials in the *rhone* library to get a better understanding
 of what's going on under the hood. The data sinks `text` and `disabled`
 are defined in module `Rhone.JS.Sink`. They merely use `arrM` to
 lift the corresponding effectful computations from the idris2-dom
@@ -168,7 +168,7 @@ library to the MSF context.
 Finally, we put everything together in a single effectful
 computation: Applying the CSS rules, setting up the HTML
 content and registering all necessary event listeners,
-and returning the streaming function.
+and returning the stream function.
 
 ```idris
 export
@@ -179,7 +179,7 @@ ui = do
   pure msf
 ```
 
-### Some Background: Running Monadic Streaming Functions
+### Some Background: Running Monadic Stream Functions
 
 We will now have a closer look at how the machinery in the background
 operates. The first piece of functionality for understanding what's going

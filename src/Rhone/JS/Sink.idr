@@ -41,9 +41,9 @@ text ref = arr Text >>> rawInnerHtml {ev = ()} ref
 export
 attribute :  LiftJSIO m
           => (name : String)
-          -> MSF m (ElemRef t, Maybe String) ()
+          -> MSF m (NP I [ElemRef t, Maybe String]) ()
 attribute name =
-  arrM $ \(MkRef {tag} _ id, m) => liftJSIO $ do
+  arrM $ \[MkRef {tag} _ id, m] => liftJSIO $ do
     el <- strictGetElementById {t = Element} tag id
     case m of
       Just s  => setAttribute el name s
@@ -51,18 +51,22 @@ attribute name =
 
 ||| Sets the attribute of the given name at the given target element.
 export
-attribute_ : LiftJSIO m => (name : String) -> MSF m (ElemRef t, String) ()
-attribute_ name = mapSnd Just ^>> attribute name
+attribute_ :  LiftJSIO m
+           => (name : String)
+           -> MSF m (NP I [ElemRef t, String]) ()
+attribute_ name = (\[a,b] => [a,Just b]) ^>> attribute name
 
 ||| Sets or unsets the boolean attribute of the given name at
 ||| the given target element.
 export
-boolAttribute : LiftJSIO m => (name : String) -> MSF m (ElemRef t, Bool) ()
-boolAttribute name = mapSnd (`toMaybe` "") ^>> attribute name
+boolAttribute :  LiftJSIO m
+              => (name : String)
+              -> MSF m (NP I [ElemRef t, Bool]) ()
+boolAttribute name = (\[a,b] => [a,toMaybe b ""]) ^>> attribute name
 
 ||| Sets or unsets the `disabled` attribute of the given element.
 export %inline
-disabled : LiftJSIO m => MSF m (ElemRef t, Bool) ()
+disabled : LiftJSIO m => MSF m (NP I [ElemRef t, Bool]) ()
 disabled = boolAttribute "disabled"
 
 ||| Sets or unsets the `disabled` attribute of the given element.

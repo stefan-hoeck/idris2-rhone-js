@@ -168,7 +168,7 @@ reactimateDom_ ie pre mkMSF idRef = do
   let handle : ev -> JSIO ()
       handle = \e => do
         sf1      <- readIORef sfRef
-        (_, sf2) <- runDom (step e sf1) env
+        (_, sf2) <- runDom (step sf1 e) env
         writeIORef sfRef sf2
 
   -- we need to register the correct event handler, otherwise
