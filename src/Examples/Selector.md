@@ -10,6 +10,7 @@ First some imports:
 module Examples.Selector
 
 import Examples.CSS
+import Examples.Fractals
 import Examples.Performance
 import Examples.Reset
 import Rhone.JS
@@ -80,6 +81,7 @@ content =
               [ classes [widget, exampleSelector], onChange id]
               [ option [ value "reset", selected True ] ["Counting Clicks"]
               , option [ value "performance" ] ["Performance"]
+              , option [ value "fractals" ] ["Fractals"]
               ]
           ]
       , div [id exampleDiv.id, class widgetList] []
@@ -161,14 +163,20 @@ directly from within an MSF.
 Enough talk, here's the code:
 
 ```idris
+msf : MSF MSel String ()
+msf = feedback (pure ())
+    $ par [arrM liftJSIO, arrM select] >>^ (\[_,cl] => [cl,()])
+  where select : String -> MSel (JSIO ())
+        select "reset"       = reactimateInDomIni (const 0) Reset.ui
+        select "performance" = reactimateInDom Performance.ui
+        select "fractals"    = reactimateInDom Fractals.ui
+        select _             = pure (pure ())
+
 export
-ui : MSel (MSF MSel String ())
+ui : MSel (MSF MSel String (), JSIO ())
 ui = do
   innerHtmlAt contentDiv content
-  pure . arrM $
-    \case "reset"       => reactimateInDomIni (const 0) Reset.ui
-          "performance" => reactimateInDom Performance.ui
-          _             => pure ()
+  pure (msf, pure ())
 ```
 
 I'll quickliy break this down a bit: The first line,

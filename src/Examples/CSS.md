@@ -20,7 +20,7 @@ import Text.CSS
 ### IDs and Classes
 
 The `rhone.html` document at the project root defines two
-entry points for out single-page web page: A `style` element
+entry points for our single-page web page: A `style` element
 in the header, where our CSS rules go, and the body element,
 where the content of our web page goes. We typically refer
 to HTML elements via `ElemRef` values
@@ -232,6 +232,8 @@ coreCSS =
       , BorderColor     .= All comp100
       , Color           .= darker_grey
       , FontSize        .= Large
+      , Padding         .= px 5
+      , Margin          .= px 5
       ]
 
   , Pseudo (class widget) Hover !!

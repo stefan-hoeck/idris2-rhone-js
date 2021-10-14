@@ -29,7 +29,7 @@ import Rhone.JS
 
 covering
 main : IO ()
-main = runJS $ reactimateDomIni "reset" "select" ui
+main = runJS . ignore $ reactimateDomIni "reset" "select" ui
 ```
 
 This just imports and runs the user interface `ui` defined in module

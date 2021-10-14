@@ -172,11 +172,11 @@ and returning the stream function.
 
 ```idris
 export
-ui : M (MSF M Ev ())
+ui : M (MSF M Ev (), JSIO ())
 ui = do
   applyCSS $ coreCSS ++ css
   innerHtmlAt exampleDiv content
-  pure msf
+  pure (msf, pure ())
 ```
 
 ### Some Background: Running Monadic Stream Functions

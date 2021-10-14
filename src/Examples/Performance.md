@@ -115,6 +115,7 @@ css =
 
   , class numButtons !!
       [ Margin          .= pt 5
+      , Padding         .= pt 5
       , TextAlign       .= End
       , Width           .= perc 20
       ]
@@ -267,13 +268,13 @@ buttons, add them to the UI and display the time taken
 to do so:
 
 ```idris
-btnsSF : PosNat -> MB (MSF MB Nat ())
+btnsSF : PosNat -> MB (MSF MB Nat (), JSIO ())
 btnsSF n = do
   t1 <- primIO prim__time
   innerHtmlAt buttons (btns n)
   t2 <- primIO prim__time
   rawInnerHtmlAt time (dispTime n.fst $ t2 - t1)
-  pure sumNats
+  pure (sumNats, pure ())
 ```
 
 ```idris
@@ -283,12 +284,12 @@ count = valueOf natIn >>> validate ^>> observeWith (leftInvalid natIn)
 msf : MSF MI Ev ()
 msf =   fan [count, is Reload]
     >>> rightOnEvent
-    >>> ifEvent (arrM (reactimateInDomIni 0 . btnsSF))
+    >>> ifEvent (arrM (ignore . reactimateInDomIni 0 . btnsSF))
 
 export
-ui : MI (MSF MI Ev ())
+ui : MI (MSF MI Ev (), JSIO ())
 ui = do
   applyCSS $ coreCSS ++ css
   innerHtmlAt exampleDiv content
-  pure $ ignore msf
+  pure $ (ignore msf, pure ())
 ```
