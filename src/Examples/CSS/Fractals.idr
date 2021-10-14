@@ -20,6 +20,10 @@ export
 txtIter : ElemRef HTMLInputElement
 txtIter = MkRef Input "fractals_iterations"
 
+export
+txtRedraw : ElemRef HTMLInputElement
+txtRedraw = MkRef Input "fractals_redrawdelay"
+
 --------------------------------------------------------------------------------
 --          Rules
 --------------------------------------------------------------------------------
@@ -28,13 +32,23 @@ export
 css : List Rule
 css =
   [ id txtIter.id !!
-      [ Margin          .= pt 5
+      [ Margin          .= px 5
       , TextAlign       .= End
       , Width           .= perc 20
       ]
 
+  , id txtRedraw.id !!
+      [ Margin          .= px 5
+      , TextAlign       .= End
+      , Width           .= perc 20
+      ]
+
+  , id btnRun.id !!
+      [ Width           .= perc 10
+      ]
+
   , id out.id !!
       [ Flex            .= "1"
-      , Margin          .= pt 5
+      , Margin          .= px 5
       ]
   ]
