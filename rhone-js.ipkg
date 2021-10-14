@@ -11,22 +11,15 @@ depends    = base      >= 0.5.1
 
 opts       = "--codegen javascript"
 
-main       = Examples.Main
-executable = "rhonejs.js"
-
 modules    = Control.Monad.Dom
            , Control.Monad.Dom.DomIO
            , Control.Monad.Dom.Event
            , Control.Monad.Dom.Interface
 
-           , Examples.CSS
-           , Examples.Performance
-           , Examples.Reset
-           , Examples.Selector
-
            , Rhone.JS
            , Rhone.JS.Sink
            , Rhone.JS.Source
+           , Rhone.JS.Input
 
            , Text.CSS
            , Text.CSS.Color

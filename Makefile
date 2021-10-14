@@ -2,8 +2,10 @@ export IDRIS2 ?= idris2
 
 lib_pkg = rhone-js.ipkg
 
+doc_pkg = doc.ipkg
+
 .PHONY: all
-all: lib
+all: lib doc
 
 .PHONY: clean-install
 clean-install: clean install
@@ -15,8 +17,12 @@ clean-install-with-src: clean install
 lib:
 	${IDRIS2} --build ${lib_pkg}
 
+.PHONY: doc
+doc:
+	${IDRIS2} --build ${doc_pkg}
+
 .PHONY: page
-page: lib
+page: doc
 	cp build/exec/rhonejs.js js/rhonejs.js
 
 .PHONY: install
@@ -30,9 +36,13 @@ install-with-src:
 .PHONY: clean
 clean:
 	${IDRIS2} --clean ${lib_pkg}
-	${IDRIS2} --clean ${docs_pkg}
+	${IDRIS2} --clean ${doc_pkg}
 	${RM} -r build
 
 .PHONY: develop
 develop:
 	find -regextype posix-extended -regex ".*\.(idr|md)" | entr -d idris2 --typecheck ${lib_pkg}
+
+.PHONY: develop-doc
+develop-doc:
+	find -regextype posix-extended -regex ".*\.(idr|md)" | entr -d idris2 --typecheck ${doc_pkg}

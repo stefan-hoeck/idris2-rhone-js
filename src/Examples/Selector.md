@@ -10,6 +10,7 @@ First some imports:
 module Examples.Selector
 
 import Examples.CSS
+import Examples.Fractals
 import Examples.Performance
 import Examples.Reset
 import Rhone.JS
@@ -77,9 +78,10 @@ content =
       , div [class contentHeader]
           [ label [class widgetLabel] ["Choose an Example"]
           , select
-              [ classes [widget, exampleSelector], onChange id]
+              [ classes [widget, selectIn, exampleSelector], onChange id]
               [ option [ value "reset", selected True ] ["Counting Clicks"]
               , option [ value "performance" ] ["Performance"]
+              , option [ value "fractals" ] ["Fractals"]
               ]
           ]
       , div [id exampleDiv.id, class widgetList] []
@@ -161,14 +163,21 @@ directly from within an MSF.
 Enough talk, here's the code:
 
 ```idris
+msf : MSF MSel String ()
+msf = feedback (pure ())
+    $ par [arrM liftJSIO, arrM select] >>^ (\[_,cl] => [cl,()])
+  where select : String -> MSel (JSIO ())
+        select "reset"       = reactimateInDomIni (const 0) Reset.ui
+        select "performance" = reactimateInDom Performance.ui
+        select "fractals"    = reactimateInDom Fractals.ui
+        select _             = pure (pure ())
+
 export
-ui : MSel (MSF MSel String ())
+ui : MSel (MSF MSel String (), JSIO ())
 ui = do
+  rawInnerHtmlAt appStyle allRules
   innerHtmlAt contentDiv content
-  pure . arrM $
-    \case "reset"       => reactimateInDomIni (const 0) Reset.ui
-          "performance" => reactimateInDom Performance.ui
-          _             => pure ()
+  pure (msf, pure ())
 ```
 
 I'll quickliy break this down a bit: The first line,
@@ -190,7 +199,7 @@ use `arrM` to lift an effectful computation to the MSF context.
 This is just a pattern match on our event type (`String`), which consists
 of the values fired by the select element. If the value is one we
 know about, we start the corresponding user interface, again
-by invoking the mysterious `reactimateDom` function. This
+by invoking the mysterious `reactimateInDom` function. This
 is where the other half of the magic happens, but that's for
 another post.
 
