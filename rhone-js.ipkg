@@ -20,6 +20,7 @@ modules    = Control.Monad.Dom
            , Control.Monad.Dom.Interface
 
            , Examples.CSS
+           , Examples.Fractals
            , Examples.Performance
            , Examples.Reset
            , Examples.Selector

@@ -81,6 +81,7 @@ export
 mapEvent : {0 a : _} -> (ev1 -> ev2) -> DomIO ev1 io a -> DomIO ev2 io a
 mapEvent f (MkDom runDom) = MkDom $ runDom . contramap f
 
+export
 env : Monad m => DomIO ev m (DomEnv ev)
 env = MkDom pure
 
@@ -134,9 +135,9 @@ LiftJSIO io => MonadDom ev (DomIO ev io) where
 -- idPrefix: prefix for uniqe ids
 reactimateDom_ :  (initialEvent : Maybe ev)
                -> (idPrefix     : String)
-               -> DomIO ev JSIO (MSF (DomIO ev JSIO) ev ())
+               -> DomIO ev JSIO (MSF (DomIO ev JSIO) ev (), JSIO ())
                -> (idRef        : IORef Nat)
-               -> JSIO ()
+               -> JSIO (JSIO ())
 reactimateDom_ ie pre mkMSF idRef = do
 
   -- here we will put the properevent handler, once everyting
@@ -154,12 +155,12 @@ reactimateDom_ ie pre mkMSF idRef = do
   -- this will typically set up (a part of) the visible
   -- user interface, hence the need for `env` with its
   -- event handler and ability to generate unique IDs
-  sf    <- mkMSF.runDom env
+  (sf,cl) <- mkMSF.runDom env
 
   -- the current application state consists of the current
   -- monadic streaming function, which will be stored in a
   -- mutable ref
-  sfRef <- newIORef sf
+  sfRef  <- newIORef sf
 
   -- we can now implement the *real* event handler:
   -- when an event is being fired, we evaluate the current
@@ -178,6 +179,8 @@ reactimateDom_ ie pre mkMSF idRef = do
   -- finally, we run the initial event (if any)
   traverse_ handle ie
 
+  pure cl
+
 ||| Sets up an event handler to invoke the given `MSF`
 ||| whenever the handler is called with a new event
 ||| value.
@@ -187,8 +190,8 @@ reactimateDom_ ie pre mkMSF idRef = do
 ||| the MSF with an initial event, use `reactimateDomIni`.
 export %inline
 reactimateDom : (idPrefix : String)
-              -> DomIO ev JSIO (MSF (DomIO ev JSIO) ev ())
-              -> JSIO ()
+              -> DomIO ev JSIO (MSF (DomIO ev JSIO) ev (), JSIO ())
+              -> JSIO (JSIO ())
 reactimateDom pre sf = newIORef 0 >>= reactimateDom_ Nothing pre sf
 
 ||| Sets up an event handler to invoke the given `MSF`
@@ -198,8 +201,8 @@ reactimateDom pre sf = newIORef 0 >>= reactimateDom_ Nothing pre sf
 ||| Uses the ID prefix and unique counter generator from
 ||| the calling `DomIO` environment.
 export %inline
-reactimateInDom :  DomIO ev JSIO (MSF (DomIO ev JSIO) ev ())
-                -> DomIO ev2 JSIO ()
+reactimateInDom :  DomIO ev JSIO (MSF (DomIO ev JSIO) ev (), JSIO ())
+                -> DomIO ev2 JSIO (JSIO ())
 reactimateInDom sf =
   MkDom $ \env => reactimateDom_ Nothing env.pre sf env.unique
 
@@ -214,8 +217,8 @@ reactimateInDom sf =
 export %inline
 reactimateDomIni :  ev
                  -> (idPrefix : String)
-                 -> DomIO ev JSIO (MSF (DomIO ev JSIO) ev ())
-                 -> JSIO ()
+                 -> DomIO ev JSIO (MSF (DomIO ev JSIO) ev (), JSIO ())
+                 -> JSIO (JSIO ())
 reactimateDomIni e pre sf =
   newIORef 0 >>= reactimateDom_ (Just e) pre sf
 
@@ -230,7 +233,7 @@ reactimateDomIni e pre sf =
 ||| to properly setup all components.
 export %inline
 reactimateInDomIni :  ev
-                   -> DomIO ev JSIO (MSF (DomIO ev JSIO) ev ())
-                   -> DomIO ev2 JSIO ()
+                   -> DomIO ev JSIO (MSF (DomIO ev JSIO) ev (), JSIO())
+                   -> DomIO ev2 JSIO (JSIO ())
 reactimateInDomIni v sf =
   MkDom $ \env => reactimateDom_ (Just v) env.pre sf env.unique
