@@ -205,8 +205,8 @@ const _substr = (o,l,x) => x.slice(o, o + l)
 
 const Web_Dom_prim__document = (()=>document);
 const Prelude_Types_fastUnpack = ((str)=>__prim_js2idris_array(Array.from(str)));
-const Prelude_Types_fastPack = ((xs)=>__prim_idris2js_array(xs).join(''));
-const Prelude_Types_fastConcat = ((xs)=>__prim_idris2js_array(xs).join(''));
+const Prelude_Types_fastPack = ((xs)=>''.concat(...__prim_idris2js_array(xs)));
+const Prelude_Types_fastConcat = ((xs)=>''.concat(...__prim_idris2js_array(xs)));
 const JS_Util_prim__typeOf = (v=>typeof(v));
 const JS_Util_prim__show = (x=>String(x));
 const JS_Util_prim__eqv = ((a,b)=>a === b?1:0);
@@ -310,7 +310,7 @@ function Text_Html_Attribute_getId($0) {
  return __tailRec(x24tcOpt_8, {h: 1, a1: $0});
 }
 
-function x24tcOpt_6($0) {
+function x24tcOpt_5($0) {
  switch($0.a2.h) {
   case 0: return {h: 0, a1: {h: 0}};
   case undefined: {
@@ -324,10 +324,10 @@ function x24tcOpt_6($0) {
 }
 
 function Data_List_mapMaybe($0, $1) {
- return __tailRec(x24tcOpt_6, {h: 1, a1: $0, a2: $1});
+ return __tailRec(x24tcOpt_5, {h: 1, a1: $0, a2: $1});
 }
 
-function x24tcOpt_11($0) {
+function x24tcOpt_7($0) {
  switch($0.a2.h) {
   case 0: return {h: 0, a1: $0.a1};
   case undefined: return {h: 1, a1: {a1: $0.a2.a1, a2: $0.a1}, a2: $0.a2.a2};
@@ -335,10 +335,10 @@ function x24tcOpt_11($0) {
 }
 
 function Prelude_Types_List_reverseOnto($0, $1) {
- return __tailRec(x24tcOpt_11, {h: 1, a1: $0, a2: $1});
+ return __tailRec(x24tcOpt_7, {h: 1, a1: $0, a2: $1});
 }
 
-function x24tcOpt_4($0) {
+function x24tcOpt_2($0) {
  switch($0.a1.h) {
   case 0: return {h: 0, a1: 1};
   case undefined: {
@@ -351,7 +351,7 @@ function x24tcOpt_4($0) {
 }
 
 function Data_SOP_NP_x3dx3d_Eq_x28x28x28NP_x20x24kx29x20x24fx29x20x24ksx29($0, $1, $2) {
- return __tailRec(x24tcOpt_4, {h: 1, a1: $0, a2: $1, a3: $2});
+ return __tailRec(x24tcOpt_2, {h: 1, a1: $0, a2: $1, a3: $2});
 }
 
 function x24tcOpt_10($0) {
@@ -376,17 +376,6 @@ function Data_SOP_NS_x3dx3d_Eq_x28x28x28NS_x20x24kx29x20x24fx29x20x24ksx29($0, $
  return __tailRec(x24tcOpt_10, {h: 1, a1: $0, a2: $1, a3: $2});
 }
 
-function x24tcOpt_3($0) {
- switch($0.a3.h) {
-  case 0: return {h: 0, a1: $0.a2};
-  case undefined: return {h: 1, a1: $0.a1, a2: $0.a1($0.a2)($0.a3.a1), a3: $0.a3.a2};
- }
-}
-
-function Prelude_Types_foldl_Foldable_List($0, $1, $2) {
- return __tailRec(x24tcOpt_3, {h: 1, a1: $0, a2: $1, a3: $2});
-}
-
 function x24tcOpt_9($0) {
  switch($0.a2.h) {
   case 0: return {h: 0, a1: $0.a1};
@@ -399,22 +388,22 @@ function x24tcOpt_9($0) {
  }
 }
 
-function Text_Html_Attribute_n__3201_1181_go($0, $1) {
+function Text_Html_Attribute_n__3149_1133_go($0, $1) {
  return __tailRec(x24tcOpt_9, {h: 1, a1: $0, a2: $1});
 }
 
-function x24tcOpt_2($0) {
+function x24tcOpt_1($0) {
  switch($0.a3.h) {
   case undefined: return {h: 1, a1: $0.a1, a2: {a1: Text_Html_Node_render($0.a3.a1), a2: $0.a2}, a3: $0.a3.a2};
   case 0: return {h: 0, a1: Prelude_Types_fastConcat(Prelude_Types_List_reverse($0.a2))};
  }
 }
 
-function Text_Html_Node_n__11078_2894_go($0, $1, $2) {
- return __tailRec(x24tcOpt_2, {h: 1, a1: $0, a2: $1, a3: $2});
+function Text_Html_Node_n__11072_2894_go($0, $1, $2) {
+ return __tailRec(x24tcOpt_1, {h: 1, a1: $0, a2: $1, a3: $2});
 }
 
-function x24tcOpt_7($0) {
+function x24tcOpt_6($0) {
  switch($0.a4) {
   case 0n: return {h: 0, a1: Prelude_Types_List_reverse($0.a3)};
   default: {
@@ -424,22 +413,22 @@ function x24tcOpt_7($0) {
  }
 }
 
-function Data_List_TR_n__3142_2253_run($0, $1, $2, $3, $4) {
- return __tailRec(x24tcOpt_7, {h: 1, a1: $0, a2: $1, a3: $2, a4: $3, a5: $4});
+function Data_List_TR_n__3136_2253_run($0, $1, $2, $3, $4) {
+ return __tailRec(x24tcOpt_6, {h: 1, a1: $0, a2: $1, a3: $2, a4: $3, a5: $4});
 }
 
-function x24tcOpt_5($0) {
+function x24tcOpt_4($0) {
  switch($0.a3.h) {
   case 0: return {h: 0, a1: Prelude_Types_List_reverse($0.a2)};
   case undefined: return {h: 1, a1: $0.a1, a2: {a1: $0.a1($0.a3.a1), a2: $0.a2}, a3: $0.a3.a2};
  }
 }
 
-function Data_List_TR_n__3163_2277_run($0, $1, $2) {
- return __tailRec(x24tcOpt_5, {h: 1, a1: $0, a2: $1, a3: $2});
+function Data_List_TR_n__3157_2277_run($0, $1, $2) {
+ return __tailRec(x24tcOpt_4, {h: 1, a1: $0, a2: $1, a3: $2});
 }
 
-function x24tcOpt_1($0) {
+function x24tcOpt_3($0) {
  const $2 = $0.a3($0.a4)($0.a5)($0.a6);
  switch($2.h) {
   case 1: return {h: 0, a1: $2.a1};
@@ -447,8 +436,8 @@ function x24tcOpt_1($0) {
  }
 }
 
-function Control_MonadRec_n__5341_2172_run($0, $1, $2, $3, $4, $5) {
- return __tailRec(x24tcOpt_1, {h: 1, a1: $0, a2: $1, a3: $2, a4: $3, a5: $4, a6: $5});
+function Control_MonadRec_n__5335_2172_run($0, $1, $2, $3, $4, $5) {
+ return __tailRec(x24tcOpt_3, {h: 1, a1: $0, a2: $1, a3: $2, a4: $3, a5: $4, a6: $5});
 }
 
 const __mainExpression_0 = __lazy(function () {
@@ -516,197 +505,210 @@ const csegen_37 = __lazy(function () {
 });
 
 const csegen_43 = __lazy(function () {
- return {a1: $1 => $1, a2: $3 => ({a1: $3})};
+ return {a1: $1 => JS_Marshall_toFFI_ToFFI_String_String($1), a2: $5 => JS_Marshall_fromFFI_FromFFI_String_String($5)};
 });
 
-const csegen_68 = __lazy(function () {
- return {a1: {a1: acc => elem => func => init => input => Prelude_Types_foldr_Foldable_List(func, init, input), a2: elem => acc => func => init => input => Prelude_Types_foldl_Foldable_List(func, init, input), a3: elem => $c => Prelude_Types_null_Foldable_List($c), a4: elem => acc => m => $10 => funcM => init => input => Prelude_Types_foldlM_Foldable_List($10, funcM, init, input), a5: elem => $17 => $17, a6: a => m => $19 => f => $1a => Prelude_Types_foldMap_Foldable_List($19, f, $1a)}, a2: {a1: $21 => $22 => ($21+$22), a2: ''}};
+const csegen_57 = __lazy(function () {
+ return {a1: $1 => Web_Internal_HtmlTypes_toFFI_ToFFI_MouseEventHandler_MouseEventHandler($1), a2: $5 => Web_Internal_HtmlTypes_fromFFI_FromFFI_MouseEventHandler_MouseEventHandler($5)};
 });
 
-const csegen_112 = __lazy(function () {
+const csegen_72 = __lazy(function () {
+ return {a1: $1 => Web_Internal_HtmlTypes_toFFI_ToFFI_KeyboardEventHandler_KeyboardEventHandler($1), a2: $5 => Web_Internal_HtmlTypes_fromFFI_FromFFI_KeyboardEventHandler_KeyboardEventHandler($5)};
+});
+
+const csegen_98 = __lazy(function () {
  return $0 => $1 => Web_Internal_HtmlTypes_safeCast_SafeCast_HTMLElement($1);
 });
 
-const csegen_123 = __lazy(function () {
+const csegen_109 = __lazy(function () {
  return $0 => $1 => $2 => $3 => Control_Monad_Error_Either_map_Functor_x28x28EitherTx20x24ex29x20x24mx29(csegen_2(), $2, $3);
 });
 
-const csegen_132 = __lazy(function () {
+const csegen_118 = __lazy(function () {
  return {a1: b => a => func => $1 => $2 => Control_Monad_Dom_DomIO_map_Functor_x28x28DomIOx20x24evx29x20x24iox29(csegen_18(), func, $1, $2), a2: a => $a => $b => Control_Monad_Dom_DomIO_pure_Applicative_x28x28DomIOx20x24evx29x20x24iox29(csegen_24(), $a, $b), a3: b => a => $12 => $13 => $14 => Control_Monad_Dom_DomIO_x3cx2ax3e_Applicative_x28x28DomIOx20x24evx29x20x24iox29(csegen_24(), $12, $13, $14)};
 });
 
-const csegen_138 = __lazy(function () {
+const csegen_124 = __lazy(function () {
  return {a1: csegen_24(), a2: b => a => $3 => $4 => Control_Monad_Error_Either_x3ex3ex3d_Monad_x28x28EitherTx20x24ex29x20x24mx29(csegen_15(), $3, $4), a3: a => $b => Control_Monad_Error_Either_join_Monad_x28x28EitherTx20x24ex29x20x24mx29(csegen_15(), $b)};
 });
 
-const csegen_144 = __lazy(function () {
- return {a1: csegen_132(), a2: b => a => $3 => $4 => $5 => Control_Monad_Dom_DomIO_x3ex3ex3d_Monad_x28x28DomIOx20x24evx29x20x24iox29(csegen_138(), $3, $4, $5), a3: a => $d => $e => Control_Monad_Dom_DomIO_join_Monad_x28x28DomIOx20x24evx29x20x24iox29(csegen_138(), $d, $e)};
+const csegen_130 = __lazy(function () {
+ return {a1: csegen_118(), a2: b => a => $3 => $4 => $5 => Control_Monad_Dom_DomIO_x3ex3ex3d_Monad_x28x28DomIOx20x24evx29x20x24iox29(csegen_124(), $3, $4, $5), a3: a => $d => $e => Control_Monad_Dom_DomIO_join_Monad_x28x28DomIOx20x24evx29x20x24iox29(csegen_124(), $d, $e)};
 });
 
-const csegen_145 = __lazy(function () {
- return Control_Monad_Error_Either_pure_Applicative_x28x28EitherTx20x24ex29x20x24mx29(csegen_9(), undefined);
+const csegen_131 = __lazy(function () {
+ return Control_Monad_Error_Either_pure_Applicative_x28x28EitherTx20x24ex29x20x24mx29(csegen_9(), 0);
 });
 
-const csegen_163 = __lazy(function () {
+const csegen_149 = __lazy(function () {
  return {a1: {a1: acc => elem => func => init => input => Prelude_Types_foldr_Foldable_Maybe(func, init, input), a2: elem => acc => func => init => input => Prelude_Types_foldl_Foldable_Maybe(func, init, input), a3: elem => $c => Prelude_Types_null_Foldable_Maybe($c), a4: elem => acc => m => $10 => funcM => init => input => Prelude_Types_foldlM_Foldable_Maybe($10, funcM, init, input), a5: elem => $17 => Prelude_Types_toList_Foldable_Maybe($17), a6: a => m => $1b => f => $1c => Prelude_Types_foldMap_Foldable_Maybe($1b, f, $1c)}, a2: csegen_24()};
 });
 
-const csegen_167 = __lazy(function () {
- return {a1: $1 => $2 => (undefined), a2: undefined};
-});
-
-const csegen_168 = __lazy(function () {
+const csegen_153 = __lazy(function () {
  return $0 => $1 => Web_Internal_HtmlTypes_safeCast_SafeCast_HTMLInputElement($1);
 });
 
-const csegen_170 = __lazy(function () {
- return {a1: csegen_168(), a2: $3 => $4 => Web_Raw_Html_HTMLInputElement_setCustomValidity($3, $4)};
+const csegen_156 = __lazy(function () {
+ return {a1: $1 => $2 => Prelude_Interfaces_x3cx2bx3e_Semigroup_x28x7cUnitx2cMkUnitx7cx29($1, $2), a2: Prelude_Interfaces_neutral_Monoid_x28x7cUnitx2cMkUnitx7cx29()};
 });
 
-const csegen_176 = __lazy(function () {
- return {a1: csegen_132(), a2: b => a => $3 => $4 => $5 => Control_Monad_Dom_DomIO_x3ex3ex3d_Monad_x28x28DomIOx20x24evx29x20x24iox29(csegen_33(), $3, $4, $5), a3: a => $d => $e => Control_Monad_Dom_DomIO_join_Monad_x28x28DomIOx20x24evx29x20x24iox29(csegen_33(), $d, $e)};
+const csegen_164 = __lazy(function () {
+ return {a1: csegen_118(), a2: b => a => $3 => $4 => $5 => Control_Monad_Dom_DomIO_x3ex3ex3d_Monad_x28x28DomIOx20x24evx29x20x24iox29(csegen_33(), $3, $4, $5), a3: a => $d => $e => Control_Monad_Dom_DomIO_join_Monad_x28x28DomIOx20x24evx29x20x24iox29(csegen_33(), $d, $e)};
 });
 
-const csegen_179 = __lazy(function () {
- return {a1: csegen_176(), a2: a => $3 => $4 => Control_Monad_Dom_DomIO_liftIO_HasIO_x28x28DomIOx20x24evx29x20x24iox29(csegen_37(), $3, $4)};
+const csegen_167 = __lazy(function () {
+ return {a1: csegen_164(), a2: a => $3 => $4 => Control_Monad_Dom_DomIO_liftIO_HasIO_x28x28DomIOx20x24evx29x20x24iox29(csegen_37(), $3, $4)};
 });
 
-const csegen_180 = __lazy(function () {
+const csegen_168 = __lazy(function () {
  return {a1: csegen_37(), a2: a => $3 => $3};
 });
 
-const csegen_183 = __lazy(function () {
- return {a1: csegen_179(), a2: a => $3 => $4 => Control_Monad_Dom_DomIO_liftJSIO_LiftJSIO_x28x28DomIOx20x24evx29x20x24iox29(csegen_180(), $3, $4)};
+const csegen_171 = __lazy(function () {
+ return {a1: csegen_167(), a2: a => $3 => $4 => Control_Monad_Dom_DomIO_liftJSIO_LiftJSIO_x28x28DomIOx20x24evx29x20x24iox29(csegen_168(), $3, $4)};
 });
 
-const csegen_202 = __lazy(function () {
- return {a1: csegen_144(), a2: b => st => a => rel => step => seed => ini => prf => $3 => Control_Monad_Dom_DomIO_tailRecM_MonadRec_x28x28DomIOx20x24ex29x20x24iox29({a1: csegen_138(), a2: $9 => $a => $b => $c => $d => $e => $f => $10 => Control_MonadRec_tailRecM_MonadRec_x28x28EitherTx20x24ex29x20x24mx29({a1: csegen_15(), a2: $16 => $17 => $18 => $19 => $1a => $1b => $1c => $1d => $1e => Control_MonadRec_n__5341_2172_run($1b, $1c, $1a, $1b, $1c, $1e)}, $d, $e, $f)}, step, seed, ini, $3)};
+const csegen_190 = __lazy(function () {
+ return {a1: csegen_130(), a2: b => st => a => rel => step => seed => ini => prf => $3 => Control_Monad_Dom_DomIO_tailRecM_MonadRec_x28x28DomIOx20x24ex29x20x24iox29({a1: csegen_124(), a2: $9 => $a => $b => $c => $d => $e => $f => $10 => Control_MonadRec_tailRecM_MonadRec_x28x28EitherTx20x24ex29x20x24mx29({a1: csegen_15(), a2: $16 => $17 => $18 => $19 => $1a => $1b => $1c => $1d => $1e => Control_MonadRec_trIO($1a, $1b, $1c, $1e)}, $d, $e, $f)}, step, seed, ini, $3)};
 });
 
-const csegen_205 = __lazy(function () {
- return {a1: csegen_176(), a2: $3 => Control_Monad_Dom_DomIO_createId($3), a3: t => $7 => $8 => $9 => Control_Monad_Dom_DomIO_registerImpl($7, $8, $9)};
+const csegen_193 = __lazy(function () {
+ return {a1: csegen_164(), a2: $3 => Control_Monad_Dom_DomIO_createId($3), a3: t => $7 => $8 => $9 => Control_Monad_Dom_DomIO_registerImpl($7, $8, $9)};
 });
 
-const csegen_222 = __lazy(function () {
- return {a1: {h: 1, a1: 'class', a2: 'widgetlabel'}, a2: {h: 0}};
+const csegen_210 = __lazy(function () {
+ return {a1: {h: 1, a1: 'class', a2: Examples_CSS_Core_widgetLabel()}, a2: {h: 0}};
 });
 
-const csegen_224 = __lazy(function () {
+const csegen_212 = __lazy(function () {
  return $0 => Prelude_Types_fastConcat(Data_List_intersperse(' ', $0));
 });
 
-const csegen_246 = __lazy(function () {
- return {a1: {h: 1, a1: 'class', a2: 'widgetList'}, a2: {h: 0}};
+const csegen_234 = __lazy(function () {
+ return {a1: {h: 1, a1: 'class', a2: Examples_CSS_Core_widgetList()}, a2: {h: 0}};
 });
 
-const csegen_264 = __lazy(function () {
- return Rhone_JS_Sink_boolAttribute(csegen_183(), 'disabled');
+const csegen_252 = __lazy(function () {
+ return Rhone_JS_Sink_boolAttribute(csegen_171(), 'disabled');
 });
 
-const csegen_282 = __lazy(function () {
- return {a1: {h: 1, a1: 'class', a2: 'widgetline'}, a2: {h: 0}};
+const csegen_270 = __lazy(function () {
+ return {a1: {h: 1, a1: 'class', a2: Examples_CSS_Core_widgetLine()}, a2: {h: 0}};
 });
 
-const csegen_292 = __lazy(function () {
+const csegen_280 = __lazy(function () {
  const $0 = Examples_CSS_Reset_out();
  return $0.a3;
 });
 
-const csegen_308 = __lazy(function () {
+const csegen_296 = __lazy(function () {
  return {a1: 19, a2: {h: 0, a1: {h: 0, a1: 5}}};
 });
 
-const csegen_309 = __lazy(function () {
+const csegen_297 = __lazy(function () {
  return {a1: {a1: 26, a2: {h: 1, a1: 10}}, a2: {h: 0}};
 });
 
-const csegen_320 = __lazy(function () {
+const csegen_310 = __lazy(function () {
  return {a1: 16, a2: {h: 1, a1: Number(_truncUBigInt32(100n))}};
 });
 
-const csegen_345 = __lazy(function () {
+const csegen_335 = __lazy(function () {
  return {a1: 3, a2: {h: 4, a1: Examples_CSS_Colors_base80()}};
 });
 
-const csegen_346 = __lazy(function () {
+const csegen_336 = __lazy(function () {
  return {a1: 19, a2: {h: 4, a1: {h: 1, a1: 40}}};
 });
 
-const csegen_369 = __lazy(function () {
+const csegen_358 = __lazy(function () {
+ return {a1: 24, a2: {h: 0, a1: {h: 1, a1: 5}}};
+});
+
+const csegen_359 = __lazy(function () {
  return {a1: 19, a2: {h: 0, a1: {h: 1, a1: 5}}};
 });
 
-const csegen_370 = __lazy(function () {
- return {a1: csegen_369(), a2: {h: 0}};
+const csegen_360 = __lazy(function () {
+ return {a1: csegen_359(), a2: {h: 0}};
 });
 
-const csegen_382 = __lazy(function () {
+const csegen_373 = __lazy(function () {
  return {a1: {a1: 2, a2: Examples_CSS_Colors_lightest_grey()}, a2: {a1: {a1: 3, a2: {h: 0, a1: Examples_CSS_Colors_comp60()}}, a2: {h: 0}}};
 });
 
-const csegen_389 = __lazy(function () {
+const csegen_382 = __lazy(function () {
  return {a1: {a1: 25, a2: 1}, a2: {h: 0}};
 });
 
-const csegen_408 = __lazy(function () {
+const csegen_402 = __lazy(function () {
  return {a1: {a1: 26, a2: {h: 1, a1: 20}}, a2: {h: 0}};
 });
 
-const csegen_461 = __lazy(function () {
+const csegen_456 = __lazy(function () {
  return {a1: {h: 0}, a2: {a1: {h: 0}, a2: {h: 0}}};
 });
 
-const csegen_485 = __lazy(function () {
+const csegen_461 = __lazy(function () {
+ return {h: 2, a1: $1 => Data_Either_isLeft($1)};
+});
+
+const csegen_476 = __lazy(function () {
+ const $0 = Examples_CSS_Performance_btnRun();
+ return $0.a3;
+});
+
+const csegen_481 = __lazy(function () {
+ return {a1: Text_Html_Attribute_dispAttr('class', csegen_212(), {a1: Examples_CSS_Core_widget(), a2: {a1: Examples_CSS_Core_btn(), a2: {h: 0}}}), a2: {h: 0}};
+});
+
+const csegen_488 = __lazy(function () {
  const $0 = Examples_CSS_Performance_out();
  return $0.a3;
 });
 
-const csegen_504 = __lazy(function () {
+const csegen_507 = __lazy(function () {
  return $0 => Control_Monad_Dom_DomIO_liftIO_HasIO_x28x28DomIOx20x24evx29x20x24iox29(csegen_37(), $5 => Examples_Performance_prim__time($5), $0);
 });
 
-const csegen_513 = __lazy(function () {
- return {a1: {a1: 25, a2: 1}, a2: csegen_408()};
+const csegen_517 = __lazy(function () {
+ return {a1: {a1: 25, a2: 1}, a2: csegen_402()};
 });
 
-const csegen_531 = __lazy(function () {
- return {a1: Prelude_Show_show_Show_Integer(18n), a2: {h: 0}};
+const csegen_518 = __lazy(function () {
+ return {a1: csegen_359(), a2: csegen_517()};
 });
 
-const csegen_570 = __lazy(function () {
+const csegen_569 = __lazy(function () {
+ return x => 0;
+});
+
+const csegen_572 = __lazy(function () {
  return {h: 1, a1: {h: 1, a1: {h: 1, a1: {h: 0, a1: {h: 0}}}}};
 });
 
-const csegen_581 = __lazy(function () {
- return {a1: {a1: $2 => $3 => Prelude_EqOrd_x3dx3d_Eq_String($2, $3), a2: $8 => $9 => Prelude_EqOrd_x2fx3d_Eq_String($8, $9)}, a2: {h: 0}};
+const csegen_582 = __lazy(function () {
+ return {a1: {a1: Examples_Fractals_implEqFractal(), a2: {h: 0}}, a2: {a1: {h: 0}, a2: {a1: {h: 0}, a2: csegen_456()}}};
 });
 
-const csegen_584 = __lazy(function () {
- return {a1: {a1: Examples_Fractals_implEqFractal(), a2: {h: 0}}, a2: {a1: csegen_581(), a2: {a1: csegen_581(), a2: csegen_461()}}};
-});
-
-const csegen_588 = __lazy(function () {
+const csegen_586 = __lazy(function () {
  const $0 = Examples_CSS_Fractals_txtIter();
  return $0.a3;
 });
 
-const csegen_602 = __lazy(function () {
+const csegen_599 = __lazy(function () {
  const $0 = Examples_CSS_Fractals_txtRedraw();
  return $0.a3;
 });
 
-const csegen_611 = __lazy(function () {
+const csegen_607 = __lazy(function () {
  const $0 = Examples_CSS_Fractals_btnRun();
  return $0.a3;
 });
 
-const csegen_623 = __lazy(function () {
+const csegen_616 = __lazy(function () {
  const $0 = Examples_CSS_Fractals_out();
  return $0.a3;
-});
-
-const csegen_634 = __lazy(function () {
- return {a1: csegen_369(), a2: csegen_513()};
 });
 
 function prim__add_Integer($0, $1) {
@@ -722,7 +724,7 @@ function prim__mul_Integer($0, $1) {
 }
 
 function Examples_Main_main($0) {
- return JS_Util_runJS(Control_Monad_Error_Either_map_Functor_x28x28EitherTx20x24ex29x20x24mx29(csegen_2(), $7 => (undefined), Control_Monad_Error_Either_x3ex3ex3d_Monad_x28x28EitherTx20x24ex29x20x24mx29(csegen_15(), Data_IORef_newIORef(csegen_37(), Prelude_Types_prim__integerToNat(0n)), $14 => Control_Monad_Dom_DomIO_reactimateDom_({a1: 'reset'}, 'select', Examples_Selector_ui(), $14))), $0);
+ return JS_Util_runJS(Control_Monad_Error_Either_map_Functor_x28x28EitherTx20x24ex29x20x24mx29(csegen_2(), $7 => 0, Control_Monad_Error_Either_x3ex3ex3d_Monad_x28x28EitherTx20x24ex29x20x24mx29(csegen_15(), Data_IORef_newIORef(csegen_37(), Prelude_Types_fromInteger_Num_Nat(0n)), $14 => Control_Monad_Dom_DomIO_reactimateDom_({a1: 'reset'}, 'select', Examples_Selector_ui(), $14))), $0);
 }
 
 function Web_Dom_getElementById($0) {
@@ -735,6 +737,10 @@ const Web_Dom_document = __lazy(function () {
 
 function Web_Dom_castElementById_($0, $1) {
  return Control_Monad_Error_Either_map_Functor_x28x28EitherTx20x24ex29x20x24mx29(csegen_2(), $6 => Prelude_Types_x3ex3ex3d_Monad_Maybe($6, $a => $0(undefined)($a)), Web_Dom_getElementById($1));
+}
+
+function Web_Dom_castElementById($0, $1) {
+ return Web_Dom_castElementById_($0, $1);
 }
 
 function Web_Raw_Dom_Element_setAttribute($0, $1, $2) {
@@ -750,11 +756,15 @@ function Web_Raw_Dom_InnerHTML_innerHTML($0) {
 }
 
 function Web_Raw_Dom_NonElementParentNode_getElementById($0, $1) {
- return JS_Marshall_tryJS($4 => JS_Nullable_fromFFI_FromFFI_x28Maybex20x24ax29_x28Nullablex20x24bx29($7 => ({a1: $7}), $4), () => 'NonElementParentNode.getElementById', $c => Web_Internal_DomPrim_NonElementParentNode_prim__getElementById(Builtin_believe_me($0), $1, $c));
+ return JS_Marshall_tryJS($4 => JS_Nullable_fromFFI_FromFFI_x28Maybex20x24ax29_x28Nullablex20x24bx29($7 => Web_Internal_DomTypes_fromFFI_FromFFI_Element_Element($7), $4), () => 'NonElementParentNode.getElementById', $d => Web_Internal_DomPrim_NonElementParentNode_prim__getElementById(Builtin_believe_me($0), $1, $d));
 }
 
 function Prelude_Basics_flip($0, $1, $2) {
  return $0($2)($1);
+}
+
+function Prelude_Basics_apply($0, $1) {
+ return $0($1);
 }
 
 function Builtin_snd($0) {
@@ -780,13 +790,6 @@ function Prelude_Types_null_Foldable_Maybe($0) {
  }
 }
 
-function Prelude_Types_null_Foldable_List($0) {
- switch($0.h) {
-  case 0: return () => 1;
-  case undefined: return () => 0;
- }
-}
-
 function Prelude_Types_map_Functor_Maybe($0, $1) {
  switch($1.h) {
   case undefined: return {a1: $0($1.a1)};
@@ -801,17 +804,14 @@ function Prelude_Types_map_Functor_List($0, $1) {
  }
 }
 
+function Prelude_Types_fromInteger_Num_Nat($0) {
+ return Prelude_Types_prim__integerToNat($0);
+}
+
 function Prelude_Types_foldr_Foldable_Maybe($0, $1, $2) {
  switch($2.h) {
   case 0: return $1;
   case undefined: return $0($2.a1)($1);
- }
-}
-
-function Prelude_Types_foldr_Foldable_List($0, $1, $2) {
- switch($2.h) {
-  case 0: return $1;
-  case undefined: return $0($2.a1)(Prelude_Types_foldr_Foldable_List($0, $1, $2.a2));
  }
 }
 
@@ -823,16 +823,12 @@ function Prelude_Types_foldlM_Foldable_Maybe($0, $1, $2, $3) {
  return Prelude_Types_foldl_Foldable_Maybe(ma => b => $0.a2(undefined)(undefined)(ma)($f => Prelude_Basics_flip($1, b, $f)), $0.a1.a2(undefined)($2), $3);
 }
 
-function Prelude_Types_foldlM_Foldable_List($0, $1, $2, $3) {
- return Prelude_Types_foldl_Foldable_List(ma => b => $0.a2(undefined)(undefined)(ma)($f => Prelude_Basics_flip($1, b, $f)), $0.a1.a2(undefined)($2), $3);
-}
-
 function Prelude_Types_foldMap_Foldable_Maybe($0, $1, $2) {
  return Prelude_Types_foldr_Foldable_Maybe($5 => $6 => $0.a1($1($5))($6), $0.a2, $2);
 }
 
-function Prelude_Types_foldMap_Foldable_List($0, $1, $2) {
- return Prelude_Types_foldl_Foldable_List(acc => elem => $0.a1(acc)($1(elem)), $0.a2, $2);
+function Prelude_Types_compare_Ord_Nat($0, $1) {
+ return Prelude_EqOrd_compareInteger($0, $1);
 }
 
 function Prelude_Types_x3ex3ex3d_Monad_Maybe($0, $1) {
@@ -842,8 +838,20 @@ function Prelude_Types_x3ex3ex3d_Monad_Maybe($0, $1) {
  }
 }
 
+function Prelude_Types_x3dx3d_Eq_Nat($0, $1) {
+ return (($0===$1)?1:0);
+}
+
+function Prelude_Types_x2b_Num_Nat($0, $1) {
+ return ($0+$1);
+}
+
 function Prelude_Types_List_tailRecAppend($0, $1) {
  return Prelude_Types_List_reverseOnto($1, Prelude_Types_List_reverse($0));
+}
+
+function Prelude_Types_strCons($0, $1) {
+ return ($0+$1);
 }
 
 function Prelude_Types_List_reverse($0) {
@@ -866,7 +874,11 @@ function Prelude_Types_prim__integerToNat($0) {
 }
 
 function Prelude_Types_pow($0, $1) {
- return Math.exp(($1*Math.log($0)));
+ return Prelude_Types_exp(Prelude_Num_x2a_Num_Double($1, Prelude_Types_log($0)));
+}
+
+function Prelude_Types_ord($0) {
+ return _truncInt32($0.codePointAt(0));
 }
 
 function Prelude_Types_maybe($0, $1, $2) {
@@ -876,11 +888,35 @@ function Prelude_Types_maybe($0, $1, $2) {
  }
 }
 
+function Prelude_Types_log($0) {
+ return Math.log($0);
+}
+
+function Prelude_Types_exp($0) {
+ return Math.exp($0);
+}
+
 function Prelude_Types_either($0, $1, $2) {
  switch($2.h) {
   case 0: return $0()($2.a1);
   case 1: return $1()($2.a1);
  }
+}
+
+function Prelude_Types_chr($0) {
+ return _truncToChar($0);
+}
+
+function Prelude_Types_String_x2bx2b($0, $1) {
+ return ($0+$1);
+}
+
+function Prelude_Num_x2f_Fractional_Double($0, $1) {
+ return ($0/$1);
+}
+
+function Prelude_Num_x2a_Num_Double($0, $1) {
+ return ($0*$1);
 }
 
 function Prelude_EqOrd_compare_Ord_Integer($0, $1) {
@@ -996,13 +1032,6 @@ function Prelude_EqOrd_x3cx3d_Ord_Bits32($0, $1) {
  }
 }
 
-function Prelude_EqOrd_x2fx3d_Eq_String($0, $1) {
- switch(Prelude_EqOrd_x3dx3d_Eq_String($0, $1)) {
-  case 1: return 0;
-  case 0: return 1;
- }
-}
-
 function Prelude_EqOrd_x2fx3d_Eq_Ordering($0, $1) {
  switch(Prelude_EqOrd_x3dx3d_Eq_Ordering($0, $1)) {
   case 1: return 0;
@@ -1017,17 +1046,24 @@ function Prelude_EqOrd_x2fx3d_Eq_Double($0, $1) {
  }
 }
 
+function Prelude_EqOrd_compareInteger($0, $1) {
+ return Prelude_EqOrd_compare_Ord_Integer($0, $1);
+}
+
+const Prelude_Interfaces_neutral_Monoid_x28x7cUnitx2cMkUnitx7cx29 = __lazy(function () {
+ return 0;
+});
+
+function Prelude_Interfaces_x3cx2bx3e_Semigroup_x28x7cUnitx2cMkUnitx7cx29($0, $1) {
+ return 0;
+}
+
 function Prelude_Interfaces_traverse_($0, $1, $2) {
  const $3 = Builtin_fst($0);
  const $19 = Builtin_snd($0);
- const $18 = $19.a2(undefined)(undefined);
+ const $18 = $19.a2(undefined)(0);
  const $6 = $3.a1(undefined)(undefined)($e => $f => Prelude_Interfaces_x2ax3e(Builtin_snd($0), $1($e), $f))($18);
  return $6($2);
-}
-
-function Prelude_Interfaces_concat($0, $1) {
- const $2 = Builtin_fst($0);
- return $2.a6(undefined)(undefined)(Builtin_snd($0))($10 => $10)($1);
 }
 
 function Prelude_Interfaces_x3ex3e($0, $1, $2) {
@@ -1047,11 +1083,19 @@ function Prelude_Interfaces_x24x3e($0, $1, $2) {
 }
 
 function PrimIO_unsafePerformIO($0) {
- return PrimIO_unsafeCreateWorld(w => $0(w));
+ return PrimIO_unsafeCreateWorld(w => PrimIO_unsafeDestroyWorld(undefined, $0(w)));
+}
+
+function PrimIO_unsafeDestroyWorld($0, $1) {
+ return $1;
 }
 
 function PrimIO_unsafeCreateWorld($0) {
  return $0(_idrisworld);
+}
+
+function Prelude_Show_show_Show_Nat($0) {
+ return Prelude_Show_show_Show_Integer($0);
 }
 
 function Prelude_Show_show_Show_Integer($0) {
@@ -1106,7 +1150,7 @@ function Prelude_Show_compare_Ord_Prec($0, $1) {
  switch($0.h) {
   case 4: {
    switch($1.h) {
-    case 4: return Prelude_EqOrd_compare_Ord_Integer($0.a1, $1.a1);
+    case 4: return Prelude_Types_compare_Ord_Nat($0.a1, $1.a1);
     default: return Prelude_EqOrd_compare_Ord_Integer(Prelude_Show_precCon($0), Prelude_Show_precCon($1));
    }
   }
@@ -1121,7 +1165,7 @@ function Prelude_Show_x3ex3d_Ord_Prec($0, $1) {
 function Prelude_Show_showParens($0, $1) {
  switch($0) {
   case 0: return $1;
-  case 1: return ('('+($1+')'));
+  case 1: return Prelude_Types_String_x2bx2b('(', Prelude_Types_String_x2bx2b($1, ')'));
  }
 }
 
@@ -1166,7 +1210,31 @@ function Prelude_IO_map_Functor_IO($0, $1, $2) {
 }
 
 function Prelude_Cast_cast_Cast_String_Nat($0) {
- return Prelude_Types_prim__integerToNat(_bigIntOfString($0));
+ return Prelude_Types_prim__integerToNat(Prelude_Cast_cast_Cast_String_Integer($0));
+}
+
+function Prelude_Cast_cast_Cast_String_Integer($0) {
+ return _bigIntOfString($0);
+}
+
+function Prelude_Cast_cast_Cast_String_Bits32($0) {
+ return _truncUInt32(_intOfString($0));
+}
+
+function Prelude_Cast_cast_Cast_Nat_Double($0) {
+ return Number($0);
+}
+
+function Prelude_Cast_cast_Cast_Nat_Bits8($0) {
+ return Prelude_Cast_cast_Cast_Integer_Bits8($0);
+}
+
+function Prelude_Cast_cast_Cast_Integer_Bits8($0) {
+ return Number(_truncUBigInt8($0));
+}
+
+function Prelude_Cast_cast_Cast_Bits8_Int($0) {
+ return $0;
 }
 
 function JS_Util_typeof($0) {
@@ -1196,8 +1264,8 @@ function JS_Util_doubleToBool($0) {
 
 function JS_Util_dispErr($0) {
  switch($0.h) {
-  case 1: return Prelude_Interfaces_concat(csegen_68(), {a1: 'Error when casting a Javascript value in function ', a2: {a1: $0.a1, a2: {a1: '.\n  The value was: ', a2: {a1: JS_Util_jsShow($0.a2), a2: {a1: '.\n  The value\'s type was ', a2: {a1: JS_Util_typeof($0.a2), a2: {a1: '.', a2: {h: 0}}}}}}}});
-  case 2: return Prelude_Interfaces_concat(csegen_68(), {a1: 'Trying to extract a value from Nothing at ', a2: {a1: $0.a1, a2: {h: 0}}});
+  case 1: return Prelude_Types_String_x2bx2b('Error when casting a Javascript value in function ', Prelude_Types_String_x2bx2b($0.a1, Prelude_Types_String_x2bx2b('.\n  The value was: ', Prelude_Types_String_x2bx2b(JS_Util_jsShow($0.a2), Prelude_Types_String_x2bx2b('.\n  The value\'s type was ', Prelude_Types_String_x2bx2b(JS_Util_typeof($0.a2), '.'))))));
+  case 2: return Prelude_Types_String_x2bx2b('Trying to extract a value from Nothing at ', $0.a1);
   case 0: return $0.a1;
  }
 }
@@ -1217,6 +1285,10 @@ function Control_Monad_Error_Interface_throwError_MonadError_x24e_x28x28EitherTx
  return $0.a1.a2(undefined)({h: 0, a1: $1});
 }
 
+function Data_Bits_fromNat($0, $1) {
+ return $0;
+}
+
 function Data_Nat_succNotLTEzero($0) {
  _crashExp('No clauses');
 }
@@ -1233,16 +1305,12 @@ function Data_Nat_isLTE($0, $1) {
      const $f = Data_Nat_isLTE($4, $c);
      switch($f.h) {
       case 1: return {h: 1, a1: $14 => $f.a1(Data_Nat_fromLteSucc($14))};
-      case 0: return {h: 0, a1: ($f.a1+1n)};
+      case 0: return {h: 0, a1: (1n+$f.a1)};
      }
     }
    }
   }
  }
-}
-
-function Data_Nat_isLT($0, $1) {
- return Data_Nat_isLTE(($0+1n), $1);
 }
 
 function Data_Nat_fromLteSucc($0) {
@@ -1325,6 +1393,14 @@ function Control_Monad_Error_Either_x3cx2ax3e_Applicative_x28x28EitherTx20x24ex2
  return $4($2);
 }
 
+function JS_Marshall_toFFI_ToFFI_String_String($0) {
+ return $0;
+}
+
+function JS_Marshall_fromFFI_FromFFI_String_String($0) {
+ return {a1: $0};
+}
+
 function JS_Marshall_tryJS($0, $1, $2) {
  return Control_Monad_Error_Either_x3ex3ex3d_Monad_x28x28EitherTx20x24ex29x20x24mx29(csegen_15(), Control_Monad_Error_Either_liftIO_HasIO_x28x28EitherTx20x24ex29x20x24mx29(csegen_34(), $2), $c => JS_Marshall_tryFromFFI($0, $1, $c));
 }
@@ -1344,15 +1420,15 @@ function JS_Inheritance_unsafeCastOnPrototypeName($0, $1) {
  }
 }
 
-function Data_String_n__2948_2537_unlinesx27($0) {
+function Data_String_n__2942_2537_unlinesx27($0) {
  switch($0.h) {
   case 0: return {h: 0};
-  case undefined: return {a1: $0.a1, a2: {a1: '\n', a2: Data_String_n__2948_2537_unlinesx27($0.a2)}};
+  case undefined: return {a1: $0.a1, a2: {a1: '\n', a2: Data_String_n__2942_2537_unlinesx27($0.a2)}};
  }
 }
 
 function Data_String_singleton($0) {
- return ($0+'');
+ return Prelude_Types_strCons($0, '');
 }
 
 function Data_String_null($0) {
@@ -1360,7 +1436,7 @@ function Data_String_null($0) {
 }
 
 function Data_String_fastUnlines($0) {
- return Prelude_Types_fastConcat(Data_String_n__2948_2537_unlinesx27($0));
+ return Prelude_Types_fastConcat(Data_String_n__2942_2537_unlinesx27($0));
 }
 
 function Data_SOP_SOP_x3dx3d_Eq_x28x28x28SOP_x20x24kx29x20x24fx29x20x24kssx29($0, $1, $2) {
@@ -1412,8 +1488,12 @@ const JS_Nullable_null = __lazy(function () {
  return Builtin_believe_me(JS_Nullable_prim__null());
 });
 
+function JS_Nullable_nonNull($0) {
+ return Builtin_believe_me($0);
+}
+
 function JS_Nullable_maybeToNullable($0) {
- return Prelude_Types_maybe(() => JS_Nullable_null(), () => $5 => Builtin_believe_me($5), $0);
+ return Prelude_Types_maybe(() => JS_Nullable_null(), () => $5 => JS_Nullable_nonNull($5), $0);
 }
 
 function JS_Nullable_isNull($0) {
@@ -1430,6 +1510,10 @@ function JS_Boolean_fromFFI_FromFFI_Bool_Boolean($0) {
    }
   }
  }
+}
+
+function JS_Any_toFFI_ToFFI_Any_AnyPtr($0) {
+ return Builtin_believe_me($0);
 }
 
 function JS_Attribute_to($0, $1) {
@@ -1463,8 +1547,28 @@ function JS_Attribute_fromNullablePrim($0, $1, $2, $3, $4) {
  return {h: 1, a1: JS_Marshall_tryJS($8 => JS_Nullable_fromFFI_FromFFI_x28Maybex20x24ax29_x28Nullablex20x24bx29(Builtin_snd($0), $8), () => $1, $2($4)), a2: a => Control_Monad_Error_Either_liftIO_HasIO_x28x28EitherTx20x24ex29x20x24mx29(csegen_34(), $3($4)(JS_Nullable_toFFI_ToFFI_x28Maybex20x24ax29_x28Nullablex20x24bx29(Builtin_fst($0), a)))};
 }
 
+function JS_Attribute_x2ex3d($0, $1) {
+ return JS_Attribute_set($0, $1);
+}
+
 function JS_Attribute_x21x3e($0, $1, $2) {
  return Control_Monad_Error_Either_x3ex3ex3d_Monad_x28x28EitherTx20x24ex29x20x24mx29(csegen_15(), $0($2), $a => JS_Attribute_set($1, $a));
+}
+
+function Web_Internal_HtmlTypes_toFFI_ToFFI_MouseEventHandler_MouseEventHandler($0) {
+ return $0;
+}
+
+function Web_Internal_HtmlTypes_toFFI_ToFFI_KeyboardEventHandler_KeyboardEventHandler($0) {
+ return $0;
+}
+
+function Web_Internal_HtmlTypes_toFFI_ToFFI_InputEventHandler_InputEventHandler($0) {
+ return $0;
+}
+
+function Web_Internal_HtmlTypes_toFFI_ToFFI_EventHandlerNonNull_EventHandlerNonNull($0) {
+ return $0;
 }
 
 function Web_Internal_HtmlTypes_safeCast_SafeCast_HTMLInputElement($0) {
@@ -1475,11 +1579,31 @@ function Web_Internal_HtmlTypes_safeCast_SafeCast_HTMLElement($0) {
  return JS_Inheritance_unsafeCastOnPrototypeName('HTMLElement', $0);
 }
 
+function Web_Internal_HtmlTypes_fromFFI_FromFFI_MouseEventHandler_MouseEventHandler($0) {
+ return {a1: $0};
+}
+
+function Web_Internal_HtmlTypes_fromFFI_FromFFI_KeyboardEventHandler_KeyboardEventHandler($0) {
+ return {a1: $0};
+}
+
+function Web_Internal_HtmlTypes_fromFFI_FromFFI_InputEventHandler_InputEventHandler($0) {
+ return {a1: $0};
+}
+
+function Web_Internal_HtmlTypes_fromFFI_FromFFI_EventHandlerNonNull_EventHandlerNonNull($0) {
+ return {a1: $0};
+}
+
 function Web_Internal_DomTypes_safeCast_SafeCast_Element($0) {
  return JS_Inheritance_unsafeCastOnPrototypeName('Element', $0);
 }
 
-function Text_Html_Node_n__10976_2788_esc($0) {
+function Web_Internal_DomTypes_fromFFI_FromFFI_Element_Element($0) {
+ return {a1: $0};
+}
+
+function Text_Html_Node_n__10970_2788_esc($0) {
  switch($0) {
   case '<': return '&lt;';
   case '>': return '&gt;';
@@ -1502,19 +1626,19 @@ function Text_Html_Node_render($0) {
  switch($0.h) {
   case 1: return $0.a1;
   case 2: return Text_Html_Node_escape($0.a1);
-  case 0: return Prelude_Interfaces_concat(csegen_68(), {a1: '<', a2: {a1: $0.a1, a2: {a1: Text_Html_Node_attrs($0.a3), a2: {a1: '>', a2: {a1: Text_Html_Node_n__11078_2894_go($0, {h: 0}, $0.a4), a2: {a1: '</', a2: {a1: $0.a1, a2: {a1: '>', a2: {h: 0}}}}}}}}});
+  case 0: return Prelude_Types_String_x2bx2b('<', Prelude_Types_String_x2bx2b($0.a1, Prelude_Types_String_x2bx2b(Text_Html_Node_attrs($0.a3), Prelude_Types_String_x2bx2b('>', Prelude_Types_String_x2bx2b(Text_Html_Node_n__11072_2894_go($0, {h: 0}, $0.a4), Prelude_Types_String_x2bx2b('</', Prelude_Types_String_x2bx2b($0.a1, '>')))))));
  }
 }
 
 function Text_Html_Node_escape($0) {
- return Prelude_Types_fastConcat(Prelude_Types_map_Functor_List($5 => Text_Html_Node_n__10976_2788_esc($5), Prelude_Types_fastUnpack($0)));
+ return Prelude_Types_fastConcat(Prelude_Types_map_Functor_List($5 => Text_Html_Node_n__10970_2788_esc($5), Prelude_Types_fastUnpack($0)));
 }
 
 function Text_Html_Node_attrs($0) {
  const $1 = Text_Html_Attribute_displayAttributes($0);
  switch(Data_String_null($1)) {
   case 1: return '';
-  case 0: return (' '+$1);
+  case 0: return Prelude_Types_String_x2bx2b(' ', $1);
  }
 }
 
@@ -1531,7 +1655,7 @@ function Text_Html_Attribute_onChange($0) {
 }
 
 function Text_Html_Attribute_getEvents($0) {
- return Text_Html_Attribute_n__3201_1181_go({h: 0}, $0);
+ return Text_Html_Attribute_n__3149_1133_go({h: 0}, $0);
 }
 
 function Text_Html_Attribute_displayAttributes($0) {
@@ -1540,8 +1664,8 @@ function Text_Html_Attribute_displayAttributes($0) {
 
 function Text_Html_Attribute_displayAttribute($0) {
  switch($0.h) {
-  case 0: return {a1: Prelude_Interfaces_concat(csegen_68(), {a1: 'id=\"', a2: {a1: $0.a1, a2: {a1: '\"', a2: {h: 0}}}})};
-  case 1: return {a1: Prelude_Interfaces_concat(csegen_68(), {a1: $0.a1, a2: {a1: '=\"', a2: {a1: $0.a2, a2: {a1: '\"', a2: {h: 0}}}}})};
+  case 0: return {a1: Prelude_Types_String_x2bx2b('id=\"', Prelude_Types_String_x2bx2b($0.a1, '\"'))};
+  case 1: return {a1: Prelude_Types_String_x2bx2b($0.a1, Prelude_Types_String_x2bx2b('=\"', Prelude_Types_String_x2bx2b($0.a2, '\"')))};
   case 2: {
    switch($0.a2) {
     case 1: return {a1: $0.a1};
@@ -1577,7 +1701,7 @@ function Web_Html_callback_Callback_InputEventHandler_x28x25pix20RigWx20Explicit
 }
 
 function Web_Html_callback_Callback_EventHandlerNonNull_x28x25pix20RigWx20Explicitx20Nothingx20Eventx20x28JSIOx20x28x7cUnitx2cMkUnitx7cx29x29x29($0) {
- return Web_Raw_Html_EventHandlerNonNull_toEventHandlerNonNull($3 => $4 => Prelude_IO_map_Functor_IO($7 => Builtin_believe_me($7), $b => JS_Util_runJS($0($3), $b), $4));
+ return Web_Raw_Html_EventHandlerNonNull_toEventHandlerNonNull($3 => $4 => Prelude_IO_map_Functor_IO($7 => JS_Any_toFFI_ToFFI_Any_AnyPtr($7), $b => JS_Util_runJS($0($3), $b), $4));
 }
 
 function Web_Raw_Html_HTMLInputElement_value($0) {
@@ -1605,64 +1729,71 @@ function Web_Raw_Html_HTMLInputElement_setCustomValidity($0, $1) {
 }
 
 function Web_Raw_Html_GlobalEventHandlers_onmouseup($0) {
- return JS_Attribute_fromNullablePrim(csegen_43(), 'GlobalEventHandlers.getonmouseup', $6 => $7 => Web_Internal_HtmlPrim_GlobalEventHandlers_prim__onmouseup($6, $7), $c => $d => $e => Web_Internal_HtmlPrim_GlobalEventHandlers_prim__setOnmouseup($c, $d, $e), Builtin_believe_me($0));
+ return JS_Attribute_fromNullablePrim(csegen_57(), 'GlobalEventHandlers.getonmouseup', $6 => $7 => Web_Internal_HtmlPrim_GlobalEventHandlers_prim__onmouseup($6, $7), $c => $d => $e => Web_Internal_HtmlPrim_GlobalEventHandlers_prim__setOnmouseup($c, $d, $e), Builtin_believe_me($0));
 }
 
 function Web_Raw_Html_GlobalEventHandlers_onmouseover($0) {
- return JS_Attribute_fromNullablePrim(csegen_43(), 'GlobalEventHandlers.getonmouseover', $6 => $7 => Web_Internal_HtmlPrim_GlobalEventHandlers_prim__onmouseover($6, $7), $c => $d => $e => Web_Internal_HtmlPrim_GlobalEventHandlers_prim__setOnmouseover($c, $d, $e), Builtin_believe_me($0));
+ return JS_Attribute_fromNullablePrim(csegen_57(), 'GlobalEventHandlers.getonmouseover', $6 => $7 => Web_Internal_HtmlPrim_GlobalEventHandlers_prim__onmouseover($6, $7), $c => $d => $e => Web_Internal_HtmlPrim_GlobalEventHandlers_prim__setOnmouseover($c, $d, $e), Builtin_believe_me($0));
 }
 
 function Web_Raw_Html_GlobalEventHandlers_onmouseout($0) {
- return JS_Attribute_fromNullablePrim(csegen_43(), 'GlobalEventHandlers.getonmouseout', $6 => $7 => Web_Internal_HtmlPrim_GlobalEventHandlers_prim__onmouseout($6, $7), $c => $d => $e => Web_Internal_HtmlPrim_GlobalEventHandlers_prim__setOnmouseout($c, $d, $e), Builtin_believe_me($0));
+ return JS_Attribute_fromNullablePrim(csegen_57(), 'GlobalEventHandlers.getonmouseout', $6 => $7 => Web_Internal_HtmlPrim_GlobalEventHandlers_prim__onmouseout($6, $7), $c => $d => $e => Web_Internal_HtmlPrim_GlobalEventHandlers_prim__setOnmouseout($c, $d, $e), Builtin_believe_me($0));
 }
 
 function Web_Raw_Html_GlobalEventHandlers_onmousemove($0) {
- return JS_Attribute_fromNullablePrim(csegen_43(), 'GlobalEventHandlers.getonmousemove', $6 => $7 => Web_Internal_HtmlPrim_GlobalEventHandlers_prim__onmousemove($6, $7), $c => $d => $e => Web_Internal_HtmlPrim_GlobalEventHandlers_prim__setOnmousemove($c, $d, $e), Builtin_believe_me($0));
+ return JS_Attribute_fromNullablePrim(csegen_57(), 'GlobalEventHandlers.getonmousemove', $6 => $7 => Web_Internal_HtmlPrim_GlobalEventHandlers_prim__onmousemove($6, $7), $c => $d => $e => Web_Internal_HtmlPrim_GlobalEventHandlers_prim__setOnmousemove($c, $d, $e), Builtin_believe_me($0));
 }
 
 function Web_Raw_Html_GlobalEventHandlers_onmouseleave($0) {
- return JS_Attribute_fromNullablePrim(csegen_43(), 'GlobalEventHandlers.getonmouseleave', $6 => $7 => Web_Internal_HtmlPrim_GlobalEventHandlers_prim__onmouseleave($6, $7), $c => $d => $e => Web_Internal_HtmlPrim_GlobalEventHandlers_prim__setOnmouseleave($c, $d, $e), Builtin_believe_me($0));
+ return JS_Attribute_fromNullablePrim(csegen_57(), 'GlobalEventHandlers.getonmouseleave', $6 => $7 => Web_Internal_HtmlPrim_GlobalEventHandlers_prim__onmouseleave($6, $7), $c => $d => $e => Web_Internal_HtmlPrim_GlobalEventHandlers_prim__setOnmouseleave($c, $d, $e), Builtin_believe_me($0));
 }
 
 function Web_Raw_Html_GlobalEventHandlers_onmouseenter($0) {
- return JS_Attribute_fromNullablePrim(csegen_43(), 'GlobalEventHandlers.getonmouseenter', $6 => $7 => Web_Internal_HtmlPrim_GlobalEventHandlers_prim__onmouseenter($6, $7), $c => $d => $e => Web_Internal_HtmlPrim_GlobalEventHandlers_prim__setOnmouseenter($c, $d, $e), Builtin_believe_me($0));
+ return JS_Attribute_fromNullablePrim(csegen_57(), 'GlobalEventHandlers.getonmouseenter', $6 => $7 => Web_Internal_HtmlPrim_GlobalEventHandlers_prim__onmouseenter($6, $7), $c => $d => $e => Web_Internal_HtmlPrim_GlobalEventHandlers_prim__setOnmouseenter($c, $d, $e), Builtin_believe_me($0));
 }
 
 function Web_Raw_Html_GlobalEventHandlers_onmousedown($0) {
- return JS_Attribute_fromNullablePrim(csegen_43(), 'GlobalEventHandlers.getonmousedown', $6 => $7 => Web_Internal_HtmlPrim_GlobalEventHandlers_prim__onmousedown($6, $7), $c => $d => $e => Web_Internal_HtmlPrim_GlobalEventHandlers_prim__setOnmousedown($c, $d, $e), Builtin_believe_me($0));
+ return JS_Attribute_fromNullablePrim(csegen_57(), 'GlobalEventHandlers.getonmousedown', $6 => $7 => Web_Internal_HtmlPrim_GlobalEventHandlers_prim__onmousedown($6, $7), $c => $d => $e => Web_Internal_HtmlPrim_GlobalEventHandlers_prim__setOnmousedown($c, $d, $e), Builtin_believe_me($0));
 }
 
 function Web_Raw_Html_GlobalEventHandlers_onkeyup($0) {
- return JS_Attribute_fromNullablePrim(csegen_43(), 'GlobalEventHandlers.getonkeyup', $6 => $7 => Web_Internal_HtmlPrim_GlobalEventHandlers_prim__onkeyup($6, $7), $c => $d => $e => Web_Internal_HtmlPrim_GlobalEventHandlers_prim__setOnkeyup($c, $d, $e), Builtin_believe_me($0));
+ return JS_Attribute_fromNullablePrim(csegen_72(), 'GlobalEventHandlers.getonkeyup', $6 => $7 => Web_Internal_HtmlPrim_GlobalEventHandlers_prim__onkeyup($6, $7), $c => $d => $e => Web_Internal_HtmlPrim_GlobalEventHandlers_prim__setOnkeyup($c, $d, $e), Builtin_believe_me($0));
 }
 
 function Web_Raw_Html_GlobalEventHandlers_onkeydown($0) {
- return JS_Attribute_fromNullablePrim(csegen_43(), 'GlobalEventHandlers.getonkeydown', $6 => $7 => Web_Internal_HtmlPrim_GlobalEventHandlers_prim__onkeydown($6, $7), $c => $d => $e => Web_Internal_HtmlPrim_GlobalEventHandlers_prim__setOnkeydown($c, $d, $e), Builtin_believe_me($0));
+ return JS_Attribute_fromNullablePrim(csegen_72(), 'GlobalEventHandlers.getonkeydown', $6 => $7 => Web_Internal_HtmlPrim_GlobalEventHandlers_prim__onkeydown($6, $7), $c => $d => $e => Web_Internal_HtmlPrim_GlobalEventHandlers_prim__setOnkeydown($c, $d, $e), Builtin_believe_me($0));
 }
 
 function Web_Raw_Html_GlobalEventHandlers_oninput($0) {
- return JS_Attribute_fromNullablePrim(csegen_43(), 'GlobalEventHandlers.getoninput', $6 => $7 => Web_Internal_HtmlPrim_GlobalEventHandlers_prim__oninput($6, $7), $c => $d => $e => Web_Internal_HtmlPrim_GlobalEventHandlers_prim__setOninput($c, $d, $e), Builtin_believe_me($0));
+ return JS_Attribute_fromNullablePrim({a1: $4 => Web_Internal_HtmlTypes_toFFI_ToFFI_InputEventHandler_InputEventHandler($4), a2: $8 => Web_Internal_HtmlTypes_fromFFI_FromFFI_InputEventHandler_InputEventHandler($8)}, 'GlobalEventHandlers.getoninput', $d => $e => Web_Internal_HtmlPrim_GlobalEventHandlers_prim__oninput($d, $e), $13 => $14 => $15 => Web_Internal_HtmlPrim_GlobalEventHandlers_prim__setOninput($13, $14, $15), Builtin_believe_me($0));
 }
 
 function Web_Raw_Html_GlobalEventHandlers_ondblclick($0) {
- return JS_Attribute_fromNullablePrim(csegen_43(), 'GlobalEventHandlers.getondblclick', $6 => $7 => Web_Internal_HtmlPrim_GlobalEventHandlers_prim__ondblclick($6, $7), $c => $d => $e => Web_Internal_HtmlPrim_GlobalEventHandlers_prim__setOndblclick($c, $d, $e), Builtin_believe_me($0));
+ return JS_Attribute_fromNullablePrim(csegen_57(), 'GlobalEventHandlers.getondblclick', $6 => $7 => Web_Internal_HtmlPrim_GlobalEventHandlers_prim__ondblclick($6, $7), $c => $d => $e => Web_Internal_HtmlPrim_GlobalEventHandlers_prim__setOndblclick($c, $d, $e), Builtin_believe_me($0));
 }
 
 function Web_Raw_Html_GlobalEventHandlers_onclick($0) {
- return JS_Attribute_fromNullablePrim(csegen_43(), 'GlobalEventHandlers.getonclick', $6 => $7 => Web_Internal_HtmlPrim_GlobalEventHandlers_prim__onclick($6, $7), $c => $d => $e => Web_Internal_HtmlPrim_GlobalEventHandlers_prim__setOnclick($c, $d, $e), Builtin_believe_me($0));
+ return JS_Attribute_fromNullablePrim(csegen_57(), 'GlobalEventHandlers.getonclick', $6 => $7 => Web_Internal_HtmlPrim_GlobalEventHandlers_prim__onclick($6, $7), $c => $d => $e => Web_Internal_HtmlPrim_GlobalEventHandlers_prim__setOnclick($c, $d, $e), Builtin_believe_me($0));
 }
 
 function Web_Raw_Html_GlobalEventHandlers_onchange($0) {
- return JS_Attribute_fromNullablePrim(csegen_43(), 'GlobalEventHandlers.getonchange', $6 => $7 => Web_Internal_HtmlPrim_GlobalEventHandlers_prim__onchange($6, $7), $c => $d => $e => Web_Internal_HtmlPrim_GlobalEventHandlers_prim__setOnchange($c, $d, $e), Builtin_believe_me($0));
+ return JS_Attribute_fromNullablePrim({a1: $4 => Web_Internal_HtmlTypes_toFFI_ToFFI_EventHandlerNonNull_EventHandlerNonNull($4), a2: $8 => Web_Internal_HtmlTypes_fromFFI_FromFFI_EventHandlerNonNull_EventHandlerNonNull($8)}, 'GlobalEventHandlers.getonchange', $d => $e => Web_Internal_HtmlPrim_GlobalEventHandlers_prim__onchange($d, $e), $13 => $14 => $15 => Web_Internal_HtmlPrim_GlobalEventHandlers_prim__setOnchange($13, $14, $15), Builtin_believe_me($0));
 }
 
-function Data_MSF_Util_n__4612_6989_g($0, $1, $2) {
+function Data_MSF_Util_n__5209_7278_next($0, $1, $2) {
+ switch($2.h) {
+  case 0: return {a1: $1, a2: {a1: $0, a2: {h: 0}}};
+  case undefined: return {a1: $2.a2, a2: {a1: $2.a1, a2: {h: 0}}};
+ }
+}
+
+function Data_MSF_Util_n__4926_6989_g($0, $1, $2) {
  const $6 = $1($2.a2.a1)($2.a1);
  return {a1: $6, a2: {a1: $6, a2: {h: 0}}};
 }
 
 function Data_MSF_Util_when_($0) {
- return {h: 2, a1: vi => Data_MSF_Event_toEvent($0(vi), () => (undefined))};
+ return {h: 2, a1: vi => Data_MSF_Event_toEvent($0(vi), () => 0)};
 }
 
 function Data_MSF_Util_unfold($0, $1) {
@@ -1695,7 +1826,7 @@ const Data_MSF_Util_rightOnEvent = __lazy(function () {
 });
 
 function Data_MSF_Util_once($0) {
- return {h: 12, a1: {h: 1, a1: {h: 0, a1: {a1: undefined, a2: {a1: $0}}}}, a2: () => $8 => Data_MSF_Util_never()};
+ return {h: 12, a1: {h: 1, a1: {h: 0, a1: {a1: 0, a2: {a1: $0}}}}, a2: () => $8 => Data_MSF_Util_never()};
 }
 
 function Data_MSF_Util_observeWith($0) {
@@ -1739,8 +1870,12 @@ function Data_MSF_Util_firstArg($0, $1) {
 }
 
 const Data_MSF_Util_event = __lazy(function () {
- return {h: 2, a1: $1 => Data_MSF_Event_event(() => ({h: 1, a1: {h: 0, a1: undefined}}), () => $7 => ({h: 0, a1: $7}), $1)};
+ return {h: 2, a1: $1 => Data_MSF_Event_event(() => ({h: 1, a1: {h: 0, a1: 0}}), () => $7 => ({h: 0, a1: $7}), $1)};
 });
+
+function Data_MSF_Util_cycle($0) {
+ return Data_MSF_Util_unfold($4 => Data_MSF_Util_n__5209_7278_next($0.a1, $0.a2, $4), {a1: $0.a1, a2: $0.a2});
+}
 
 function Data_MSF_Util_bool($0) {
  const $1 = vi => {
@@ -1753,7 +1888,7 @@ function Data_MSF_Util_bool($0) {
 }
 
 function Data_MSF_Util_accumulateWith($0, $1) {
- return {h: 9, a1: $1, a2: {h: 2, a1: $5 => Data_MSF_Util_n__4612_6989_g($1, $0, $5)}};
+ return {h: 9, a1: $1, a2: {h: 2, a1: $5 => Data_MSF_Util_n__4926_6989_g($1, $0, $5)}};
 }
 
 function Data_MSF_Util_x3cx7cx3e($0, $1) {
@@ -1865,7 +2000,7 @@ function Control_Monad_Dom_Interface_case__prepareNode_2489($0, $1, $2, $3, $4, 
  }
 }
 
-function Control_Monad_Dom_Interface_n__14275_2335_go($0, $1, $2, $3, $4) {
+function Control_Monad_Dom_Interface_n__14269_2335_go($0, $1, $2, $3, $4) {
  switch($3.h) {
   case 0: return $0.a1.a1.a2(undefined)({h: 1, a1: {a1: Prelude_Types_List_reverse($4.a1), a2: $4.a2}});
   case undefined: return $0.a1.a2(undefined)(undefined)(Control_Monad_Dom_Interface_prepareNode($0, $1, $3.a1))($22 => $0.a1.a1.a2(undefined)({h: 0, a1: $3.a2, a2: {a1: {a1: $22.a1, a2: $4.a1}, a2: Prelude_Types_List_tailRecAppend($22.a2, $4.a2)}}));
@@ -1875,19 +2010,19 @@ function Control_Monad_Dom_Interface_n__14275_2335_go($0, $1, $2, $3, $4) {
 function Control_Monad_Dom_Interface_strictGetElementById($0, $1, $2) {
  const $a = $b => {
   switch($b.h) {
-   case 0: return Control_Monad_Error_Interface_throwError_MonadError_x24e_x28x28EitherTx20x24ex29x20x24mx29(csegen_15(), {h: 0, a1: Prelude_Interfaces_concat(csegen_68(), {a1: 'Control.Monad.Dom.Interface.strictGetElementById: Could not find ', a2: {a1: $1, a2: {a1: ' with id ', a2: {a1: $2, a2: {h: 0}}}}})});
+   case 0: return Control_Monad_Error_Interface_throwError_MonadError_x24e_x28x28EitherTx20x24ex29x20x24mx29(csegen_15(), {h: 0, a1: Prelude_Types_String_x2bx2b('Control.Monad.Dom.Interface.strictGetElementById: Could not find ', Prelude_Types_String_x2bx2b($1, Prelude_Types_String_x2bx2b(' with id ', $2)))});
    case undefined: return Control_Monad_Error_Either_pure_Applicative_x28x28EitherTx20x24ex29x20x24mx29(csegen_9(), $b.a1);
   }
  };
- return Control_Monad_Error_Either_x3ex3ex3d_Monad_x28x28EitherTx20x24ex29x20x24mx29(csegen_15(), Web_Dom_castElementById_($0, $2), $a);
+ return Control_Monad_Error_Either_x3ex3ex3d_Monad_x28x28EitherTx20x24ex29x20x24mx29(csegen_15(), Web_Dom_castElementById($0, $2), $a);
 }
 
 function Control_Monad_Dom_Interface_rawInnerHtmlAt($0, $1, $2) {
- return $0.a2(undefined)(Control_Monad_Error_Either_x3ex3ex3d_Monad_x28x28EitherTx20x24ex29x20x24mx29(csegen_15(), Control_Monad_Dom_Interface_strictGetElementById(csegen_112(), $1.a1, $1.a3), elem => JS_Attribute_set(Web_Raw_Dom_InnerHTML_innerHTML(elem), $2)));
+ return $0.a2(undefined)(Control_Monad_Error_Either_x3ex3ex3d_Monad_x28x28EitherTx20x24ex29x20x24mx29(csegen_15(), Control_Monad_Dom_Interface_strictGetElementById(csegen_98(), $1.a1, $1.a3), elem => JS_Attribute_x2ex3d(Web_Raw_Dom_InnerHTML_innerHTML(elem), $2)));
 }
 
 function Control_Monad_Dom_Interface_prepareNodes($0, $1, $2) {
- return $1.a2(undefined)(undefined)(undefined)(undefined)($11 => $12 => Control_Monad_Dom_Interface_n__14275_2335_go($0, $1, $2, $11, $12))($2)({a1: {h: 0}, a2: {h: 0}})(undefined);
+ return $1.a2(undefined)(undefined)(undefined)(undefined)($11 => $12 => Control_Monad_Dom_Interface_n__14269_2335_go($0, $1, $2, $11, $12))($2)({a1: {h: 0}, a2: {h: 0}})(undefined);
 }
 
 function Control_Monad_Dom_Interface_prepareNode($0, $1, $2) {
@@ -1899,7 +2034,7 @@ function Control_Monad_Dom_Interface_prepareNode($0, $1, $2) {
 }
 
 function Control_Monad_Dom_Interface_innerHtmlAt($0, $1, $2, $3, $4) {
- return $2.a1.a2(undefined)(undefined)($0.a2(undefined)(Control_Monad_Dom_Interface_strictGetElementById(csegen_112(), $3.a1, $3.a3)))(elem => $2.a1.a2(undefined)(undefined)(Control_Monad_Dom_Interface_prepareNode($2, $1, $4))($28 => Prelude_Interfaces_x3ex3e($2.a1, $0.a2(undefined)(JS_Attribute_set(Web_Raw_Dom_InnerHTML_innerHTML(elem), Text_Html_Node_render($28.a1))), () => Data_Iterable_forM_($3d => $3e => $3f => $40 => $41 => $42 => $43 => $44 => Data_Iterable_iterM_Iterable_x28Listx20x24ax29_x24a($40, $41, $42, $43, $44), $1, x => x, $28.a2))));
+ return $2.a1.a2(undefined)(undefined)($0.a2(undefined)(Control_Monad_Dom_Interface_strictGetElementById(csegen_98(), $3.a1, $3.a3)))(elem => $2.a1.a2(undefined)(undefined)(Control_Monad_Dom_Interface_prepareNode($2, $1, $4))($28 => Prelude_Interfaces_x3ex3e($2.a1, $0.a2(undefined)(JS_Attribute_x2ex3d(Web_Raw_Dom_InnerHTML_innerHTML(elem), Text_Html_Node_render($28.a1))), () => Data_Iterable_forM_($3d => $3e => $3f => $40 => $41 => $42 => $43 => $44 => Data_Iterable_iterM_Iterable_x28Listx20x24ax29_x24a($40, $41, $42, $43, $44), $1, x => x, $28.a2))));
 }
 
 function Control_Monad_Dom_Interface_getRef($0, $1, $2, $3) {
@@ -1914,7 +2049,7 @@ function Control_Monad_Dom_Interface_getElementByRef($0, $1) {
  return Control_Monad_Dom_Interface_strictGetElementById($0, $1.a1, $1.a3);
 }
 
-function Data_Iterable_n__3443_1437_go($0, $1, $2, $3, $4, $5, $6) {
+function Data_Iterable_n__3437_1437_go($0, $1, $2, $3, $4, $5, $6) {
  switch($5.h) {
   case 0: return $0.a1.a1.a2(undefined)({h: 1, a1: $3($6)});
   case undefined: return Prelude_Interfaces_x3cx24x3e($0.a1.a1.a1, $18 => ({h: 0, a1: $5.a2, a2: $18}), $4($5.a1)($6));
@@ -1922,14 +2057,14 @@ function Data_Iterable_n__3443_1437_go($0, $1, $2, $3, $4, $5, $6) {
 }
 
 function Data_Iterable_iterM_Iterable_x28Listx20x24ax29_x24a($0, $1, $2, $3, $4) {
- return $0.a2(undefined)(undefined)(undefined)(undefined)($13 => $14 => Data_Iterable_n__3443_1437_go($0, $4, $3, $2, $1, $13, $14))($4)($3)(undefined);
+ return $0.a2(undefined)(undefined)(undefined)(undefined)($13 => $14 => Data_Iterable_n__3437_1437_go($0, $4, $3, $2, $1, $13, $14))($4)($3)(undefined);
 }
 
 function Data_Iterable_forM_($0, $1, $2, $3) {
- return $0(undefined)(undefined)(undefined)($1)(e => $11 => $2(e))($15 => (undefined))(undefined)($3);
+ return $0(undefined)(undefined)(undefined)($1)(e => $11 => $2(e))($15 => 0)(0)($3);
 }
 
-function Control_MonadRec_n__5720_2558_conv($0, $1, $2, $3, $4) {
+function Control_MonadRec_n__5714_2558_conv($0, $1, $2, $3, $4) {
  switch($4.h) {
   case 0: return {h: 1, a1: {h: 0, a1: $4.a1}};
   case 1: {
@@ -1945,8 +2080,12 @@ function Control_MonadRec_tailRecM_MonadRec_x28x28EitherTx20x24ex29x20x24mx29($0
  return $0.a2(undefined)(undefined)(undefined)(undefined)($12 => $13 => Control_MonadRec_convE($0.a1.a1.a1, $1, $12, $13))($2)($3)(undefined);
 }
 
+function Control_MonadRec_trIO($0, $1, $2, $3) {
+ return Control_MonadRec_n__5335_2172_run($1, $2, $0, $1, $2, $3);
+}
+
 function Control_MonadRec_convE($0, $1, $2, $3) {
- return $0(undefined)(undefined)($b => Control_MonadRec_n__5720_2558_conv($0, $3, $2, $1, $b))($1($2)($3));
+ return $0(undefined)(undefined)($b => Control_MonadRec_n__5714_2558_conv($0, $3, $2, $1, $b))($1($2)($3));
 }
 
 function Control_Monad_Dom_Event_mouseInfo($0) {
@@ -1958,11 +2097,11 @@ function Control_Monad_Dom_Event_keyInfo($0) {
 }
 
 function Control_Monad_Dom_Event_inputInfo($0) {
- return Prelude_Interfaces_x3cx24x3e(csegen_123(), $5 => $5, Control_Monad_Error_Either_liftIO_HasIO_x28x28EitherTx20x24ex29x20x24mx29(csegen_34(), $b => Control_Monad_Dom_Event_prim__input(Builtin_believe_me($0), $b)));
+ return Prelude_Interfaces_x3cx24x3e(csegen_109(), $5 => $5, Control_Monad_Error_Either_liftIO_HasIO_x28x28EitherTx20x24ex29x20x24mx29(csegen_34(), $b => Control_Monad_Dom_Event_prim__input(Builtin_believe_me($0), $b)));
 }
 
 function Control_Monad_Dom_Event_changeInfo($0) {
- return Prelude_Interfaces_x3cx24x3e(csegen_123(), $5 => $5, Control_Monad_Error_Either_liftIO_HasIO_x28x28EitherTx20x24ex29x20x24mx29(csegen_34(), $b => Control_Monad_Dom_Event_prim__input($0, $b)));
+ return Prelude_Interfaces_x3cx24x3e(csegen_109(), $5 => $5, Control_Monad_Error_Either_liftIO_HasIO_x28x28EitherTx20x24ex29x20x24mx29(csegen_34(), $b => Control_Monad_Dom_Event_prim__input($0, $b)));
 }
 
 function Web_Raw_UIEvents_MouseEvent_shiftKey($0) {
@@ -2037,12 +2176,12 @@ function Web_Raw_UIEvents_KeyboardEvent_altKey($0) {
  return JS_Marshall_tryJS($3 => JS_Boolean_fromFFI_FromFFI_Bool_Boolean($3), () => 'KeyboardEvent.altKey', $8 => Web_Internal_UIEventsPrim_KeyboardEvent_prim__altKey($0, $8));
 }
 
-function Control_Monad_Dom_DomIO_n__20136_28069_handle($0, $1, $2, $3, $4, $5, $6, $7, $8, $9, $a) {
- return Control_Monad_Error_Either_x3ex3ex3d_Monad_x28x28EitherTx20x24ex29x20x24mx29(csegen_15(), Control_Monad_Error_Either_liftIO_HasIO_x28x28EitherTx20x24ex29x20x24mx29(csegen_34(), $13 => ($9.value)), sf1 => Control_Monad_Error_Either_x3ex3ex3d_Monad_x28x28EitherTx20x24ex29x20x24mx29(csegen_15(), Data_MSF_Running_step(csegen_144(), sf1, $a)($5), $24 => Control_Monad_Error_Either_liftIO_HasIO_x28x28EitherTx20x24ex29x20x24mx29(csegen_34(), $2a => ($9.value=$24.a2))));
+function Control_Monad_Dom_DomIO_n__20132_28069_handle($0, $1, $2, $3, $4, $5, $6, $7, $8, $9, $a) {
+ return Control_Monad_Error_Either_x3ex3ex3d_Monad_x28x28EitherTx20x24ex29x20x24mx29(csegen_15(), Control_Monad_Error_Either_liftIO_HasIO_x28x28EitherTx20x24ex29x20x24mx29(csegen_34(), $13 => ($9.value)), sf1 => Control_Monad_Error_Either_x3ex3ex3d_Monad_x28x28EitherTx20x24ex29x20x24mx29(csegen_15(), Data_MSF_Running_step(csegen_130(), sf1, $a)($5), $24 => Control_Monad_Error_Either_liftIO_HasIO_x28x28EitherTx20x24ex29x20x24mx29(csegen_34(), $2a => ($9.value=$24.a2))));
 }
 
-function Control_Monad_Dom_DomIO_n__18224_26032_handle($0, $1, $2, $3, $4, $5, $6, $7, $8, $9, $a) {
- return Control_Monad_Error_Either_x3ex3ex3d_Monad_x28x28EitherTx20x24ex29x20x24mx29(csegen_15(), $8($a), $12 => Prelude_Types_maybe(() => csegen_145(), () => $6, $9($12)));
+function Control_Monad_Dom_DomIO_n__18220_26032_handle($0, $1, $2, $3, $4, $5, $6, $7, $8, $9, $a) {
+ return Control_Monad_Error_Either_x3ex3ex3d_Monad_x28x28EitherTx20x24ex29x20x24mx29(csegen_15(), $8($a), $12 => Prelude_Types_maybe(() => csegen_131(), () => $6, $9($12)));
 }
 
 function Control_Monad_Dom_DomIO_tailRecM_MonadRec_x28x28DomIOx20x24ex29x20x24iox29($0, $1, $2, $3, $4) {
@@ -2081,22 +2220,22 @@ function Control_Monad_Dom_DomIO_registerImpl($0, $1, $2) {
  const $e = t => {
   const $f = {a1: $0.a1, a2: $0.a2, a3: $0.a3};
   switch($1.h) {
-   case 12: return JS_Attribute_x21x3e($16 => Web_Html_callback_Callback_InputEventHandler_x28x25pix20RigWx20Explicitx20Nothingx20InputEventx20x28JSIOx20x28x7cUnitx2cMkUnitx7cx29x29x29($16), Web_Raw_Html_GlobalEventHandlers_oninput(t), $1d => Control_Monad_Dom_DomIO_n__18224_26032_handle($2.a1, $2.a2, $0.a1, $0.a2, $0.a3, $f, $2.a3, $1, $28 => Control_Monad_Dom_Event_inputInfo($28), $1.a1, $1d));
-   case 11: return JS_Attribute_x21x3e($2f => Web_Html_callback_Callback_EventHandlerNonNull_x28x25pix20RigWx20Explicitx20Nothingx20Eventx20x28JSIOx20x28x7cUnitx2cMkUnitx7cx29x29x29($2f), Web_Raw_Html_GlobalEventHandlers_onchange(t), $36 => Control_Monad_Dom_DomIO_n__18224_26032_handle($2.a1, $2.a2, $0.a1, $0.a2, $0.a3, $f, $2.a3, $1, $41 => Control_Monad_Dom_Event_changeInfo($41), $1.a1, $36));
-   case 0: return JS_Attribute_x21x3e($48 => Web_Html_callback_Callback_MouseEventHandler_x28x25pix20RigWx20Explicitx20Nothingx20MouseEventx20x28JSIOx20x28x7cUnitx2cMkUnitx7cx29x29x29($48), Web_Raw_Html_GlobalEventHandlers_onclick(t), $4f => Control_Monad_Dom_DomIO_n__18224_26032_handle($2.a1, $2.a2, $0.a1, $0.a2, $0.a3, $f, $2.a3, $1, $5a => Control_Monad_Dom_Event_mouseInfo($5a), $1.a1, $4f));
-   case 1: return JS_Attribute_x21x3e($61 => Web_Html_callback_Callback_MouseEventHandler_x28x25pix20RigWx20Explicitx20Nothingx20MouseEventx20x28JSIOx20x28x7cUnitx2cMkUnitx7cx29x29x29($61), Web_Raw_Html_GlobalEventHandlers_ondblclick(t), $68 => Control_Monad_Dom_DomIO_n__18224_26032_handle($2.a1, $2.a2, $0.a1, $0.a2, $0.a3, $f, $2.a3, $1, $73 => Control_Monad_Dom_Event_mouseInfo($73), $1.a1, $68));
-   case 9: return JS_Attribute_x21x3e($7a => Web_Html_callback_Callback_KeyboardEventHandler_x28x25pix20RigWx20Explicitx20Nothingx20KeyboardEventx20x28JSIOx20x28x7cUnitx2cMkUnitx7cx29x29x29($7a), Web_Raw_Html_GlobalEventHandlers_onkeydown(t), $81 => Control_Monad_Dom_DomIO_n__18224_26032_handle($2.a1, $2.a2, $0.a1, $0.a2, $0.a3, $f, $2.a3, $1, $8c => Control_Monad_Dom_Event_keyInfo($8c), $1.a1, $81));
-   case 10: return JS_Attribute_x21x3e($93 => Web_Html_callback_Callback_KeyboardEventHandler_x28x25pix20RigWx20Explicitx20Nothingx20KeyboardEventx20x28JSIOx20x28x7cUnitx2cMkUnitx7cx29x29x29($93), Web_Raw_Html_GlobalEventHandlers_onkeyup(t), $9a => Control_Monad_Dom_DomIO_n__18224_26032_handle($2.a1, $2.a2, $0.a1, $0.a2, $0.a3, $f, $2.a3, $1, $a5 => Control_Monad_Dom_Event_keyInfo($a5), $1.a1, $9a));
-   case 2: return JS_Attribute_x21x3e($ac => Web_Html_callback_Callback_MouseEventHandler_x28x25pix20RigWx20Explicitx20Nothingx20MouseEventx20x28JSIOx20x28x7cUnitx2cMkUnitx7cx29x29x29($ac), Web_Raw_Html_GlobalEventHandlers_onmousedown(t), $b3 => Control_Monad_Dom_DomIO_n__18224_26032_handle($2.a1, $2.a2, $0.a1, $0.a2, $0.a3, $f, $2.a3, $1, $be => Control_Monad_Dom_Event_mouseInfo($be), $1.a1, $b3));
-   case 3: return JS_Attribute_x21x3e($c5 => Web_Html_callback_Callback_MouseEventHandler_x28x25pix20RigWx20Explicitx20Nothingx20MouseEventx20x28JSIOx20x28x7cUnitx2cMkUnitx7cx29x29x29($c5), Web_Raw_Html_GlobalEventHandlers_onmouseup(t), $cc => Control_Monad_Dom_DomIO_n__18224_26032_handle($2.a1, $2.a2, $0.a1, $0.a2, $0.a3, $f, $2.a3, $1, $d7 => Control_Monad_Dom_Event_mouseInfo($d7), $1.a1, $cc));
-   case 4: return JS_Attribute_x21x3e($de => Web_Html_callback_Callback_MouseEventHandler_x28x25pix20RigWx20Explicitx20Nothingx20MouseEventx20x28JSIOx20x28x7cUnitx2cMkUnitx7cx29x29x29($de), Web_Raw_Html_GlobalEventHandlers_onmouseenter(t), $e5 => Control_Monad_Dom_DomIO_n__18224_26032_handle($2.a1, $2.a2, $0.a1, $0.a2, $0.a3, $f, $2.a3, $1, $f0 => Control_Monad_Dom_Event_mouseInfo($f0), $1.a1, $e5));
-   case 5: return JS_Attribute_x21x3e($f7 => Web_Html_callback_Callback_MouseEventHandler_x28x25pix20RigWx20Explicitx20Nothingx20MouseEventx20x28JSIOx20x28x7cUnitx2cMkUnitx7cx29x29x29($f7), Web_Raw_Html_GlobalEventHandlers_onmouseleave(t), $fe => Control_Monad_Dom_DomIO_n__18224_26032_handle($2.a1, $2.a2, $0.a1, $0.a2, $0.a3, $f, $2.a3, $1, $109 => Control_Monad_Dom_Event_mouseInfo($109), $1.a1, $fe));
-   case 6: return JS_Attribute_x21x3e($110 => Web_Html_callback_Callback_MouseEventHandler_x28x25pix20RigWx20Explicitx20Nothingx20MouseEventx20x28JSIOx20x28x7cUnitx2cMkUnitx7cx29x29x29($110), Web_Raw_Html_GlobalEventHandlers_onmouseover(t), $117 => Control_Monad_Dom_DomIO_n__18224_26032_handle($2.a1, $2.a2, $0.a1, $0.a2, $0.a3, $f, $2.a3, $1, $122 => Control_Monad_Dom_Event_mouseInfo($122), $1.a1, $117));
-   case 7: return JS_Attribute_x21x3e($129 => Web_Html_callback_Callback_MouseEventHandler_x28x25pix20RigWx20Explicitx20Nothingx20MouseEventx20x28JSIOx20x28x7cUnitx2cMkUnitx7cx29x29x29($129), Web_Raw_Html_GlobalEventHandlers_onmouseout(t), $130 => Control_Monad_Dom_DomIO_n__18224_26032_handle($2.a1, $2.a2, $0.a1, $0.a2, $0.a3, $f, $2.a3, $1, $13b => Control_Monad_Dom_Event_mouseInfo($13b), $1.a1, $130));
-   case 8: return JS_Attribute_x21x3e($142 => Web_Html_callback_Callback_MouseEventHandler_x28x25pix20RigWx20Explicitx20Nothingx20MouseEventx20x28JSIOx20x28x7cUnitx2cMkUnitx7cx29x29x29($142), Web_Raw_Html_GlobalEventHandlers_onmousemove(t), $149 => Control_Monad_Dom_DomIO_n__18224_26032_handle($2.a1, $2.a2, $0.a1, $0.a2, $0.a3, $f, $2.a3, $1, $154 => Control_Monad_Dom_Event_mouseInfo($154), $1.a1, $149));
+   case 12: return JS_Attribute_x21x3e($16 => Web_Html_callback_Callback_InputEventHandler_x28x25pix20RigWx20Explicitx20Nothingx20InputEventx20x28JSIOx20x28x7cUnitx2cMkUnitx7cx29x29x29($16), Web_Raw_Html_GlobalEventHandlers_oninput(t), $1d => Control_Monad_Dom_DomIO_n__18220_26032_handle($2.a1, $2.a2, $0.a1, $0.a2, $0.a3, $f, $2.a3, $1, $28 => Control_Monad_Dom_Event_inputInfo($28), $1.a1, $1d));
+   case 11: return JS_Attribute_x21x3e($2f => Web_Html_callback_Callback_EventHandlerNonNull_x28x25pix20RigWx20Explicitx20Nothingx20Eventx20x28JSIOx20x28x7cUnitx2cMkUnitx7cx29x29x29($2f), Web_Raw_Html_GlobalEventHandlers_onchange(t), $36 => Control_Monad_Dom_DomIO_n__18220_26032_handle($2.a1, $2.a2, $0.a1, $0.a2, $0.a3, $f, $2.a3, $1, $41 => Control_Monad_Dom_Event_changeInfo($41), $1.a1, $36));
+   case 0: return JS_Attribute_x21x3e($48 => Web_Html_callback_Callback_MouseEventHandler_x28x25pix20RigWx20Explicitx20Nothingx20MouseEventx20x28JSIOx20x28x7cUnitx2cMkUnitx7cx29x29x29($48), Web_Raw_Html_GlobalEventHandlers_onclick(t), $4f => Control_Monad_Dom_DomIO_n__18220_26032_handle($2.a1, $2.a2, $0.a1, $0.a2, $0.a3, $f, $2.a3, $1, $5a => Control_Monad_Dom_Event_mouseInfo($5a), $1.a1, $4f));
+   case 1: return JS_Attribute_x21x3e($61 => Web_Html_callback_Callback_MouseEventHandler_x28x25pix20RigWx20Explicitx20Nothingx20MouseEventx20x28JSIOx20x28x7cUnitx2cMkUnitx7cx29x29x29($61), Web_Raw_Html_GlobalEventHandlers_ondblclick(t), $68 => Control_Monad_Dom_DomIO_n__18220_26032_handle($2.a1, $2.a2, $0.a1, $0.a2, $0.a3, $f, $2.a3, $1, $73 => Control_Monad_Dom_Event_mouseInfo($73), $1.a1, $68));
+   case 9: return JS_Attribute_x21x3e($7a => Web_Html_callback_Callback_KeyboardEventHandler_x28x25pix20RigWx20Explicitx20Nothingx20KeyboardEventx20x28JSIOx20x28x7cUnitx2cMkUnitx7cx29x29x29($7a), Web_Raw_Html_GlobalEventHandlers_onkeydown(t), $81 => Control_Monad_Dom_DomIO_n__18220_26032_handle($2.a1, $2.a2, $0.a1, $0.a2, $0.a3, $f, $2.a3, $1, $8c => Control_Monad_Dom_Event_keyInfo($8c), $1.a1, $81));
+   case 10: return JS_Attribute_x21x3e($93 => Web_Html_callback_Callback_KeyboardEventHandler_x28x25pix20RigWx20Explicitx20Nothingx20KeyboardEventx20x28JSIOx20x28x7cUnitx2cMkUnitx7cx29x29x29($93), Web_Raw_Html_GlobalEventHandlers_onkeyup(t), $9a => Control_Monad_Dom_DomIO_n__18220_26032_handle($2.a1, $2.a2, $0.a1, $0.a2, $0.a3, $f, $2.a3, $1, $a5 => Control_Monad_Dom_Event_keyInfo($a5), $1.a1, $9a));
+   case 2: return JS_Attribute_x21x3e($ac => Web_Html_callback_Callback_MouseEventHandler_x28x25pix20RigWx20Explicitx20Nothingx20MouseEventx20x28JSIOx20x28x7cUnitx2cMkUnitx7cx29x29x29($ac), Web_Raw_Html_GlobalEventHandlers_onmousedown(t), $b3 => Control_Monad_Dom_DomIO_n__18220_26032_handle($2.a1, $2.a2, $0.a1, $0.a2, $0.a3, $f, $2.a3, $1, $be => Control_Monad_Dom_Event_mouseInfo($be), $1.a1, $b3));
+   case 3: return JS_Attribute_x21x3e($c5 => Web_Html_callback_Callback_MouseEventHandler_x28x25pix20RigWx20Explicitx20Nothingx20MouseEventx20x28JSIOx20x28x7cUnitx2cMkUnitx7cx29x29x29($c5), Web_Raw_Html_GlobalEventHandlers_onmouseup(t), $cc => Control_Monad_Dom_DomIO_n__18220_26032_handle($2.a1, $2.a2, $0.a1, $0.a2, $0.a3, $f, $2.a3, $1, $d7 => Control_Monad_Dom_Event_mouseInfo($d7), $1.a1, $cc));
+   case 4: return JS_Attribute_x21x3e($de => Web_Html_callback_Callback_MouseEventHandler_x28x25pix20RigWx20Explicitx20Nothingx20MouseEventx20x28JSIOx20x28x7cUnitx2cMkUnitx7cx29x29x29($de), Web_Raw_Html_GlobalEventHandlers_onmouseenter(t), $e5 => Control_Monad_Dom_DomIO_n__18220_26032_handle($2.a1, $2.a2, $0.a1, $0.a2, $0.a3, $f, $2.a3, $1, $f0 => Control_Monad_Dom_Event_mouseInfo($f0), $1.a1, $e5));
+   case 5: return JS_Attribute_x21x3e($f7 => Web_Html_callback_Callback_MouseEventHandler_x28x25pix20RigWx20Explicitx20Nothingx20MouseEventx20x28JSIOx20x28x7cUnitx2cMkUnitx7cx29x29x29($f7), Web_Raw_Html_GlobalEventHandlers_onmouseleave(t), $fe => Control_Monad_Dom_DomIO_n__18220_26032_handle($2.a1, $2.a2, $0.a1, $0.a2, $0.a3, $f, $2.a3, $1, $109 => Control_Monad_Dom_Event_mouseInfo($109), $1.a1, $fe));
+   case 6: return JS_Attribute_x21x3e($110 => Web_Html_callback_Callback_MouseEventHandler_x28x25pix20RigWx20Explicitx20Nothingx20MouseEventx20x28JSIOx20x28x7cUnitx2cMkUnitx7cx29x29x29($110), Web_Raw_Html_GlobalEventHandlers_onmouseover(t), $117 => Control_Monad_Dom_DomIO_n__18220_26032_handle($2.a1, $2.a2, $0.a1, $0.a2, $0.a3, $f, $2.a3, $1, $122 => Control_Monad_Dom_Event_mouseInfo($122), $1.a1, $117));
+   case 7: return JS_Attribute_x21x3e($129 => Web_Html_callback_Callback_MouseEventHandler_x28x25pix20RigWx20Explicitx20Nothingx20MouseEventx20x28JSIOx20x28x7cUnitx2cMkUnitx7cx29x29x29($129), Web_Raw_Html_GlobalEventHandlers_onmouseout(t), $130 => Control_Monad_Dom_DomIO_n__18220_26032_handle($2.a1, $2.a2, $0.a1, $0.a2, $0.a3, $f, $2.a3, $1, $13b => Control_Monad_Dom_Event_mouseInfo($13b), $1.a1, $130));
+   case 8: return JS_Attribute_x21x3e($142 => Web_Html_callback_Callback_MouseEventHandler_x28x25pix20RigWx20Explicitx20Nothingx20MouseEventx20x28JSIOx20x28x7cUnitx2cMkUnitx7cx29x29x29($142), Web_Raw_Html_GlobalEventHandlers_onmousemove(t), $149 => Control_Monad_Dom_DomIO_n__18220_26032_handle($2.a1, $2.a2, $0.a1, $0.a2, $0.a3, $f, $2.a3, $1, $154 => Control_Monad_Dom_Event_mouseInfo($154), $1.a1, $149));
   }
  };
- return Control_Monad_Error_Either_x3ex3ex3d_Monad_x28x28EitherTx20x24ex29x20x24mx29(csegen_15(), Control_Monad_Dom_Interface_strictGetElementById(csegen_112(), $0.a1, $0.a3), $e);
+ return Control_Monad_Error_Either_x3ex3ex3d_Monad_x28x28EitherTx20x24ex29x20x24mx29(csegen_15(), Control_Monad_Dom_Interface_strictGetElementById(csegen_98(), $0.a1, $0.a3), $e);
 }
 
 function Control_Monad_Dom_DomIO_reactimateDom_($0, $1, $2, $3) {
@@ -2105,13 +2244,13 @@ function Control_Monad_Dom_DomIO_reactimateDom_($0, $1, $2, $3) {
    const $1d = $1e => {
     switch($1e.h) {
      case undefined: return $1e.a1(ev);
-     case 0: return csegen_145();
+     case 0: return csegen_131();
     }
    };
    return Control_Monad_Error_Either_x3ex3ex3d_Monad_x28x28EitherTx20x24ex29x20x24mx29(csegen_15(), Control_Monad_Error_Either_liftIO_HasIO_x28x28EitherTx20x24ex29x20x24mx29(csegen_34(), $19 => (hRef.value)), $1d);
   };
   const $d = {a1: $1, a2: $3, a3: $10};
-  return Control_Monad_Error_Either_x3ex3ex3d_Monad_x28x28EitherTx20x24ex29x20x24mx29(csegen_15(), $2($d), $2a => Control_Monad_Error_Either_x3ex3ex3d_Monad_x28x28EitherTx20x24ex29x20x24mx29(csegen_15(), Data_IORef_newIORef(csegen_37(), $2a.a1), sfRef => Prelude_Interfaces_x3ex3e(csegen_138(), Control_Monad_Error_Either_liftIO_HasIO_x28x28EitherTx20x24ex29x20x24mx29(csegen_34(), $3d => (hRef.value={a1: $42 => Control_Monad_Dom_DomIO_n__20136_28069_handle($3, $2, $1, $0, hRef, $d, $2a.a1, $2a.a2, $2a, sfRef, $42)})), () => Prelude_Interfaces_x3ex3e(csegen_138(), Prelude_Interfaces_traverse_(csegen_163(), $59 => Control_Monad_Dom_DomIO_n__20136_28069_handle($3, $2, $1, $0, hRef, $d, $2a.a1, $2a.a2, $2a, sfRef, $59), $0), () => Control_Monad_Error_Either_pure_Applicative_x28x28EitherTx20x24ex29x20x24mx29(csegen_9(), $2a.a2)))));
+  return Control_Monad_Error_Either_x3ex3ex3d_Monad_x28x28EitherTx20x24ex29x20x24mx29(csegen_15(), $2($d), $2a => Control_Monad_Error_Either_x3ex3ex3d_Monad_x28x28EitherTx20x24ex29x20x24mx29(csegen_15(), Data_IORef_newIORef(csegen_37(), $2a.a1), sfRef => Prelude_Interfaces_x3ex3e(csegen_124(), Control_Monad_Error_Either_liftIO_HasIO_x28x28EitherTx20x24ex29x20x24mx29(csegen_34(), $3d => (hRef.value={a1: $42 => Control_Monad_Dom_DomIO_n__20132_28069_handle($3, $2, $1, $0, hRef, $d, $2a.a1, $2a.a2, $2a, sfRef, $42)})), () => Prelude_Interfaces_x3ex3e(csegen_124(), Prelude_Interfaces_traverse_(csegen_149(), $59 => Control_Monad_Dom_DomIO_n__20132_28069_handle($3, $2, $1, $0, hRef, $d, $2a.a1, $2a.a2, $2a, sfRef, $59), $0), () => Control_Monad_Error_Either_pure_Applicative_x28x28EitherTx20x24ex29x20x24mx29(csegen_9(), $2a.a2)))));
  };
  return Control_Monad_Error_Either_x3ex3ex3d_Monad_x28x28EitherTx20x24ex29x20x24mx29(csegen_15(), Data_IORef_newIORef(csegen_37(), {h: 0}), $c);
 }
@@ -2121,7 +2260,7 @@ function Control_Monad_Dom_DomIO_env($0, $1) {
 }
 
 function Control_Monad_Dom_DomIO_createId($0) {
- return Control_Monad_Error_Either_x3ex3ex3d_Monad_x28x28EitherTx20x24ex29x20x24mx29(csegen_15(), Control_Monad_Error_Either_liftIO_HasIO_x28x28EitherTx20x24ex29x20x24mx29(csegen_34(), $a => ($0.a2.value)), n => Prelude_Interfaces_x3ex3e(csegen_138(), Control_Monad_Error_Either_liftIO_HasIO_x28x28EitherTx20x24ex29x20x24mx29(csegen_34(), $17 => ($0.a2.value=(n+1n))), () => Control_Monad_Error_Either_pure_Applicative_x28x28EitherTx20x24ex29x20x24mx29(csegen_9(), ($0.a1+Prelude_Show_show_Show_Integer(n)))));
+ return Control_Monad_Error_Either_x3ex3ex3d_Monad_x28x28EitherTx20x24ex29x20x24mx29(csegen_15(), Control_Monad_Error_Either_liftIO_HasIO_x28x28EitherTx20x24ex29x20x24mx29(csegen_34(), $a => ($0.a2.value)), n => Prelude_Interfaces_x3ex3e(csegen_124(), Control_Monad_Error_Either_liftIO_HasIO_x28x28EitherTx20x24ex29x20x24mx29(csegen_34(), $17 => ($0.a2.value=(1n+n))), () => Control_Monad_Error_Either_pure_Applicative_x28x28EitherTx20x24ex29x20x24mx29(csegen_9(), Prelude_Types_String_x2bx2b($0.a1, Prelude_Show_show_Show_Nat(n)))));
 }
 
 function Control_Monad_Dom_DomIO_convR($0, $1, $2, $3) {
@@ -2130,6 +2269,10 @@ function Control_Monad_Dom_DomIO_convR($0, $1, $2, $3) {
 
 function Data_IORef_newIORef($0, $1) {
  return $0.a1.a2(undefined)(undefined)($0.a2(undefined)($10 => ({value:$1})))(m => $0.a1.a1.a2(undefined)(m));
+}
+
+function Rhone_JS_Sink_setValidityMessage_SetValidity_HTMLInputElement($0, $1) {
+ return Web_Raw_Html_HTMLInputElement_setCustomValidity($0, $1);
 }
 
 function Rhone_JS_Sink_validityMessageAt($0, $1, $2) {
@@ -2170,69 +2313,73 @@ function Rhone_JS_Sink_attribute($0, $1) {
  return {h: 3, a1: $2};
 }
 
-function Rhone_JS_Input_input($0, $1, $2, $3) {
- return {h: 4, a1: {h: 2, a1: $6 => Data_MSF_Event_map_Functor_Event($2, $1($6))}, a2: {h: 4, a1: Rhone_JS_Input_fireAndHold($2('')), a2: {h: 4, a1: {h: 5, a1: {a1: {h: 0}, a2: {a1: Data_MSF_Util_ifEvent(csegen_167(), Rhone_JS_Sink_leftInvalid(csegen_170(), $0, $3)), a2: {h: 0}}}}, a2: Data_MSF_Util_hd()}}};
+function Rhone_JS_Input_getInput($0, $1, $2, $3, $4) {
+ return {h: 4, a1: Data_MSF_Util_bool($8 => $1.a1($2)($8)), a2: {h: 4, a1: {h: 8, a1: {a1: {h: 4, a1: {h: 4, a1: {h: 1, a1: $4}, a2: Rhone_JS_Source_value($0, {a1: csegen_153(), a2: $1c => Rhone_JS_Source_getValue_HasValue_HTMLInputElement($1c)})}, a2: {h: 2, a1: $21 => ({a1: $3($21)})}}, a2: {a1: Data_MSF_Util_never(), a2: {h: 0}}}}, a2: {h: 4, a1: Rhone_JS_Input_fireAndHold($3('')), a2: {h: 4, a1: {h: 5, a1: {a1: {h: 0}, a2: {a1: Data_MSF_Util_ifEvent(csegen_156(), Rhone_JS_Sink_leftInvalid({a1: csegen_153(), a2: $3e => $3f => Rhone_JS_Sink_setValidityMessage_SetValidity_HTMLInputElement($3e, $3f)}, $0, $4)), a2: {h: 0}}}}, a2: Data_MSF_Util_hd()}}}};
 }
 
 function Rhone_JS_Input_fireAndHold($0) {
  return {h: 6, a1: {a1: Data_MSF_Util_hold($0), a2: {a1: Data_MSF_Util_x3cx7cx3e({h: 0}, Data_MSF_Util_once($0)), a2: {h: 0}}}};
 }
 
-function Examples_Selector_n__16065_4090_select($0, $1) {
+function Examples_Selector_n__16079_4090_select($0, $1) {
  switch($0) {
   case 'reset': return Control_Monad_Dom_DomIO_reactimateDom_({a1: $6 => 0}, $1.a1, Examples_Reset_ui(), $1.a2);
   case 'performance': return Control_Monad_Dom_DomIO_reactimateDom_({h: 0}, $1.a1, Examples_Performance_ui(), $1.a2);
   case 'fractals': return Control_Monad_Dom_DomIO_reactimateDom_({h: 0}, $1.a1, Examples_Fractals_ui(), $1.a2);
-  default: return Control_Monad_Dom_DomIO_pure_Applicative_x28x28DomIOx20x24evx29x20x24iox29(csegen_24(), csegen_145(), $1);
+  default: return Control_Monad_Dom_DomIO_pure_Applicative_x28x28DomIOx20x24evx29x20x24iox29(csegen_24(), csegen_131(), $1);
  }
 }
 
 const Examples_Selector_ui = __lazy(function () {
- return Prelude_Interfaces_x3ex3e(csegen_144(), Control_Monad_Dom_Interface_rawInnerHtmlAt(csegen_183(), Examples_CSS_Core_appStyle(), Examples_CSS_allRules()), () => Prelude_Interfaces_x3ex3e(csegen_144(), Control_Monad_Dom_Interface_innerHtmlAt(csegen_183(), csegen_202(), csegen_205(), Examples_CSS_Core_contentDiv(), Examples_Selector_content()), () => $1c => Control_Monad_Dom_DomIO_pure_Applicative_x28x28DomIOx20x24evx29x20x24iox29(csegen_24(), {a1: Examples_Selector_msf(), a2: csegen_145()}, $1c)));
+ return Prelude_Interfaces_x3ex3e(csegen_130(), Control_Monad_Dom_Interface_rawInnerHtmlAt(csegen_171(), Examples_CSS_Core_appStyle(), Examples_CSS_allRules()), () => Prelude_Interfaces_x3ex3e(csegen_130(), Control_Monad_Dom_Interface_innerHtmlAt(csegen_171(), csegen_190(), csegen_193(), Examples_CSS_Core_contentDiv(), Examples_Selector_content()), () => $1c => Control_Monad_Dom_DomIO_pure_Applicative_x28x28DomIOx20x24evx29x20x24iox29(csegen_24(), {a1: Examples_Selector_msf(), a2: csegen_131()}, $1c)));
 });
 
 const Examples_Selector_msf = __lazy(function () {
- return {h: 9, a1: csegen_145(), a2: {h: 4, a1: {h: 5, a1: {a1: {h: 3, a1: $7 => $8 => Control_Monad_Dom_DomIO_liftJSIO_LiftJSIO_x28x28DomIOx20x24evx29x20x24iox29(csegen_180(), $7, $8)}, a2: {a1: {h: 3, a1: $11 => $12 => Examples_Selector_n__16065_4090_select($11, $12)}, a2: {h: 0}}}}, a2: {h: 2, a1: $19 => ({a1: $19.a2.a1, a2: {a1: undefined, a2: {h: 0}}})}}};
+ return {h: 9, a1: csegen_131(), a2: {h: 4, a1: {h: 5, a1: {a1: {h: 3, a1: $7 => $8 => Control_Monad_Dom_DomIO_liftJSIO_LiftJSIO_x28x28DomIOx20x24evx29x20x24iox29(csegen_168(), $7, $8)}, a2: {a1: {h: 3, a1: $11 => $12 => Examples_Selector_n__16079_4090_select($11, $12)}, a2: {h: 0}}}}, a2: {h: 2, a1: $19 => ({a1: $19.a2.a1, a2: {a1: 0, a2: {h: 0}}})}}};
 });
 
 const Examples_Selector_content = __lazy(function () {
- const $72 = Examples_CSS_Core_exampleDiv();
- const $71 = $72.a3;
- const $70 = {h: 0, a1: $71};
- const $6f = {a1: $70, a2: csegen_246()};
- const $6c = {h: 0, a1: 'div', a2: 17, a3: $6f, a4: {h: 0}};
- const $6b = {a1: $6c, a2: {h: 0}};
- const $14 = {a1: {h: 0, a1: 'div', a2: 17, a3: {a1: {h: 1, a1: 'class', a2: 'contentHeader'}, a2: {h: 0}}, a4: {a1: {h: 0, a1: 'label', a2: 34, a3: csegen_222(), a4: {a1: {h: 2, a1: 'Choose an Example'}, a2: {h: 0}}}, a2: {a1: {h: 0, a1: 'Select', a2: 54, a3: {a1: Text_Html_Attribute_dispAttr('class', csegen_224(), {a1: 'widget', a2: {a1: 'selectin', a2: {a1: 'example_selector', a2: {h: 0}}}}), a2: {a1: Text_Html_Attribute_onChange($3c => $3c), a2: {h: 0}}}, a4: {a1: {h: 0, a1: 'option', a2: 45, a3: {a1: {h: 1, a1: 'value', a2: 'reset'}, a2: {a1: {h: 2, a1: 'selected', a2: 1}, a2: {h: 0}}}, a4: {a1: {h: 2, a1: 'Counting Clicks'}, a2: {h: 0}}}, a2: {a1: {h: 0, a1: 'option', a2: 45, a3: {a1: {h: 1, a1: 'value', a2: 'performance'}, a2: {h: 0}}, a4: {a1: {h: 2, a1: 'Performance'}, a2: {h: 0}}}, a2: {a1: {h: 0, a1: 'option', a2: 45, a3: {a1: {h: 1, a1: 'value', a2: 'fractals'}, a2: {h: 0}}, a4: {a1: {h: 2, a1: 'Fractals'}, a2: {h: 0}}}, a2: {h: 0}}}}}, a2: {h: 0}}}}, a2: $6b};
- const $7 = {a1: {h: 0, a1: 'div', a2: 17, a3: {a1: {h: 1, a1: 'class', a2: 'pageTitle'}, a2: {h: 0}}, a4: {a1: {h: 2, a1: 'rhone-js: Examples'}, a2: {h: 0}}}, a2: $14};
- return {h: 0, a1: 'div', a2: 17, a3: {a1: {h: 1, a1: 'class', a2: 'contentList'}, a2: {h: 0}}, a4: $7};
+ const $78 = Examples_CSS_Core_exampleDiv();
+ const $77 = $78.a3;
+ const $76 = {h: 0, a1: $77};
+ const $75 = {a1: $76, a2: csegen_234()};
+ const $72 = {h: 0, a1: 'div', a2: 17, a3: $75, a4: {h: 0}};
+ const $71 = {a1: $72, a2: {h: 0}};
+ const $16 = {a1: {h: 0, a1: 'div', a2: 17, a3: {a1: {h: 1, a1: 'class', a2: Examples_CSS_Core_contentHeader()}, a2: {h: 0}}, a4: {a1: {h: 0, a1: 'label', a2: 34, a3: csegen_210(), a4: {a1: {h: 2, a1: 'Choose an Example'}, a2: {h: 0}}}, a2: {a1: {h: 0, a1: 'Select', a2: 54, a3: {a1: Text_Html_Attribute_dispAttr('class', csegen_212(), {a1: Examples_CSS_Core_widget(), a2: {a1: Examples_CSS_Core_selectIn(), a2: {a1: Examples_CSS_Core_exampleSelector(), a2: {h: 0}}}}), a2: {a1: Text_Html_Attribute_onChange($42 => $42), a2: {h: 0}}}, a4: {a1: {h: 0, a1: 'option', a2: 45, a3: {a1: {h: 1, a1: 'value', a2: 'reset'}, a2: {a1: {h: 2, a1: 'selected', a2: 1}, a2: {h: 0}}}, a4: {a1: {h: 2, a1: 'Counting Clicks'}, a2: {h: 0}}}, a2: {a1: {h: 0, a1: 'option', a2: 45, a3: {a1: {h: 1, a1: 'value', a2: 'performance'}, a2: {h: 0}}, a4: {a1: {h: 2, a1: 'Performance'}, a2: {h: 0}}}, a2: {a1: {h: 0, a1: 'option', a2: 45, a3: {a1: {h: 1, a1: 'value', a2: 'fractals'}, a2: {h: 0}}, a4: {a1: {h: 2, a1: 'Fractals'}, a2: {h: 0}}}, a2: {h: 0}}}}}, a2: {h: 0}}}}, a2: $71};
+ const $8 = {a1: {h: 0, a1: 'div', a2: 17, a3: {a1: {h: 1, a1: 'class', a2: Examples_CSS_Core_pageTitle()}, a2: {h: 0}}, a4: {a1: {h: 2, a1: 'rhone-js: Examples'}, a2: {h: 0}}}, a2: $16};
+ return {h: 0, a1: 'div', a2: 17, a3: {a1: {h: 1, a1: 'class', a2: Examples_CSS_Core_contentList()}, a2: {h: 0}}, a4: $8};
 });
 
 const Examples_Reset_ui = __lazy(function () {
- return Prelude_Interfaces_x3ex3e(csegen_144(), Control_Monad_Dom_Interface_innerHtmlAt(csegen_183(), csegen_202(), csegen_205(), Examples_CSS_Core_exampleDiv(), Examples_Reset_content()), () => $10 => Control_Monad_Dom_DomIO_pure_Applicative_x28x28DomIOx20x24evx29x20x24iox29(csegen_24(), {a1: Examples_Reset_msf(), a2: csegen_145()}, $10));
+ return Prelude_Interfaces_x3ex3e(csegen_130(), Control_Monad_Dom_Interface_innerHtmlAt(csegen_171(), csegen_190(), csegen_193(), Examples_CSS_Core_exampleDiv(), Examples_Reset_content()), () => $10 => Control_Monad_Dom_DomIO_pure_Applicative_x28x28DomIOx20x24evx29x20x24iox29(csegen_24(), {a1: Examples_Reset_msf(), a2: csegen_131()}, $10));
 });
 
 const Examples_Reset_msf = __lazy(function () {
- return {h: 4, a1: Data_MSF_Util_accumulateWith($3 => $4 => $3($4), Number(_truncBigInt8(0n))), a2: {h: 4, a1: {h: 6, a1: {a1: {h: 4, a1: {h: 2, a1: $f => Prelude_Show_show_Show_Int8($f)}, a2: Rhone_JS_Sink_text(csegen_183(), Examples_CSS_Reset_out())}, a2: {a1: {h: 4, a1: {h: 2, a1: $1c => Prelude_EqOrd_x3cx3d_Ord_Int8($1c, Number(_truncBigInt8(-10n)))}, a2: Data_MSF_Util_firstArg(csegen_264(), Examples_CSS_Reset_btnDec())}, a2: {a1: {h: 4, a1: {h: 2, a1: $2b => Prelude_EqOrd_x3ex3d_Ord_Int8($2b, Number(_truncBigInt8(10n)))}, a2: Data_MSF_Util_firstArg(csegen_264(), Examples_CSS_Reset_btnInc())}, a2: {a1: {h: 4, a1: {h: 2, a1: $3a => Prelude_EqOrd_x3dx3d_Eq_Int8($3a, Number(_truncBigInt8(0n)))}, a2: Data_MSF_Util_firstArg(csegen_264(), Examples_CSS_Reset_btnReset())}, a2: {h: 0}}}}}}, a2: {h: 1, a1: undefined}}};
+ return {h: 4, a1: Data_MSF_Util_accumulateWith($3 => $4 => Prelude_Basics_apply($3, $4), Number(_truncBigInt8(0n))), a2: {h: 4, a1: {h: 6, a1: {a1: {h: 4, a1: {h: 2, a1: $10 => Prelude_Show_show_Show_Int8($10)}, a2: Rhone_JS_Sink_text(csegen_171(), Examples_CSS_Reset_out())}, a2: {a1: {h: 4, a1: {h: 2, a1: $1d => Prelude_EqOrd_x3cx3d_Ord_Int8($1d, Number(_truncBigInt8(-10n)))}, a2: Data_MSF_Util_firstArg(csegen_252(), Examples_CSS_Reset_btnDec())}, a2: {a1: {h: 4, a1: {h: 2, a1: $2c => Prelude_EqOrd_x3ex3d_Ord_Int8($2c, Number(_truncBigInt8(10n)))}, a2: Data_MSF_Util_firstArg(csegen_252(), Examples_CSS_Reset_btnInc())}, a2: {a1: {h: 4, a1: {h: 2, a1: $3b => Prelude_EqOrd_x3dx3d_Eq_Int8($3b, Number(_truncBigInt8(0n)))}, a2: Data_MSF_Util_firstArg(csegen_252(), Examples_CSS_Reset_btnReset())}, a2: {h: 0}}}}}}, a2: {h: 1, a1: 0}}};
 });
 
 function Examples_Reset_line($0, $1) {
- return {h: 0, a1: 'div', a2: 17, a3: csegen_282(), a4: {a1: {h: 0, a1: 'label', a2: 34, a3: csegen_222(), a4: {a1: {h: 2, a1: $0}, a2: {h: 0}}}, a2: $1}};
+ return {h: 0, a1: 'div', a2: 17, a3: csegen_270(), a4: {a1: {h: 0, a1: 'label', a2: 34, a3: csegen_210(), a4: {a1: {h: 2, a1: $0}, a2: {h: 0}}}, a2: $1}};
 }
 
 const Examples_Reset_content = __lazy(function () {
- return {h: 0, a1: 'div', a2: 17, a3: csegen_246(), a4: {a1: Examples_Reset_line('Reset counter:', {a1: Examples_Reset_btn(Examples_CSS_Reset_btnReset(), $e => Number(_truncBigInt8(0n)), 'Reset'), a2: {h: 0}}), a2: {a1: Examples_Reset_line('Increase counter:', {a1: Examples_Reset_btn(Examples_CSS_Reset_btnInc(), $1c => _add8s($1c, 1), '+'), a2: {h: 0}}), a2: {a1: Examples_Reset_line('Decrease counter:', {a1: Examples_Reset_btn(Examples_CSS_Reset_btnDec(), $2b => _add8s($2b, -1), '-'), a2: {h: 0}}), a2: {a1: Examples_Reset_line('Count:', {a1: {h: 0, a1: 'div', a2: 17, a3: {a1: {h: 0, a1: csegen_292()}, a2: {h: 0}}, a4: {h: 0}}, a2: {h: 0}}), a2: {h: 0}}}}}};
+ return {h: 0, a1: 'div', a2: 17, a3: csegen_234(), a4: {a1: Examples_Reset_line('Reset counter:', {a1: Examples_Reset_btn(Examples_CSS_Reset_btnReset(), $e => Number(_truncBigInt8(0n)), 'Reset'), a2: {h: 0}}), a2: {a1: Examples_Reset_line('Increase counter:', {a1: Examples_Reset_btn(Examples_CSS_Reset_btnInc(), $1c => _add8s($1c, 1), '+'), a2: {h: 0}}), a2: {a1: Examples_Reset_line('Decrease counter:', {a1: Examples_Reset_btn(Examples_CSS_Reset_btnDec(), $2b => _add8s($2b, -1), '-'), a2: {h: 0}}), a2: {a1: Examples_Reset_line('Count:', {a1: {h: 0, a1: 'div', a2: 17, a3: {a1: {h: 0, a1: csegen_280()}, a2: {h: 0}}, a4: {h: 0}}, a2: {h: 0}}), a2: {h: 0}}}}}};
 });
 
 function Examples_Reset_btn($0, $1, $2) {
- return {h: 0, a1: 'button', a2: 7, a3: {a1: {h: 0, a1: $0.a3}, a2: {a1: {h: 3, a1: {h: 0, a1: $d => ({a1: $1})}}, a2: {a1: Text_Html_Attribute_dispAttr('class', csegen_224(), {a1: 'widget', a2: {a1: 'btn', a2: {a1: 'reset_incbtn', a2: {h: 0}}}}), a2: {h: 0}}}}, a4: {a1: {h: 2, a1: $2}, a2: {h: 0}}};
+ return {h: 0, a1: 'button', a2: 7, a3: {a1: {h: 0, a1: $0.a3}, a2: {a1: {h: 3, a1: {h: 0, a1: $d => ({a1: $1})}}, a2: {a1: Text_Html_Attribute_dispAttr('class', csegen_212(), {a1: Examples_CSS_Core_widget(), a2: {a1: Examples_CSS_Core_btn(), a2: {a1: Examples_CSS_Reset_resetBtn(), a2: {h: 0}}}}), a2: {h: 0}}}}, a4: {a1: {h: 2, a1: $2}, a2: {h: 0}}};
 }
+
+const Examples_CSS_Reset_resetBtn = __lazy(function () {
+ return 'reset_incbtn';
+});
 
 const Examples_CSS_Reset_out = __lazy(function () {
  return {a1: 'div', a2: 17, a3: 'reset_out'};
 });
 
 const Examples_CSS_Reset_css = __lazy(function () {
- return {a1: {a1: {h: 1, a1: csegen_292()}, a2: {a1: {a1: 15, a2: {h: 6}}, a2: {a1: csegen_308(), a2: {a1: {a1: 25, a2: 1}, a2: csegen_309()}}}}, a2: {a1: {a1: {h: 2, a1: 'reset_incbtn'}, a2: {a1: csegen_308(), a2: csegen_309()}}, a2: {h: 0}}};
+ return {a1: {a1: {h: 1, a1: csegen_280()}, a2: {a1: {a1: 15, a2: {h: 6}}, a2: {a1: csegen_296(), a2: {a1: {a1: 25, a2: 1}, a2: csegen_297()}}}}, a2: {a1: {a1: {h: 2, a1: Examples_CSS_Reset_resetBtn()}, a2: {a1: csegen_296(), a2: csegen_297()}}, a2: {h: 0}}};
 });
 
 const Examples_CSS_Reset_btnReset = __lazy(function () {
@@ -2250,11 +2397,11 @@ const Examples_CSS_Reset_btnDec = __lazy(function () {
 function Text_CSS_Selector_render($0) {
  switch($0.h) {
   case 0: return '*';
-  case 1: return ('#'+$0.a1);
-  case 2: return ('.'+$0.a1);
+  case 1: return Prelude_Types_String_x2bx2b('#', $0.a1);
+  case 2: return Prelude_Types_String_x2bx2b('.', $0.a1);
   case 3: return $0.a1;
-  case 4: return Prelude_Types_fastConcat(Data_List_intersperse(', ', Prelude_Types_map_Functor_List($d => Text_CSS_Selector_render($d), $0.a1)));
-  case 5: return Prelude_Interfaces_concat(csegen_68(), {a1: Text_CSS_Selector_render($0.a1), a2: {a1: ':', a2: {a1: Text_CSS_Selector_PseudoClass_render($0.a2), a2: {h: 0}}}});
+  case 4: return Prelude_Types_fastConcat(Data_List_intersperse(', ', Prelude_Types_map_Functor_List($f => Text_CSS_Selector_render($f), $0.a1)));
+  case 5: return Prelude_Types_String_x2bx2b(Text_CSS_Selector_render($0.a1), Prelude_Types_String_x2bx2b(':', Text_CSS_Selector_PseudoClass_render($0.a2)));
  }
 }
 
@@ -2266,7 +2413,7 @@ function Text_CSS_Selector_PseudoClass_render($0) {
   case 3: return 'checked';
   case 4: return 'current';
   case 5: return 'default';
-  case 6: return Prelude_Interfaces_concat(csegen_68(), {a1: 'dir(', a2: {a1: Text_CSS_Property_Direction_render($0.a1), a2: {a1: ')', a2: {h: 0}}}});
+  case 6: return Prelude_Types_String_x2bx2b('dir(', Prelude_Types_String_x2bx2b(Text_CSS_Property_Direction_render($0.a1), ')'));
   case 7: return 'disabled';
   case 8: return 'empty';
   case 9: return 'enabled';
@@ -2281,16 +2428,16 @@ function Text_CSS_Selector_PseudoClass_render($0) {
   case 18: return 'indeterminate';
   case 19: return 'in-range';
   case 20: return 'invalid';
-  case 21: return Prelude_Interfaces_concat(csegen_68(), {a1: 'lang(', a2: {a1: $0.a1, a2: {a1: ')', a2: {h: 0}}}});
+  case 21: return Prelude_Types_String_x2bx2b('lang(', Prelude_Types_String_x2bx2b($0.a1, ')'));
   case 22: return 'last-child';
   case 23: return 'last-of-type';
   case 24: return 'left';
   case 25: return 'link';
   case 26: return 'local-link';
-  case 27: return Prelude_Interfaces_concat(csegen_68(), {a1: 'nth-child(', a2: {a1: $0.a1, a2: {a1: ')', a2: {h: 0}}}});
-  case 28: return Prelude_Interfaces_concat(csegen_68(), {a1: 'nth-of-type(', a2: {a1: $0.a1, a2: {a1: ')', a2: {h: 0}}}});
-  case 29: return Prelude_Interfaces_concat(csegen_68(), {a1: 'nth-last-child(', a2: {a1: $0.a1, a2: {a1: ')', a2: {h: 0}}}});
-  case 30: return Prelude_Interfaces_concat(csegen_68(), {a1: 'nth-last-of-type(', a2: {a1: $0.a1, a2: {a1: ')', a2: {h: 0}}}});
+  case 27: return Prelude_Types_String_x2bx2b('nth-child(', Prelude_Types_String_x2bx2b($0.a1, ')'));
+  case 28: return Prelude_Types_String_x2bx2b('nth-of-type(', Prelude_Types_String_x2bx2b($0.a1, ')'));
+  case 29: return Prelude_Types_String_x2bx2b('nth-last-child(', Prelude_Types_String_x2bx2b($0.a1, ')'));
+  case 30: return Prelude_Types_String_x2bx2b('nth-last-of-type(', Prelude_Types_String_x2bx2b($0.a1, ')'));
   case 31: return 'only-child';
   case 32: return 'only-of-type';
   case 33: return 'optional';
@@ -2313,33 +2460,33 @@ function Text_CSS_Selector_PseudoClass_render($0) {
 
 function Text_CSS_Property_renderProp($0, $1) {
  switch($0) {
-  case 0: return ('align-items: '+Text_CSS_Flexbox_FlexAlign_render($1));
-  case 1: return ('align-self: '+Text_CSS_Flexbox_FlexAlign_render($1));
-  case 2: return ('background-color: '+Text_CSS_Color_render($1));
-  case 3: return Text_CSS_Dir_render2('border', 'color', $13 => Text_CSS_Color_render($13), $1);
-  case 4: return ('border-radius: '+Text_CSS_Property_BorderRadius_render($1));
-  case 5: return Text_CSS_Dir_render2('border', 'style', $1f => Text_CSS_Property_BorderStyle_render($1f), $1);
-  case 6: return Text_CSS_Dir_render2('border', 'width', $27 => Text_CSS_Property_BorderWidth_render($27), $1);
-  case 7: return ('color: '+Text_CSS_Color_render($1));
-  case 8: return ('direction: '+Text_CSS_Property_Direction_render($1));
-  case 9: return 'display: flex';
-  case 10: return ('flex: '+$1);
-  case 11: return ('flex-basis: '+Text_CSS_Property_FlexBasis_render($1));
-  case 13: return ('flex-wrap: '+$1);
-  case 12: return ('flex-direction: '+Text_CSS_Flexbox_FlexDirection_render($1));
-  case 14: return ('font-family: '+$1);
-  case 15: return ('font-size: '+Text_CSS_Property_FontSize_render($1));
-  case 16: return ('height: '+Text_CSS_Property_Width_render($1));
-  case 17: return ('justify-content: '+Text_CSS_Flexbox_FlexJustify_render($1));
-  case 19: return Text_CSS_Dir_render('margin', $50 => Text_CSS_Length_render($50), $1);
-  case 20: return ('max-height: '+Text_CSS_Property_Width_render($1));
-  case 21: return ('max-width: '+Text_CSS_Property_Width_render($1));
-  case 22: return ('min-height: '+Text_CSS_Property_Width_render($1));
-  case 23: return ('min-width: '+Text_CSS_Property_Width_render($1));
-  case 24: return Text_CSS_Dir_render('padding', $67 => Text_CSS_Length_render($67), $1);
-  case 18: return ('list-style-type: '+Text_CSS_ListStyleType_render($1));
-  case 25: return ('text-align: '+Text_CSS_Property_TextAlign_render($1));
-  case 26: return ('width: '+Text_CSS_Property_Width_render($1));
+  case 0: return Prelude_Types_String_x2bx2b('align-items: ', Text_CSS_Flexbox_FlexAlign_render($1));
+  case 1: return Prelude_Types_String_x2bx2b('align-self: ', Text_CSS_Flexbox_FlexAlign_render($1));
+  case 2: return Prelude_Types_String_x2bx2b('background-color: ', Text_CSS_Color_render($1));
+  case 3: return Text_CSS_Dir_render2('border', 'color', $16 => Text_CSS_Color_render($16), $1);
+  case 4: return Prelude_Types_String_x2bx2b('border-radius: ', Text_CSS_Property_BorderRadius_render($1));
+  case 5: return Text_CSS_Dir_render2('border', 'style', $23 => Text_CSS_Property_BorderStyle_render($23), $1);
+  case 6: return Text_CSS_Dir_render2('border', 'width', $2b => Text_CSS_Property_BorderWidth_render($2b), $1);
+  case 7: return Prelude_Types_String_x2bx2b('color: ', Text_CSS_Color_render($1));
+  case 8: return Prelude_Types_String_x2bx2b('direction: ', Text_CSS_Property_Direction_render($1));
+  case 9: return Prelude_Types_String_x2bx2b('display: ', Text_CSS_Property_Display_render($1));
+  case 10: return Prelude_Types_String_x2bx2b('flex: ', $1);
+  case 11: return Prelude_Types_String_x2bx2b('flex-basis: ', Text_CSS_Property_FlexBasis_render($1));
+  case 13: return Prelude_Types_String_x2bx2b('flex-wrap: ', $1);
+  case 12: return Prelude_Types_String_x2bx2b('flex-direction: ', Text_CSS_Flexbox_FlexDirection_render($1));
+  case 14: return Prelude_Types_String_x2bx2b('font-family: ', $1);
+  case 15: return Prelude_Types_String_x2bx2b('font-size: ', Text_CSS_Property_FontSize_render($1));
+  case 16: return Prelude_Types_String_x2bx2b('height: ', Text_CSS_Property_Width_render($1));
+  case 17: return Prelude_Types_String_x2bx2b('justify-content: ', Text_CSS_Flexbox_FlexJustify_render($1));
+  case 19: return Text_CSS_Dir_render('margin', $63 => Text_CSS_Length_render($63), $1);
+  case 20: return Prelude_Types_String_x2bx2b('max-height: ', Text_CSS_Property_Width_render($1));
+  case 21: return Prelude_Types_String_x2bx2b('max-width: ', Text_CSS_Property_Width_render($1));
+  case 22: return Prelude_Types_String_x2bx2b('min-height: ', Text_CSS_Property_Width_render($1));
+  case 23: return Prelude_Types_String_x2bx2b('min-width: ', Text_CSS_Property_Width_render($1));
+  case 24: return Text_CSS_Dir_render('padding', $7e => Text_CSS_Length_render($7e), $1);
+  case 18: return Prelude_Types_String_x2bx2b('list-style-type: ', Text_CSS_ListStyleType_render($1));
+  case 25: return Prelude_Types_String_x2bx2b('text-align: ', Text_CSS_Property_TextAlign_render($1));
+  case 26: return Prelude_Types_String_x2bx2b('width: ', Text_CSS_Property_Width_render($1));
  }
 }
 
@@ -2383,6 +2530,10 @@ function Text_CSS_Property_FlexBasis_render($0) {
  }
 }
 
+function Text_CSS_Property_Display_render($0) {
+ return 'flex';
+}
+
 function Text_CSS_Property_Direction_render($0) {
  switch($0) {
   case 0: return 'ltr';
@@ -2423,7 +2574,7 @@ function Text_CSS_Property_BorderRadius_render($0) {
 }
 
 function Text_CSS_Percentage_render($0) {
- return (Prelude_Show_show_Show_Bits32($0)+'%');
+ return Prelude_Types_String_x2bx2b(Prelude_Show_show_Show_Bits32($0), '%');
 }
 
 function Text_CSS_ListStyleType_render($0) {
@@ -2442,10 +2593,10 @@ function Text_CSS_ListStyleType_render($0) {
 
 function Text_CSS_Length_render($0) {
  switch($0.h) {
-  case 0: return (Prelude_Show_show_Show_Bits16($0.a1)+'pt');
-  case 1: return (Prelude_Show_show_Show_Bits16($0.a1)+'px');
-  case 2: return (Prelude_Show_show_Show_Double($0.a1)+'em');
-  case 3: return (Prelude_Show_show_Show_Double($0.a1)+'rem');
+  case 0: return Prelude_Types_String_x2bx2b(Prelude_Show_show_Show_Bits16($0.a1), 'pt');
+  case 1: return Prelude_Types_String_x2bx2b(Prelude_Show_show_Show_Bits16($0.a1), 'px');
+  case 2: return Prelude_Types_String_x2bx2b(Prelude_Show_show_Show_Double($0.a1), 'em');
+  case 3: return Prelude_Types_String_x2bx2b(Prelude_Show_show_Show_Double($0.a1), 'rem');
  }
 }
 
@@ -2506,13 +2657,13 @@ function Text_CSS_Dir_vals($0) {
 function Text_CSS_Dir_render2($0, $1, $2, $3) {
  const $4 = Prelude_Types_fastConcat(Data_List_intersperse(' ', Prelude_Types_map_Functor_List($2, Text_CSS_Dir_vals($3))));
  const $f = Text_CSS_Dir_prfx($3);
- return Prelude_Interfaces_concat(csegen_68(), {a1: $0, a2: {a1: $f, a2: {a1: '-', a2: {a1: $1, a2: {a1: ': ', a2: {a1: $4, a2: {h: 0}}}}}}});
+ return Prelude_Types_String_x2bx2b($0, Prelude_Types_String_x2bx2b($f, Prelude_Types_String_x2bx2b('-', Prelude_Types_String_x2bx2b($1, Prelude_Types_String_x2bx2b(': ', $4)))));
 }
 
 function Text_CSS_Dir_render($0, $1, $2) {
  const $3 = Prelude_Types_fastConcat(Data_List_intersperse(' ', Prelude_Types_map_Functor_List($1, Text_CSS_Dir_vals($2))));
  const $e = Text_CSS_Dir_prfx($2);
- return Prelude_Interfaces_concat(csegen_68(), {a1: $0, a2: {a1: $e, a2: {a1: ': ', a2: {a1: $3, a2: {h: 0}}}}});
+ return Prelude_Types_String_x2bx2b($0, Prelude_Types_String_x2bx2b($e, Prelude_Types_String_x2bx2b(': ', $3)));
 }
 
 function Text_CSS_Dir_prfx($0) {
@@ -2527,17 +2678,17 @@ function Text_CSS_Dir_prfx($0) {
 
 function Text_CSS_Color_toHexChar($0) {
  switch(Prelude_EqOrd_x3c_Ord_Bits8($0, Number(_truncUBigInt8(10n)))) {
-  case 1: return _truncToChar(_add32s(_truncInt32('0'.codePointAt(0)), $0));
-  case 0: return _truncToChar(_sub32s(_add32s(_truncInt32('a'.codePointAt(0)), $0), 10));
+  case 1: return Prelude_Types_chr(_add32s(Prelude_Types_ord('0'), Prelude_Cast_cast_Cast_Bits8_Int($0)));
+  case 0: return Prelude_Types_chr(_sub32s(_add32s(Prelude_Types_ord('a'), Prelude_Cast_cast_Cast_Bits8_Int($0)), 10));
  }
 }
 
 function Text_CSS_Color_toHex($0) {
- return Prelude_Types_fastPack({a1: Text_CSS_Color_toHexChar(_shr8u($0, Number(_truncUBigInt8(4n)))), a2: {a1: Text_CSS_Color_toHexChar(($0&15)), a2: {h: 0}}});
+ return Prelude_Types_fastPack({a1: Text_CSS_Color_toHexChar(_shr8u($0, Prelude_Cast_cast_Cast_Nat_Bits8(Data_Bits_fromNat(4n, 8n)))), a2: {a1: Text_CSS_Color_toHexChar(($0&15)), a2: {h: 0}}});
 }
 
 function Text_CSS_Color_render($0) {
- return ('#'+(Text_CSS_Color_toHex($0.a1)+(Text_CSS_Color_toHex($0.a2)+Text_CSS_Color_toHex($0.a3))));
+ return Prelude_Types_String_x2bx2b('#', Prelude_Types_String_x2bx2b(Text_CSS_Color_toHex($0.a1), Prelude_Types_String_x2bx2b(Text_CSS_Color_toHex($0.a2), Text_CSS_Color_toHex($0.a3))));
 }
 
 const Text_CSS_Color_red = __lazy(function () {
@@ -2549,19 +2700,63 @@ const Text_CSS_Color_black = __lazy(function () {
 });
 
 function Text_CSS_Rule_render($0) {
- return Prelude_Interfaces_concat(csegen_68(), {a1: Text_CSS_Selector_render($0.a1), a2: {a1: '{', a2: {a1: Prelude_Types_fastConcat(Prelude_Types_map_Functor_List($11 => (Text_CSS_Property_renderProp($11.a1, $11.a2)+';'), $0.a2)), a2: {a1: '}', a2: {h: 0}}}}});
+ return Prelude_Types_String_x2bx2b(Text_CSS_Selector_render($0.a1), Prelude_Types_String_x2bx2b('{', Prelude_Types_String_x2bx2b(Prelude_Types_fastConcat(Prelude_Types_map_Functor_List($10 => Prelude_Types_String_x2bx2b(Text_CSS_Property_renderProp($10.a1, $10.a2), ';'), $0.a2)), '}')));
 }
+
+const Examples_CSS_Core_widgetList = __lazy(function () {
+ return 'widgetList';
+});
+
+const Examples_CSS_Core_widgetLine = __lazy(function () {
+ return 'widgetline';
+});
+
+const Examples_CSS_Core_widgetLabel = __lazy(function () {
+ return 'widgetlabel';
+});
+
+const Examples_CSS_Core_widget = __lazy(function () {
+ return 'widget';
+});
+
+const Examples_CSS_Core_textIn = __lazy(function () {
+ return 'textin';
+});
+
+const Examples_CSS_Core_selectIn = __lazy(function () {
+ return 'selectin';
+});
+
+const Examples_CSS_Core_pageTitle = __lazy(function () {
+ return 'pageTitle';
+});
+
+const Examples_CSS_Core_exampleSelector = __lazy(function () {
+ return 'example_selector';
+});
 
 const Examples_CSS_Core_exampleDiv = __lazy(function () {
  return {a1: 'div', a2: 17, a3: 'example'};
 });
 
 const Examples_CSS_Core_coreCSS = __lazy(function () {
- return {a1: {a1: {h: 3, a1: 'html'}, a2: {a1: csegen_320(), a2: {h: 0}}}, a2: {a1: {a1: {h: 3, a1: 'body'}, a2: {a1: {a1: 2, a2: Text_CSS_Color_black()}, a2: {a1: {a1: 7, a2: Examples_CSS_Colors_base100()}, a2: {a1: {a1: 9, a2: undefined}, a2: {a1: {a1: 12, a2: 2}, a2: {a1: {a1: 14, a2: 'Helvetica, Arial, sans-serif'}, a2: {a1: csegen_320(), a2: {a1: {a1: 19, a2: {h: 0, a1: {h: 1, a1: 0}}}, a2: {h: 0}}}}}}}}}, a2: {a1: {a1: {h: 2, a1: 'contentList'}, a2: {a1: {a1: 1, a2: 2}, a2: {a1: {a1: 2, a2: Examples_CSS_Colors_darker_grey()}, a2: {a1: {a1: 9, a2: undefined}, a2: {a1: {a1: 10, a2: '1'}, a2: {a1: {a1: 12, a2: 2}, a2: {a1: {a1: 17, a2: 3}, a2: {a1: {a1: 24, a2: {h: 5, a1: {h: 0, a1: 40}, a2: {h: 0, a1: 20}}}, a2: {a1: {a1: 21, a2: {h: 1, a1: 70}}, a2: {a1: {a1: 23, a2: {h: 1, a1: 70}}, a2: {h: 0}}}}}}}}}}}, a2: {a1: {a1: {h: 2, a1: 'pageTitle'}, a2: {a1: {a1: 5, a2: {h: 4, a1: 4}}, a2: {a1: {a1: 6, a2: {h: 4, a1: {h: 0, a1: {h: 1, a1: 5}}}}, a2: {a1: csegen_345(), a2: {a1: {a1: 15, a2: {h: 7}}, a2: {a1: csegen_346(), a2: {a1: {a1: 24, a2: {h: 4, a1: {h: 1, a1: 60}}}, a2: {a1: {a1: 25, a2: 4}, a2: {h: 0}}}}}}}}}, a2: {a1: {a1: {h: 2, a1: 'contentHeader'}, a2: {a1: {a1: 9, a2: undefined}, a2: {a1: {a1: 5, a2: {h: 4, a1: 4}}, a2: {a1: {a1: 6, a2: {h: 4, a1: {h: 0, a1: {h: 1, a1: 2}}}}, a2: {a1: csegen_345(), a2: {a1: csegen_346(), a2: {a1: {a1: 24, a2: {h: 4, a1: {h: 1, a1: 40}}}, a2: {h: 0}}}}}}}}, a2: {a1: {a1: {h: 2, a1: 'widget'}, a2: {a1: {a1: 2, a2: Examples_CSS_Colors_lighter_grey()}, a2: {a1: {a1: 4, a2: {h: 0, a1: {h: 1, a1: 10}}}, a2: {a1: {a1: 5, a2: {h: 0, a1: 4}}, a2: {a1: {a1: 6, a2: {h: 0, a1: {h: 0, a1: {h: 1, a1: 3}}}}, a2: {a1: {a1: 3, a2: {h: 0, a1: Examples_CSS_Colors_comp100()}}, a2: {a1: {a1: 7, a2: Examples_CSS_Colors_darker_grey()}, a2: {a1: {a1: 15, a2: {h: 6}}, a2: {a1: {a1: 24, a2: {h: 0, a1: {h: 1, a1: 5}}}, a2: csegen_370()}}}}}}}}}, a2: {a1: {a1: {h: 5, a1: {h: 2, a1: 'widget'}, a2: {h: 17}}, a2: csegen_382()}, a2: {a1: {a1: {h: 5, a1: {h: 2, a1: 'widget'}, a2: {h: 0}}, a2: csegen_382()}, a2: {a1: {a1: {h: 5, a1: {h: 2, a1: 'widget'}, a2: {h: 7}}, a2: {a1: {a1: 2, a2: Examples_CSS_Colors_light_grey()}, a2: {a1: {a1: 3, a2: {h: 0, a1: Examples_CSS_Colors_dark_grey()}}, a2: {h: 0}}}}, a2: {a1: {a1: {h: 2, a1: 'textin'}, a2: csegen_389()}, a2: {a1: {a1: {h: 2, a1: 'selectin'}, a2: csegen_389()}, a2: {a1: {a1: {h: 2, a1: 'example_selector'}, a2: {a1: {a1: 15, a2: {h: 6}}, a2: {h: 0}}}, a2: {a1: {a1: {h: 5, a1: {h: 2, a1: 'widget'}, a2: {h: 20}}, a2: {a1: {a1: 3, a2: {h: 0, a1: Text_CSS_Color_red()}}, a2: {h: 0}}}, a2: {a1: {a1: {h: 2, a1: 'widgetList'}, a2: {a1: {a1: 18, a2: 0}, a2: {a1: {a1: 9, a2: undefined}, a2: {a1: {a1: 10, a2: '1'}, a2: {a1: {a1: 12, a2: 2}, a2: {a1: {a1: 17, a2: 3}, a2: {h: 0}}}}}}}, a2: {a1: {a1: {h: 2, a1: 'widgetline'}, a2: {a1: {a1: 0, a2: 5}, a2: {a1: {a1: 9, a2: undefined}, a2: {a1: {a1: 19, a2: {h: 4, a1: {h: 1, a1: 5}}}, a2: {h: 0}}}}}, a2: {a1: {a1: {h: 2, a1: 'widgetlabel'}, a2: {a1: {a1: 15, a2: {h: 6}}, a2: csegen_408()}}, a2: {h: 0}}}}}}}}}}}}}}}}};
+ return {a1: {a1: {h: 3, a1: 'html'}, a2: {a1: csegen_310(), a2: {h: 0}}}, a2: {a1: {a1: {h: 3, a1: 'body'}, a2: {a1: {a1: 2, a2: Text_CSS_Color_black()}, a2: {a1: {a1: 7, a2: Examples_CSS_Colors_base100()}, a2: {a1: {a1: 9, a2: 0}, a2: {a1: {a1: 12, a2: 2}, a2: {a1: {a1: 14, a2: 'Helvetica, Arial, sans-serif'}, a2: {a1: csegen_310(), a2: {a1: {a1: 19, a2: {h: 0, a1: {h: 1, a1: 0}}}, a2: {h: 0}}}}}}}}}, a2: {a1: {a1: {h: 2, a1: Examples_CSS_Core_contentList()}, a2: {a1: {a1: 1, a2: 2}, a2: {a1: {a1: 2, a2: Examples_CSS_Colors_darker_grey()}, a2: {a1: {a1: 9, a2: 0}, a2: {a1: {a1: 10, a2: '1'}, a2: {a1: {a1: 12, a2: 2}, a2: {a1: {a1: 17, a2: 3}, a2: {a1: {a1: 24, a2: {h: 5, a1: {h: 0, a1: 40}, a2: {h: 0, a1: 20}}}, a2: {a1: {a1: 21, a2: {h: 1, a1: 70}}, a2: {a1: {a1: 23, a2: {h: 1, a1: 70}}, a2: {h: 0}}}}}}}}}}}, a2: {a1: {a1: {h: 2, a1: Examples_CSS_Core_pageTitle()}, a2: {a1: {a1: 5, a2: {h: 4, a1: 4}}, a2: {a1: {a1: 6, a2: {h: 4, a1: {h: 0, a1: {h: 1, a1: 5}}}}, a2: {a1: csegen_335(), a2: {a1: {a1: 15, a2: {h: 7}}, a2: {a1: csegen_336(), a2: {a1: {a1: 24, a2: {h: 4, a1: {h: 1, a1: 60}}}, a2: {a1: {a1: 25, a2: 4}, a2: {h: 0}}}}}}}}}, a2: {a1: {a1: {h: 2, a1: Examples_CSS_Core_contentHeader()}, a2: {a1: {a1: 9, a2: 0}, a2: {a1: {a1: 5, a2: {h: 4, a1: 4}}, a2: {a1: {a1: 6, a2: {h: 4, a1: {h: 0, a1: {h: 1, a1: 2}}}}, a2: {a1: csegen_335(), a2: {a1: csegen_336(), a2: {a1: {a1: 24, a2: {h: 4, a1: {h: 1, a1: 40}}}, a2: {h: 0}}}}}}}}, a2: {a1: {a1: {h: 2, a1: Examples_CSS_Core_widget()}, a2: {a1: {a1: 2, a2: Examples_CSS_Colors_lighter_grey()}, a2: {a1: {a1: 4, a2: {h: 0, a1: {h: 1, a1: 10}}}, a2: {a1: {a1: 5, a2: {h: 0, a1: 4}}, a2: {a1: {a1: 6, a2: {h: 0, a1: {h: 0, a1: {h: 1, a1: 3}}}}, a2: {a1: {a1: 3, a2: {h: 0, a1: Examples_CSS_Colors_comp100()}}, a2: {a1: {a1: 7, a2: Examples_CSS_Colors_darker_grey()}, a2: {a1: {a1: 15, a2: {h: 6}}, a2: {a1: csegen_358(), a2: csegen_360()}}}}}}}}}, a2: {a1: {a1: {h: 5, a1: {h: 2, a1: Examples_CSS_Core_widget()}, a2: {h: 17}}, a2: csegen_373()}, a2: {a1: {a1: {h: 5, a1: {h: 2, a1: Examples_CSS_Core_widget()}, a2: {h: 0}}, a2: csegen_373()}, a2: {a1: {a1: {h: 5, a1: {h: 2, a1: Examples_CSS_Core_widget()}, a2: {h: 7}}, a2: {a1: {a1: 2, a2: Examples_CSS_Colors_light_grey()}, a2: {a1: {a1: 3, a2: {h: 0, a1: Examples_CSS_Colors_dark_grey()}}, a2: {h: 0}}}}, a2: {a1: {a1: {h: 2, a1: Examples_CSS_Core_textIn()}, a2: csegen_382()}, a2: {a1: {a1: {h: 2, a1: Examples_CSS_Core_selectIn()}, a2: csegen_382()}, a2: {a1: {a1: {h: 2, a1: Examples_CSS_Core_exampleSelector()}, a2: {a1: {a1: 15, a2: {h: 6}}, a2: {h: 0}}}, a2: {a1: {a1: {h: 5, a1: {h: 2, a1: Examples_CSS_Core_widget()}, a2: {h: 20}}, a2: {a1: {a1: 3, a2: {h: 0, a1: Text_CSS_Color_red()}}, a2: {h: 0}}}, a2: {a1: {a1: {h: 2, a1: Examples_CSS_Core_widgetList()}, a2: {a1: {a1: 18, a2: 0}, a2: {a1: {a1: 9, a2: 0}, a2: {a1: {a1: 10, a2: '1'}, a2: {a1: {a1: 12, a2: 2}, a2: {a1: {a1: 17, a2: 3}, a2: {h: 0}}}}}}}, a2: {a1: {a1: {h: 2, a1: Examples_CSS_Core_widgetLine()}, a2: {a1: {a1: 0, a2: 5}, a2: {a1: {a1: 9, a2: 0}, a2: {a1: {a1: 19, a2: {h: 4, a1: {h: 1, a1: 5}}}, a2: {h: 0}}}}}, a2: {a1: {a1: {h: 2, a1: Examples_CSS_Core_widgetLabel()}, a2: {a1: {a1: 15, a2: {h: 6}}, a2: csegen_402()}}, a2: {h: 0}}}}}}}}}}}}}}}}};
+});
+
+const Examples_CSS_Core_contentList = __lazy(function () {
+ return 'contentList';
+});
+
+const Examples_CSS_Core_contentHeader = __lazy(function () {
+ return 'contentHeader';
 });
 
 const Examples_CSS_Core_contentDiv = __lazy(function () {
  return {a1: 'body', a2: 5, a3: 'content'};
+});
+
+const Examples_CSS_Core_btn = __lazy(function () {
+ return 'btn';
 });
 
 const Examples_CSS_Core_appStyle = __lazy(function () {
@@ -2606,7 +2801,7 @@ const Examples_CSS_Colors_base100 = __lazy(function () {
 
 function Examples_Performance_case__validate_4199($0, $1) {
  switch($1) {
-  case 0n: return {h: 0, a1: Prelude_Interfaces_concat(csegen_68(), {a1: 'Not a positive natural number: ', a2: {a1: $0, a2: {h: 0}}})};
+  case 0n: return {h: 0, a1: Prelude_Types_String_x2bx2b('Not a positive natural number: ', $0)};
   default: return {h: 1, a1: $1};
  }
 }
@@ -2616,19 +2811,19 @@ function Examples_Performance_validate($0) {
 }
 
 const Examples_Performance_ui = __lazy(function () {
- return Prelude_Interfaces_x3ex3e(csegen_144(), Control_Monad_Dom_Interface_innerHtmlAt(csegen_183(), csegen_202(), csegen_205(), Examples_CSS_Core_exampleDiv(), Examples_Performance_content()), () => $10 => Control_Monad_Dom_DomIO_pure_Applicative_x28x28DomIOx20x24evx29x20x24iox29(csegen_24(), {a1: {h: 4, a1: Examples_Performance_msf(), a2: {h: 2, a1: $1a => (undefined)}}, a2: csegen_145()}, $10));
+ return Prelude_Interfaces_x3ex3e(csegen_130(), Control_Monad_Dom_Interface_innerHtmlAt(csegen_171(), csegen_190(), csegen_193(), Examples_CSS_Core_exampleDiv(), Examples_Performance_content()), () => $10 => Control_Monad_Dom_DomIO_pure_Applicative_x28x28DomIOx20x24evx29x20x24iox29(csegen_24(), {a1: {h: 4, a1: Examples_Performance_msf(), a2: {h: 2, a1: $1a => 0}}, a2: csegen_131()}, $10));
 });
 
 const Examples_Performance_sumNats = __lazy(function () {
- return {h: 4, a1: {h: 6, a1: {a1: {h: 4, a1: Data_MSF_Util_accumulateWith($6 => $7 => ($6+$7), 0n), a2: {h: 4, a1: {h: 2, a1: $e => Prelude_Show_show_Show_Integer($e)}, a2: Rhone_JS_Sink_text(csegen_183(), Examples_CSS_Performance_out())}}, a2: {a1: Data_MSF_Util_ifFalse(csegen_167(), $1d => ((0n===$1d)?1:0), {h: 4, a1: {h: 6, a1: {a1: {h: 2, a1: $25 => Examples_Performance_btnRef($25)}, a2: {a1: {h: 1, a1: 1}, a2: {h: 0}}}}, a2: csegen_264()}), a2: {h: 0}}}}, a2: {h: 1, a1: undefined}};
+ return {h: 4, a1: {h: 6, a1: {a1: {h: 4, a1: Data_MSF_Util_accumulateWith($6 => $7 => Prelude_Types_x2b_Num_Nat($6, $7), 0n), a2: {h: 4, a1: {h: 2, a1: $f => Prelude_Show_show_Show_Nat($f)}, a2: Rhone_JS_Sink_text(csegen_171(), Examples_CSS_Performance_out())}}, a2: {a1: Data_MSF_Util_ifFalse(csegen_156(), $1e => Prelude_Types_x3dx3d_Eq_Nat(0n, $1e), {h: 4, a1: {h: 6, a1: {a1: {h: 2, a1: $27 => Examples_Performance_btnRef($27)}, a2: {a1: {h: 1, a1: 1}, a2: {h: 0}}}}, a2: csegen_252()}), a2: {h: 0}}}}, a2: {h: 1, a1: 0}};
 });
 
 const Examples_Performance_msf = __lazy(function () {
- return {h: 4, a1: {h: 6, a1: {a1: Examples_Performance_count(), a2: {a1: Data_MSF_Util_is(Examples_Performance_implEqEv(), 0), a2: {h: 0}}}}, a2: {h: 4, a1: Data_MSF_Util_rightOnEvent(), a2: Data_MSF_Util_ifEvent(csegen_167(), {h: 3, a1: $14 => $15 => Control_Monad_Dom_DomIO_map_Functor_x28x28DomIOx20x24evx29x20x24iox29(csegen_123(), $1a => (undefined), $1c => Control_Monad_Dom_DomIO_reactimateDom_({a1: 0n}, $1c.a1, $23 => Examples_Performance_btnsSF($14, $23), $1c.a2), $15)})}};
+ return {h: 4, a1: {h: 6, a1: {a1: Examples_Performance_count(), a2: {a1: Data_MSF_Util_is(Examples_Performance_implEqEv(), 0), a2: {h: 0}}}}, a2: {h: 4, a1: Data_MSF_Util_rightOnEvent(), a2: Data_MSF_Util_ifEvent(csegen_156(), {h: 3, a1: $14 => $15 => Control_Monad_Dom_DomIO_map_Functor_x28x28DomIOx20x24evx29x20x24iox29(csegen_109(), $1a => 0, $1c => Control_Monad_Dom_DomIO_reactimateDom_({a1: 0n}, $1c.a1, $23 => Examples_Performance_btnsSF($14, $23), $1c.a2), $15)})}};
 });
 
 function Examples_Performance_line($0, $1) {
- return {h: 0, a1: 'div', a2: 17, a3: csegen_282(), a4: {a1: {h: 0, a1: 'label', a2: 34, a3: csegen_222(), a4: {a1: {h: 2, a1: $0}, a2: {h: 0}}}, a2: $1}};
+ return {h: 0, a1: 'div', a2: 17, a3: csegen_270(), a4: {a1: {h: 0, a1: 'label', a2: 34, a3: csegen_210(), a4: {a1: {h: 2, a1: $0}, a2: {h: 0}}}, a2: $1}};
 }
 
 const Examples_Performance_implGenericEv = __lazy(function () {
@@ -2646,14 +2841,14 @@ const Examples_Performance_implGenericEv = __lazy(function () {
  };
  const $a = x => {
   switch(x) {
-   case 0: return undefined;
-   case 1: return undefined;
+   case 0: return 0;
+   case 1: return 0;
   }
  };
  const $c = x => {
   switch(x.h) {
-   case 0: return undefined;
-   case 1: return undefined;
+   case 0: return 0;
+   case 1: return 0;
   }
  };
  return {a1: $0, a2: $5, a3: $a, a4: $c};
@@ -2661,74 +2856,74 @@ const Examples_Performance_implGenericEv = __lazy(function () {
 
 const Examples_Performance_implEqEv = __lazy(function () {
  const $a = a => b => {
-  switch(Generics_SOP_genEq(Examples_Performance_implGenericEv(), csegen_461(), a, b)) {
+  switch(Generics_SOP_genEq(Examples_Performance_implGenericEv(), csegen_456(), a, b)) {
    case 1: return 0;
    case 0: return 1;
   }
  };
- return {a1: $1 => $2 => Generics_SOP_genEq(Examples_Performance_implGenericEv(), csegen_461(), $1, $2), a2: $a};
+ return {a1: $1 => $2 => Generics_SOP_genEq(Examples_Performance_implGenericEv(), csegen_456(), $1, $2), a2: $a};
 });
 
 function Examples_Performance_dispTime($0, $1) {
  switch($0) {
-  case 0n: return Prelude_Interfaces_concat(csegen_68(), {a1: 'Loaded ', a2: {a1: Prelude_Show_show_Show_Integer($0), a2: {a1: ' buttons in ', a2: {a1: Prelude_Show_show_Show_Int32($1), a2: {a1: ' ms.', a2: {h: 0}}}}}});
+  case 0n: return Prelude_Types_String_x2bx2b('Loaded ', Prelude_Types_String_x2bx2b(Prelude_Show_show_Show_Nat($0), Prelude_Types_String_x2bx2b(' buttons in ', Prelude_Types_String_x2bx2b(Prelude_Show_show_Show_Int32($1), ' ms.'))));
   default: {
-   const $15 = ($0-1n);
-   switch($15) {
-    case 0n: return Prelude_Interfaces_concat(csegen_68(), {a1: 'Loaded one button in ', a2: {a1: Prelude_Show_show_Show_Int32($1), a2: {a1: ' ms.', a2: {h: 0}}}});
-    default: return Prelude_Interfaces_concat(csegen_68(), {a1: 'Loaded ', a2: {a1: Prelude_Show_show_Show_Integer($0), a2: {a1: ' buttons in ', a2: {a1: Prelude_Show_show_Show_Int32($1), a2: {a1: ' ms.', a2: {h: 0}}}}}});
+   const $13 = ($0-1n);
+   switch($13) {
+    case 0n: return Prelude_Types_String_x2bx2b('Loaded one button in ', Prelude_Types_String_x2bx2b(Prelude_Show_show_Show_Int32($1), ' ms.'));
+    default: return Prelude_Types_String_x2bx2b('Loaded ', Prelude_Types_String_x2bx2b(Prelude_Show_show_Show_Nat($0), Prelude_Types_String_x2bx2b(' buttons in ', Prelude_Types_String_x2bx2b(Prelude_Show_show_Show_Int32($1), ' ms.'))));
    }
   }
  }
 }
 
 const Examples_Performance_count = __lazy(function () {
- return {h: 4, a1: {h: 4, a1: {h: 1, a1: Examples_CSS_Performance_natIn()}, a2: Rhone_JS_Source_value(csegen_183(), {a1: csegen_168(), a2: $c => Rhone_JS_Source_getValue_HasValue_HTMLInputElement($c)})}, a2: {h: 4, a1: {h: 2, a1: $12 => Examples_Performance_validate($12)}, a2: Data_MSF_Util_observeWith(Rhone_JS_Sink_leftInvalid(csegen_170(), csegen_183(), Examples_CSS_Performance_natIn()))}};
+ return {h: 4, a1: Rhone_JS_Input_getInput(csegen_171(), Examples_Performance_implEqEv(), 1, $8 => Examples_Performance_validate($8), Examples_CSS_Performance_natIn()), a2: Data_MSF_Util_observeWith({h: 4, a1: csegen_461(), a2: Data_MSF_Util_firstArg(csegen_252(), Examples_CSS_Performance_btnRun())})};
 });
 
 const Examples_Performance_content = __lazy(function () {
  const $f = Examples_CSS_Performance_natIn();
  const $e = $f.a3;
  const $d = {h: 0, a1: $e};
- const $c = {a1: $d, a2: {a1: Text_Html_Attribute_onInput($15 => 1), a2: {a1: Text_Html_Attribute_onEnterDown(0), a2: {a1: Text_Html_Attribute_dispAttr('class', csegen_224(), {a1: 'widget', a2: {a1: 'performance_numbuttons', a2: {h: 0}}}), a2: {a1: {h: 1, a1: 'placeholder', a2: 'Enter a positive integer'}, a2: {h: 0}}}}}};
+ const $c = {a1: $d, a2: {a1: Text_Html_Attribute_onInput($15 => 1), a2: {a1: Text_Html_Attribute_onEnterDown(0), a2: {a1: Text_Html_Attribute_dispAttr('class', csegen_212(), {a1: Examples_CSS_Core_widget(), a2: {a1: Examples_CSS_Performance_numButtons(), a2: {h: 0}}}), a2: {a1: {h: 1, a1: 'placeholder', a2: 'Enter a positive integer'}, a2: {h: 0}}}}}};
  const $9 = {h: 0, a1: 'input', a2: 32, a3: $c, a4: {h: 0}};
- const $8 = {a1: $9, a2: {h: 0}};
+ const $8 = {a1: $9, a2: {a1: {h: 0, a1: 'button', a2: 7, a3: {a1: {h: 0, a1: csegen_476()}, a2: {a1: {h: 3, a1: {h: 0, a1: $39 => ({a1: 0})}}, a2: csegen_481()}}, a4: {a1: {h: 2, a1: 'Run'}, a2: {h: 0}}}, a2: {h: 0}}};
  const $5 = Examples_Performance_line('Number of buttons:', $8);
- const $42 = Examples_CSS_Performance_time();
- const $41 = $42.a3;
- const $40 = {h: 0, a1: $41};
- const $3f = {a1: $40, a2: csegen_282()};
- const $3c = {h: 0, a1: 'div', a2: 17, a3: $3f, a4: {h: 0}};
- const $4e = Examples_CSS_Performance_buttons();
- const $4d = $4e.a3;
- const $4c = {h: 0, a1: $4d};
- const $4b = {a1: $4c, a2: csegen_282()};
- const $48 = {h: 0, a1: 'div', a2: 17, a3: $4b, a4: {h: 0}};
- const $47 = {a1: $48, a2: {h: 0}};
- const $3b = {a1: $3c, a2: $47};
- const $2c = {a1: Examples_Performance_line('Sum:', {a1: {h: 0, a1: 'div', a2: 17, a3: {a1: {h: 0, a1: csegen_485()}, a2: {h: 0}}, a4: {h: 0}}, a2: {h: 0}}), a2: $3b};
- const $4 = {a1: $5, a2: $2c};
- return {h: 0, a1: 'div', a2: 17, a3: csegen_246(), a4: $4};
+ const $58 = Examples_CSS_Performance_time();
+ const $57 = $58.a3;
+ const $56 = {h: 0, a1: $57};
+ const $55 = {a1: $56, a2: csegen_270()};
+ const $52 = {h: 0, a1: 'div', a2: 17, a3: $55, a4: {h: 0}};
+ const $64 = Examples_CSS_Performance_buttons();
+ const $63 = $64.a3;
+ const $62 = {h: 0, a1: $63};
+ const $61 = {a1: $62, a2: csegen_270()};
+ const $5e = {h: 0, a1: 'div', a2: 17, a3: $61, a4: {h: 0}};
+ const $5d = {a1: $5e, a2: {h: 0}};
+ const $51 = {a1: $52, a2: $5d};
+ const $42 = {a1: Examples_Performance_line('Sum:', {a1: {h: 0, a1: 'div', a2: 17, a3: {a1: {h: 0, a1: csegen_488()}, a2: {h: 0}}, a4: {h: 0}}, a2: {h: 0}}), a2: $51};
+ const $4 = {a1: $5, a2: $42};
+ return {h: 0, a1: 'div', a2: 17, a3: csegen_234(), a4: $4};
 });
 
 function Examples_Performance_btnsSF($0, $1) {
- return Control_Monad_Dom_DomIO_x3ex3ex3d_Monad_x28x28DomIOx20x24evx29x20x24iox29(csegen_138(), csegen_504(), t1 => Prelude_Interfaces_x3ex3e(csegen_144(), Control_Monad_Dom_Interface_innerHtmlAt(csegen_183(), csegen_202(), csegen_205(), Examples_CSS_Performance_buttons(), Examples_Performance_btns($0)), () => $19 => Control_Monad_Dom_DomIO_x3ex3ex3d_Monad_x28x28DomIOx20x24evx29x20x24iox29(csegen_138(), csegen_504(), t2 => Prelude_Interfaces_x3ex3e(csegen_144(), Control_Monad_Dom_Interface_rawInnerHtmlAt(csegen_183(), Examples_CSS_Performance_time(), Examples_Performance_dispTime($0, _sub32s(t2, t1))), () => $30 => Control_Monad_Dom_DomIO_pure_Applicative_x28x28DomIOx20x24evx29x20x24iox29(csegen_24(), {a1: Examples_Performance_sumNats(), a2: csegen_145()}, $30)), $19)), $1);
+ return Control_Monad_Dom_DomIO_x3ex3ex3d_Monad_x28x28DomIOx20x24evx29x20x24iox29(csegen_124(), csegen_507(), t1 => Prelude_Interfaces_x3ex3e(csegen_130(), Control_Monad_Dom_Interface_innerHtmlAt(csegen_171(), csegen_190(), csegen_193(), Examples_CSS_Performance_buttons(), Examples_Performance_btns($0)), () => $19 => Control_Monad_Dom_DomIO_x3ex3ex3d_Monad_x28x28DomIOx20x24evx29x20x24iox29(csegen_124(), csegen_507(), t2 => Prelude_Interfaces_x3ex3e(csegen_130(), Control_Monad_Dom_Interface_rawInnerHtmlAt(csegen_171(), Examples_CSS_Performance_time(), Examples_Performance_dispTime($0, _sub32s(t2, t1))), () => $30 => Control_Monad_Dom_DomIO_pure_Applicative_x28x28DomIOx20x24evx29x20x24iox29(csegen_24(), {a1: Examples_Performance_sumNats(), a2: csegen_131()}, $30)), $19)), $1);
 }
 
 function Examples_Performance_btns($0) {
- return {h: 0, a1: 'div', a2: 17, a3: {a1: {h: 1, a1: 'class', a2: 'performance_grid'}, a2: {h: 0}}, a4: Data_List_TR_mapTR($b => Examples_Performance_btn($b), Data_List_TR_iterateTR($0, $12 => ($12+1n), 1n))};
+ return {h: 0, a1: 'div', a2: 17, a3: {a1: {h: 1, a1: 'class', a2: Examples_CSS_Performance_grid()}, a2: {h: 0}}, a4: Data_List_TR_mapTR($c => Examples_Performance_btn($c), Data_List_TR_iterateTR($0, $13 => Prelude_Types_x2b_Num_Nat($13, 1n), 1n))};
 }
 
 function Examples_Performance_btnRef($0) {
- return {a1: 'button', a2: 7, a3: Prelude_Interfaces_concat(csegen_68(), {a1: 'BTN', a2: {a1: Prelude_Show_show_Show_Integer($0), a2: {h: 0}}})};
+ return {a1: 'button', a2: 7, a3: Prelude_Types_String_x2bx2b('BTN', Prelude_Show_show_Show_Nat($0))};
 }
 
 function Examples_Performance_btn($0) {
  const $6 = Examples_Performance_btnRef($0);
  const $5 = $6.a3;
  const $4 = {h: 0, a1: $5};
- const $3 = {a1: $4, a2: {a1: {h: 3, a1: {h: 0, a1: $d => ({a1: $0})}}, a2: {a1: Text_Html_Attribute_dispAttr('class', csegen_224(), {a1: 'widget', a2: {a1: 'btn', a2: {a1: 'performance_inc', a2: {h: 0}}}}), a2: {h: 0}}}};
- return {h: 0, a1: 'button', a2: 7, a3: $3, a4: {a1: {h: 2, a1: Prelude_Show_show_Show_Integer($0)}, a2: {h: 0}}};
+ const $3 = {a1: $4, a2: {a1: {h: 3, a1: {h: 0, a1: $d => ({a1: $0})}}, a2: {a1: Text_Html_Attribute_dispAttr('class', csegen_212(), {a1: Examples_CSS_Core_widget(), a2: {a1: Examples_CSS_Core_btn(), a2: {a1: Examples_CSS_Performance_inc(), a2: {h: 0}}}}), a2: {h: 0}}}};
+ return {h: 0, a1: 'button', a2: 7, a3: $3, a4: {a1: {h: 2, a1: Prelude_Show_show_Show_Nat($0)}, a2: {h: 0}}};
 }
 
 function Generics_SOP_genEq($0, $1, $2, $3) {
@@ -2743,101 +2938,103 @@ const Examples_CSS_Performance_out = __lazy(function () {
  return {a1: 'div', a2: 17, a3: 'performance_sum'};
 });
 
+const Examples_CSS_Performance_numButtons = __lazy(function () {
+ return 'performance_numbuttons';
+});
+
 const Examples_CSS_Performance_natIn = __lazy(function () {
  return {a1: 'input', a2: 32, a3: 'performance_numbuttons'};
 });
 
+const Examples_CSS_Performance_inc = __lazy(function () {
+ return 'performance_inc';
+});
+
+const Examples_CSS_Performance_grid = __lazy(function () {
+ return 'performance_grid';
+});
+
 const Examples_CSS_Performance_css = __lazy(function () {
- return {a1: {a1: {h: 1, a1: csegen_485()}, a2: {a1: {a1: 15, a2: {h: 6}}, a2: {a1: csegen_308(), a2: csegen_513()}}}, a2: {a1: {a1: {h: 2, a1: 'performance_grid'}, a2: {a1: {a1: 9, a2: undefined}, a2: {a1: {a1: 13, a2: 'wrap'}, a2: {h: 0}}}}, a2: {a1: {a1: {h: 2, a1: 'performance_inc'}, a2: {a1: {a1: 11, a2: {h: 1, a1: 5}}, a2: {a1: {a1: 15, a2: {h: 2}}, a2: {h: 0}}}}, a2: {a1: {a1: {h: 2, a1: 'performance_numbuttons'}, a2: {a1: csegen_308(), a2: {a1: {a1: 24, a2: {h: 0, a1: {h: 0, a1: 5}}}, a2: csegen_513()}}}, a2: {h: 0}}}}};
+ return {a1: {a1: {h: 1, a1: csegen_488()}, a2: {a1: {a1: 15, a2: {h: 6}}, a2: csegen_518()}}, a2: {a1: {a1: {h: 1, a1: csegen_476()}, a2: csegen_297()}, a2: {a1: {a1: {h: 2, a1: Examples_CSS_Performance_grid()}, a2: {a1: {a1: 9, a2: 0}, a2: {a1: {a1: 13, a2: 'wrap'}, a2: {h: 0}}}}, a2: {a1: {a1: {h: 2, a1: Examples_CSS_Performance_inc()}, a2: {a1: {a1: 11, a2: {h: 1, a1: 5}}, a2: {a1: {a1: 15, a2: {h: 2}}, a2: {h: 0}}}}, a2: {a1: {a1: {h: 2, a1: Examples_CSS_Performance_numButtons()}, a2: {a1: csegen_359(), a2: {a1: csegen_358(), a2: csegen_517()}}}, a2: {h: 0}}}}}};
 });
 
 const Examples_CSS_Performance_buttons = __lazy(function () {
  return {a1: 'div', a2: 17, a3: 'performance_buttons'};
 });
 
+const Examples_CSS_Performance_btnRun = __lazy(function () {
+ return {a1: 'button', a2: 7, a3: 'performance_run'};
+});
+
 function Data_List_TR_mapTR($0, $1) {
- return Data_List_TR_n__3163_2277_run($0, {h: 0}, $1);
+ return Data_List_TR_n__3157_2277_run($0, {h: 0}, $1);
 }
 
 function Data_List_TR_iterateTR($0, $1, $2) {
- return Data_List_TR_n__3142_2253_run($1, $0, {h: 0}, $0, $2);
+ return Data_List_TR_n__3136_2253_run($1, $0, {h: 0}, $0, $2);
 }
 
-function Examples_Fractals_Iterations_case__read_4957($0, $1) {
+function Examples_Fractals_Iterations_case__read_4871($0, $1) {
  switch($1) {
-  case 0n: return {h: 0, a1: Prelude_Interfaces_concat(csegen_68(), {a1: 'Not a natural number: ', a2: {a1: $0, a2: {h: 0}}})};
+  case 0n: return {h: 0, a1: Prelude_Types_String_x2bx2b('Not a natural number: ', $0)};
   default: {
-   const $c = Data_Nat_isLTE($1, 18n);
-   switch($c.h) {
+   const $7 = Data_Nat_isLTE($1, Examples_Fractals_MaxIter());
+   switch($7.h) {
     case 0: return {h: 1, a1: $1};
-    case 1: return {h: 0, a1: Prelude_Interfaces_concat(csegen_68(), {a1: 'Value must be <= ', a2: csegen_531()})};
+    case 1: return {h: 0, a1: Prelude_Types_String_x2bx2b('Value must be <= ', Prelude_Show_show_Show_Nat(Examples_Fractals_MaxIter()))};
    }
   }
  }
 }
 
-function Examples_Fractals_n__24373_5660_timer($0, $1, $2) {
- return Prelude_Interfaces_x3ex3e(csegen_138(), Examples_Fractals_n__24373_5659_cleanup($0, $1), () => Control_Monad_Error_Either_x3ex3ex3d_Monad_x28x28EitherTx20x24ex29x20x24mx29(csegen_15(), Examples_Fractals_setInterval(csegen_37(), $2, $1({h: 4})), newID => Control_Monad_Error_Either_liftIO_HasIO_x28x28EitherTx20x24ex29x20x24mx29(csegen_34(), $1b => ($0.value={a1: newID}))));
+function Examples_Fractals_n__24329_5398_timer($0, $1, $2) {
+ return Prelude_Interfaces_x3ex3e(csegen_124(), Examples_Fractals_n__24329_5397_cleanup($0, $1), () => Control_Monad_Error_Either_x3ex3ex3d_Monad_x28x28EitherTx20x24ex29x20x24mx29(csegen_15(), Examples_Fractals_setInterval(csegen_37(), $2, $1({h: 4})), newID => Control_Monad_Error_Either_liftIO_HasIO_x28x28EitherTx20x24ex29x20x24mx29(csegen_34(), $1b => ($0.value={a1: newID}))));
 }
 
-function Examples_Fractals_n__23990_5229_readAll($0) {
- const $1e = b => a => func => $1f => {
-  switch($1f.h) {
-   case 0: return {h: 0, a1: $1f.a1};
-   case 1: return {h: 1, a1: func($1f.a1)};
+function Examples_Fractals_n__23973_4998_readAll($0) {
+ const $1f = b => a => func => $20 => {
+  switch($20.h) {
+   case 0: return {h: 0, a1: $20.a1};
+   case 1: return {h: 1, a1: func($20.a1)};
   }
  };
- const $28 = b => a => $29 => $2a => {
-  switch($29.h) {
-   case 0: return {h: 0, a1: $29.a1};
+ const $29 = b => a => $2a => $2b => {
+  switch($2a.h) {
+   case 0: return {h: 0, a1: $2a.a1};
    case 1: {
-    switch($2a.h) {
-     case 1: return {h: 1, a1: $29.a1($2a.a1)};
-     case 0: return {h: 0, a1: $2a.a1};
+    switch($2b.h) {
+     case 1: return {h: 1, a1: $2a.a1($2b.a1)};
+     case 0: return {h: 0, a1: $2b.a1};
     }
    }
   }
  };
- const $1d = {a1: $1e, a2: a => $26 => ({h: 1, a1: $26}), a3: $28};
- const $3c = $3d => $3e => $3f => $40 => {
-  switch($40.h) {
-   case 0: return {h: 0, a1: $40.a1};
-   case 1: return {h: 1, a1: $3f($40.a1)};
+ const $1e = {a1: $1f, a2: a => $27 => ({h: 1, a1: $27}), a3: $29};
+ const $3d = $3e => $3f => $40 => $41 => {
+  switch($41.h) {
+   case 0: return {h: 0, a1: $41.a1};
+   case 1: return {h: 1, a1: $40($41.a1)};
   }
  };
- const $50 = $51 => {
-  switch($51.h) {
-   case 1: return {a1: $51.a1};
-   default: return {h: 0};
-  }
- };
- const $4c = Rhone_JS_Input_input(csegen_183(), $50, $55 => Examples_Fractals_Iterations_read($55), Examples_CSS_Fractals_txtIter());
- const $32 = Control_Applicative_Syntax_x3cx24x24x3e($35 => $36 => $37 => $38 => ({h: 4, a1: $38, a2: {h: 2, a1: $37}}), $3c, $47 => $48 => ({a1: undefined, a2: $47, a3: $48}), $4c);
- const $5e = $5f => {
-  switch($5f.h) {
-   case 2: return {a1: $5f.a1};
-   default: return {h: 0};
-  }
- };
- const $5a = Rhone_JS_Input_input(csegen_183(), $5e, $63 => Examples_Fractals_RedrawAfter_read($63), Examples_CSS_Fractals_txtRedraw());
- const $1 = Control_Applicative_Syntax_x3cx2ax2ax3e({a1: b => a => func => $5 => ({h: 4, a1: $5, a2: {h: 2, a1: func}}), a2: a => $a => ({h: 1, a1: $a}), a3: b => a => $d => $e => ({h: 4, a1: {h: 6, a1: {a1: $d, a2: {a1: $e, a2: {h: 0}}}}, a2: {h: 2, a1: $17 => $17.a1($17.a2.a1)}})}, $1d, $32, $5a);
- return {h: 4, a1: $1, a2: Data_MSF_Util_observeWith({h: 4, a1: {h: 2, a1: $6d => Data_Either_isLeft($6d)}, a2: Data_MSF_Util_firstArg(csegen_264(), Examples_CSS_Fractals_btnRun())})};
+ const $33 = Control_Applicative_Syntax_x3cx24x24x3e($36 => $37 => $38 => $39 => ({h: 4, a1: $39, a2: {h: 2, a1: $38}}), $3d, $48 => $49 => ({a1: 0, a2: $48, a3: $49}), Rhone_JS_Input_getInput(csegen_171(), Examples_Fractals_implEqEv(), {h: 1}, $55 => Examples_Fractals_Iterations_read($55), Examples_CSS_Fractals_txtIter()));
+ const $1 = Control_Applicative_Syntax_x3cx2ax2ax3e({a1: b => a => func => $5 => ({h: 4, a1: $5, a2: {h: 2, a1: func}}), a2: a => $a => ({h: 1, a1: $a}), a3: b => a => $d => $e => ({h: 4, a1: {h: 6, a1: {a1: $d, a2: {a1: $e, a2: {h: 0}}}}, a2: {h: 2, a1: $17 => Prelude_Basics_apply($17.a1, $17.a2.a1)}})}, $1e, $33, Rhone_JS_Input_getInput(csegen_171(), Examples_Fractals_implEqEv(), {h: 2}, $62 => Examples_Fractals_RedrawAfter_read($62), Examples_CSS_Fractals_txtRedraw()));
+ return {h: 4, a1: $1, a2: Data_MSF_Util_observeWith({h: 4, a1: csegen_461(), a2: Data_MSF_Util_firstArg(csegen_252(), Examples_CSS_Fractals_btnRun())})};
 }
 
-function Examples_Fractals_n__23990_5228_fractal($0, $1) {
- return Data_MSF_Util_ifIs(Examples_Fractals_implEqEv(), csegen_167(), {h: 4}, {h: 4, a1: Data_MSF_Util_unfold($c => Examples_Fractals_calc($1, $c), 0n), a2: {h: 3, a1: $13 => Control_Monad_Dom_Interface_rawInnerHtmlAt(csegen_183(), Examples_CSS_Fractals_out(), $13)}});
+function Examples_Fractals_n__23973_4997_fractal($0, $1) {
+ return Data_MSF_Util_ifIs(Examples_Fractals_implEqEv(), csegen_156(), {h: 4}, {h: 4, a1: Data_MSF_Util_cycle(Examples_Fractals_Dragon_mkDragons($1.a2)), a2: {h: 3, a1: $11 => Control_Monad_Dom_Interface_rawInnerHtmlAt(csegen_171(), Examples_CSS_Fractals_out(), $11)}});
 }
 
-function Examples_Fractals_n__23990_5230_config($0) {
- return {h: 4, a1: {h: 6, a1: {a1: Examples_Fractals_n__23990_5229_readAll($0), a2: {a1: Data_MSF_Util_is(Examples_Fractals_implEqEv(), {h: 3}), a2: {h: 0}}}}, a2: {h: 4, a1: Data_MSF_Util_rightOnEvent(), a2: Data_MSF_Util_observeWith(Data_MSF_Util_ifEvent(csegen_167(), {h: 3, a1: $18 => $19 => Control_Monad_Dom_DomIO_liftJSIO_LiftJSIO_x28x28DomIOx20x24evx29x20x24iox29(csegen_180(), $0($18.a3), $19)}))}};
+function Examples_Fractals_n__23973_4999_config($0) {
+ return {h: 4, a1: {h: 6, a1: {a1: Examples_Fractals_n__23973_4998_readAll($0), a2: {a1: Data_MSF_Util_is(Examples_Fractals_implEqEv(), {h: 3}), a2: {h: 0}}}}, a2: {h: 4, a1: Data_MSF_Util_rightOnEvent(), a2: Data_MSF_Util_observeWith(Data_MSF_Util_ifEvent(csegen_156(), {h: 3, a1: $18 => $19 => Control_Monad_Dom_DomIO_liftJSIO_LiftJSIO_x28x28DomIOx20x24evx29x20x24iox29(csegen_168(), $0($18.a3), $19)}))}};
 }
 
-function Examples_Fractals_n__24373_5659_cleanup($0, $1) {
- return Control_Monad_Error_Either_x3ex3ex3d_Monad_x28x28EitherTx20x24ex29x20x24mx29(csegen_15(), Control_Monad_Error_Either_liftIO_HasIO_x28x28EitherTx20x24ex29x20x24mx29(csegen_34(), $a => ($0.value)), $f => Prelude_Interfaces_traverse_(csegen_163(), $14 => Examples_Fractals_clearInterval(csegen_37(), $14), $f));
+function Examples_Fractals_n__24329_5397_cleanup($0, $1) {
+ return Control_Monad_Error_Either_x3ex3ex3d_Monad_x28x28EitherTx20x24ex29x20x24mx29(csegen_15(), Control_Monad_Error_Either_liftIO_HasIO_x28x28EitherTx20x24ex29x20x24mx29(csegen_34(), $a => ($0.value)), $f => Prelude_Interfaces_traverse_(csegen_149(), $14 => Examples_Fractals_clearInterval(csegen_37(), $14), $f));
 }
 
 const Examples_Fractals_ui = __lazy(function () {
- return Prelude_Interfaces_x3ex3e(csegen_144(), Control_Monad_Dom_Interface_innerHtmlAt(csegen_183(), csegen_202(), csegen_205(), Examples_CSS_Core_exampleDiv(), Examples_Fractals_content()), () => $10 => Control_Monad_Dom_DomIO_x3ex3ex3d_Monad_x28x28DomIOx20x24evx29x20x24iox29(csegen_138(), Data_IORef_newIORef(csegen_179(), {h: 0}), ref => $1a => Control_Monad_Dom_DomIO_x3ex3ex3d_Monad_x28x28DomIOx20x24evx29x20x24iox29(csegen_138(), Prelude_Interfaces_x3cx24x3e($21 => $22 => $23 => $24 => $25 => Control_Monad_Dom_DomIO_map_Functor_x28x28DomIOx20x24evx29x20x24iox29(csegen_123(), $23, $24, $25), $2d => $2d.a3, $30 => Control_Monad_Dom_DomIO_env(csegen_138(), $30)), h => $36 => Control_Monad_Dom_DomIO_pure_Applicative_x28x28DomIOx20x24evx29x20x24iox29(csegen_24(), {a1: Examples_Fractals_msf($3e => Examples_Fractals_n__24373_5660_timer(ref, h, $3e)), a2: Examples_Fractals_n__24373_5659_cleanup(ref, h)}, $36), $1a), $10));
+ return Prelude_Interfaces_x3ex3e(csegen_130(), Control_Monad_Dom_Interface_innerHtmlAt(csegen_171(), csegen_190(), csegen_193(), Examples_CSS_Core_exampleDiv(), Examples_Fractals_content()), () => $10 => Control_Monad_Dom_DomIO_x3ex3ex3d_Monad_x28x28DomIOx20x24evx29x20x24iox29(csegen_124(), Data_IORef_newIORef(csegen_167(), {h: 0}), ref => $1a => Control_Monad_Dom_DomIO_x3ex3ex3d_Monad_x28x28DomIOx20x24evx29x20x24iox29(csegen_124(), Prelude_Interfaces_x3cx24x3e($21 => $22 => $23 => $24 => $25 => Control_Monad_Dom_DomIO_map_Functor_x28x28DomIOx20x24evx29x20x24iox29(csegen_109(), $23, $24, $25), $2d => $2d.a3, $30 => Control_Monad_Dom_DomIO_env(csegen_124(), $30)), h => $36 => Control_Monad_Dom_DomIO_pure_Applicative_x28x28DomIOx20x24evx29x20x24iox29(csegen_24(), {a1: Examples_Fractals_msf($3e => Examples_Fractals_n__24329_5398_timer(ref, h, $3e)), a2: Examples_Fractals_n__24329_5397_cleanup(ref, h)}, $36), $1a), $10));
 });
 
 function Examples_Fractals_setInterval($0, $1, $2) {
@@ -2845,9 +3042,9 @@ function Examples_Fractals_setInterval($0, $1, $2) {
 }
 
 function Examples_Fractals_RedrawAfter_read($0) {
- const $1 = _truncUInt32(_intOfString($0));
- const $3 = Data_So_choose(Examples_Fractals_isDelay($1));
- switch($3.h) {
+ const $1 = Prelude_Cast_cast_Cast_String_Bits32($0);
+ const $4 = Data_So_choose(Examples_Fractals_isDelay($1));
+ switch($4.h) {
   case 0: return {h: 1, a1: $1};
   case 1: return {h: 0, a1: 'Enter a value between 100 and 10\'000'};
  }
@@ -2856,16 +3053,16 @@ function Examples_Fractals_RedrawAfter_read($0) {
 function Examples_Fractals_Iterations_read($0) {
  switch($0) {
   case '0': return {h: 1, a1: 0n};
-  default: return Examples_Fractals_Iterations_case__read_4957($0, Prelude_Cast_cast_Cast_String_Nat($0));
+  default: return Examples_Fractals_Iterations_case__read_4871($0, Prelude_Cast_cast_Cast_String_Nat($0));
  }
 }
 
 function Examples_Fractals_msf($0) {
- return Data_MSF_Switch_rswitchWhen({h: 1, a1: undefined}, Examples_Fractals_n__23990_5230_config($0), $8 => Examples_Fractals_n__23990_5228_fractal($0, $8));
+ return Data_MSF_Switch_rswitchWhen({h: 1, a1: 0}, Examples_Fractals_n__23973_4999_config($0), $8 => Examples_Fractals_n__23973_4997_fractal($0, $8));
 }
 
 function Examples_Fractals_line($0, $1) {
- return {h: 0, a1: 'div', a2: 17, a3: csegen_282(), a4: {a1: {h: 0, a1: 'label', a2: 34, a3: csegen_222(), a4: {a1: {h: 2, a1: $0}, a2: {h: 0}}}, a2: $1}};
+ return {h: 0, a1: 'div', a2: 17, a3: csegen_270(), a4: {a1: {h: 0, a1: 'label', a2: 34, a3: csegen_210(), a4: {a1: {h: 2, a1: $0}, a2: {h: 0}}}, a2: $1}};
 }
 
 function Examples_Fractals_isDelay($0) {
@@ -2876,28 +3073,28 @@ function Examples_Fractals_isDelay($0) {
 }
 
 const Examples_Fractals_implGenericFractal = __lazy(function () {
- return {a1: x => ({h: 0, a1: {h: 0}}), a2: x => (undefined), a3: x => (undefined), a4: x => (undefined)};
+ return {a1: x => ({h: 0, a1: {h: 0}}), a2: csegen_569(), a3: x => 0, a4: csegen_569()};
 });
 
 const Examples_Fractals_implGenericEv = __lazy(function () {
  const $0 = x => {
   switch(x.h) {
    case 0: return {h: 0, a1: {a1: x.a1, a2: {h: 0}}};
-   case 1: return {h: 1, a1: {h: 0, a1: {a1: x.a1, a2: {h: 0}}}};
-   case 2: return {h: 1, a1: {h: 1, a1: {h: 0, a1: {a1: x.a1, a2: {h: 0}}}}};
-   case 3: return csegen_570();
-   case 4: return {h: 1, a1: csegen_570()};
+   case 1: return {h: 1, a1: {h: 0, a1: {h: 0}}};
+   case 2: return {h: 1, a1: {h: 1, a1: {h: 0, a1: {h: 0}}}};
+   case 3: return csegen_572();
+   case 4: return {h: 1, a1: csegen_572()};
   }
  };
- const $11 = x => {
+ const $d = x => {
   switch(x.h) {
    case 0: return {h: 0, a1: x.a1.a1};
    case 1: {
     switch(x.a1.h) {
-     case 0: return {h: 1, a1: x.a1.a1.a1};
+     case 0: return {h: 1};
      case 1: {
       switch(x.a1.a1.h) {
-       case 0: return {h: 2, a1: x.a1.a1.a1.a1};
+       case 0: return {h: 2};
        case 1: {
         switch(x.a1.a1.a1.h) {
          case 0: return {h: 3};
@@ -2910,28 +3107,28 @@ const Examples_Fractals_implGenericEv = __lazy(function () {
    }
   }
  };
- const $22 = x => {
+ const $1a = x => {
   switch(x.h) {
-   case 0: return undefined;
-   case 1: return undefined;
-   case 2: return undefined;
-   case 3: return undefined;
-   case 4: return undefined;
+   case 0: return 0;
+   case 1: return 0;
+   case 2: return 0;
+   case 3: return 0;
+   case 4: return 0;
   }
  };
- const $24 = x => {
+ const $1c = x => {
   switch(x.h) {
-   case 0: return undefined;
+   case 0: return 0;
    case 1: {
     switch(x.a1.h) {
-     case 0: return undefined;
+     case 0: return 0;
      case 1: {
       switch(x.a1.a1.h) {
-       case 0: return undefined;
+       case 0: return 0;
        case 1: {
         switch(x.a1.a1.a1.h) {
-         case 0: return undefined;
-         case 1: return undefined;
+         case 0: return 0;
+         case 1: return 0;
         }
        }
       }
@@ -2940,7 +3137,7 @@ const Examples_Fractals_implGenericEv = __lazy(function () {
    }
   }
  };
- return {a1: $0, a2: $11, a3: $22, a4: $24};
+ return {a1: $0, a2: $d, a3: $1a, a4: $1c};
 });
 
 const Examples_Fractals_implEqFractal = __lazy(function () {
@@ -2955,33 +3152,35 @@ const Examples_Fractals_implEqFractal = __lazy(function () {
 
 const Examples_Fractals_implEqEv = __lazy(function () {
  const $a = a => b => {
-  switch(Generics_SOP_genEq(Examples_Fractals_implGenericEv(), csegen_584(), a, b)) {
+  switch(Generics_SOP_genEq(Examples_Fractals_implGenericEv(), csegen_582(), a, b)) {
    case 1: return 0;
    case 0: return 1;
   }
  };
- return {a1: $1 => $2 => Generics_SOP_genEq(Examples_Fractals_implGenericEv(), csegen_584(), $1, $2), a2: $a};
+ return {a1: $1 => $2 => Generics_SOP_genEq(Examples_Fractals_implGenericEv(), csegen_582(), $1, $2), a2: $a};
 });
 
 const Examples_Fractals_content = __lazy(function () {
- return {h: 0, a1: 'div', a2: 17, a3: csegen_246(), a4: {a1: Examples_Fractals_line('Number of iterations:', {a1: {h: 0, a1: 'input', a2: 32, a3: {a1: {h: 0, a1: csegen_588()}, a2: {a1: Text_Html_Attribute_onInput($14 => ({h: 1, a1: $14})), a2: {a1: Text_Html_Attribute_onEnterDown({h: 3}), a2: {a1: {h: 1, a1: 'class', a2: 'widget'}, a2: {a1: {h: 1, a1: 'placeholder', a2: Prelude_Interfaces_concat(csegen_68(), {a1: 'Enter a natural number <= ', a2: csegen_531()})}, a2: {h: 0}}}}}}, a4: {h: 0}}, a2: {h: 0}}), a2: {a1: Examples_Fractals_line('Iteration delay [ms]:', {a1: {h: 0, a1: 'input', a2: 32, a3: {a1: {h: 0, a1: csegen_602()}, a2: {a1: Text_Html_Attribute_onInput($3c => ({h: 2, a1: $3c})), a2: {a1: Text_Html_Attribute_onEnterDown({h: 3}), a2: {a1: {h: 1, a1: 'class', a2: 'widget'}, a2: {a1: {h: 1, a1: 'placeholder', a2: 'Enter a number in the range [100,10\'000]'}, a2: {h: 0}}}}}}, a4: {h: 0}}, a2: {a1: {h: 0, a1: 'button', a2: 7, a3: {a1: {h: 0, a1: csegen_611()}, a2: {a1: {h: 3, a1: {h: 0, a1: $58 => ({a1: {h: 3}})}}, a2: {a1: Text_Html_Attribute_dispAttr('class', csegen_224(), {a1: 'widget', a2: {a1: 'btn', a2: {h: 0}}}), a2: {h: 0}}}}, a4: {a1: {h: 2, a1: 'Run'}, a2: {h: 0}}}, a2: {h: 0}}}), a2: {a1: {h: 0, a1: 'div', a2: 17, a3: {a1: {h: 0, a1: csegen_623()}, a2: {h: 0}}, a4: {h: 0}}, a2: {h: 0}}}}};
+ return {h: 0, a1: 'div', a2: 17, a3: csegen_234(), a4: {a1: Examples_Fractals_line('Number of iterations:', {a1: {h: 0, a1: 'input', a2: 32, a3: {a1: {h: 0, a1: csegen_586()}, a2: {a1: Text_Html_Attribute_onInput($14 => ({h: 1})), a2: {a1: Text_Html_Attribute_onEnterDown({h: 3}), a2: {a1: {h: 1, a1: 'class', a2: Examples_CSS_Core_widget()}, a2: {a1: {h: 1, a1: 'placeholder', a2: Prelude_Types_String_x2bx2b('Range: [0, ', Prelude_Types_String_x2bx2b(Prelude_Show_show_Show_Nat(Examples_Fractals_MaxIter()), ']'))}, a2: {h: 0}}}}}}, a4: {h: 0}}, a2: {h: 0}}), a2: {a1: Examples_Fractals_line('Iteration delay [ms]:', {a1: {h: 0, a1: 'input', a2: 32, a3: {a1: {h: 0, a1: csegen_599()}, a2: {a1: Text_Html_Attribute_onInput($3e => ({h: 2})), a2: {a1: Text_Html_Attribute_onEnterDown({h: 3}), a2: {a1: {h: 1, a1: 'class', a2: Examples_CSS_Core_widget()}, a2: {a1: {h: 1, a1: 'placeholder', a2: 'Range: [100,10\'000]'}, a2: {h: 0}}}}}}, a4: {h: 0}}, a2: {a1: {h: 0, a1: 'button', a2: 7, a3: {a1: {h: 0, a1: csegen_607()}, a2: {a1: {h: 3, a1: {h: 0, a1: $5a => ({a1: {h: 3}})}}, a2: csegen_481()}}, a4: {a1: {h: 2, a1: 'Run'}, a2: {h: 0}}}, a2: {h: 0}}}), a2: {a1: {h: 0, a1: 'div', a2: 17, a3: {a1: {h: 0, a1: csegen_616()}, a2: {h: 0}}, a4: {h: 0}}, a2: {h: 0}}}}};
 });
 
 function Examples_Fractals_clearInterval($0, $1) {
  return $0.a2(undefined)($7 => Examples_Fractals_prim__clearInterval($1, $7));
 }
 
-function Examples_Fractals_calc($0, $1) {
- const $3 = Data_Nat_isLT($1, $0.a2);
- switch($3.h) {
-  case 0: return {a1: ($1+1n), a2: {a1: Examples_Fractals_Dragon_mkDragon($1), a2: {h: 0}}};
-  case 1: return {a1: 0n, a2: {a1: Examples_Fractals_Dragon_mkDragon($1), a2: {h: 0}}};
- }
-}
+const Examples_Fractals_MaxIter = __lazy(function () {
+ return 18n;
+});
 
-function Examples_Fractals_Dragon_case__dragon_3933($0, $1, $2) {
- const $4 = Data_List_TR_mapTR($7 => Examples_Fractals_Dragon_rotateAround90($2.a1, $7), Prelude_Types_List_reverse($2.a2));
- return Prelude_Types_List_tailRecAppend($4, {a1: $2.a1, a2: $2.a2});
+function Examples_Fractals_Dragon_n__3242_4094_go($0, $1, $2, $3) {
+ switch($2) {
+  case 0n: return {h: 0};
+  default: {
+   const $5 = ($2-1n);
+   const $8 = Examples_Fractals_Dragon_nextDragon($1);
+   return {a1: Examples_Fractals_Dragon_dragonSVG($3, $8), a2: Examples_Fractals_Dragon_n__3242_4094_go($0, $8, $5, Prelude_Types_x2b_Num_Nat($3, 1n))};
+  }
+ }
 }
 
 function Examples_Fractals_Dragon_fromInteger_Num_Point($0) {
@@ -3004,26 +3203,26 @@ function Examples_Fractals_Dragon_rotate90($0) {
  return {a1: $0.a2, a2: _sub32s(0, $0.a1)};
 }
 
-function Examples_Fractals_Dragon_mkDragon($0) {
- return Examples_Fractals_Dragon_dragonSVG($0, Examples_Fractals_Dragon_dragon({a1: 0, a2: 0}, $0));
+function Examples_Fractals_Dragon_nextDragon($0) {
+ const $2 = Data_List_TR_mapTR($5 => Examples_Fractals_Dragon_rotateAround90($0.a1, $5), Prelude_Types_List_reverse($0.a2));
+ return Prelude_Types_List_tailRecAppend($2, {a1: $0.a1, a2: $0.a2});
 }
+
+function Examples_Fractals_Dragon_mkDragons($0) {
+ const $1 = Examples_Fractals_Dragon_firstDragon();
+ return {a1: Examples_Fractals_Dragon_dragonSVG(0n, $1), a2: Examples_Fractals_Dragon_n__3242_4094_go($0, $1, $0, 1n)};
+}
+
+const Examples_Fractals_Dragon_firstDragon = __lazy(function () {
+ return {a1: {a1: 0, a2: 0}, a2: {a1: Examples_Fractals_Dragon_fromInteger_Num_Point(800n), a2: {h: 0}}};
+});
 
 function Examples_Fractals_Dragon_dragonSVG($0, $1) {
- const $2 = Prelude_Types_pow(2.0, (Number(($0+2n))/2.0));
- const $b = (1.0/$2);
- const $e = Prelude_Types_fastConcat(Data_List_TR_mapTR($13 => Prelude_Interfaces_concat(csegen_68(), {a1: Prelude_Show_show_Show_Int32($13.a1), a2: {a1: ', ', a2: {a1: Prelude_Show_show_Show_Int32($13.a2), a2: {a1: ' ', a2: {h: 0}}}}}), $1));
- const $26 = Prelude_Interfaces_concat(csegen_68(), {a1: '<svg version=\"1.1\"\n     width=\"100%\"\n     viewBox=\"0 0 1000 1000\"\n     xmlns=\"http://www.w3.org/2000/svg\">', a2: {h: 0}});
- return Prelude_Interfaces_concat(csegen_68(), {a1: $26, a2: {a1: '\n  <polyline points=\"', a2: {a1: $e, a2: {a1: '\"\n            fill=\"none\"\n            stroke=\"red\"\n            transform=\"translate (500,500) scale(', a2: {a1: Prelude_Show_show_Show_Double($b), a2: {a1: ')\"\n            stroke-width=\"', a2: {a1: Prelude_Show_show_Show_Double($2), a2: {a1: '\"/>\n</svg>', a2: {h: 0}}}}}}}}});
-}
-
-function Examples_Fractals_Dragon_dragon($0, $1) {
- switch($1) {
-  case 0n: return {a1: $0, a2: {a1: Examples_Fractals_Dragon_x2b_Num_Point($0, Examples_Fractals_Dragon_fromInteger_Num_Point(800n)), a2: {h: 0}}};
-  default: {
-   const $c = ($1-1n);
-   return Examples_Fractals_Dragon_case__dragon_3933($c, $0, Examples_Fractals_Dragon_dragon($0, $c));
-  }
- }
+ const $2 = Prelude_Types_pow(2.0, Prelude_Num_x2f_Fractional_Double(Prelude_Cast_cast_Cast_Nat_Double(Prelude_Types_x2b_Num_Nat($0, 2n)), 2.0));
+ const $e = Prelude_Num_x2f_Fractional_Double(1.0, $2);
+ const $12 = Prelude_Types_fastConcat(Data_List_TR_mapTR($17 => Prelude_Types_String_x2bx2b(Prelude_Show_show_Show_Int32($17.a1), Prelude_Types_String_x2bx2b(', ', Prelude_Types_String_x2bx2b(Prelude_Show_show_Show_Int32($17.a2), ' '))), $1));
+ const $27 = '<svg version=\"1.1\"\n     width=\"100%\"\n     viewBox=\"0 0 1000 1000\"\n     xmlns=\"http://www.w3.org/2000/svg\">';
+ return Prelude_Types_String_x2bx2b($27, Prelude_Types_String_x2bx2b('\n  <polyline points=\"', Prelude_Types_String_x2bx2b($12, Prelude_Types_String_x2bx2b('\"\n            fill=\"none\"\n            stroke=\"red\"\n            transform=\"translate (500,500) scale(', Prelude_Types_String_x2bx2b(Prelude_Show_show_Show_Double($e), Prelude_Types_String_x2bx2b(')\"\n            stroke-width=\"', Prelude_Types_String_x2bx2b(Prelude_Show_show_Show_Double($2), '\"/>\n</svg>')))))));
 }
 
 const Examples_CSS_Fractals_txtRedraw = __lazy(function () {
@@ -3039,7 +3238,7 @@ const Examples_CSS_Fractals_out = __lazy(function () {
 });
 
 const Examples_CSS_Fractals_css = __lazy(function () {
- return {a1: {a1: {h: 1, a1: csegen_588()}, a2: csegen_634()}, a2: {a1: {a1: {h: 1, a1: csegen_602()}, a2: csegen_634()}, a2: {a1: {a1: {h: 1, a1: csegen_611()}, a2: csegen_309()}, a2: {a1: {a1: {h: 1, a1: csegen_623()}, a2: {a1: {a1: 10, a2: '1'}, a2: csegen_370()}}, a2: {h: 0}}}}};
+ return {a1: {a1: {h: 1, a1: csegen_586()}, a2: csegen_518()}, a2: {a1: {a1: {h: 1, a1: csegen_599()}, a2: csegen_518()}, a2: {a1: {a1: {h: 1, a1: csegen_607()}, a2: csegen_297()}, a2: {a1: {a1: {h: 1, a1: csegen_616()}, a2: {a1: {a1: 10, a2: '1'}, a2: csegen_360()}}, a2: {h: 0}}}}};
 });
 
 const Examples_CSS_Fractals_btnRun = __lazy(function () {
@@ -3048,24 +3247,24 @@ const Examples_CSS_Fractals_btnRun = __lazy(function () {
 
 function Data_So_choose($0) {
  switch($0) {
-  case 1: return {h: 0, a1: undefined};
-  case 0: return {h: 1, a1: undefined};
+  case 1: return {h: 0, a1: 0};
+  case 0: return {h: 1, a1: 0};
  }
 }
 
-function Data_MSF_Switch_n__4059_6236_next($0, $1, $2, $3) {
+function Data_MSF_Switch_n__4055_6236_next($0, $1, $2, $3) {
  switch($3.a2.a1.a2.a1.h) {
   case 0: return {h: 1, a1: $3.a1};
   case undefined: return {h: 0, a1: {a1: {a1: $3.a2.a1.a1, a2: {a1: $3.a2.a1.a2.a1.a1, a2: {h: 0}}}, a2: $3.a1}};
  }
 }
 
-function Data_MSF_Switch_n__4059_6237_cont($0, $1, $2, $3) {
+function Data_MSF_Switch_n__4055_6237_cont($0, $1, $2, $3) {
  return Data_MSF_Switch_rswitchWhen($0($3.a2.a1), $3.a1, $0);
 }
 
 function Data_MSF_Switch_rswitchWhen($0, $1, $2) {
- return {h: 12, a1: {h: 4, a1: {h: 6, a1: {a1: $0, a2: {a1: {h: 13, a1: $1}, a2: {h: 0}}}}, a2: {h: 2, a1: $d => Data_MSF_Switch_n__4059_6236_next($2, $1, $0, $d)}}, a2: () => $14 => Data_MSF_Switch_n__4059_6237_cont($2, $1, $0, $14)};
+ return {h: 12, a1: {h: 4, a1: {h: 6, a1: {a1: $0, a2: {a1: {h: 13, a1: $1}, a2: {h: 0}}}}, a2: {h: 2, a1: $d => Data_MSF_Switch_n__4055_6236_next($2, $1, $0, $d)}}, a2: () => $14 => Data_MSF_Switch_n__4055_6237_cont($2, $1, $0, $14)};
 }
 
 function Control_Applicative_Syntax_x3cx2ax2ax3e($0, $1, $2, $3) {
