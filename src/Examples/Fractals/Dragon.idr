@@ -36,13 +36,6 @@ Dragon = Subset (List Point) NonEmpty
 lemma []       v as2 = IsNonEmpty
 lemma (h :: t) v as2 = IsNonEmpty
 
-dragon : (origin : Point) -> Nat -> Dragon
-dragon o 0 = Element [o,o + 800] IsNonEmpty
-dragon o (S k) =
-  let (Element (h :: t) prf) = dragon o k
-      new = mapTR (rotateAround90 h) (reverse t)
-   in Element (new ++ h :: t) (lemma new h t)
-
 firstDragon : Dragon
 firstDragon = Element [0,800] IsNonEmpty 
 
@@ -69,8 +62,9 @@ dragonSVG n (Element ps _) =
         <polyline points="\#{attr}"
                   fill="none"
                   stroke="red"
+                  vector-effect="non-scaling-stroke"
                   transform="translate (500,500) scale(\#{show scale})"
-                  stroke-width="\#{show fact}"/>
+                  stroke-width="1"/>
       </svg>
       """#
 

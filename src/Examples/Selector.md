@@ -10,6 +10,7 @@ First some imports:
 module Examples.Selector
 
 import Examples.CSS
+import Examples.Balls
 import Examples.Fractals
 import Examples.Performance
 import Examples.Reset
@@ -82,6 +83,7 @@ content =
               [ option [ value "reset", selected True ] ["Counting Clicks"]
               , option [ value "performance" ] ["Performance"]
               , option [ value "fractals" ] ["Fractals"]
+              , option [ value "balls" ] ["Bouncing Balls"]
               ]
           ]
       , div [id exampleDiv.id, class widgetList] []
@@ -170,6 +172,7 @@ msf = feedback (pure ())
         select "reset"       = reactimateInDomIni (const 0) Reset.ui
         select "performance" = reactimateInDom Performance.ui
         select "fractals"    = reactimateInDom Fractals.ui
+        select "balls"       = reactimateInDom Balls.ui
         select _             = pure (pure ())
 
 export

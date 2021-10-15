@@ -20,6 +20,7 @@ modules    = Control.Monad.Dom
            , Rhone.JS.Sink
            , Rhone.JS.Source
            , Rhone.JS.Input
+           , Rhone.JS.Util
 
            , Text.CSS
            , Text.CSS.Color

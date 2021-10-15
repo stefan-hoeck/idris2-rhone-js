@@ -22,6 +22,12 @@ modules    = Examples.CSS
            , Examples.CSS.Reset
 
            , Examples.Fractals
+           , Examples.Fractals.Dragon
+
+           , Examples.FRP.Ball
+           , Examples.FRP.Basics
+
+           , Examples.Balls
            , Examples.Performance
            , Examples.Reset
            , Examples.Selector

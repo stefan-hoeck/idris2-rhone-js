@@ -163,14 +163,11 @@ MB = DomIO Nat JSIO
 
 We also need a way to calculate the time taken to create
 and display the buttons. The idris2-dom library does not
-yet provide this functionality, so we quickly hack together
-our own FFI call:
+yet provide this functionality, but it is available
+from `Rhone.JS.Util`:
 
 ```idris
-%foreign "javascript:lambda:(w) => new Date().getTime()"
-prim__time : PrimIO Int32
-
-dispTime : Nat -> Int32 -> String
+dispTime : Nat -> Bits32 -> String
 dispTime 1 ms = #"\#Loaded one button in \#{show ms} ms."#
 dispTime n ms = #"\#Loaded \#{show n} buttons in \#{show ms} ms."#
 ```
@@ -209,9 +206,9 @@ to do so:
 ```idris
 btnsSF : PosNat -> MB (MSF MB Nat (), JSIO ())
 btnsSF n = do
-  t1 <- primIO prim__time
+  t1 <- currentTime
   innerHtmlAt buttons (btns n)
-  t2 <- primIO prim__time
+  t2 <- currentTime
   rawInnerHtmlAt time (dispTime n.fst $ t2 - t1)
   pure (sumNats, pure ())
 ```

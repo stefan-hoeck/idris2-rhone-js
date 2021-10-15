@@ -16,24 +16,6 @@ import Rhone.JS
 %default total
 
 --------------------------------------------------------------------------------
---          Interval
---------------------------------------------------------------------------------
-
-data IntervalID : Type where [external]
-
-%foreign "browser:lambda:(n,h,w)=>setInterval(() => h(w),n)"
-prim__setInterval : Bits32 -> IO () -> PrimIO IntervalID
-
-%foreign "browser:lambda:(i,w)=>clearInterval(i)"
-prim__clearInterval : IntervalID -> PrimIO ()
-
-setInterval : HasIO io => Bits32 -> JSIO () -> io (IntervalID)
-setInterval millis run = primIO $ prim__setInterval millis (runJS run)
-
-clearInterval : HasIO io => IntervalID -> io ()
-clearInterval id = primIO $ prim__clearInterval id
-
---------------------------------------------------------------------------------
 --          Model
 --------------------------------------------------------------------------------
 
