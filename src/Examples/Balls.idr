@@ -1,37 +1,39 @@
 module Examples.Balls
 
-import Data.DPair
+import Data.MSF.Switch
 import Data.Either
 import Data.Nat
 import Data.Vect
-import Data.VectorSpace
 import Examples.CSS.Balls
 import Examples.FRP.Ball
+import Examples.FRP.BallCanvas
 import Examples.FRP.Basics
+import Examples.Util
 import Generics.Derive
+import Rhone.Canvas
 import Rhone.JS
 
 %language ElabReflection
 %default total
 
-inis : Vect 10 Ball
-inis = [ MkBall [5,5] [0.002,0.003]
-       , MkBall [3,5] [0.002,0.000]
-       , MkBall [1,4] [0.010,0.000]
-       , MkBall [2,2] [0.001,0.010]
-       , MkBall [3,7] [0.011,0.003]
-       , MkBall [1,9] [0.000,0.020]
-       , MkBall [2,1] [0.020,0.012]
-       , MkBall [4,4] [0.020,0.012]
-       , MkBall [7,6] [0.020,0.002]
-       , MkBall [8,3] [0.010,0.012]
-       ]
+data Ev = Run | NumIn | Next
 
-content : Node ()
+%runElab derive "Ev" [Generic,Meta,Show,Eq]
+
+content : Node Ev
 content =
   div [ class widgetList ]
-      [ div [id log.id] []
-      , div [id out.id] []
+      [ line "Number of balls:"
+          [ input [ id txtCount.id
+                  , onInput (const NumIn)
+                  , onEnterDown Run
+                  , class widget
+                  , placeholder #"Range: [1,200]"#
+                  ] []
+          , button [id btnRun.id, onClick Run, classes [widget,btn]] ["Run"]
+          ]
+      , div [id log.id] []
+      , div [] [canvas [id out.id, width 500, height 500] [] ]
       ]
 
 --------------------------------------------------------------------------------
@@ -40,22 +42,40 @@ content =
 
 public export
 M : Type -> Type
-M = DomIO () JSIO
+M = DomIO Ev JSIO
 
 fps : DTime -> String
 fps 0  = #"FPS: 0"#
 fps dt = #"FPS: \#{show $ 1000 `div` dt}"#
 
-msf : MSF M () ()
-msf =   runSF (fan [balls inis, dtime])
-    >>> par [ ballsSVG ^>> innerHtml out
-            , arr fps >>> text log]
-    >>> neutral
+read : String -> Either String (List Ball)
+read s =
+  let n = cast {to = Nat} s
+   in if 0 < n && n <= 200
+        then Right (initialBalls n)
+        else Left "Enter a number between 1 and 100"
+
+
+animation : List Ball -> MSF M Ev ()
+animation inis =   ifIs Next
+               $   runSF (const 20) (balls inis)
+               >>> fan_ [ arrM (renderBalls out 500 500)
+                        , realTimeDelta >>> fps ^>> text log]
+
+msf : MSF M Ev ()
+msf = rswitchWhen neutral initialBalls animation
+  where readInit : MSF M Ev (Either String (List Ball))
+        readInit =    getInput NumIn read txtCount
+                 >>>  observeWith (isLeft ^>> disabledAt btnRun)
+
+        initialBalls : MSF M Ev (MSFEvent $ List Ball)
+        initialBalls =   fan [readInit, is Run]
+                     >>> rightOnEvent
 
 export
-ui : M (MSF M () (), JSIO ())
+ui : M (MSF M Ev (), JSIO ())
 ui = do
   innerHtmlAt exampleDiv content
   h     <- handler <$> env 
-  newID <- setInterval 5 (h ())
+  newID <- setInterval 20 (h Next)
   pure (msf, clearInterval newID)

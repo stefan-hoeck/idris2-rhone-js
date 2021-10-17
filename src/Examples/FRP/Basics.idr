@@ -46,11 +46,14 @@ time = dtime >>> accumulateWith (+) 0
 --          Integration
 --------------------------------------------------------------------------------
 
+calc : VectorSpace o => NP I [o, DTime] -> (o,o) -> NP I [(o,o),o]
+calc [new,dt] (acc,prev) =
+  let acc2 = acc ^+^  ((cast dt / 2) *^ (prev ^+^ new))
+   in [(acc2,new),acc2]
+
 export
 integralFrom : (Monad m, VectorSpace o) => o -> SF m o o
-integralFrom a0 =
-  fan [id,dtime] >>>
-  accumulateWith (\[va,dt],acc => acc ^+^ (cast dt *^ va)) a0
+integralFrom a0 = fan [id,dtime] >>> mealy calc (a0,a0)
 
 export
 integral : (Monad m, VectorSpace o) => SF m o o
@@ -64,5 +67,9 @@ delta : (current,last : Bits32) -> NP I [Bits32,DTime]
 delta c l = if l == 0 then [c,0] else [c, cast $ c - l]
 
 export
-runSF : HasIO m => SF m i o -> MSF m i o
-runSF sf = fan [constM currentTime >>> mealy delta 0, id] >>> unReader sf
+realTimeDelta : HasIO m => MSF m i DTime
+realTimeDelta =constM currentTime >>> mealy delta 0
+
+export
+runSF : Monad m => MSF m i DTime -> SF m i o -> MSF m i o
+runSF dt sf = fan [dt, id] >>> unReader sf

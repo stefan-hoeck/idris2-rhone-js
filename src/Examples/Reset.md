@@ -21,6 +21,7 @@ so the *reset* button should be disabled in that case as well.
 module Examples.Reset
 
 import Examples.CSS.Reset
+import Examples.Util
 import Rhone.JS
 
 %default total
@@ -55,13 +56,6 @@ the current count:
 The DOM elements will be laid out as a list of
 four lines, each with a descriptive label at the
 beginning, followed by the active components:
-
-```idris
-line : (lbl: String) -> List (Node Ev) -> Node Ev
-line lbl ns =
-  div [class widgetLine] $ 
-      label [class widgetLabel] [Text lbl] :: ns
-```
 
 The three buttons all display some descriptive
 text and need to know about the event they fire

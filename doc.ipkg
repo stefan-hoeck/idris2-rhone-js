@@ -25,11 +25,13 @@ modules    = Examples.CSS
            , Examples.Fractals.Dragon
 
            , Examples.FRP.Ball
+           , Examples.FRP.BallCanvas
            , Examples.FRP.Basics
 
            , Examples.Balls
            , Examples.Performance
            , Examples.Reset
            , Examples.Selector
+           , Examples.Util
 
 sourcedir  = "src"

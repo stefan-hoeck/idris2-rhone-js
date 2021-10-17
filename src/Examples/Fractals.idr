@@ -9,6 +9,7 @@ import Data.Nat
 import Data.So
 import Examples.CSS.Fractals
 import Examples.Fractals.Dragon
+import Examples.Util
 import Generics.Derive
 import Rhone.JS
 
@@ -82,9 +83,6 @@ public export
 M : Type -> Type
 M = DomIO Ev JSIO
 
-MSFEvent : Type -> Type
-MSFEvent = Data.MSF.Event.Event
-
 msf : (timer : RedrawAfter -> JSIO ()) -> MSF M Ev ()
 msf timer = rswitchWhen (const ()) config fractal
   where fractal : Config -> MSF M Ev ()
@@ -107,11 +105,6 @@ msf timer = rswitchWhen (const ()) config fractal
 --          View
 --------------------------------------------------------------------------------
 
-line : (lbl: String) -> List (Node Ev) -> Node Ev
-line lbl ns =
-  div [class widgetLine] $ 
-      label [class widgetLabel] [Text lbl] :: ns
-
 content : Node Ev
 content =
   div [ class widgetList ]
@@ -121,7 +114,6 @@ content =
                   , onEnterDown Run
                   , class widget
                   , placeholder #"Range: [0, \#{show MaxIter}]"#
-
                   ] []
           ]
       , line "Iteration delay [ms]:"

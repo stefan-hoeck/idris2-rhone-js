@@ -35,6 +35,7 @@ import Data.List.TR
 import Data.Nat
 import Data.String
 import Examples.CSS.Performance
+import Examples.Util
 import Generics.Derive
 import Rhone.JS
 
@@ -82,13 +83,6 @@ Next, the reference IDs for the active components:
 
 We have two labeled lines similar to the ones from
 [the last tutorial](Reset.md):
-
-```idris
-line : (lbl: String) -> List (Node e) -> Node e
-line lbl ns =
-  div [class widgetLine] $ 
-      label [class widgetLabel] [Text lbl] :: ns
-```
 
 And here's the function to create a single button:
 It must come with its own ID, since we need to

@@ -9,8 +9,16 @@ import Text.CSS
 --------------------------------------------------------------------------------
 
 export
-out : ElemRef HTMLDivElement
-out = MkRef Div "balls_out"
+out : ElemRef HTMLCanvasElement
+out = MkRef Canvas "balls_out"
+
+export
+btnRun : ElemRef HTMLButtonElement
+btnRun = MkRef Button "balls_run"
+
+export
+txtCount : ElemRef HTMLInputElement
+txtCount = MkRef Input "balls_numballs"
 
 export
 log : ElemRef HTMLDivElement
@@ -26,5 +34,14 @@ css =
   [ id out.id !!
       [ Flex            .= "1"
       , Margin          .= px 5
+      ]
+
+  , id txtCount.id !!
+      [ Margin          .= px 5
+      , TextAlign       .= End
+      , Width           .= perc 20
+      ]
+  , id btnRun.id !!
+      [ Width           .= perc 10
       ]
   ]

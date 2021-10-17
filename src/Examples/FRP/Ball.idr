@@ -8,6 +8,8 @@ import Data.Vect
 import Data.VectorSpace
 import Examples.FRP.Basics
 
+%default total
+
 ||| 2D Vector
 public export
 V2 : Type
@@ -29,16 +31,26 @@ Acceleration : Type
 Acceleration = V2
 
 export
-g : Acceleration
-g = [0,-9.81 / 1000000]
+g : Double
+g = -9.81 / 1000000
+
+-- export
+-- g : Acceleration
+-- g = [0,-9.81 / 1000000]
 
 export
-velocity : Monad m => (v0 : Velocity) -> SF m Acceleration Velocity
-velocity = integralFrom
+velocity :  Monad m
+         => (a0 : Acceleration)
+         -> (v0 : Velocity)
+         -> SF m Acceleration Velocity
+velocity a0 v0 = integralFrom a0 >>^ (^+^ v0)
 
 export
-position : Monad m => (p0 : Position) -> SF m Velocity Position
-position = integralFrom
+position :  Monad m
+         => (v0 : Velocity)
+         -> (p0 : Position)
+         -> SF m Velocity Position
+position v0 p0 = integralFrom v0 >>^ (^+^ p0)
 
 --------------------------------------------------------------------------------
 --          Ball
@@ -55,54 +67,73 @@ export
 printBall : Ball -> String
 printBall (MkBall p v) = #"Ball: \#{show p} \#{show v}"#
 
-checkBounds : Ball -> Event Ball
-checkBounds (MkBall [px,py] [vx,vy]) =
-  if      (py <= 0  && vy < 0) then Ev (MkBall [px,-py] [vx,-vy])
-  else if (px <= 0  && vx < 0) then Ev (MkBall [-px,py] [-vx,vy])
-  else if (px >= 10 && vx > 0) then Ev (MkBall [2*10 - px,py] [-vx,vy])
-  else NoEv
+export
+initialBalls : (n : Nat) -> List Ball
+initialBalls n = go n
+  where ball : Nat -> Ball
+        ball k =
+          let factor = cast {to = Double} k / cast n
+              angle = 2 * pi * factor
+              x0 = 1.0 + factor * 8
+           in MkBall [x0,5] [0.003 * cos angle, 0.003 * sin angle]
 
-nextBall : Ball -> Either (Ball,Ball) Ball
-nextBall b = case checkBounds b of
-  Ev b2 => Left (b2,b2)
-  NoEv  => Right b
+        go : (k : Nat) -> List Ball
+        go 0     = []
+        go (S k) = ball (S k) :: go k
 
-ballFrom : Monad m => (ini : Ball) -> SF m i Ball
-ballFrom b =   const g
-           >>> velocity b.vel
-           >>> fan [position b.pos,id] >>^ (\[p,v] => MkBall p v)
+--------------------------------------------------------------------------------
+--          SF
+--------------------------------------------------------------------------------
+
+checkBounds : Ball -> Ball
+checkBounds b@(MkBall [px,py] [vx,vy]) =
+  if      (py <= 0  && vy < 0) then (MkBall [px,py] [vx,-vy])
+  else if (px <= 0  && vx < 0) then (MkBall [-px,py] [-vx,vy])
+  else if (px >= 10 && vx > 0) then (MkBall [2*10 - px,py] [-vx,vy])
+  else b
+
+nextBall : DTime -> Ball -> NP I [Ball,Ball]
+nextBall dt (MkBall [px,py] [vx,vy]) =
+  let delta = cast {to = Double} dt
+      vy2  = vy + g * delta
+      px2  = px + vx * delta
+      py2  = py + (vy + vy2) * delta / 2
+      b2   = checkBounds (MkBall [px2,py2] [vx,vy2])
+   in [b2,b2]
 
 export
 ballGame : Monad m => (ini : Ball) -> SF m i Ball
-ballGame ini = dswitch (ballFrom ini >>^ nextBall) ballGame
+ballGame ini = dtime >>> mealy nextBall ini
 
 export
-balls : Monad m => (inis : Vect n Ball) -> SF m i (Vect n Ball)
+balls : Monad m => (inis : List Ball) -> SF m i (List Ball)
 balls = traverse ballGame
 
-ballToSVG : Ball -> String
-ballToSVG (MkBall [x,y] _) =
-  #"<circle cx="\#{show x}" cy="\#{show $ 10 - y}" r="0.3" fill="red"/>"#
-
-export
-ballsSVG : Vect n Ball -> String
-ballsSVG balls =
-  let header =
-        the String #"""
-                   <svg version="1.1"
-                        width="50%"
-                        viewBox="0 0 20 20"
-                        xmlns="http://www.w3.org/2000/svg">
-                   """#
-   in #"""
-      \#{header}
-      <g transform="translate(5,5)">
-      <polyline points="0, 0, 0, 10 10, 10 10, 0"
-                fill="none"
-                stroke="yellow"
-                vector-effect="non-scaling-stroke"
-                stroke-width="2"/>
-      \#{concatMap ballToSVG balls}
-      </g>
-      </svg>
-      """#
+-- --------------------------------------------------------------------------------
+-- --          SF
+-- --------------------------------------------------------------------------------
+-- 
+-- checkBounds : Ball -> Event Ball
+-- checkBounds (MkBall [px,py] [vx,vy]) =
+--   if      (py <= 0  && vy < 0) then Ev (MkBall [px,py] [vx,-vy])
+--   else if (px <= 0  && vx < 0) then Ev (MkBall [-px,py] [-vx,vy])
+--   else if (px >= 10 && vx > 0) then Ev (MkBall [2*10 - px,py] [-vx,vy])
+--   else NoEv
+-- 
+-- nextBall : Ball -> Either (Ball,Ball) Ball
+-- nextBall b = case checkBounds b of
+--   Ev b2 => Left  (b2,b2)
+--   NoEv  => Right b
+-- 
+-- ballFrom : Monad m => (ini : Ball) -> SF m i Ball
+-- ballFrom b =   const g
+--            >>> velocity g b.vel
+--            >>> fan [position b.vel b.pos,id] >>^ (\[p,v] => MkBall p v)
+-- 
+-- export
+-- ballGame : Monad m => (ini : Ball) -> SF m i Ball
+-- ballGame ini = resetOn ballFrom checkBounds ini 
+-- 
+-- export
+-- balls : Monad m => (inis : List Ball) -> SF m i (List Ball)
+-- balls = traverse ballGame
