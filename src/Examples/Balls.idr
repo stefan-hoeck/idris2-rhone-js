@@ -28,7 +28,7 @@ content =
                   , onInput (const NumIn)
                   , onEnterDown Run
                   , class widget
-                  , placeholder #"Range: [1,200]"#
+                  , placeholder #"Range: [1,1000]"#
                   ] []
           , button [id btnRun.id, onClick Run, classes [widget,btn]] ["Run"]
           ]
@@ -51,19 +51,19 @@ fps dt = #"FPS: \#{show $ 1000 `div` dt}"#
 read : String -> Either String (List Ball)
 read s =
   let n = cast {to = Nat} s
-   in if 0 < n && n <= 200
+   in if 0 < n && n <= 1000
         then Right (initialBalls n)
-        else Left "Enter a number between 1 and 100"
+        else Left "Enter a number between 1 and 1000"
 
 
-animation : List Ball -> MSF M Ev ()
-animation inis =   ifIs Next
-               $   runSF (const 20) (balls inis)
-               >>> fan_ [ arrM (renderBalls out 500 500)
-                        , realTimeDelta >>> fps ^>> text log]
+animation : M DTime -> List Ball -> MSF M Ev ()
+animation dt inis =   ifIs Next
+                  $   balls dt inis
+                  >>> fan_ [ arrM (renderBalls out 500 500)
+                           , realTimeDelta >>> fps ^>> text log]
 
-msf : MSF M Ev ()
-msf = rswitchWhen neutral initialBalls animation
+msf : M DTime -> MSF M Ev ()
+msf dt = drswitchWhen neutral initialBalls (animation dt)
   where readInit : MSF M Ev (Either String (List Ball))
         readInit =    getInput NumIn read txtCount
                  >>>  observeWith (isLeft ^>> disabledAt btnRun)
@@ -76,6 +76,7 @@ export
 ui : M (MSF M Ev (), JSIO ())
 ui = do
   innerHtmlAt exampleDiv content
-  h     <- handler <$> env 
-  newID <- setInterval 20 (h Next)
-  pure (msf, clearInterval newID)
+  h              <- handler <$> env 
+  (getDT, setDT) <- liftJSIO $ timer {io = JSIO}
+  newID <- setInterval 20 (setDT >> h Next)
+  pure (msf $ liftJSIO getDT, clearInterval newID)

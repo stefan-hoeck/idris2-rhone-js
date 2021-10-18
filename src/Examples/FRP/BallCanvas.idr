@@ -9,16 +9,16 @@ import Rhone.Canvas
 import Text.CSS.Color
 import Web.Dom
 
-ballToSegment : Ball -> Shape
-ballToSegment (MkBall [x,y] _) = circle x (10 - y) 0.1 Fill
+ballToScene : Ball -> Scene
+ballToScene (MkBall col [x,y] _) =
+  S1 (Col col) Id $ circle x (10 - y) 0.05 Fill
 
 export
 ballsToScene : List Ball -> Scene
 ballsToScene bs =
-  SM  Current (Transform 50 0 0 50 10 10)
-    [ S1 (Col yellow) Id (Path [Move 0 0, Line 0 10, Line 10 10, Line 10 0] Stroke)
-    , S1 (Col red) Id $ Shapes (mapTR ballToSegment bs)
-    ]
+  SM  Current (Transform 50 0 0 50 10 10) $
+    S1 (Col yellow) Id (Path [Move 0 0, Line 0 10, Line 10 10, Line 10 0] Stroke) ::
+    mapTR ballToScene bs
 
 export
 renderBalls :  LiftJSIO io

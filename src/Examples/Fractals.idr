@@ -84,7 +84,7 @@ M : Type -> Type
 M = DomIO Ev JSIO
 
 msf : (timer : RedrawAfter -> JSIO ()) -> MSF M Ev ()
-msf timer = rswitchWhen (const ()) config fractal
+msf timer = drswitchWhen neutral config fractal
   where fractal : Config -> MSF M Ev ()
         fractal c = 
           let Element dragons prf = mkDragons c.iterations.value
