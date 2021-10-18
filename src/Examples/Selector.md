@@ -165,9 +165,11 @@ directly from within an MSF.
 Enough talk, here's the code:
 
 ```idris
+cleanup : LiftJSIO io => (clean : JSIO ()) -> io ()
+cleanup = liftJSIO
+
 msf : MSF MSel String ()
-msf = feedback (pure ())
-    $ par [arrM liftJSIO, arrM select] >>^ (\[_,cl] => [cl,()])
+msf = feedback (pure ()) $ par [arrM cleanup, arrM select] >>> swap
   where select : String -> MSel (JSIO ())
         select "reset"       = reactimateInDomIni (const 0) Reset.ui
         select "performance" = reactimateInDom Performance.ui
@@ -183,7 +185,10 @@ ui = do
   pure (msf, pure ())
 ```
 
-I'll quickliy break this down a bit: The first line,
+I'll quickliy break this down a bit: The first line
+renders and applies the page's CSS rules to a `<style>`
+element in the HTML header referenced by `ElementRef` 
+`appStyle`. The second line,
 `innerHtmlAt contentDiv content`, is where half of the magic
 happens: We change the inner HTML of the element with ID
 `"content"` (the string wrapped up in `contentDiv`) to the
@@ -192,7 +197,7 @@ But before doing so, every element that can fire an event is
 given its own unique ID (if it doesn't already have one) and
 after adding these updated elements to the DOM, theses IDs are
 looked up and the necessary event handlers are registered
-at these elements. So the procedure is as follows: Add IDs where
+at the elements. So the procedure is as follows: Add IDs where
 necessary, render to text form, replace inner HTML of `contentDiv`
 with the rendered text, lookup reactive components by their
 IDs and register the event handlers.
@@ -205,6 +210,13 @@ know about, we start the corresponding user interface, again
 by invoking the mysterious `reactimateInDom` function. This
 is where the other half of the magic happens, but that's for
 another post.
+
+Just a final note: `reactimateInDom` might set up resources (for instances
+running timers) we ned to cleanup once we switch to another
+example application. The `feedback` loop takes care of this:
+After a new example has been started, its cleanup hook is
+sent back to the input of the controlling MSF and invoked
+before the next application is started.
 
 ### Comparison with other MVC Libraries
 
@@ -244,3 +256,6 @@ and experience will tell.
 In the [next part](Reset.md), I'll explain a first sample application
 with some real application state and reactive components in detail.
 Have fun!
+
+<!-- vi: filetype=idris2
+-->

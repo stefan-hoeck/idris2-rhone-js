@@ -51,3 +51,6 @@ for these tutorials.
 
 Jump to the [examples selector implementation](Selector.md), to learn about the
 general structure of an interactive rhone-js web page.
+
+<!-- vi: filetype=idris2
+-->
