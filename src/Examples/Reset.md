@@ -136,9 +136,7 @@ and returning the stream function.
 ```idris
 export
 ui : M (MSF M Ev (), JSIO ())
-ui = do
-  innerHtmlAt exampleDiv content
-  pure (msf, pure ())
+ui = innerHtmlAt exampleDiv content $> (msf, pure ())
 ```
 
 Note that the function above returns a pair of values: The
