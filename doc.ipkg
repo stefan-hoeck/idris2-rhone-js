@@ -24,9 +24,6 @@ modules    = Examples.CSS
            , Examples.Fractals
            , Examples.Fractals.Dragon
 
-           , Examples.FRP.Ball
-           , Examples.FRP.BallCanvas
-
            , Examples.Balls
            , Examples.Performance
            , Examples.Reset

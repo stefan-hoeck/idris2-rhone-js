@@ -56,3 +56,6 @@ allRules =  fastUnlines . map render
          ++ Performance.css
          ++ Reset.css
 ```
+
+<!-- vi: filetype=idris2
+-->
