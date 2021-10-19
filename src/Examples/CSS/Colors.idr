@@ -5,64 +5,60 @@ import Text.CSS
 
 export
 lightest_grey : Color
-lightest_grey = "#adadad"
+lightest_grey = hsl 0 0 90 
 
 export
 lighter_grey : Color
-lighter_grey = "#6d6d6d"
+lighter_grey = hsl 0 0 70
 
 export
 light_grey : Color
-light_grey = "#4d4d4d"
+light_grey = hsl 0 0 50
 
 export
 dark_grey : Color
-dark_grey = "#1d1d1d"
+dark_grey = hsl 0 0 30
 
 export
 darker_grey : Color
-darker_grey = "#0d0d0d"
+darker_grey = hsl 0 0 10
 
 export
 base100 : Color
-base100 = "#e57200"
+base100 = rgb 230 115 0
 
 export
 base80 : Color
-base80 = "#e68a2e"
+base80 = rgb 230 138 46
 
 export
 base60 : Color
-base60 = "#e6a15c"
+base60 = rgb 230 161 92
 
 export
 base40 : Color
-base40 = "#e6b88a"
+base40 = rgb 230 184 138
 
 export
 base20 : Color
-base20 = "#e6cfb8"
-
-export
-base0 : Color
-base0 = "#e6e6e6"
+base20 = rgb 230 207 184
 
 export
 comp100 : Color
-comp100 = "#0073e5"
+comp100 = rgb 0 115 230
 
 export
 comp80 : Color
-comp80 = "#2e8ae6"
+comp80 = rgb 46 138 230
 
 export
 comp60 : Color
-comp60 = "#5ca1e6"
+comp60 = rgb 92 161 230
 
 export
 comp40 : Color
-comp40 = "#8ab8e6"
+comp40 = rgb 138 184 230
 
 export
 comp20 : Color
-comp20 = "#b8cfe6"
+comp20 = rgb 184 207 230

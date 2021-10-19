@@ -130,37 +130,28 @@ LiftJSIO io => MonadDom ev (DomIO ev io) where
 --          Reactimate
 --------------------------------------------------------------------------------
 
--- initialEvent: If `Just e`, evaluate the given `MSF` once with `e` to
--- properly initialize all components.
--- idPrefix: prefix for uniqe ids
-reactimateDom_ :  (initialEvent : Maybe ev)
-               -> (idPrefix     : String)
-               -> DomIO ev JSIO (MSF (DomIO ev JSIO) ev (), JSIO ())
-               -> (idRef        : IORef Nat)
-               -> JSIO (JSIO ())
-reactimateDom_ ie pre mkMSF idRef = do
+record Refs (ev : Type) where
+  constructor MkRefs
+  sfRef  : IORef (MSF (DomIO ev JSIO) ev ())
+  hRef   : IORef (ev -> JSIO ())
+  env    : DomEnv ev
+
+mkRefs : (idPrefix : String) -> (idRef : IORef Nat) -> JSIO (Refs ev)
+mkRefs pre idRef = do
+  -- the current application state consists of the current
+  -- monadic stream function, which will be stored in a
+  -- mutable ref
+  sfRef  <- newIORef {a = MSF (DomIO ev JSIO) ev ()} (const ())
 
   -- here we will put the properevent handler, once everyting
   -- is ready. This is not Haskell, so we can't define
   -- the handler lazily and satisfy the totality checker at
   -- the same time
-  hRef  <- newIORef {a = Maybe $ ev -> JSIO ()} Nothing
+  hRef  <- newIORef {a = ev -> JSIO ()} (const $ pure ())
 
   -- the `DomEnv` needed to run `mkMSF`
-  let env = MkDomEnv pre idRef $ \ev => do
-              Just h <- readIORef hRef | Nothing => pure ()
-              h ev
-
-  -- effectfully create the monadic streaming function
-  -- this will typically set up (a part of) the visible
-  -- user interface, hence the need for `env` with its
-  -- event handler and ability to generate unique IDs
-  (sf,cl) <- mkMSF.runDom env
-
-  -- the current application state consists of the current
-  -- monadic streaming function, which will be stored in a
-  -- mutable ref
-  sfRef  <- newIORef sf
+  let env = MkDomEnv pre idRef $ \ev =>
+              readIORef hRef >>= (`apply` ev)
 
   -- we can now implement the *real* event handler:
   -- when an event is being fired, we evaluate the current
@@ -174,10 +165,33 @@ reactimateDom_ ie pre mkMSF idRef = do
 
   -- we need to register the correct event handler, otherwise
   -- nothing will run
-  writeIORef hRef . Just $ handle
+  writeIORef hRef handle
+
+  pure (MkRefs sfRef hRef env)
+
+
+-- initialEvent: If `Just e`, evaluate the given `MSF` once with `e` to
+-- properly initialize all components.
+-- idPrefix: prefix for uniqe ids
+reactimateDom_ :  (initialEvent : Maybe ev)
+               -> (idPrefix     : String)
+               -> DomIO ev JSIO (MSF (DomIO ev JSIO) ev (), JSIO ())
+               -> (idRef        : IORef Nat)
+               -> JSIO (JSIO ())
+reactimateDom_ ie pre mkMSF idRef = do
+  MkRefs sfRef _ env <- mkRefs pre idRef
+
+  -- effectfully create the monadic stream function
+  -- this will typically set up (a part of) the visible
+  -- user interface, hence the need for `env` with its
+  -- event handler and ability to generate unique IDs
+  (sf,cl) <- mkMSF.runDom env
+
+  -- register the initial stream function
+  writeIORef sfRef sf
 
   -- finally, we run the initial event (if any)
-  traverse_ handle ie
+  traverse_ env.handler ie
 
   pure cl
 

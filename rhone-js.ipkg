@@ -16,10 +16,18 @@ modules    = Control.Monad.Dom
            , Control.Monad.Dom.Event
            , Control.Monad.Dom.Interface
 
+           , Rhone.Canvas
+           , Rhone.Canvas.Angle
+           , Rhone.Canvas.Scene
+           , Rhone.Canvas.Shape
+           , Rhone.Canvas.Style
+           , Rhone.Canvas.Transformation
+
            , Rhone.JS
            , Rhone.JS.Sink
            , Rhone.JS.Source
            , Rhone.JS.Input
+           , Rhone.JS.Util
 
            , Text.CSS
            , Text.CSS.Color

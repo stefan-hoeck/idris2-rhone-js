@@ -11,6 +11,7 @@ declaring CSS rules in a type-safe manner.
 module Examples.CSS
 
 import Data.String
+import public Examples.CSS.Balls
 import public Examples.CSS.Core
 import public Examples.CSS.Fractals
 import public Examples.CSS.Performance
@@ -50,7 +51,11 @@ export
 allRules : String
 allRules =  fastUnlines . map render
          $  coreCSS
+         ++ Balls.css
          ++ Fractals.css
          ++ Performance.css
          ++ Reset.css
 ```
+
+<!-- vi: filetype=idris2
+-->

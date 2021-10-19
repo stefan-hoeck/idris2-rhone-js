@@ -22,8 +22,12 @@ modules    = Examples.CSS
            , Examples.CSS.Reset
 
            , Examples.Fractals
+           , Examples.Fractals.Dragon
+
+           , Examples.Balls
            , Examples.Performance
            , Examples.Reset
            , Examples.Selector
+           , Examples.Util
 
 sourcedir  = "src"

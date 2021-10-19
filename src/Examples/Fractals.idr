@@ -9,29 +9,12 @@ import Data.Nat
 import Data.So
 import Examples.CSS.Fractals
 import Examples.Fractals.Dragon
+import Examples.Util
 import Generics.Derive
 import Rhone.JS
 
 %language ElabReflection
 %default total
-
---------------------------------------------------------------------------------
---          Interval
---------------------------------------------------------------------------------
-
-data IntervalID : Type where [external]
-
-%foreign "browser:lambda:(n,h,w)=>setInterval(() => h(w),n)"
-prim__setInterval : Bits32 -> IO () -> PrimIO IntervalID
-
-%foreign "browser:lambda:(i,w)=>clearInterval(i)"
-prim__clearInterval : IntervalID -> PrimIO ()
-
-setInterval : HasIO io => Bits32 -> JSIO () -> io (IntervalID)
-setInterval millis run = primIO $ prim__setInterval millis (runJS run)
-
-clearInterval : HasIO io => IntervalID -> io ()
-clearInterval id = primIO $ prim__clearInterval id
 
 --------------------------------------------------------------------------------
 --          Model
@@ -100,11 +83,8 @@ public export
 M : Type -> Type
 M = DomIO Ev JSIO
 
-MSFEvent : Type -> Type
-MSFEvent = Data.MSF.Event.Event
-
 msf : (timer : RedrawAfter -> JSIO ()) -> MSF M Ev ()
-msf timer = rswitchWhen (const ()) config fractal
+msf timer = drswitchWhen neutral config fractal
   where fractal : Config -> MSF M Ev ()
         fractal c = 
           let Element dragons prf = mkDragons c.iterations.value
@@ -125,11 +105,6 @@ msf timer = rswitchWhen (const ()) config fractal
 --          View
 --------------------------------------------------------------------------------
 
-line : (lbl: String) -> List (Node Ev) -> Node Ev
-line lbl ns =
-  div [class widgetLine] $ 
-      label [class widgetLabel] [Text lbl] :: ns
-
 content : Node Ev
 content =
   div [ class widgetList ]
@@ -139,7 +114,6 @@ content =
                   , onEnterDown Run
                   , class widget
                   , placeholder #"Range: [0, \#{show MaxIter}]"#
-
                   ] []
           ]
       , line "Iteration delay [ms]:"
