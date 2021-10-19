@@ -7,7 +7,6 @@ import Data.Vect
 import Examples.CSS.Balls
 import Examples.FRP.Ball
 import Examples.FRP.BallCanvas
-import Examples.FRP.Basics
 import Examples.Util
 import Generics.Derive
 import Rhone.Canvas
@@ -16,7 +15,11 @@ import Rhone.JS
 %language ElabReflection
 %default total
 
-data Ev = Run | NumIn | Next
+data Ev = Run | NumIn | Next Bits32
+
+next : Ev -> Event Bits32
+next (Next d) = Ev d
+next _        = NoEv
 
 %runElab derive "Ev" [Generic,Meta,Show,Eq]
 
@@ -33,7 +36,7 @@ content =
           , button [id btnRun.id, onClick Run, classes [widget,btn]] ["Run"]
           ]
       , div [id log.id] []
-      , div [] [canvas [id out.id, width 500, height 500] [] ]
+      , div [] [canvas [id out.id, width 520, height 520] [] ]
       ]
 
 --------------------------------------------------------------------------------
@@ -44,10 +47,6 @@ public export
 M : Type -> Type
 M = DomIO Ev JSIO
 
-fps : DTime -> String
-fps 0  = #"FPS: 0"#
-fps dt = #"FPS: \#{show $ 1000 `div` dt}"#
-
 read : String -> Either String (List Ball)
 read s =
   let n = cast {to = Nat} s
@@ -56,14 +55,15 @@ read s =
         else Left "Enter a number between 1 and 1000"
 
 
-animation : M DTime -> List Ball -> MSF M Ev ()
-animation dt inis =   ifIs Next
-                  $   balls dt inis
-                  >>> fan_ [ arrM (renderBalls out 500 500)
-                           , realTimeDelta >>> fps ^>> text log]
+animation : List Ball -> MSF M Ev ()
+animation bs = next ^>> ifEvent (
+                 fan_ [ balls bs >>> arrM (renderBalls out 520 520)
+                      , fps 15 >>> ifEvent (showFPS ^>> text log)
+                      ]
+               )
 
-msf : M DTime -> MSF M Ev ()
-msf dt = drswitchWhen neutral initialBalls (animation dt)
+msf : MSF M Ev ()
+msf = drswitchWhen neutral initialBalls animation
   where readInit : MSF M Ev (Either String (List Ball))
         readInit =    getInput NumIn read txtCount
                  >>>  observeWith (isLeft ^>> disabledAt btnRun)
@@ -76,7 +76,6 @@ export
 ui : M (MSF M Ev (), JSIO ())
 ui = do
   innerHtmlAt exampleDiv content
-  h              <- handler <$> env 
-  (getDT, setDT) <- liftJSIO $ timer {io = JSIO}
-  newID <- setInterval 20 (setDT >> h Next)
-  pure (msf $ liftJSIO getDT, clearInterval newID)
+  h     <- handler <$> env 
+  clear <- animate (h . Next)
+  pure (msf, liftIO clear)

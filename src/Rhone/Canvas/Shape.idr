@@ -41,6 +41,11 @@ circle : (x,y,radius : Double) -> PathType -> Shape
 circle x y r = Path [Arc x y r (rad 0) (rad $ 2 * pi) False]
 
 export
+polyLine : List (Double,Double) -> Shape
+polyLine []           = Path [] Stroke
+polyLine ((x,y) :: t) = Path (Move x y :: map (uncurry Line) t) Stroke
+
+export
 Semigroup Shape where
   x         <+> Shapes [] = x
   Shapes [] <+> y         = y
@@ -60,7 +65,6 @@ applySegment : CanvasRenderingContext2D -> Segment -> JSIO ()
 applySegment ctxt (Move x y) = moveTo ctxt x y
 applySegment ctxt (Line x y) = lineTo ctxt x y
 applySegment ctxt (Arc x y r start stop ccw) = do
-  putStrLn #"Arc: \#{show x} \#{show y} \#{show r} \#{show start} \#{show stop} \#{show ccw}"#
   arc ctxt x y r (toRadians start) (toRadians stop) (Def ccw)
 applySegment ctxt (ArcTo x1 y1 x2 y2 radius) =
   arcTo ctxt x1 y1 x2 y2 radius

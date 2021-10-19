@@ -7,9 +7,9 @@ import JS
 import Web.Html
 
 import public Rhone.Canvas.Angle
-import public Rhone.Canvas.FillStyle
 import public Rhone.Canvas.Scene
 import public Rhone.Canvas.Shape
+import public Rhone.Canvas.Style
 import public Rhone.Canvas.Transformation
 
 %default total

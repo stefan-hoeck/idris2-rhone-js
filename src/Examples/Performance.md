@@ -162,7 +162,7 @@ yet provide this functionality, but it is available
 from `Rhone.JS.Util`:
 
 ```idris
-dispTime : Nat -> Bits32 -> String
+dispTime : Nat -> Integer -> String
 dispTime 1 ms = #"\#Loaded one button in \#{show ms} ms."#
 dispTime n ms = #"\#Loaded \#{show n} buttons in \#{show ms} ms."#
 ```

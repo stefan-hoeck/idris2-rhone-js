@@ -3,22 +3,41 @@ module Examples.FRP.BallCanvas
 import Control.Monad.Dom
 import Data.List.TR
 import Data.Vect
+import Examples.CSS.Colors
 import Examples.FRP.Ball
 import JS
 import Rhone.Canvas
 import Text.CSS.Color
 import Web.Dom
 
-ballToScene : Ball -> Scene
-ballToScene (MkBall col [x,y] _) =
-  S1 (Col col) Id $ circle x (10 - y) 0.05 Fill
+inBounds : Ball -> Bool
+inBounds (MkBall _ [x,y] _) = y >= 0 && x >= 0 && x <= w
 
+-- we hide balls, which are temporarily out of bounds
+-- to give the illusion (at high enough redraw rates)
+-- that balls don't go through walls.
+ballToScene : Ball -> Scene
+ballToScene b@(MkBall _ [x,y] _) =
+  S1 [Fill $ if inBounds b then b.col else transparent] Id $
+    circle x (w - y) r Fill
+
+wallThickness : Double
+wallThickness = 0.20
+
+-- walls and floor of the room.
+walls : Shape
+walls = 
+  let hwt = wallThickness / 2
+   in polyLine [(-hwt, 0), (-hwt, w+hwt), (w+hwt,w+hwt), (w+hwt,0)]
+
+||| Converts a list of balls to a canvas scene.
 export
 ballsToScene : List Ball -> Scene
 ballsToScene bs =
-  SM  Current (Transform 50 0 0 50 10 10) $
-    S1 (Col yellow) Id (Path [Move 0 0, Line 0 10, Line 10 10, Line 10 0] Stroke) ::
-    mapTR ballToScene bs
+  SM  [] (Transform 50 0 0 50 10 10) $
+    [ SM [] Id $ mapTR ballToScene bs
+    , S1 [Stroke base80, LineWidth wallThickness] Id walls
+    ]
 
 export
 renderBalls :  LiftJSIO io

@@ -26,7 +26,6 @@ modules    = Examples.CSS
 
            , Examples.FRP.Ball
            , Examples.FRP.BallCanvas
-           , Examples.FRP.Basics
 
            , Examples.Balls
            , Examples.Performance

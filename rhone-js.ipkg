@@ -18,9 +18,9 @@ modules    = Control.Monad.Dom
 
            , Rhone.Canvas
            , Rhone.Canvas.Angle
-           , Rhone.Canvas.FillStyle
            , Rhone.Canvas.Scene
            , Rhone.Canvas.Shape
+           , Rhone.Canvas.Style
            , Rhone.Canvas.Transformation
 
            , Rhone.JS

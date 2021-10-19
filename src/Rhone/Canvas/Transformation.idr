@@ -56,6 +56,4 @@ Monoid Transformation where
 export
 apply : CanvasRenderingContext2D -> Transformation -> JSIO ()
 apply ctxt Id                      = pure ()
-apply ctxt (Transform a b c d e f) = do
-  putStrLn #"Transform: \#{show a} \#{show b} \#{show c} \#{show d} \#{show e} \#{show f}"#
-  setTransform ctxt a b c d e f
+apply ctxt (Transform a b c d e f) = setTransform ctxt a b c d e f

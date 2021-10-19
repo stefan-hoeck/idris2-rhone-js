@@ -1,13 +1,13 @@
+||| Simulating the frictionless movement of a set of balls
+||| in a room with walls under the influence of gravity in 2D.
 module Examples.FRP.Ball
 
-import Control.Monad.Reader
-import Data.Bits
 import Data.MSF
-import Data.MSF.Switch
-import Data.MSF.Trans
+import Data.List.TR
 import Data.Vect
 import Data.VectorSpace
-import Examples.FRP.Basics
+import Examples.CSS.Colors
+import Rhone.JS.Util
 import Text.CSS.Color
 
 %default total
@@ -32,27 +32,33 @@ public export
 Acceleration : Type
 Acceleration = V2
 
-export
-g : Double
-g = -9.81 / 1000000
+--------------------------------------------------------------------------------
+--          Constants
+--------------------------------------------------------------------------------
 
+||| Acceleration vector
 export
 acc : Acceleration
-acc = [0,-9.81 / 1000000]
+acc = [0,-9.81]
 
+||| Height and width of the room in meters
 export
-velocity :  m DTime
-         => (a0 : Acceleration)
-         -> (v0 : Velocity)
-         -> MSF m Acceleration Velocity
-velocity a0 v0 = integralFrom a0 >>^ (^+^ v0)
+w : Double
+w = 10
 
+||| Start height of all balls
 export
-position :  m DTime
-         => (v0 : Velocity)
-         -> (p0 : Position)
-         -> MSF m Velocity Position
-position v0 p0 = integralFrom v0 >>^ (^+^ p0)
+h0 : Double
+h0 = 9
+
+||| Ball radius
+export
+r : Double
+r = 0.1
+
+||| Start velocity in m/s
+v0 : Double
+v0 = 4
 
 --------------------------------------------------------------------------------
 --          Ball
@@ -66,82 +72,53 @@ record Ball where
   pos : Position
   vel : Velocity
 
+||| Generates a list of balls to start the simulation.
 export
 initialBalls : (n : Nat) -> List Ball
 initialBalls n = go n
-  where col : Nat -> Color
-        col k = 
-          let f = (the Bits32 0xffffff * cast k) `div` cast n
-              r = cast {to = Bits8} f
-              g = cast {to = Bits8} $ f `shiftR` fromNat 8
-              b = cast {to = Bits8} $ f `shiftR` fromNat 16
-           in MkColor (max 20 r) (max 20 g) (max 20 b)
+  where col : Bits8 -> Color
+        col 0 = comp100 
+        col 1 = comp80
+        col 2 = comp60
+        col 3 = comp40
+        col _ = comp20
 
         ball : Nat -> Ball
         ball k =
-          let factor = cast {to = Double} k / cast n
-              angle  = 2 * pi * factor
+          let factor = cast {to = Double} k / (cast n - 1.0)
+              phi    = pi * factor
               x0     = 1.0 + factor * 8
-           in MkBall (col k) [x0,5] [0.003 * cos angle, 0.003 * sin angle]
+           in MkBall (col $ cast k `mod` 5) [x0,9] [3 * sin phi, 3 * cos phi]
 
         go : (k : Nat) -> List Ball
         go 0     = []
-        go (S k) = ball (S k) :: go k
+        go (S k) = ball k :: go k
 
 --------------------------------------------------------------------------------
 --          SF
 --------------------------------------------------------------------------------
 
--- checkBounds : Ball -> Ball
--- checkBounds b@(MkBall col [px,py] [vx,vy]) =
---   if      (py <= 0  && vy < 0) then (MkBall col [px,py] [vx,-vy])
---   else if (px <= 0  && vx < 0) then (MkBall col [-px,py] [-vx,vy])
---   else if (px >= 10 && vx > 0) then (MkBall col [2*10 - px,py] [-vx,vy])
---   else b
--- 
--- nextBall : DTime -> Ball -> NP I [Ball,Ball]
--- nextBall dt (MkBall col [px,py] [vx,vy]) =
---   let delta = cast {to = Double} dt
---       vy2  = vy + g * delta
---       px2  = px + vx * delta
---       py2  = py + (vy + vy2) * delta / 2
---       b2   = checkBounds (MkBall col [px2,py2] [vx,vy2])
---    in [b2,b2]
--- 
--- export
--- ballGame : (ini : Ball) -> MSF m DTime Ball
--- ballGame ini = mealy nextBall ini
--- 
--- export
--- balls : (inis : List Ball) -> MSF m DTime (List Ball)
--- balls = traverse ballGame
+-- Collision detection: We verify that the given ball
+-- is still in the room. If this is not the case, we simulate
+-- a bouncing off the walls by inverting the x-velocity (if the
+-- ball hit a wall) or the y-velocity (if the ball hit the ground)
+checkBounds : Ball -> Ball
+checkBounds b@(MkBall c [px,py] [vx,vy]) =
+  if      (py <= r  && vy < 0)      then (MkBall c [px,py] [vx,-vy])
+  else if (px <= r  && vx < 0)      then (MkBall c [px,py] [-vx,vy])
+  else if (px >= (w - r) && vx > 0) then (MkBall c [px,py] [-vx,vy])
+  else b
 
---------------------------------------------------------------------------------
---          SF
---------------------------------------------------------------------------------
+-- moves a ball after a given time delta
+-- by adjusting its position and velocity
+nextBall : DTime -> Ball -> Ball
+nextBall delta (MkBall c p v) =
+  let dt   = cast delta / the Double 1000 -- time in seconds
+      v2   = v ^+^ (dt *^ acc)
+      p2   = p ^+^ (dt / 2 *^ (v ^+^ v2))
+   in checkBounds (MkBall c p2 v2)
 
-checkBounds : Ball -> Event Ball
-checkBounds (MkBall col [px,py] [vx,vy]) =
-  if      (py <= 0  && vy < 0) then Ev (MkBall col [px,py] [vx,-vy])
-  else if (px <= 0  && vx < 0) then Ev (MkBall col [-px,py] [-vx,vy])
-  else if (px >= 10 && vx > 0) then Ev (MkBall col [2*10 - px,py] [-vx,vy])
-  else NoEv
-
-nextBall : Ball -> Either (Ball,Ball) Ball
-nextBall b = case checkBounds b of
-  Ev b2 => Left  (b2,b2)
-  NoEv  => Right b
-
-ballFrom : m DTime => (ini : Ball) -> MSF m i Ball
-ballFrom b =   const acc
-           >>> velocity acc b.vel
-           >>> fan [position b.vel b.pos,id]
-           >>^ (\[p,v] => MkBall b.col p v)
-
+||| Signal function of a list of bouncing balls.
 export
-ballGame : m DTime => (ini : Ball) -> MSF m i Ball
-ballGame ini = resetOn ballFrom checkBounds ini 
-
-export
-balls : m DTime -> (inis : List Ball) -> MSF m i (List Ball)
-balls dt = traverse ballGame
+balls : (inis : List Ball) -> MSF m DTime (List Ball)
+balls inis = accumulateWith (mapTR . nextBall) inis
