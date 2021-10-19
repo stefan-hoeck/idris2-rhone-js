@@ -151,8 +151,8 @@ iframe : List (Attribute ev) -> List (Node ev) -> Node ev
 iframe = El IFrame
 
 public export %inline
-ime : List (Attribute ev) -> List (Node ev) -> Node ev
-ime = El Ime
+img : List (Attribute ev) -> List (Node ev) -> Node ev
+img = El Img
 
 public export %inline
 input : List (Attribute ev) -> List (Node ev) -> Node ev
