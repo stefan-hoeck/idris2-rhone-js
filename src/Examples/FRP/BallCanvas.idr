@@ -21,6 +21,7 @@ ballToScene b@(MkBall _ [x,y] _) =
   S1 [Fill $ if inBounds b then b.col else transparent] Id $
     circle x (w - y) r Fill
 
+-- room wall thickness in meters
 wallThickness : Double
 wallThickness = 0.20
 
