@@ -14,6 +14,7 @@ import Data.String
 import public Examples.CSS.Balls
 import public Examples.CSS.Core
 import public Examples.CSS.Fractals
+import public Examples.CSS.MathGame
 import public Examples.CSS.Performance
 import public Examples.CSS.Reset
 import Text.CSS
@@ -53,6 +54,7 @@ allRules =  fastUnlines . map render
          $  coreCSS
          ++ Balls.css
          ++ Fractals.css
+         ++ MathGame.css
          ++ Performance.css
          ++ Reset.css
 ```
