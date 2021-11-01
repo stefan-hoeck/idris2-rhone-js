@@ -143,3 +143,55 @@ validityMessageAt = arrM . setValidityMessageAt
 export
 leftInvalid : SetValidity t => LiftJSIO m => ElemRef t -> MSF m (Either String x) ()
 leftInvalid ref = either id (const "") ^>> validityMessageAt ref
+
+--------------------------------------------------------------------------------
+--          Value
+--------------------------------------------------------------------------------
+
+public export
+interface SafeCast t => SetValue t where
+  setValue : String -> t -> JSIO ()
+
+public export
+SetValue HTMLButtonElement where
+  setValue = (value =.)
+
+public export
+SetValue HTMLDataElement where
+  setValue = (value =.)
+
+public export
+SetValue HTMLInputElement where
+  setValue = (value =.)
+
+public export
+SetValue HTMLOptionElement where
+  setValue = (value =.)
+
+public export
+SetValue HTMLOutputElement where
+  setValue = (value =.)
+
+public export
+SetValue HTMLParamElement where
+  setValue = (value =.)
+
+public export
+SetValue HTMLSelectElement where
+  setValue = (value =.)
+
+public export
+SetValue HTMLTextAreaElement where
+  setValue = (value =.)
+
+public export
+SetValue RadioNodeList where
+  setValue = (value =.)
+
+export
+value : LiftJSIO m => SetValue t => MSF m (NP I [ElemRef t,String]) ()
+value = arrM $ \[r,s] => liftJSIO (getElementByRef r >>= setValue s)
+
+export %inline
+valueOf : LiftJSIO m => SetValue t => ElemRef t -> MSF m String ()
+valueOf = firstArg value

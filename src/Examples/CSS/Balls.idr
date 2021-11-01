@@ -1,7 +1,9 @@
 module Examples.CSS.Balls
 
-import Rhone.JS
+import Data.List
+import Examples.CSS.Colors
 import public Examples.CSS.Core
+import Rhone.JS
 import Text.CSS
 
 --------------------------------------------------------------------------------
@@ -29,19 +31,51 @@ log = MkRef Div "balls_log"
 --------------------------------------------------------------------------------
 
 export
+ballsContent : String
+ballsContent = "balls_content"
+
+export
+lblCount : String
+lblCount = "balls_lblcount"
+
+export
 css : List Rule
 css =
-  [ id out.id !!
-      [ Flex            .= "1"
-      , Margin          .= px 5
+  [ class ballsContent !!
+      [ Display             .= Grid
+      , ColumnGap           .= px 10
+      , RowGap              .= px 10
+      , GridTemplateColumns .= [px 170, fr 1, fr 3]
+      , GridTemplateRows    .= replicate 3 MinContent ++ [fr 1]
+      , Padding             .= VH (px 20) (px 10)
+      ]
+
+  , class lblCount !!
+      [ GridColumn      .= At 1
+      , GridRow         .= At 1
       ]
 
   , id txtCount.id !!
-      [ Margin          .= px 5
+      [ GridColumn      .= At 2
+      , GridRow         .= At 1
       , TextAlign       .= End
-      , Width           .= perc 20
       ]
+
   , id btnRun.id !!
-      [ Width           .= perc 10
+      [ GridColumn      .= At 1
+      , GridRow         .= At 2
+      ]
+
+  , id log.id !!
+      [ GridColumn      .= At 1
+      , GridRow         .= At 3
+      ]
+
+  , id out.id !!
+      [ JustifySelf     .= Center
+      , GridColumn      .= At 3
+      , GridRow         .= FromTo 1 5
+      , MaxWidth        .= px 500
+      , Width           .= px 500
       ]
   ]

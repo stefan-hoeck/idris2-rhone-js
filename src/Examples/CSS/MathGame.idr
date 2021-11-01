@@ -1,6 +1,7 @@
 ||| CSS Rules for the Math Game Example
 module Examples.CSS.MathGame
 
+import Data.List
 import Examples.CSS.Colors
 import public Examples.CSS.Core
 import Rhone.JS
@@ -15,6 +16,11 @@ import Text.CSS
 export
 out : ElemRef Div
 out = MkRef Div "mathgame_out"
+
+||| Select box where users choose the language.
+export
+langIn : ElemRef Select
+langIn = MkRef Select "mathgame_language"
 
 ||| Text field where users enter their result.
 export
@@ -40,10 +46,6 @@ calc = MkRef Div "mathgame_calc"
 --          CSS
 --------------------------------------------------------------------------------
 
-export
-calculation : String
-calculation = "calculation"
-
 ||| Message field class if answer is correct
 export
 correct : String
@@ -55,17 +57,70 @@ wrong : String
 wrong = "wrong"
 
 export
+mathContent : String
+mathContent = "mathgame_content"
+
+export
+lblLang : String
+lblLang = "mathgame_lbllang"
+
+export
 css : List Rule
 css =
-  [ id out.id  !!
-      [ FontSize        .= Large
-      , Margin          .= pt 5
+  [ class mathContent !!
+      [ Display             .= Grid
+      , ColumnGap           .= px 10
+      , RowGap              .= px 10
+      , GridTemplateColumns .= [px 170, fr 1, fr 3]
+      , GridTemplateRows    .= replicate 4 MinContent ++ [fr 1]
+      , Padding             .= VH (px 20) (px 10)
+      ]
+
+  , class lblLang !!
+      [ GridColumn      .= At 1
+      , GridRow         .= At 1
+      ]
+  
+  , id langIn.id  !!
+      [ GridColumn      .= At 2
+      , GridRow         .= At 1
+      , FontSize        .= Large
       , TextAlign       .= End
-      , Width           .= perc 10
+      ]
+  
+  , id calc.id  !!
+      [ GridColumn      .= At 1
+      , GridRow         .= At 2
+      , FontSize        .= Large
+      , TextAlign       .= Start
+      ]
+  
+  , id resultIn.id  !!
+      [ GridColumn      .= At 2
+      , GridRow         .= At 2
+      , FontSize        .= Large
+      , TextAlign       .= End
+      ]
+  
+  , id checkBtn.id  !!
+      [ GridColumn      .= At 1
+      , GridRow         .= At 3
+      ]
+  
+  , id out.id  !!
+      [ GridColumn      .= FromTo 1 3
+      , GridRow         .= At 4
+      , FontSize        .= Large
+      , TextAlign       .= Start
       ]
 
   , id pic.id  !!
       [ BackgroundSize  .= perc 100
+      , JustifySelf     .= Center
+      , GridColumn      .= At 3
+      , GridRow         .= FromTo 1 6
+      , MaxWidth        .= px 500
+      , Width           .= px 500
       ]
 
   , class correct !!

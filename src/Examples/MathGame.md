@@ -18,8 +18,8 @@ import Examples.Util
 import Generics.Derive
 import Rhone.Canvas
 import Rhone.JS
-import Text.CSS.Color
 import System.Random
+import Text.CSS.Color
 
 %language ElabReflection
 %default total
@@ -29,7 +29,7 @@ import System.Random
 
 ```idris
 pictures : List String
-pictures = ["pics/pic1.jpg"]
+pictures = map (\n => "pics/pic\{show n}.jpg") (1 :: [2..7])
 
 data Language = English | German
 
@@ -98,32 +98,31 @@ wcanvas = 500
 
 content : Language -> Node Ev
 content lang =
-  div [ class widgetList ]
-      [ line "Language:" 
-          [ select
-              [ classes [widget, selectIn], onChange Lang]
-              [ option [ value "de", selected True ] ["Deutsch"]
-              , option [ value "en" ] ["English"]
-              ]
-          ]
-      , div [ class widgetLine ]
-          [ div [ id calc.id, class calculation ] []
-          , input [ id resultIn.id
-                  , onEnterDown Check
-                  , class widget
-                  , placeholder "Result"
-                  ] []
-          , button [ id checkBtn.id
-                   , onClick Check
-                   , classes [widget,btn]
-                   ] ["Check Answer"]
-          ]
-      , div [ id out.id ] []
-      , canvas [ id pic.id
-               , width wcanvas
-               , height wcanvas
-               ] []
-      ]
+  div [ class mathContent ]
+    [ lbl "Language:" lblLang
+    , select
+        [ id langIn.id, classes [widget, selectIn], onChange Lang]
+        [ option [ value "de", selected True ] ["Deutsch"]
+        , option [ value "en" ] ["English"]
+        ]
+     
+    , div [ id calc.id ] []
+    , input [ id resultIn.id
+            , onEnterDown Check
+            , class widget
+            , placeholder "Result"
+            ] []
+    , button [ id checkBtn.id
+             , onClick Check
+             , classes [widget,btn]
+             ] ["Check Answer"]
+     
+    , div [ id out.id ] []
+    , canvas [ id pic.id
+             , width wcanvas
+             , height wcanvas
+             ] []
+    ]
 ```
 
 ```idris
@@ -162,7 +161,13 @@ randomCalc = do
       pure $ MkCalc (cast x) (cast y) op
 
 randomGame : HasIO io => io GameState
-randomGame = [| newState (rndSelect pictures) randomCalc |]
+randomGame = do
+  pic   <- rndSelect pictures
+  calc  <- randomCalc
+  pairs <- for [| MkPair [0..3] [0..3] |] $
+             \p => (,p) <$> randomRIO (0,the Int32 1000)
+  let ts = snd <$> sortBy (comparing fst) pairs
+  pure $ MkGS 4 Nil ts pic calc
 ```
 
 ```idris
@@ -185,6 +190,7 @@ dispGame : LiftJSIO m => MSF m GameState ()
 dispGame = fan_ [ noTilesLeft ^>> disabledAt checkBtn
                 , arrM (liftJSIO . renderGame)
                 , calc ^>> dispCalc ^>> text calc
+                , const "" >>> Sink.valueOf resultIn
                 ]
 
 setPic : LiftJSIO m => MSF m GameState ()
