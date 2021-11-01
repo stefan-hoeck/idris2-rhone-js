@@ -202,6 +202,7 @@ data Property : Type -> Type where
   AlignItems      : Property FlexAlign
   AlignSelf       : Property FlexAlign
   BackgroundColor : Property Color
+  BackgroundSize  : Property Width
   BorderColor     : Property (Dir Color)
   BorderRadius    : Property BorderRadius
   BorderStyle     : Property (Dir BorderStyle)
@@ -232,6 +233,7 @@ renderProp : Property t -> t -> String
 renderProp AlignItems y      = "align-items: "      ++ render y
 renderProp AlignSelf y       = "align-self: "       ++ render y
 renderProp BackgroundColor y = "background-color: " ++ render y
+renderProp BackgroundSize y  = "background-size: "  ++ render y
 renderProp BorderColor y     = render2 "border" "color" render y
 renderProp BorderRadius y    = "border-radius: "    ++ render y
 renderProp BorderStyle y     = render2 "border" "style" render y

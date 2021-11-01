@@ -16,14 +16,25 @@ export
 out : ElemRef Div
 out = MkRef Div "mathgame_out"
 
+||| Text field where users enter their result.
 export
-input : ElemRef Input
-input = MkRef Input "mathgame_input"
+resultIn : ElemRef Input
+resultIn = MkRef Input "mathgame_input"
+
+||| Text field where users enter their result.
+export
+checkBtn : ElemRef Button
+checkBtn = MkRef Button "mathgame_check_btn"
 
 ||| ID of the picture canvas
 export
 pic : ElemRef Canvas
 pic = MkRef Canvas "mathgame_pic"
+
+||| ID of the calculation label
+export
+calc : ElemRef Div
+calc = MkRef Div "mathgame_calc"
 
 --------------------------------------------------------------------------------
 --          CSS
@@ -51,6 +62,10 @@ css =
       , Margin          .= pt 5
       , TextAlign       .= End
       , Width           .= perc 10
+      ]
+
+  , id pic.id  !!
+      [ BackgroundSize  .= perc 100
       ]
 
   , class correct !!

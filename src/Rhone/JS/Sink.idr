@@ -49,12 +49,28 @@ attribute name =
       Just s  => setAttribute el name s
       Nothing => removeAttribute el name
 
+||| Sets or unsets the attribute of the given element.
+export %inline
+attributeAt :  LiftJSIO m
+            => (name : String)
+            -> ElemRef t
+            -> MSF m (Maybe String) ()
+attributeAt = firstArg . attribute
+
 ||| Sets the attribute of the given name at the given target element.
 export
 attribute_ :  LiftJSIO m
            => (name : String)
            -> MSF m (NP I [ElemRef t, String]) ()
 attribute_ name = (\[a,b] => [a,Just b]) ^>> attribute name
+
+||| Sets or unsets the attribute of the given element.
+export %inline
+attributeAt_ :  LiftJSIO m
+             => (name : String)
+             -> ElemRef t
+             -> MSF m String ()
+attributeAt_ = firstArg . attribute_
 
 ||| Sets or unsets the boolean attribute of the given name at
 ||| the given target element.
