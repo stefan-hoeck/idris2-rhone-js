@@ -1,7 +1,9 @@
 module Examples.CSS.Fractals
 
-import Rhone.JS
+import Data.List
+import Examples.CSS.Colors
 import public Examples.CSS.Core
+import Rhone.JS
 import Text.CSS
 
 --------------------------------------------------------------------------------
@@ -25,30 +27,72 @@ txtRedraw : ElemRef HTMLInputElement
 txtRedraw = MkRef Input "fractals_redrawdelay"
 
 --------------------------------------------------------------------------------
+--          Classes
+--------------------------------------------------------------------------------
+
+export
+fractalContent : String
+fractalContent = "fractals_content"
+
+export
+lblIter : String
+lblIter = "fractals_lbliter"
+
+export
+lblDelay : String
+lblDelay = "fractals_lbldelay"
+
+--------------------------------------------------------------------------------
 --          Rules
 --------------------------------------------------------------------------------
 
 export
 css : List Rule
 css =
-  [ id txtIter.id !!
-      [ Margin          .= px 5
+  [ class fractalContent !!
+      [ Display             .= Grid
+      , ColumnGap           .= px 10
+      , RowGap              .= px 10
+      , GridTemplateColumns .= [px 170, fr 1, fr 3]
+      , GridTemplateRows    .= replicate 3 MinContent ++ [fr 1]
+      , Padding             .= VH (px 20) (px 10)
+      ]
+
+  , class lblIter !!
+      [ GridColumn      .= At 1
+      , GridRow         .= At 1
+      ]
+
+  , id txtIter.id !!
+      [ GridColumn      .= At 2
+      , GridRow         .= At 1
       , TextAlign       .= End
-      , Width           .= perc 20
+      ]
+
+  , class lblDelay !!
+      [ GridColumn      .= At 1
+      , GridRow         .= At 2
       ]
 
   , id txtRedraw.id !!
-      [ Margin          .= px 5
+      [ GridColumn      .= At 2
+      , GridRow         .= At 2
       , TextAlign       .= End
-      , Width           .= perc 20
       ]
 
   , id btnRun.id !!
-      [ Width           .= perc 10
+      [ GridColumn      .= At 1
+      , GridRow         .= At 3
       ]
 
   , id out.id !!
-      [ Flex            .= "1"
-      , Margin          .= px 5
+      [ JustifySelf     .= Center
+      , GridColumn      .= At 3
+      , GridRow         .= FromTo 1 5
+      , BorderStyle     .= Left Solid
+      , BorderWidth     .= Left (px 2)
+      , BorderColor     .= Left base80
+      , MaxWidth        .= px 500
+      , Width           .= px 500
       ]
   ]

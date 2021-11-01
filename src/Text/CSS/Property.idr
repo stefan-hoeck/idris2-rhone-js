@@ -3,6 +3,7 @@ module Text.CSS.Property
 import Text.CSS.Color
 import Text.CSS.Dir
 import Text.CSS.Flexbox
+import Text.CSS.Grid
 import Text.CSS.Length
 import Text.CSS.ListStyleType
 import Text.CSS.Percentage
@@ -22,10 +23,12 @@ namespace Display
   public export
   data Display : Type where
     Flex : Display
+    Grid : Display
 
   export
   render : Display -> String
   render Flex = "flex"
+  render Grid = "grid"
 
 namespace FlexBasis
   public export
@@ -208,6 +211,7 @@ data Property : Type -> Type where
   BorderStyle     : Property (Dir BorderStyle)
   BorderWidth     : Property (Dir BorderWidth)
   Color           : Property Color
+  ColumnGap       : Property Length
   Direction       : Property Direction
   Display         : Property Display
   Flex            : Property String
@@ -216,8 +220,13 @@ data Property : Type -> Type where
   FlexWrap        : Property String
   FontFamily      : Property String
   FontSize        : Property FontSize
+  GridColumn      : Property GridPosition
+  GridRow         : Property GridPosition
+  GridTemplateColumns : Property (List GridValue)
+  GridTemplateRows : Property (List GridValue)
   Height          : Property Width
   JustifyContent  : Property FlexJustify
+  JustifySelf     : Property FlexJustify
   ListStyleType   : Property ListStyleType
   Margin          : Property (Dir Length)
   MaxHeight       : Property Width
@@ -225,6 +234,7 @@ data Property : Type -> Type where
   MinHeight       : Property Width
   MinWidth        : Property Width
   Padding         : Property (Dir Length)
+  RowGap          : Property Length
   TextAlign       : Property TextAlign
   Width           : Property Width
 
@@ -239,6 +249,7 @@ renderProp BorderRadius y    = "border-radius: "    ++ render y
 renderProp BorderStyle y     = render2 "border" "style" render y
 renderProp BorderWidth y     = render2 "border" "width" render y
 renderProp Color y           = "color: "            ++ render y
+renderProp ColumnGap y       = "column-gap: "       ++ render y
 renderProp Direction y       = "direction: "        ++ render y
 renderProp Display y         = "display: "          ++ render y
 renderProp Flex y            = "flex: "             ++ y
@@ -247,8 +258,13 @@ renderProp FlexWrap y        = "flex-wrap: "        ++ y
 renderProp FlexDirection y   = "flex-direction: "   ++ render y
 renderProp FontFamily y      = "font-family: "      ++ y
 renderProp FontSize y        = "font-size: "        ++ render y
+renderProp GridColumn y      = "grid-column: " ++ render y
+renderProp GridRow y        = "grid-row: " ++ render y
+renderProp GridTemplateColumns y = "grid-template-columns: " ++ render y
+renderProp GridTemplateRows y    = "grid-template-rows: " ++ render y
 renderProp Height y          = "height: "           ++ render y
 renderProp JustifyContent y  = "justify-content: "  ++ render y
+renderProp JustifySelf y     = "justify-self: "  ++ render y
 renderProp Margin y          = render "margin"  render y
 renderProp MaxHeight y       = "max-height: "       ++ render y
 renderProp MaxWidth y        = "max-width: "        ++ render y
@@ -256,5 +272,6 @@ renderProp MinHeight y       = "min-height: "       ++ render y
 renderProp MinWidth y        = "min-width: "        ++ render y
 renderProp Padding y         = render "padding" render y
 renderProp ListStyleType y   = "list-style-type: "  ++ render y
+renderProp RowGap y          = "row-gap: "       ++ render y
 renderProp TextAlign y       = "text-align: "       ++ render y
 renderProp Width y           = "width: "            ++ render y

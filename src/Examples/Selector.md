@@ -88,7 +88,7 @@ content =
               , option [ value "math" ] ["Math Game"]
               ]
           ]
-      , div [id exampleDiv.id, class widgetList] []
+      , div [id exampleDiv.id] []
       ]
 ```
 

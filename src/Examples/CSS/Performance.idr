@@ -1,12 +1,15 @@
 module Examples.CSS.Performance
 
-import Rhone.JS
+import Data.List
+import Examples.CSS.Colors
 import public Examples.CSS.Core
+import Rhone.JS
 import Text.CSS
 
 --------------------------------------------------------------------------------
 --          IDs
 --------------------------------------------------------------------------------
+
 -- displays the current sum of clicks
 export
 out : ElemRef Div
@@ -40,16 +43,20 @@ inc : String
 inc = "performance_inc"
 
 export
-buttonLine : String
-buttonLine = "performance_buttonline"
+numButtonsLbl : String
+numButtonsLbl = "performance_numbuttonslbl"
 
 export
-numButtons : String
-numButtons = "performance_numbuttons"
+sumLbl : String
+sumLbl = "performance_sumlbl"
 
 export
 grid : String
 grid = "performance_grid"
+
+export
+performanceContent : String
+performanceContent = "performance_content"
 
 --------------------------------------------------------------------------------
 --          Rules
@@ -58,15 +65,55 @@ grid = "performance_grid"
 export
 css : List Rule
 css =
-  [ id out.id  !!
-      [ FontSize        .= Large
-      , Margin          .= px 5
+  [ class performanceContent !!
+      [ Display             .= Grid
+      , ColumnGap           .= px 10
+      , RowGap              .= px 10
+      , GridTemplateColumns .= [px 170, fr 1, px 70, fr 3]
+      , GridTemplateRows    .= replicate 3 MinContent ++ [fr 1]
+      , Padding             .= VH (px 20) (px 10)
+      ]
+
+  , class numButtonsLbl !!
+      [ GridColumn      .= At 1
+      , GridRow         .= At 1
+      ]
+
+  , id natIn.id !!
+      [ GridColumn      .= At 2
+      , GridRow         .= At 1
       , TextAlign       .= End
-      , Width           .= perc 20
       ]
 
   , id btnRun.id !!
-      [ Width           .= perc 10
+      [ GridColumn      .= At 3
+      , GridRow         .= At 1
+      ]
+
+  , class sumLbl !!
+      [ GridColumn      .= At 1
+      , GridRow         .= At 2
+      ]
+      
+  , id out.id  !!
+      [ GridColumn      .= At 3
+      , GridRow         .= At 2
+      , FontSize        .= Large
+      , TextAlign       .= End
+      ]
+      
+  , id time.id  !!
+      [ GridColumn      .= FromTo 1 4
+      , GridRow         .= At 3
+      ]
+      
+  , id buttons.id  !!
+      [ GridColumn      .= At 4
+      , GridRow         .= FromTo 1 5
+      , BorderStyle     .= Left Solid
+      , BorderWidth     .= Left (px 2)
+      , BorderColor     .= Left base80
+      , Padding         .= Left (px 10)
       ]
 
   , class grid  !!
@@ -77,12 +124,5 @@ css =
   , class inc !!
       [ FlexBasis       .= perc 5
       , FontSize        .= XXSmall
-      ]
-
-  , class numButtons !!
-      [ Margin          .= px 5
-      , Padding         .= px 5
-      , TextAlign       .= End
-      , Width           .= perc 20
       ]
   ]
