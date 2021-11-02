@@ -1,6 +1,9 @@
 module Control.Monad.Dom.Interface
 
 import Control.MonadRec
+import Control.Monad.Reader
+import Control.Monad.State
+import Control.Monad.Writer
 import Control.WellFounded
 import Data.Iterable
 import Data.Nat
@@ -48,6 +51,21 @@ interface Monad m => MonadDom (0 ev : Type) (0 m : Type -> Type) | m where
   ||| Registers an event listener at the given DOM element,
   ||| acting on events provided by the given `DOMEvent` value.
   registerEvent : ElemRef t -> DOMEvent ev -> m ()
+
+export
+MonadDom ev m => MonadDom ev (ReaderT e m) where
+  uniqueId          = lift uniqueId
+  registerEvent r e = lift (registerEvent r e)
+
+export
+MonadDom ev m => MonadDom ev (StateT s m) where
+  uniqueId          = lift uniqueId
+  registerEvent r e = lift (registerEvent r e)
+
+export
+MonadDom ev m => MonadDom ev (WriterT w m) where
+  uniqueId          = lift uniqueId
+  registerEvent r e = lift (registerEvent r e)
 
 --------------------------------------------------------------------------------
 --          Node Preparation

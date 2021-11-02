@@ -177,7 +177,7 @@ msf = feedback (pure ()) $ par [arrM cleanup, arrM select] >>> swap
         select "performance" = reactimateInDom Performance.ui
         select "fractals"    = reactimateInDom Fractals.ui
         select "balls"       = reactimateInDom Balls.ui
-        select "math"        = reactimateInDomIni Init MathGame.ui
+        select "math"        = reactimateInDomIni NewGame MathGame.ui
         select _             = pure (pure ())
 
 export

@@ -108,8 +108,8 @@ css =
       ]
   
   , id out.id  !!
-      [ GridColumn      .= FromTo 1 3
-      , GridRow         .= At 4
+      [ GridColumn      .= At 2
+      , GridRow         .= At 3
       , FontSize        .= Large
       , TextAlign       .= Start
       ]
