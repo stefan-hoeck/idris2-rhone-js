@@ -103,7 +103,7 @@ and scaled down to 500 x 500 pixels:
 
 ```idris
 pictures : List String
-pictures = map (\n => "pics/pic\{show n}.jpg") [the Bits8 1..7]
+pictures = map (\n => "pics/pic\{show n}.jpg") [the Bits8 1..11]
 ```
 
 ### View
