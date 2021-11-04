@@ -1,6 +1,6 @@
 module Examples.CSS.Fractals
 
-import Data.List
+import Data.Vect
 import Examples.CSS.Colors
 import public Examples.CSS.Core
 import Rhone.JS
@@ -46,49 +46,54 @@ lblDelay = "fractals_lbldelay"
 --          Rules
 --------------------------------------------------------------------------------
 
+data Tag = LIter | IIter | LDel | IDel | BRun | Fract | Dot
+
+AreaTag Tag where
+  showTag LIter = "LIter"
+  showTag IIter = "IIter"
+  showTag LDel  = "LDel"
+  showTag IDel  = "IDel"
+  showTag BRun  = "BRun"
+  showTag Fract = "Fract"
+  showTag Dot   = "."
+
 export
 css : List (Rule 1)
 css =
   [ class fractalContent !!
-      [ Display             .= Grid
+      [ Display             .= Area
+          (replicate 4 MinContent)
+          [MaxContent, MaxContent, fr 1]
+          [ [LIter, IIter, Fract]
+          , [LDel,  IDel,  Fract]
+          , [Dot,   BRun,  Fract]
+          , [Dot,   Dot,   Fract]
+          ]
+
       , ColumnGap           .= px 10
       , RowGap              .= px 10
-      , GridTemplateColumns .= [px 170, fr 1, fr 3]
-      , GridTemplateRows    .= replicate 3 MinContent ++ [fr 1]
       , Padding             .= VH (px 20) (px 10)
       ]
 
-  , class lblIter !!
-      [ GridColumn      .= At 1
-      , GridRow         .= At 1
-      ]
+  , class lblIter !! [ GridArea .= LIter ]
 
   , id txtIter.id !!
-      [ GridColumn      .= At 2
-      , GridRow         .= At 1
+      [ GridArea        .= IIter
       , TextAlign       .= End
       ]
 
-  , class lblDelay !!
-      [ GridColumn      .= At 1
-      , GridRow         .= At 2
-      ]
+  , class lblDelay !! [ GridArea .= LDel ]
 
   , id txtRedraw.id !!
-      [ GridColumn      .= At 2
-      , GridRow         .= At 2
+      [ GridArea        .= IDel
       , TextAlign       .= End
       ]
 
-  , id btnRun.id !!
-      [ GridColumn      .= At 1
-      , GridRow         .= At 3
-      ]
+  , id btnRun.id !! [ GridArea .= BRun ]
 
   , id out.id !!
       [ JustifySelf     .= Center
-      , GridColumn      .= At 3
-      , GridRow         .= FromTo 1 5
+      , GridArea        .= Fract
       , BorderStyle     .= Left Solid
       , BorderWidth     .= Left (px 2)
       , BorderColor     .= Left base80
