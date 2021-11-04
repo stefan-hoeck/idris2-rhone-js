@@ -315,9 +315,10 @@ setPic =   (\gs => "background-image : url('\{gs.pic}');")
        ^>> attributeAt_ "style" pic 
 
 dispGame : LiftJSIO m => MSF m GameState ()
-dispGame = fan_ [ currentCalc ^>> isNothing ^>> disabledAt checkBtn
-                , currentCalc ^>> isNothing ^>> disabledAt resultIn
-                , currentCalc ^>> maybe "" dispCalc ^>> text calc
+dispGame = fan_ [ currentCalc ^>-
+                    [ isNothing ^>- [disabledAt checkBtn, disabledAt resultIn]
+                    , maybe "" dispCalc ^>> text calc
+                    ]
                 , arrM renderGame
                 , const "" >>> Sink.valueOf resultIn
                 , setPic
@@ -333,10 +334,10 @@ from `Data.MSF.Trans`).
 ```idris
 check : MonadState GameState m => LiftJSIO m => MSF m i ()
 check =  [| checkAnswer (valueOf resultIn) get |]
-     >>> fan_ [ snd >>! put
-              , hd  >>> reply ^>> text out
-              , hd  >>> style ^>> attributeAt "style" out
-              ]
+      >>- [ snd >>! put
+          , hd  >>> reply ^>> text out
+          , hd  >>> style ^>> attributeAt "style" out
+          ]
 ```
 
 When creating a new game, we need to make sure to take over
@@ -350,7 +351,7 @@ M : Type -> Type
 M = DomIO Ev JSIO
 
 newGame : LiftJSIO m => MSF (StateT GameState m) i ()
-newGame = get >>> lang ^>> arrM randomGame >>> fan_ [setPic, put]
+newGame = get >>> lang ^>> randomGame !>- [setPic, put]
 
 adjLang : MSF (StateT GameState M) Ev ()
 adjLang = readLang ^>> ifJust (

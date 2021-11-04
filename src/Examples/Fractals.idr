@@ -47,10 +47,10 @@ namespace Iterations
   read : String -> Either String Iterations
   read "0" = Right $ MkIterations 0 LTEZero
   read s = case cast {to = Nat} s of
-    0 => Left #"Not a natural number: \#{s}"#
+    0 => Left "Not a natural number: \{s}"
     n => case isLTE n MaxIter of
       Yes prf   => Right $ MkIterations n prf
-      No contra => Left #"Value must be <= \#{show MaxIter}"#
+      No contra => Left "Value must be <= \{show MaxIter}"
 
 isDelay : Bits32 -> Bool
 isDelay v = 100 <= v && v <= 10000
@@ -113,14 +113,14 @@ content =
             , onInput (const Iter)
             , onEnterDown Run
             , class widget
-            , placeholder #"Range: [0, \#{show MaxIter}]"#
+            , placeholder "Range: [0, \{show MaxIter}]"
             ] []
     , lbl "Iteration delay [ms]:" lblDelay
     , input [ id txtRedraw.id
             , onInput (const Redraw)
             , onEnterDown Run
             , class widget
-            , placeholder #"Range: [100,10'000]"#
+            , placeholder "Range: [100,10'000]"
             ] []
     , button [id btnRun.id, onClick Run, classes [widget,btn]] ["Run"]
     , div [id out.id] []
