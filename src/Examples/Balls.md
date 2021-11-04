@@ -163,19 +163,18 @@ wcanvas = 520
 
 content : Node Ev
 content =
-  div [ class widgetList ]
-      [ line "Number of balls:"
-          [ input [ id txtCount.id
-                  , onInput (const NumIn)
-                  , onEnterDown Run
-                  , class widget
-                  , placeholder #"Range: [1,1000]"#
-                  ] []
-          , button [id btnRun.id, onClick Run, classes [widget,btn]] ["Run"]
-          ]
-      , div [id log.id] []
-      , div [] [canvas [id out.id, width wcanvas, height wcanvas] [] ]
-      ]
+  div [ class ballsContent ]
+    [ lbl "Number of balls:" lblCount
+    , input [ id txtCount.id
+            , onInput (const NumIn)
+            , onEnterDown Run
+            , class widget
+            , placeholder #"Range: [1,1000]"#
+            ] []
+    , button [id btnRun.id, onClick Run, classes [widget,btn]] ["Run"]
+    , div [id log.id] []
+    , canvas [id out.id, width wcanvas, height wcanvas] []
+    ]
 ```
 
 ### Controller

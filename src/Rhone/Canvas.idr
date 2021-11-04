@@ -26,8 +26,10 @@ record Canvas where
 --------------------------------------------------------------------------------
 
 export
-context2D : ElemRef HTMLCanvasElement -> JSIO CanvasRenderingContext2D
-context2D ref = do
+context2D :  LiftJSIO m
+          => ElemRef HTMLCanvasElement
+          -> m CanvasRenderingContext2D
+context2D ref = liftJSIO $ do
   canvas <- getElementByRef ref
   m      <- getContext' canvas "2d"
   case m >>= (\ns => extract CanvasRenderingContext2D ns) of
@@ -35,8 +37,8 @@ context2D ref = do
     Nothing => throwError $ Caught #"Rhone.Canvas.context2d: No rendering context for \#{ref.id}"#
 
 export
-render : Canvas -> JSIO ()
-render (MkCanvas ref w h scene) = do
+render : LiftJSIO m => Canvas -> m ()
+render (MkCanvas ref w h scene) = liftJSIO $ do
   ctxt <- context2D ref
   apply ctxt $ Rect 0 0 w h Clear
   apply ctxt scene

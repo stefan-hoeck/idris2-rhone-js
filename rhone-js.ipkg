@@ -34,6 +34,7 @@ modules    = Control.Monad.Dom
            , Text.CSS.Declaration
            , Text.CSS.Dir
            , Text.CSS.Flexbox
+           , Text.CSS.Grid
            , Text.CSS.Length
            , Text.CSS.ListStyleType
            , Text.CSS.Percentage

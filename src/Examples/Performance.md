@@ -114,20 +114,20 @@ And, finally, the overall layout of the application:
 ```idris
 content : Node Ev
 content =
-  div [ class widgetList ]
-      [ line "Number of buttons:"
-          [ input [ id natIn.id
-                  , onInput (const Validate)
-                  , onEnterDown Reload
-                  , classes [ widget, numButtons ]
-                  , placeholder "Enter a positive integer"
-                  ] []
-          , button [id btnRun.id, onClick Reload, classes [widget,btn]] ["Run"]
-          ]
-      , line "Sum:" [ div [id out.id] [] ]
-      , div [id time.id, class widgetLine] []
-      , div [id buttons.id, class widgetLine] []
-      ]
+  div [ class performanceContent ]
+    [ lbl "Number of buttons:" numButtonsLbl
+    , input [ id natIn.id
+                 , onInput (const Validate)
+                 , onEnterDown Reload
+                 , classes [widget, textIn]
+                 , placeholder "Enter a positive integer"
+                 ] []
+    , button [id btnRun.id, onClick Reload, classes [widget, btn]] ["Run"]
+    , lbl "Sum:" sumLbl
+    , div [id out.id] []
+    , div [id time.id] []
+    , div [id buttons.id] []
+    ]
 ```
 
 We register two events at the text field: Whenever users input
