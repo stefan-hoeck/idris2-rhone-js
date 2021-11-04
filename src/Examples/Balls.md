@@ -169,7 +169,7 @@ content =
             , onInput (const NumIn)
             , onEnterDown Run
             , class widget
-            , placeholder #"Range: [1,1000]"#
+            , placeholder "Range: [1,1000]"
             ] []
     , button [id btnRun.id, onClick Run, classes [widget,btn]] ["Run"]
     , div [id log.id] []
@@ -262,11 +262,10 @@ renderBalls bs =
   liftJSIO . render $ MkCanvas out (cast wcanvas) (cast wcanvas) (ballsToScene bs)
 
 animation : List Ball -> MSF M Ev ()
-animation bs = next ^>> ifEvent (
-                 fan_ [ accumulateWith (mapTR . nextBall) bs >>! renderBalls
-                      , fps 15 >>> ifEvent (showFPS ^>> text log)
-                      ]
-               )
+animation bs = arr next ?>-
+                 [ accumulateWith (mapTR . nextBall) bs >>! renderBalls
+                 , fps 15 ?>> showFPS ^>> text log
+                 ]
 ```
 
 We now only need to write the controllers for reading user

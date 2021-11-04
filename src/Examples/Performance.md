@@ -70,7 +70,7 @@ We also require a function for input validation:
 ```idris
 validate : String -> Either String PosNat
 validate s = case cast {to = Nat} s of
-  Z       => Left #"Not a positive natural number: \#{s}"#
+  Z       => Left "Not a positive natural number: \{s}"
   n@(S _) => Right $ Element n ItIsSucc
 ```
 
@@ -85,7 +85,7 @@ since we want to disable them after they have been clicked:
 
 ```idris
 btnRef : Nat -> ElemRef Button
-btnRef n = MkRef Button #"BTN\#{show n}"#
+btnRef n = MkRef Button "BTN\{show n}"
 
 btn : Nat -> Node Nat
 btn n =
@@ -163,8 +163,8 @@ from `Rhone.JS.Util`:
 
 ```idris
 dispTime : Nat -> Integer -> String
-dispTime 1 ms = #"\#Loaded one button in \#{show ms} ms."#
-dispTime n ms = #"\#Loaded \#{show n} buttons in \#{show ms} ms."#
+dispTime 1 ms = "\Loaded one button in \{show ms} ms."
+dispTime n ms = "\Loaded \{show n} buttons in \{show ms} ms."
 ```
 
 The reactive behavior of the grid of buttons consists of
@@ -226,7 +226,7 @@ in case of invalid input.
 msf : MSF MI Ev ()
 msf =   fan [count, is Reload]
     >>> rightOnEvent
-    >>> ifEvent (arrM (ignore . reactimateInDomIni 0 . btnsSF))
+    ?>> arrM (ignore . reactimateInDomIni 0 . btnsSF)
 ```
 
 The `rightOnEvent` combinator comes up often in user
