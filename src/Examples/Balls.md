@@ -1,4 +1,4 @@
-## Running Animations: Bouncing Balls
+# Running Animations: Bouncing Balls
 
 In this tutorial we are going to have a look at
 running a (non-interactive) animation. We simulate
@@ -35,7 +35,7 @@ import Text.CSS.Color
 %default total
 ```
 
-### Model
+## Model
 
 We first define a couple of physical entities:
 
@@ -84,7 +84,7 @@ record Ball where
   vel : Velocity
 ```
 
-### View
+## View
 
 We draw our set of balls in a canvas, so we need
 some instructions for doing so. A ball will sometimes
@@ -177,7 +177,7 @@ content =
     ]
 ```
 
-### Controller
+## Controller
 
 The main focus of the controller will be to properly
 animate the bouncing balls. We could try and use a functional

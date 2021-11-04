@@ -1,4 +1,4 @@
-## State and Everything: A minimalistic Example
+# State and Everything: A minimalistic Example
 
 I have been told by the nice people of the Idris community
 on Discord that every functional web framework has some clickable
@@ -27,7 +27,7 @@ import Rhone.JS
 %default total
 ```
 
-### Model
+## Model
 
 Our model is still too primitive to require a custom
 data type. Since the button clicks update an integer value,
@@ -39,7 +39,7 @@ Ev : Type
 Ev = Int8 -> Int8
 ```
 
-### View
+## View
 
 First, we define some custom CSS rules for the
 elements specific to this application. These can
@@ -89,7 +89,7 @@ content =
       ]
 ```
 
-### Controller
+## Controller
 
 We first define our effect type:
 
@@ -145,7 +145,7 @@ this application should be stopped. We return a dummy here:
 Every sample application will clear the content of `exampleDiv`,
 and we didn't setup any additional resources.
 
-### Some Background: Running Monadic Stream Functions
+## Some Background: Running Monadic Stream Functions
 
 We will now have a closer look at how the machinery in the background
 operates. The first piece of functionality for understanding what's going

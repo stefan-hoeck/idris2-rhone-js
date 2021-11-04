@@ -1,4 +1,4 @@
-## For our Children: A simple Math Game
+# For our Children: A simple Math Game
 
 This is a simple math game I wrote for our children.
 A picture is hidden behind a grid of panels and they
@@ -31,7 +31,7 @@ import Text.CSS
 %default total
 ```
 
-### Model
+## Model
 
 We first define the events our application handles. Users
 chan enter a string and check it against the currect
@@ -116,7 +116,7 @@ pictures : List String
 pictures = map (\n => "pics/pic\{show n}.jpg") [the Bits8 1..11]
 ```
 
-### View
+## View
 
 As usual, the application's CSS rules have been moved to
 a [separate module](CSS/MathGame.idr). We start with defining
@@ -234,7 +234,7 @@ renderGame gs =
   render $ MkCanvas pic (cast wcanvas) (cast wcanvas) (dispState gs)
 ```
 
-### Controller
+## Controller
 
 For controlling the game, we first need a way to
 randomly generate equations and shuffled lists of
