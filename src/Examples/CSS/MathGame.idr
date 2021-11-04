@@ -85,21 +85,42 @@ AreaTag Tag where
 export
 css : List (Rule 1)
 css =
-  [ class mathContent !!
-      [ Display             .= Area
-          (replicate 6 MinContent)
-          [MaxContent, MaxContent, fr 1]
-          [ [LLan, ILan, OPic]
-          , [OClc, IRes, OPic]
-          , [Dot,  BChk, OPic]
-          , [Dot,  BNew, OPic]
-          , [ORep, ORep, OPic]
-          , [Dot,  Dot,  OPic]
-          ]
+  [ Media "min-width: 300px"
+      [ class mathContent !!
+          [ Display             .= Area
+              (replicate 6 MinContent)
+              [MaxContent, MaxContent]
+              [ [LLan, ILan]
+              , [OClc, IRes]
+              , [Dot,  BChk]
+              , [Dot,  BNew]
+              , [ORep, ORep]
+              , [OPic, OPic]
+              ]
 
-      , ColumnGap           .= px 10
-      , RowGap              .= px 10
-      , Padding             .= VH (px 20) (px 10)
+          , ColumnGap           .= px 10
+          , RowGap              .= px 10
+          , Padding             .= VH (px 20) (px 10)
+          ]
+      ]
+
+  , Media "min-width: 800px"
+      [ class mathContent !!
+          [ Display             .= Area
+              (replicate 6 MinContent)
+              [MaxContent, MaxContent, fr 1]
+              [ [LLan, ILan, OPic]
+              , [OClc, IRes, OPic]
+              , [Dot,  BChk, OPic]
+              , [Dot,  BNew, OPic]
+              , [ORep, ORep, OPic]
+              , [Dot,  Dot,  OPic]
+              ]
+
+          , ColumnGap           .= px 10
+          , RowGap              .= px 10
+          , Padding             .= VH (px 20) (px 10)
+          ]
       ]
 
   , class lblLang !! [ GridArea .= LLan ]

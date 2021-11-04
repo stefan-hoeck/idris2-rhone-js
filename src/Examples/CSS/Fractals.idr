@@ -60,21 +60,39 @@ AreaTag Tag where
 export
 css : List (Rule 1)
 css =
-  [ class fractalContent !!
-      [ Display             .= Area
-          (replicate 4 MinContent)
-          [MaxContent, MaxContent, fr 1]
-          [ [LIter, IIter, Fract]
-          , [LDel,  IDel,  Fract]
-          , [Dot,   BRun,  Fract]
-          , [Dot,   Dot,   Fract]
-          ]
+  [ Media "min-width: 300px"
+      [ class fractalContent !!
+          [ Display             .= Area
+              (replicate 4 MinContent)
+              [MaxContent, MaxContent]
+              [ [LIter, IIter]
+              , [LDel,  IDel ]
+              , [Dot,   BRun ]
+              , [Fract, Fract]
+              ]
 
-      , ColumnGap           .= px 10
-      , RowGap              .= px 10
-      , Padding             .= VH (px 20) (px 10)
+          , ColumnGap           .= px 10
+          , RowGap              .= px 10
+          , Padding             .= VH (px 20) (px 10)
+          ]
       ]
 
+  , Media "min-width: 800px"
+      [ class fractalContent !!
+          [ Display             .= Area
+              (replicate 4 MinContent)
+              [MaxContent, MaxContent, fr 1]
+              [ [LIter, IIter, Fract]
+              , [LDel,  IDel,  Fract]
+              , [Dot,   BRun,  Fract]
+              , [Dot,   Dot,   Fract]
+              ]
+
+          , ColumnGap           .= px 10
+          , RowGap              .= px 10
+          , Padding             .= VH (px 20) (px 10)
+          ]
+      ]
   , class lblIter !! [ GridArea .= LIter ]
 
   , id txtIter.id !!

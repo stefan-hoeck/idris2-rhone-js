@@ -51,19 +51,38 @@ AreaTag Tag where
 export
 css : List (Rule 1)
 css =
-  [ class ballsContent !!
-      [ Display             .= Area
-          (replicate 4 MinContent)
-          [MaxContent, MaxContent, fr 1]
-          [ [LNum, INum, Anim]
-          , [Dot,  BRun, Anim]
-          , [LFPS, LFPS, Anim]
-          , [Dot,  Dot,  Anim]
-          ]
+  [ Media "min-width: 300px"
+      [ class ballsContent !!
+          [ Display             .= Area
+              (replicate 4 MinContent)
+              [MaxContent, MaxContent]
+              [ [LNum, INum]
+              , [Dot,  BRun]
+              , [LFPS, LFPS]
+              , [Anim, Anim]
+              ]
 
-      , ColumnGap           .= px 10
-      , RowGap              .= px 10
-      , Padding             .= VH (px 20) (px 10)
+          , ColumnGap           .= px 10
+          , RowGap              .= px 10
+          , Padding             .= VH (px 20) (px 10)
+          ]
+      ]
+
+  , Media "min-width: 800px"
+      [ class ballsContent !!
+          [ Display             .= Area
+              (replicate 4 MinContent)
+              [MaxContent, MaxContent, fr 1]
+              [ [LNum, INum, Anim]
+              , [Dot,  BRun, Anim]
+              , [LFPS, LFPS, Anim]
+              , [Dot,  Dot,  Anim]
+              ]
+
+          , ColumnGap           .= px 10
+          , RowGap              .= px 10
+          , Padding             .= VH (px 20) (px 10)
+          ]
       ]
 
   , class lblCount !! [ GridArea .= LNum ]

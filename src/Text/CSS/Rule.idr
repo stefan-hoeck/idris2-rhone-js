@@ -26,4 +26,4 @@ export %inline
 export
 Render (Rule n) where
   render (MkRule s ds) = "\{render s}{\{fastConcat $ map render ds}}"
-  render (Media q rs)  = "@media (\{q}){fastUnlines $ map render rs}"
+  render (Media q rs)  = "@media (\{q}){\{fastUnlines $ map render rs}}"
