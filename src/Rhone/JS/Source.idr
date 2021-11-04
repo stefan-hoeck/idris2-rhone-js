@@ -62,7 +62,7 @@ value = arrM $ \r => liftJSIO (getElementByRef r >>= getValue)
 
 export %inline
 valueOf : LiftJSIO m => HasValue t => ElemRef t -> MSF m i String
-valueOf r = const r >>> value 
+valueOf r = const r >>> value
 
 export
 meterValue : LiftJSIO m => MSF m (ElemRef HTMLMeterElement) Double

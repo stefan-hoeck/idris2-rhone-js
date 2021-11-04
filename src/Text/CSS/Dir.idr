@@ -42,14 +42,14 @@ vals (TRBL t r b l) = [t,r,b,l]
 
 export
 render : (prop : String) -> (a -> String) -> Dir a -> String
-render prop f d = 
+render prop f d =
   let vs  = fastConcat . intersperse " " . map f $ vals d
       pre = prfx d
    in "\{prop}\{pre}: \{vs}"
 
 export
 render2 : (prop,suffix : String) -> (a -> String) -> Dir a -> String
-render2 prop suffix f d = 
+render2 prop suffix f d =
   let vs  = fastConcat . intersperse " " . map f $ vals d
       pre = prfx d
    in "\{prop}\{pre}-\{suffix}: \{vs}"

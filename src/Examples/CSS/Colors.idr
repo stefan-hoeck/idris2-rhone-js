@@ -5,7 +5,7 @@ import Text.CSS
 
 export
 lightest_grey : Color
-lightest_grey = hsl 0 0 90 
+lightest_grey = hsl 0 0 90
 
 export
 lighter_grey : Color

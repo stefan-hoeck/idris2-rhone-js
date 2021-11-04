@@ -61,7 +61,7 @@ Monoid Shape where
 --          IO
 --------------------------------------------------------------------------------
 
-applySegment : CanvasRenderingContext2D -> Segment -> JSIO () 
+applySegment : CanvasRenderingContext2D -> Segment -> JSIO ()
 applySegment ctxt (Move x y) = moveTo ctxt x y
 applySegment ctxt (Line x y) = lineTo ctxt x y
 applySegment ctxt (Arc x y r start stop ccw) = do

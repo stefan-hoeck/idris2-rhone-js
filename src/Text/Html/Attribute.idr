@@ -70,7 +70,7 @@ data Attribute : (event : Type) -> Type where
   Id    : (value : String) -> Attribute event
   Str   : (name : String) -> (value : String) -> Attribute event
   Bool  : (name : String) -> (value : Bool) -> Attribute event
-  Event : DOMEvent event -> Attribute event 
+  Event : DOMEvent event -> Attribute event
 
 public export
 Attributes : Type -> Type

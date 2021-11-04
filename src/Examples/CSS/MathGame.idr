@@ -124,29 +124,29 @@ css =
       ]
 
   , class lblLang !! [ GridArea .= LLan ]
-  
+
   , id langIn.id  !!
       [ GridArea        .= ILan
       , FontSize        .= Large
       , TextAlign       .= End
       ]
-  
+
   , id calc.id  !!
       [ GridArea        .= OClc
       , FontSize        .= Large
       , TextAlign       .= Start
       ]
-  
+
   , id resultIn.id  !!
       [ GridArea        .= IRes
       , FontSize        .= Large
       , TextAlign       .= End
       ]
-  
+
   , id checkBtn.id  !! [ GridArea .= BChk ]
-  
+
   , id newBtn.id  !! [ GridArea .= BNew ]
-  
+
   , id out.id  !!
       [ GridArea        .= ORep
       , FontSize        .= Large

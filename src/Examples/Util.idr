@@ -1,4 +1,4 @@
-||| Reocurring fragments from the example applications 
+||| Reocurring fragments from the example applications
 module Examples.Util
 
 import Data.MSF.Event
@@ -16,4 +16,3 @@ MSFEvent = Data.MSF.Event.Event
 export
 lbl : (text: String) -> (class : String) -> Node ev
 lbl txt cl = label [classes [widgetLabel, cl]] [Text txt]
-

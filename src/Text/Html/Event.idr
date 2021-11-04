@@ -45,7 +45,7 @@ record KeyInfo where
   ctrl        : Bool
   meta        : Bool
   shift       : Bool
-  
+
 
 --------------------------------------------------------------------------------
 --          Events

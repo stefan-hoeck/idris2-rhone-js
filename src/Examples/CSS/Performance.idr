@@ -77,7 +77,7 @@ AreaTag Tag where
 export
 css : List (Rule 1)
 css =
-  [ Media "min-width: 300px" 
+  [ Media "min-width: 300px"
       [ class performanceContent !!
           [ Display             .= Area
               (replicate 4 MinContent)
@@ -93,7 +93,7 @@ css =
           ]
       ]
 
-  , Media "min-width: 800px" 
+  , Media "min-width: 800px"
       [ class performanceContent !!
           [ Display             .= Area
               (replicate 4 MinContent)
@@ -119,14 +119,14 @@ css =
   , id btnRun.id !! [ GridArea .= BRun ]
 
   , class sumLbl !! [ GridArea .= LSum ]
-      
+
   , id out.id  !!
       [ GridArea        .= OSum
       , FontSize        .= Large
       ]
-      
+
   , id time.id  !! [ GridArea .= OTme ]
-      
+
   , id buttons.id  !!
       [ GridArea        .= Btns
       , BorderStyle     .= Left Solid

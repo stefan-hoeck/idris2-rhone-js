@@ -37,7 +37,7 @@ lemma []       v as2 = IsNonEmpty
 lemma (h :: t) v as2 = IsNonEmpty
 
 firstDragon : Dragon
-firstDragon = Element [0,800] IsNonEmpty 
+firstDragon = Element [0,800] IsNonEmpty
 
 nextDragon : Dragon -> Dragon
 nextDragon (Element (h :: t) prf) =

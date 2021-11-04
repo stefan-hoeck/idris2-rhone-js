@@ -27,7 +27,7 @@ namespace Display
   public export
   interface AreaTag a where
     showTag : a -> String
-    
+
   public export
   data Display : Type where
     Flex  : Display
@@ -148,7 +148,7 @@ namespace BorderStyle
     Ridge  : BorderStyle
     Inset  : BorderStyle
     Outset : BorderStyle
-    
+
 
   export
   Render BorderStyle where

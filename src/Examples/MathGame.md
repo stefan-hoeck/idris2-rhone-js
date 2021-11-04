@@ -123,7 +123,7 @@ a [separate module](CSS/MathGame.idr). We start with defining
 the localized strings we need:
 
 ```idris
-data Result = Ended Language 
+data Result = Ended Language
             | Correct Language
             | Wrong Language Calc Integer
 
@@ -184,7 +184,7 @@ content l =
         [ option [ value "de", selected (l == DE)] [Text $ german l]
         , option [ value "en", selected (l == EN)] [Text $ english l]
         ]
-     
+
     , div [ id calc.id ] []
 
     , input [ id resultIn.id
@@ -202,7 +202,7 @@ content l =
              , onClick NewGame
              , classes [widget,btn]
              ] [Text $ newGameStr l]
-     
+
     , div [ id out.id ] []
 
     , canvas [ id pic.id, width wcanvas, height wcanvas ] []
@@ -222,7 +222,7 @@ stuckColor : Color
 stuckColor = HSLA 0 0 50 80
 
 dispState : GameState -> Scene
-dispState gs = 
+dispState gs =
   let sf = cast {to = Double} wcanvas / cast gs.rows
    in SM [] (scale sf sf)
         [ SM [ Fill black ] Id $ map tile gs.calcs
@@ -312,7 +312,7 @@ the input text field:
 ```idris
 setPic : LiftJSIO m => MSF m GameState ()
 setPic =   (\gs => "background-image : url('\{gs.pic}');")
-       ^>> attributeAt_ "style" pic 
+       ^>> attributeAt_ "style" pic
 
 dispGame : LiftJSIO m => MSF m GameState ()
 dispGame = fan_ [ currentCalc ^>-

@@ -190,7 +190,7 @@ ui = do
 
 I'll quickliy break this down a bit: The first line
 renders and applies the page's CSS rules to a `<style>`
-element in the HTML header referenced by `ElementRef` 
+element in the HTML header referenced by `ElementRef`
 `appStyle`. The second line,
 `innerHtmlAt contentDiv content`, is where half of the magic
 happens: We change the inner HTML of the element with ID

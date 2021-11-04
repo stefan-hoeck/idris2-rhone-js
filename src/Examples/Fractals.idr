@@ -86,7 +86,7 @@ M = DomIO Ev JSIO
 msf : (timer : RedrawAfter -> JSIO ()) -> MSF M Ev ()
 msf timer = drswitchWhen neutral config fractal
   where fractal : Config -> MSF M Ev ()
-        fractal c = 
+        fractal c =
           let Element dragons prf = mkDragons c.iterations.value
            in ifIs Next $ cycle dragons >>> innerHtml out
 
@@ -135,7 +135,7 @@ ui : M (MSF M Ev (), JSIO ())
 ui = do
   innerHtmlAt exampleDiv content
   ref  <- newIORef {a = Maybe IntervalID} Nothing
-  h    <- handler <$> env 
+  h    <- handler <$> env
 
   let cleanup : JSIO ()
       cleanup = readIORef ref >>= traverse_ clearInterval
