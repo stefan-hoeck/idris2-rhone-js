@@ -1,5 +1,8 @@
 module Text.CSS.Property
 
+import Data.List
+import Data.String
+import Data.Vect
 import Text.CSS.Color
 import Text.CSS.Dir
 import Text.CSS.Flexbox
@@ -22,14 +25,34 @@ namespace Direction
 
 namespace Display
   public export
+  interface AreaTag a where
+    showTag : a -> String
+    
+  public export
   data Display : Type where
-    Flex : Display
-    Grid : Display
+    Flex  : Display
+    Grid  : Display
+    Area  :  {0 n,m : Nat}
+          -> {0 a : Type}
+          -> AreaTag a
+          => (rows    : Vect (S m) GridValue)
+          -> (columns : Vect (S n) GridValue)
+          -> (area    : Vect (S m) (Vect (S n) a))
+          -> Display
 
   export
-  Render Display where
-    render Flex = "flex"
-    render Grid = "grid"
+  renderArea :  AreaTag a
+             => Vect (S m) GridValue
+             -> Vect (S n) GridValue
+             -> Vect (S m) (Vect (S n) a)
+             -> String
+  renderArea rs cs as =
+    let rsStr = "grid-template-rows: " ++ render (toList rs)
+        csStr = "grid-template-columns: " ++ render (toList cs)
+        aStr  =   fastConcat 
+              $   (++ " ") . show . intersperse " " . map showTag . toList
+              <$> toList as
+     in "display: grid; \{rsStr}; \{csStr}; grid-template-areas: \{aStr}"
 
 namespace FlexBasis
   public export
@@ -252,7 +275,9 @@ renderProp BorderWidth y         = render2 "border" "width" render y
 renderProp Color y               = "color: " ++ render y
 renderProp ColumnGap y           = "column-gap: " ++ render y
 renderProp Direction y           = "direction: " ++ render y
-renderProp Display y             = "display: " ++ render y
+renderProp Display Grid          = "display: grid"
+renderProp Display Flex          = "display: flex"
+renderProp Display (Area r c a)  = renderArea r c a
 renderProp Flex y                = "flex: " ++ y
 renderProp FlexBasis y           = "flex-basis: " ++ render y
 renderProp FlexDirection y       = "flex-direction: " ++ render y
