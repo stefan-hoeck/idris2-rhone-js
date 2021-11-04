@@ -63,7 +63,7 @@ performanceContent = "performance_content"
 --------------------------------------------------------------------------------
 
 export
-css : List Rule
+css : List (Rule 1)
 css =
   [ class performanceContent !!
       [ Display             .= Grid

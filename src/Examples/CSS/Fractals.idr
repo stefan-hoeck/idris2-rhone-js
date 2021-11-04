@@ -47,7 +47,7 @@ lblDelay = "fractals_lbldelay"
 --------------------------------------------------------------------------------
 
 export
-css : List Rule
+css : List (Rule 1)
 css =
   [ class fractalContent !!
       [ Display             .= Grid

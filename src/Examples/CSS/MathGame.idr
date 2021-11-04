@@ -65,7 +65,7 @@ lblLang : String
 lblLang = "mathgame_lbllang"
 
 export
-css : List Rule
+css : List (Rule 1)
 css =
   [ class mathContent !!
       [ Display             .= Grid

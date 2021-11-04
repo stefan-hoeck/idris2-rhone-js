@@ -60,7 +60,7 @@ resetBtn : String
 resetBtn = "reset_incbtn"
 
 export
-css : List Rule
+css : List (Rule 1)
 css =
   [ class resetContent !!
       [ Display             .= Grid

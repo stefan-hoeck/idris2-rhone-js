@@ -39,7 +39,7 @@ lblCount : String
 lblCount = "balls_lblcount"
 
 export
-css : List Rule
+css : List (Rule 1)
 css =
   [ class ballsContent !!
       [ Display             .= Grid

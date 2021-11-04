@@ -103,7 +103,7 @@ widgetLabel = "widgetlabel"
 --------------------------------------------------------------------------------
 
 export
-coreCSS : List Rule
+coreCSS : List (Rule 1)
 coreCSS =
   [ elem Html !!
       [ Height          .= perc 100]
