@@ -43,7 +43,7 @@ import Rhone.JS
 %default total
 ```
 
-# Model
+## Model
 
 Since the buttons in the button grid have no effect
 on the behavior of the components responsible for
@@ -74,7 +74,7 @@ validate s = case cast {to = Nat} s of
   n@(S _) => Right $ Element n ItIsSucc
 ```
 
-# View
+## View
 
 The CSS rules and reference IDs have again been moved
 to their [own module](CSS/Performance.idr), to declutter
@@ -136,7 +136,7 @@ routine started. If the *Enter* key is pressed, the grid of
 buttons should be generated. This should also happen if the
 *Run* button is clicked.
 
-# Controller
+## Controller
 
 The controller - especially the MSF used for
 generating the buttons and validating the user input -
