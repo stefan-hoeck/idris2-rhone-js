@@ -107,26 +107,24 @@ msf timer = drswitchWhen neutral config fractal
 
 content : Node Ev
 content =
-  div [ class widgetList ]
-      [ line "Number of iterations:"
-          [ input [ id txtIter.id
-                  , onInput (const Iter)
-                  , onEnterDown Run
-                  , class widget
-                  , placeholder #"Range: [0, \#{show MaxIter}]"#
-                  ] []
-          ]
-      , line "Iteration delay [ms]:"
-          [ input [ id txtRedraw.id
-                  , onInput (const Redraw)
-                  , onEnterDown Run
-                  , class widget
-                  , placeholder #"Range: [100,10'000]"#
-                  ] []
-          , button [id btnRun.id, onClick Run, classes [widget,btn]] ["Run"]
-          ]
-      , div [id out.id] []
-      ]
+  div [ class fractalContent ]
+    [ lbl "Number of iterations:" lblIter
+    , input [ id txtIter.id
+            , onInput (const Iter)
+            , onEnterDown Run
+            , class widget
+            , placeholder #"Range: [0, \#{show MaxIter}]"#
+            ] []
+    , lbl "Iteration delay [ms]:" lblDelay
+    , input [ id txtRedraw.id
+            , onInput (const Redraw)
+            , onEnterDown Run
+            , class widget
+            , placeholder #"Range: [100,10'000]"#
+            ] []
+    , button [id btnRun.id, onClick Run, classes [widget,btn]] ["Run"]
+    , div [id out.id] []
+    ]
 
 --------------------------------------------------------------------------------
 --          UI

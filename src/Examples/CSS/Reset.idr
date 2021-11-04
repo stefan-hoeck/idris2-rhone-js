@@ -1,6 +1,7 @@
 ||| CSS Rules for the Inc. Buttons Example
 module Examples.CSS.Reset
 
+import Data.Vect
 import Examples.CSS.Colors
 import public Examples.CSS.Core
 import Rhone.JS
@@ -35,21 +36,76 @@ btnReset = MkRef Button "reset_reset"
 --------------------------------------------------------------------------------
 
 export
+resetLbl : String
+resetLbl = "reset_resetlbl"
+
+export
+incLbl : String
+incLbl = "reset_inclbl"
+
+export
+decLbl : String
+decLbl = "reset_declbl"
+
+export
+countLbl : String
+countLbl = "reset_countlbl"
+
+export
+resetContent : String
+resetContent = "reset_content"
+
+export
 resetBtn : String
 resetBtn = "reset_incbtn"
 
+data Tag = LRes | BRes | LInc | BInc | LDec | BDec | LCnt | OCnt
+
+AreaTag Tag where
+  showTag LRes = "LRes"
+  showTag BRes = "BRes"
+  showTag LInc = "LInc"
+  showTag BInc = "BInc"
+  showTag LDec = "LDec"
+  showTag BDec = "BDec"
+  showTag LCnt = "LCnt"
+  showTag OCnt = "OCnt"
+
 export
-css : List Rule
+css : List (Rule 1)
 css =
-  [ id out.id  !!
-      [ FontSize        .= Large
-      , Margin          .= pt 5
-      , TextAlign       .= End
-      , Width           .= perc 10
+  [ class resetContent !!
+      [ Display             .= Area
+          (replicate 4 MinContent)
+          [MaxContent, MaxContent]
+          [ [LRes, BRes]
+          , [LInc, BInc]
+          , [LDec, BDec]
+          , [LCnt, OCnt]
+          ]
+
+      , ColumnGap           .= px 10
+      , RowGap              .= px 10
+      , Padding             .= VH (px 20) (px 10)
       ]
 
-  , class resetBtn  !!
-      [ Margin          .= pt 5
-      , Width           .= perc 10
+  , class resetLbl  !! [ GridArea .= LRes ]
+
+  , id btnReset.id  !! [ GridArea .= BRes ]
+
+  , class incLbl    !! [ GridArea .= LInc ]
+
+  , id btnInc.id    !! [ GridArea .= BInc ]
+
+  , class decLbl    !! [ GridArea .= LDec ]
+
+  , id btnDec.id    !! [ GridArea .= BDec ]
+
+  , class countLbl  !! [ GridArea .= LCnt ]
+
+  , id out.id  !!
+      [ FontSize        .= Large
+      , GridArea        .= OCnt
+      , TextAlign       .= End
       ]
   ]

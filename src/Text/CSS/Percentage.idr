@@ -2,10 +2,13 @@ module Text.CSS.Percentage
 
 import Language.Reflection.Refined
 import public Language.Reflection.Refined.Util
+import Text.CSS.Render
 
 %language ElabReflection
 %default total
 
+||| A floating point percentage value in the the
+||| range [0,100].
 public export
 record Percentage where
   constructor MkPercentage
@@ -21,20 +24,18 @@ fromInteger :  (n : Integer)
 fromInteger n = fromJust $ Percentage.refine (cast n)
 
 export
-render : Percentage -> String
-render (MkPercentage v _) = show v ++ "%"
+Render Percentage where
+  render (MkPercentage v _) = show v ++ "%"
 
-public export
-interface FromPercentage a where
-  fromPercentage : Percentage -> a
-
-public export %inline
-FromPercentage Percentage where
-  fromPercentage = id
-
+||| Convenience function for creating percentages with little
+||| syntactic overhead.
+|||
+||| ```idris example
+||| perc 12
+||| ```
 export %inline
-perc :  FromPercentage a
+perc :  Cast Percentage a
      => (v : Double)
      -> {auto 0 prf : So (0 <= v && v <= 100)}
      -> a
-perc v = fromPercentage $ MkPercentage v prf
+perc v = cast $ MkPercentage v prf

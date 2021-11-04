@@ -12,6 +12,7 @@ module Examples.Selector
 import Examples.CSS
 import Examples.Balls
 import Examples.Fractals
+import Examples.MathGame
 import Examples.Performance
 import Examples.Reset
 import Rhone.JS
@@ -84,9 +85,10 @@ content =
               , option [ value "performance" ] ["Performance"]
               , option [ value "fractals" ] ["Fractals"]
               , option [ value "balls" ] ["Bouncing Balls"]
+              , option [ value "math" ] ["Math Game"]
               ]
           ]
-      , div [id exampleDiv.id, class widgetList] []
+      , div [id exampleDiv.id] []
       ]
 ```
 
@@ -175,6 +177,7 @@ msf = feedback (pure ()) $ par [arrM cleanup, arrM select] >>> swap
         select "performance" = reactimateInDom Performance.ui
         select "fractals"    = reactimateInDom Fractals.ui
         select "balls"       = reactimateInDom Balls.ui
+        select "math"        = reactimateInDomIni NewGame MathGame.ui
         select _             = pure (pure ())
 
 export

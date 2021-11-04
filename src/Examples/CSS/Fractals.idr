@@ -1,7 +1,9 @@
 module Examples.CSS.Fractals
 
-import Rhone.JS
+import Data.Vect
+import Examples.CSS.Colors
 import public Examples.CSS.Core
+import Rhone.JS
 import Text.CSS
 
 --------------------------------------------------------------------------------
@@ -25,30 +27,95 @@ txtRedraw : ElemRef HTMLInputElement
 txtRedraw = MkRef Input "fractals_redrawdelay"
 
 --------------------------------------------------------------------------------
---          Rules
+--          Classes
 --------------------------------------------------------------------------------
 
 export
-css : List Rule
+fractalContent : String
+fractalContent = "fractals_content"
+
+export
+lblIter : String
+lblIter = "fractals_lbliter"
+
+export
+lblDelay : String
+lblDelay = "fractals_lbldelay"
+
+--------------------------------------------------------------------------------
+--          Rules
+--------------------------------------------------------------------------------
+
+data Tag = LIter | IIter | LDel | IDel | BRun | Fract | Dot
+
+AreaTag Tag where
+  showTag LIter = "LIter"
+  showTag IIter = "IIter"
+  showTag LDel  = "LDel"
+  showTag IDel  = "IDel"
+  showTag BRun  = "BRun"
+  showTag Fract = "Fract"
+  showTag Dot   = "."
+
+export
+css : List (Rule 1)
 css =
-  [ id txtIter.id !!
-      [ Margin          .= px 5
-      , TextAlign       .= End
-      , Width           .= perc 20
+  [ Media "min-width: 300px"
+      [ class fractalContent !!
+          [ Display             .= Area
+              (replicate 4 MinContent)
+              [MaxContent, MaxContent]
+              [ [LIter, IIter]
+              , [LDel,  IDel ]
+              , [Dot,   BRun ]
+              , [Fract, Fract]
+              ]
+
+          , ColumnGap           .= px 10
+          , RowGap              .= px 10
+          , Padding             .= VH (px 20) (px 10)
+          ]
       ]
+
+  , Media "min-width: 800px"
+      [ class fractalContent !!
+          [ Display             .= Area
+              (replicate 4 MinContent)
+              [MaxContent, MaxContent, fr 1]
+              [ [LIter, IIter, Fract]
+              , [LDel,  IDel,  Fract]
+              , [Dot,   BRun,  Fract]
+              , [Dot,   Dot,   Fract]
+              ]
+
+          , ColumnGap           .= px 10
+          , RowGap              .= px 10
+          , Padding             .= VH (px 20) (px 10)
+          ]
+      ]
+  , class lblIter !! [ GridArea .= LIter ]
+
+  , id txtIter.id !!
+      [ GridArea        .= IIter
+      , TextAlign       .= End
+      ]
+
+  , class lblDelay !! [ GridArea .= LDel ]
 
   , id txtRedraw.id !!
-      [ Margin          .= px 5
+      [ GridArea        .= IDel
       , TextAlign       .= End
-      , Width           .= perc 20
       ]
 
-  , id btnRun.id !!
-      [ Width           .= perc 10
-      ]
+  , id btnRun.id !! [ GridArea .= BRun ]
 
   , id out.id !!
-      [ Flex            .= "1"
-      , Margin          .= px 5
+      [ JustifySelf     .= Center
+      , GridArea        .= Fract
+      , BorderStyle     .= Left Solid
+      , BorderWidth     .= Left (px 2)
+      , BorderColor     .= Left base80
+      , MaxWidth        .= px 500
+      , Width           .= px 500
       ]
   ]

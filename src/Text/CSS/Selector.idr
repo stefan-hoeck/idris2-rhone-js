@@ -3,6 +3,7 @@ module Text.CSS.Selector
 import Data.List
 import Data.String
 import Text.CSS.Property
+import Text.CSS.Render
 import Web.Dom
 
 %default total
@@ -108,16 +109,15 @@ data PseudoClass : Type where
   ||| Matches visited links.
   Visited : PseudoClass
 
-namespace PseudoClass
-  export
-  render : PseudoClass -> String
+export
+Render PseudoClass where
   render Active            = "active"
   render AnyLink           = "any-link"
   render Blank             = "blank"
   render Checked           = "checked"
   render Current           = "current"
   render Default           = "default"
-  render (Dir x)           = #"dir(\#{render x})"#
+  render (Dir x)           = "dir(\{render x})"
   render Disabled          = "disabled"
   render Empty             = "empty"
   render Enabled           = "enabled"
@@ -132,16 +132,16 @@ namespace PseudoClass
   render Indeterminate     = "indeterminate"
   render InRange           = "in-range"
   render Invalid           = "invalid"
-  render (Lang x)          = #"lang(\#{x})"#
+  render (Lang x)          = "lang(\{x})"
   render LastChild         = "last-child"
   render LastOfType        = "last-of-type"
   render Left              = "left"
   render Link              = "link"
   render LocalLink         = "local-link"
-  render (NthChild x)      = #"nth-child(\#{x})"#
-  render (NthOfType x)     = #"nth-of-type(\#{x})"#
-  render (NthLastChild x)  = #"nth-last-child(\#{x})"#
-  render (NthLastOfType x) = #"nth-last-of-type(\#{x})"#
+  render (NthChild x)      = "nth-child(\{x})"
+  render (NthOfType x)     = "nth-of-type(\#{x})"
+  render (NthLastChild x)  = "nth-last-child(\#{x})"
+  render (NthLastOfType x) = "nth-last-of-type(\#{x})"
   render OnlyChild         = "only-child"
   render OnlyOfType        = "only-of-type"
   render Optional          = "optional"
@@ -189,10 +189,10 @@ id : String -> Selector 0 False False
 id = Id
 
 export
-render : Selector n b1 b2 -> String
-render Star           = "*"
-render (Id x)         = "#" ++ x
-render (Class x)      = "." ++ x
-render (Elem {str} _) = str
-render (Many ss)      = fastConcat . intersperse ", " $ map render ss
-render (Pseudo s p)   = #"\#{render s}:\#{render p}"#
+Render (Selector n b1 b2) where
+  render Star           = "*"
+  render (Id x)         = "#" ++ x
+  render (Class x)      = "." ++ x
+  render (Elem {str} _) = str
+  render (Many ss)      = fastConcat . intersperse ", " $ map render ss
+  render (Pseudo s p)   = "\{render s}:\{render p}"

@@ -3,6 +3,7 @@ module Rhone.Canvas.Style
 import Data.SOP
 import JS
 import Text.CSS.Color
+import Text.CSS.Render
 import Web.Html
 
 %default total

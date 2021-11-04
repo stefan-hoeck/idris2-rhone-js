@@ -72,7 +72,7 @@ when they are being clicked:
 ```idris
 btn : ElemRef Button -> Ev -> (lbl: String) -> Node Ev
 btn ref ev lbl =
-  button [id ref.id, onClick ev, classes [widget,btn,resetBtn]] [Text lbl]
+  button [id ref.id, onClick ev, classes [widget,btn]] [Text lbl]
 ```
 
 Finally, we can put the components together and define
@@ -81,11 +81,11 @@ the overall application layout:
 ```idris
 content : Node Ev
 content =
-  div [ class widgetList ]
-      [ line "Reset counter:"    [ btn btnReset (const 0) "Reset" ]
-      , line "Increase counter:" [ btn btnInc   (+ 1)     "+" ]
-      , line "Decrease counter:" [ btn btnDec   (+ (-1))  "-" ]
-      , line "Count:"            [ div [id out.id] [] ]
+  div [ class resetContent ]
+      [ lbl "Reset counter:"    resetLbl, btn btnReset (const 0) "Reset"
+      , lbl "Increase counter:" incLbl,   btn btnInc   (+ 1)     "+"
+      , lbl "Decrease counter:" decLbl,   btn btnDec   (+ (-1))  "-"
+      , lbl "Count:"            countLbl, div [id out.id] []
       ]
 ```
 

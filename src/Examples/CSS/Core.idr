@@ -56,7 +56,7 @@ widget : String
 widget = "widget"
 
 ||| a list of input widgets,
-||| each on its own line with a label
+||| each on its own line, often with a label
 ||| on the left.
 public export
 widgetList : String
@@ -102,8 +102,8 @@ widgetLabel = "widgetlabel"
 --          Rules
 --------------------------------------------------------------------------------
 
-public export
-coreCSS : List Rule
+export
+coreCSS : List (Rule 1)
 coreCSS =
   [ elem Html !!
       [ Height          .= perc 100]
@@ -125,9 +125,8 @@ coreCSS =
       , Flex            .= "1"
       , FlexDirection   .= Column
       , JustifyContent  .= FlexStart
-      , Padding         .= VH (Pt 40) (Pt 20)
-      , MaxWidth        .= perc 70
-      , MinWidth        .= perc 70
+      , Padding         .= VH (px 0) (pt 20)
+      , MinWidth        .= perc 80
       ]
  
   , class pageTitle !!
@@ -135,30 +134,29 @@ coreCSS =
       , BorderWidth     .= Bottom (px 5)
       , BorderColor     .= Bottom base80
       , FontSize        .= XLarge
-      , Margin          .= Bottom (px 40)
-      , Padding         .= Bottom (px 60)
+      , Padding         .= VH (px 40) (px 0)
       , TextAlign       .= Center
       ]
  
   , class contentHeader !!
-      [ Display         .= Flex
-      , BorderStyle     .= Bottom Solid
-      , BorderWidth     .= Bottom (px 2)
-      , BorderColor     .= Bottom base80
-      , Margin          .= Bottom (px 40)
-      , Padding         .= Bottom (px 40)
+      [ Display             .= Grid
+      , ColumnGap           .= px 10
+      , GridTemplateColumns .= [px 170, fr 1, fr 3]
+      , BorderStyle         .= Bottom Solid
+      , BorderWidth         .= Bottom (px 2)
+      , BorderColor         .= Bottom base80
+      , Padding             .= VH (px 30) (px 10)
       ]
 
   , class widget !! 
       [ BackgroundColor .= lighter_grey
-      , BorderRadius    .= px 10
+      , BorderRadius    .= px 8
       , BorderStyle     .= All Solid
-      , BorderWidth     .= px 3
+      , BorderWidth     .= px 2
       , BorderColor     .= All comp100
       , Color           .= darker_grey
       , FontSize        .= Large
-      , Padding         .= px 5
-      , Margin          .= px 5
+      , Padding         .= px 3
       ]
 
   , Pseudo (class widget) Hover !!
@@ -171,34 +169,39 @@ coreCSS =
       , BorderColor     .= All comp60
       ]
 
+  , Pseudo (class widget) FocusVisible !!
+      [ BackgroundColor .= lightest_grey
+      , BorderColor     .= All comp60
+      ]
+
   , Pseudo (class widget) Disabled !!
       [ BackgroundColor .= light_grey
       , BorderColor     .= All dark_grey
       ]
 
   , class textIn  !!
-      [ TextAlign       .= End
-      ]
+      [ TextAlign       .= End ]
 
   , class selectIn  !!
-      [ TextAlign       .= End
-      ]
+      [ TextAlign       .= End ]
 
   , class exampleSelector  !!
       [ FontSize        .= Large
+      , GridColumn      .= At 2
       ]
 
   , Pseudo (class widget) Invalid !!
       [ BorderColor     .= All red ]
 
+  -- deprecated
   , class widgetList !!
       [ ListStyleType   .= None
       , Display         .= Flex
-      , Flex            .= "1"
       , FlexDirection   .= Column
       , JustifyContent  .= FlexStart
       ]
 
+  -- deprecated
   , class widgetLine !!
       [ AlignItems      .= FlexStart
       , Display         .= Flex
@@ -206,7 +209,5 @@ coreCSS =
       ]
 
   , class widgetLabel !!
-      [ FontSize        .= Large
-      , Width           .= perc 20
-      ]
+      [ FontSize        .= Large ]
   ]
