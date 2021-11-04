@@ -2,6 +2,7 @@ module Text.CSS.Color
 
 import Data.Maybe
 import Text.CSS.Percentage
+import Text.CSS.Render
 
 %default total
 
@@ -26,10 +27,10 @@ public export
 transparent : Color
 transparent = RGBA 0 0 0 0
 
-public export
-render : Color -> String
-render (RGBA r g b a) = #"rgba(\#{show r}, \#{show g}, \#{show b}, \#{render a})"#
-render (HSLA h s l a) = #"hsla(\#{show h}, \#{render s}, \#{render l}, \#{render a})"#
+export
+Render Color where
+  render (RGBA r g b a) = "rgba(\{show r},\{show g},\{show b},\{render a})"
+  render (HSLA h s l a) = "hsla(\{show h},\{render s},\{render l},\{render a})"
 
 export
 Show Color where show = render

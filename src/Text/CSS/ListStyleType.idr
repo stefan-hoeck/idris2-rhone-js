@@ -1,5 +1,7 @@
 module Text.CSS.ListStyleType
 
+import Text.CSS.Render
+
 %default total
 
 public export
@@ -15,13 +17,13 @@ data ListStyleType : Type where
   UpperRoman          : ListStyleType
 
 export
-render : ListStyleType -> String
-render None                = "none"
-render Disc                = "disc"
-render Circle              = "circle"
-render Square              = "square"
-render Decimal             = "decimal"
-render LowerAlpha          = "lower-alpha"
-render UpperAlpha          = "upper-alpha"
-render LowerRoman          = "lower-roman"
-render UpperRoman          = "upper-roman"
+Render ListStyleType where
+  render None                = "none"
+  render Disc                = "disc"
+  render Circle              = "circle"
+  render Square              = "square"
+  render Decimal             = "decimal"
+  render LowerAlpha          = "lower-alpha"
+  render UpperAlpha          = "upper-alpha"
+  render LowerRoman          = "lower-roman"
+  render UpperRoman          = "upper-roman"

@@ -2,6 +2,7 @@ module Text.CSS.Rule
 
 import Data.String
 import Text.CSS.Declaration
+import Text.CSS.Render
 import Text.CSS.Selector
 
 %default total
@@ -19,5 +20,5 @@ export %inline
 (!!) = MkRule
 
 export
-render : Rule -> String
-render (MkRule s ds) = #"\#{render s}{\#{fastConcat $ map render ds}}"#
+Render Rule where
+  render (MkRule s ds) = "\{render s}{\{fastConcat $ map render ds}}"

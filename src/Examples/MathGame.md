@@ -25,8 +25,7 @@ import Generics.Derive
 import Rhone.Canvas
 import Rhone.JS
 import System.Random
-import Text.CSS.Color
-import Text.CSS.Percentage
+import Text.CSS
 
 %language ElabReflection
 %default total
