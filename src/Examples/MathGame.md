@@ -1,4 +1,4 @@
-## For our Children: A simple Math Game
+# For our Children: A simple Math Game
 
 This is a simple math game I wrote for our children.
 A picture is hidden behind a grid of panels and they
@@ -31,7 +31,7 @@ import Text.CSS
 %default total
 ```
 
-### Model
+## Model
 
 We first define the events our application handles. Users
 chan enter a string and check it against the currect
@@ -116,14 +116,14 @@ pictures : List String
 pictures = map (\n => "pics/pic\{show n}.jpg") [the Bits8 1..11]
 ```
 
-### View
+## View
 
 As usual, the application's CSS rules have been moved to
 a [separate module](CSS/MathGame.idr). We start with defining
 the localized strings we need:
 
 ```idris
-data Result = Ended Language 
+data Result = Ended Language
             | Correct Language
             | Wrong Language Calc Integer
 
@@ -184,7 +184,7 @@ content l =
         [ option [ value "de", selected (l == DE)] [Text $ german l]
         , option [ value "en", selected (l == EN)] [Text $ english l]
         ]
-     
+
     , div [ id calc.id ] []
 
     , input [ id resultIn.id
@@ -202,7 +202,7 @@ content l =
              , onClick NewGame
              , classes [widget,btn]
              ] [Text $ newGameStr l]
-     
+
     , div [ id out.id ] []
 
     , canvas [ id pic.id, width wcanvas, height wcanvas ] []
@@ -222,7 +222,7 @@ stuckColor : Color
 stuckColor = HSLA 0 0 50 80
 
 dispState : GameState -> Scene
-dispState gs = 
+dispState gs =
   let sf = cast {to = Double} wcanvas / cast gs.rows
    in SM [] (scale sf sf)
         [ SM [ Fill black ] Id $ map tile gs.calcs
@@ -234,7 +234,7 @@ renderGame gs =
   render $ MkCanvas pic (cast wcanvas) (cast wcanvas) (dispState gs)
 ```
 
-### Controller
+## Controller
 
 For controlling the game, we first need a way to
 randomly generate equations and shuffled lists of
@@ -312,7 +312,7 @@ the input text field:
 ```idris
 setPic : LiftJSIO m => MSF m GameState ()
 setPic =   (\gs => "background-image : url('\{gs.pic}');")
-       ^>> attributeAt_ "style" pic 
+       ^>> attributeAt_ "style" pic
 
 dispGame : LiftJSIO m => MSF m GameState ()
 dispGame = fan_ [ currentCalc ^>-

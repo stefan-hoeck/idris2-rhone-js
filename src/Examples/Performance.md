@@ -1,4 +1,4 @@
-## Making Buttons: A look at Performance
+# Making Buttons: A look at Performance
 
 This tutorial's web application comes with the following
 ingredients: A validated text input where users are

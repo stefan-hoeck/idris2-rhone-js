@@ -1,4 +1,4 @@
-## Running Animations: Bouncing Balls
+# Running Animations: Bouncing Balls
 
 In this tutorial we are going to have a look at
 running a (non-interactive) animation. We simulate
@@ -35,7 +35,7 @@ import Text.CSS.Color
 %default total
 ```
 
-### Model
+## Model
 
 We first define a couple of physical entities:
 
@@ -84,7 +84,7 @@ record Ball where
   vel : Velocity
 ```
 
-### View
+## View
 
 We draw our set of balls in a canvas, so we need
 some instructions for doing so. A ball will sometimes
@@ -120,7 +120,7 @@ wallThickness = 0.20
 
 -- walls and floor of the room.
 walls : Shape
-walls = 
+walls =
   let hwt = wallThickness / 2
    in polyLine [(-hwt, 0), (-hwt, w+hwt), (w+hwt,w+hwt), (w+hwt,0)]
 ```
@@ -177,7 +177,7 @@ content =
     ]
 ```
 
-### Controller
+## Controller
 
 The main focus of the controller will be to properly
 animate the bouncing balls. We could try and use a functional
@@ -230,7 +230,7 @@ export
 initialBalls : (n : Nat) -> List Ball
 initialBalls n = go n Nil
   where col : Bits8 -> Color
-        col 0 = comp100 
+        col 0 = comp100
         col 1 = comp80
         col 2 = comp60
         col 3 = comp40
@@ -294,7 +294,7 @@ export
 ui : M (MSF M Ev (), JSIO ())
 ui = do
   innerHtmlAt exampleDiv content
-  h     <- handler <$> env 
+  h     <- handler <$> env
   clear <- animate (h . Next)
   pure (msf, liftIO clear)
 ```

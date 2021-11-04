@@ -1,4 +1,4 @@
-## The Basic Layout of a rhone-js Web Page
+# The Basic Layout of a rhone-js Web Page
 
 This module defines the HTML structure of the main page and
 implements the functionality of the `select` element that is
@@ -25,7 +25,7 @@ most of the CSS rules for the page are defined. In addition, `Rhone.JS`
 is imported, the kitchen sink re-exporting the core functionality necessary
 to write a rhone-js wep application.
 
-### The Effect Type: `MonadDom`
+## The Effect Type: `MonadDom`
 
 Most tutorials about writing functional web applications that I have come
 across so far show nice examples of increasing complexity but leave out the
@@ -63,7 +63,7 @@ taking a value of type `DomEnv ev` as input, and `DomEnv ev` is a record
 holding a mutable reference for creating unique integers plus
 a function for handling UI events.
 
-### Writing HTML in Idris2
+## Writing HTML in Idris2
 
 Module `Text.Html` and its submodules provide a small DSL for
 declaring HTML nodes and their attributes. These are pure
@@ -122,7 +122,7 @@ just attributes, and in the example above, the `select` element
 fires an event whenever the user changes the selected value
 (`onChange id`).
 
-### The Interactive Part: Monadic Stream Functions
+## The Interactive Part: Monadic Stream Functions
 
 Now that we have the structure of our web page specified, we
 can have a quick look at how we define its interactive behavior.
@@ -190,7 +190,7 @@ ui = do
 
 I'll quickliy break this down a bit: The first line
 renders and applies the page's CSS rules to a `<style>`
-element in the HTML header referenced by `ElementRef` 
+element in the HTML header referenced by `ElementRef`
 `appStyle`. The second line,
 `innerHtmlAt contentDiv content`, is where half of the magic
 happens: We change the inner HTML of the element with ID
@@ -221,7 +221,7 @@ After a new example has been started, its cleanup hook is
 sent back to the input of the controlling MSF and invoked
 before the next application is started.
 
-### Comparison with other MVC Libraries
+## Comparison with other MVC Libraries
 
 Frameworks for writing interactive web applications often
 use the term *MVC* (model, view, controller), where
@@ -254,7 +254,7 @@ functions. Whether this will result in a nice way to write web applications
 or will lead to unmaintainable tangles of code, only time
 and experience will tell.
 
-### Whats next?
+## Whats next?
 
 In the [next part](Reset.md), I'll explain a first sample application
 with some real application state and reactive components in detail.

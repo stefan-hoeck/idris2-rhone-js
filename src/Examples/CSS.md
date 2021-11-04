@@ -1,4 +1,4 @@
-## CSS
+# CSS
 
 The plan of *rhone-js* is to eventually come
 'batteries included' and this means having a way
@@ -21,7 +21,7 @@ import Text.CSS
 
 %default total
 ```
-### IDs and Classes
+## IDs and Classes
 
 The `rhone.html` document at the project root defines two
 entry points for our single-page web page: A `style` element
@@ -36,7 +36,7 @@ I like to keep my CSS simple and use classes and pseudo
 classes whenever possible, so here are the ones that
 come up in most examples:
 
-### CSS Rules
+## CSS Rules
 
 Note: I'm by no means an expert, so
 the CSS rules below might quite well seem horrible

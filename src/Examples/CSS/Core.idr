@@ -109,7 +109,7 @@ coreCSS =
       [ Height          .= perc 100]
 
   , elem Body !!
-      [ BackgroundColor .= black 
+      [ BackgroundColor .= black
       , Color           .= base100
       , Display         .= Flex
       , FlexDirection   .= Column
@@ -117,7 +117,7 @@ coreCSS =
       , Height          .= perc 100
       , Margin          .= px 0
       ]
- 
+
   , class contentList !!
       [ AlignSelf       .= Center
       , BackgroundColor .= darker_grey
@@ -128,7 +128,7 @@ coreCSS =
       , Padding         .= VH (px 0) (pt 20)
       , MinWidth        .= perc 80
       ]
- 
+
   , class pageTitle !!
       [ BorderStyle     .= Bottom Solid
       , BorderWidth     .= Bottom (px 5)
@@ -137,7 +137,7 @@ coreCSS =
       , Padding         .= VH (px 40) (px 0)
       , TextAlign       .= Center
       ]
- 
+
   , class contentHeader !!
       [ Display             .= Grid
       , ColumnGap           .= px 10
@@ -148,7 +148,7 @@ coreCSS =
       , Padding             .= VH (px 30) (px 10)
       ]
 
-  , class widget !! 
+  , class widget !!
       [ BackgroundColor .= lighter_grey
       , BorderRadius    .= px 8
       , BorderStyle     .= All Solid
