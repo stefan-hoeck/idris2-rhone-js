@@ -3,6 +3,7 @@ module Text.CSS.Dir
 import Data.List
 import Text.CSS.Length
 import Text.CSS.Percentage
+import Text.CSS.Render
 
 %default total
 
@@ -44,19 +45,19 @@ render : (prop : String) -> (a -> String) -> Dir a -> String
 render prop f d = 
   let vs  = fastConcat . intersperse " " . map f $ vals d
       pre = prfx d
-   in #"\#{prop}\#{pre}: \#{vs}"#
+   in "\{prop}\{pre}: \{vs}"
 
 export
 render2 : (prop,suffix : String) -> (a -> String) -> Dir a -> String
 render2 prop suffix f d = 
   let vs  = fastConcat . intersperse " " . map f $ vals d
       pre = prfx d
-   in #"\#{prop}\#{pre}-\#{suffix}: \#{vs}"#
+   in "\{prop}\{pre}-\{suffix}: \{vs}"
 
 export %inline
-FromLength a => FromLength (Dir a) where
-  fromLength = All . fromLength
+Cast Length a => Cast Length (Dir a) where
+  cast = All . cast
 
 export %inline
-FromPercentage a => FromPercentage (Dir a) where
-  fromPercentage = All . fromPercentage
+Cast Percentage a => Cast Percentage (Dir a) where
+  cast = All . cast

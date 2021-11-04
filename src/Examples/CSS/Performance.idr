@@ -1,6 +1,6 @@
 module Examples.CSS.Performance
 
-import Data.List
+import Data.Vect
 import Examples.CSS.Colors
 import public Examples.CSS.Core
 import Rhone.JS
@@ -62,54 +62,73 @@ performanceContent = "performance_content"
 --          Rules
 --------------------------------------------------------------------------------
 
+data Tag = LBtn | NBtn | BRun | LSum | OSum | Btns | OTme | Dot
+
+AreaTag Tag where
+  showTag LBtn  = "LBtn"
+  showTag NBtn  = "NBtn"
+  showTag BRun  = "BRun"
+  showTag LSum  = "LSum"
+  showTag Btns  = "Btns"
+  showTag OSum  = "OSum"
+  showTag OTme  = "OTme"
+  showTag Dot   = "."
+
 export
-css : List Rule
+css : List (Rule 1)
 css =
-  [ class performanceContent !!
-      [ Display             .= Grid
-      , ColumnGap           .= px 10
-      , RowGap              .= px 10
-      , GridTemplateColumns .= [px 170, fr 1, px 70, fr 3]
-      , GridTemplateRows    .= replicate 3 MinContent ++ [fr 1]
-      , Padding             .= VH (px 20) (px 10)
+  [ Media "min-width: 300px" 
+      [ class performanceContent !!
+          [ Display             .= Area
+              (replicate 4 MinContent)
+              [MaxContent, fr 1, MaxContent]
+              [ [LBtn, NBtn, BRun]
+              , [LSum, OSum, OSum]
+              , [OTme, OTme, OTme]
+              , [Btns, Btns, Btns]
+              ]
+          , ColumnGap           .= px 10
+          , RowGap              .= px 10
+          , Padding             .= VH (px 20) (px 10)
+          ]
       ]
 
-  , class numButtonsLbl !!
-      [ GridColumn      .= At 1
-      , GridRow         .= At 1
+  , Media "min-width: 800px" 
+      [ class performanceContent !!
+          [ Display             .= Area
+              (replicate 4 MinContent)
+              [MaxContent, MaxContent, MaxContent, fr 1]
+              [ [LBtn, NBtn, BRun, Btns]
+              , [LSum, OSum, OSum, Btns]
+              , [OTme, OTme, OTme, Btns]
+              , [Dot,  Dot,  Dot,  Btns]
+              ]
+          , ColumnGap           .= px 10
+          , RowGap              .= px 10
+          , Padding             .= VH (px 20) (px 10)
+          ]
       ]
+
+  , class numButtonsLbl !! [ GridArea .= LBtn ]
 
   , id natIn.id !!
-      [ GridColumn      .= At 2
-      , GridRow         .= At 1
+      [ GridArea        .= NBtn
       , TextAlign       .= End
       ]
 
-  , id btnRun.id !!
-      [ GridColumn      .= At 3
-      , GridRow         .= At 1
-      ]
+  , id btnRun.id !! [ GridArea .= BRun ]
 
-  , class sumLbl !!
-      [ GridColumn      .= At 1
-      , GridRow         .= At 2
-      ]
+  , class sumLbl !! [ GridArea .= LSum ]
       
   , id out.id  !!
-      [ GridColumn      .= At 3
-      , GridRow         .= At 2
+      [ GridArea        .= OSum
       , FontSize        .= Large
-      , TextAlign       .= End
       ]
       
-  , id time.id  !!
-      [ GridColumn      .= FromTo 1 4
-      , GridRow         .= At 3
-      ]
+  , id time.id  !! [ GridArea .= OTme ]
       
   , id buttons.id  !!
-      [ GridColumn      .= At 4
-      , GridRow         .= FromTo 1 5
+      [ GridArea        .= Btns
       , BorderStyle     .= Left Solid
       , BorderWidth     .= Left (px 2)
       , BorderColor     .= Left base80

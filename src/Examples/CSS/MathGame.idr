@@ -1,7 +1,7 @@
 ||| CSS Rules for the Math Game Example
 module Examples.CSS.MathGame
 
-import Data.List
+import Data.Vect
 import Examples.CSS.Colors
 import public Examples.CSS.Core
 import Rhone.JS
@@ -27,10 +27,15 @@ export
 resultIn : ElemRef Input
 resultIn = MkRef Input "mathgame_input"
 
-||| Text field where users enter their result.
+||| Button to check the entered result
 export
 checkBtn : ElemRef Button
 checkBtn = MkRef Button "mathgame_check_btn"
+
+||| Button to start a new game
+export
+newBtn : ElemRef Button
+newBtn = MkRef Button "mathgame_newbtn"
 
 ||| ID of the picture canvas
 export
@@ -64,52 +69,86 @@ export
 lblLang : String
 lblLang = "mathgame_lbllang"
 
+data Tag = LLan | ILan | OClc | IRes | BChk | ORep | BNew | OPic | Dot
+
+AreaTag Tag where
+  showTag LLan = "LLan"
+  showTag ILan = "ILan"
+  showTag OClc = "OClc"
+  showTag IRes = "IRes"
+  showTag BChk = "BChk"
+  showTag ORep = "ORep"
+  showTag BNew = "BNew"
+  showTag OPic = "OPic"
+  showTag Dot  = "."
+
 export
-css : List Rule
+css : List (Rule 1)
 css =
-  [ class mathContent !!
-      [ Display             .= Grid
-      , ColumnGap           .= px 10
-      , RowGap              .= px 10
-      , GridTemplateColumns .= [px 170, fr 1, fr 3]
-      , GridTemplateRows    .= replicate 4 MinContent ++ [fr 1]
-      , Padding             .= VH (px 20) (px 10)
+  [ Media "min-width: 300px"
+      [ class mathContent !!
+          [ Display             .= Area
+              (replicate 6 MinContent)
+              [MaxContent, MaxContent]
+              [ [LLan, ILan]
+              , [OClc, IRes]
+              , [Dot,  BChk]
+              , [Dot,  BNew]
+              , [ORep, ORep]
+              , [OPic, OPic]
+              ]
+
+          , ColumnGap           .= px 10
+          , RowGap              .= px 10
+          , Padding             .= VH (px 20) (px 10)
+          ]
       ]
 
-  , class lblLang !!
-      [ GridColumn      .= At 1
-      , GridRow         .= At 1
+  , Media "min-width: 800px"
+      [ class mathContent !!
+          [ Display             .= Area
+              (replicate 6 MinContent)
+              [MaxContent, MaxContent, fr 1]
+              [ [LLan, ILan, OPic]
+              , [OClc, IRes, OPic]
+              , [Dot,  BChk, OPic]
+              , [Dot,  BNew, OPic]
+              , [ORep, ORep, OPic]
+              , [Dot,  Dot,  OPic]
+              ]
+
+          , ColumnGap           .= px 10
+          , RowGap              .= px 10
+          , Padding             .= VH (px 20) (px 10)
+          ]
       ]
+
+  , class lblLang !! [ GridArea .= LLan ]
   
   , id langIn.id  !!
-      [ GridColumn      .= At 2
-      , GridRow         .= At 1
+      [ GridArea        .= ILan
       , FontSize        .= Large
       , TextAlign       .= End
       ]
   
   , id calc.id  !!
-      [ GridColumn      .= At 1
-      , GridRow         .= At 2
+      [ GridArea        .= OClc
       , FontSize        .= Large
       , TextAlign       .= Start
       ]
   
   , id resultIn.id  !!
-      [ GridColumn      .= At 2
-      , GridRow         .= At 2
+      [ GridArea        .= IRes
       , FontSize        .= Large
       , TextAlign       .= End
       ]
   
-  , id checkBtn.id  !!
-      [ GridColumn      .= At 1
-      , GridRow         .= At 3
-      ]
+  , id checkBtn.id  !! [ GridArea .= BChk ]
+  
+  , id newBtn.id  !! [ GridArea .= BNew ]
   
   , id out.id  !!
-      [ GridColumn      .= At 2
-      , GridRow         .= At 3
+      [ GridArea        .= ORep
       , FontSize        .= Large
       , TextAlign       .= Start
       ]
@@ -117,8 +156,7 @@ css =
   , id pic.id  !!
       [ BackgroundSize  .= perc 100
       , JustifySelf     .= Center
-      , GridColumn      .= At 3
-      , GridRow         .= FromTo 1 6
+      , GridArea        .= OPic
       , MaxWidth        .= px 500
       , Width           .= px 500
       ]

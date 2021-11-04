@@ -25,8 +25,7 @@ import Generics.Derive
 import Rhone.Canvas
 import Rhone.JS
 import System.Random
-import Text.CSS.Color
-import Text.CSS.Percentage
+import Text.CSS
 
 %language ElabReflection
 %default total
@@ -153,6 +152,10 @@ checkAnswerStr : Language -> String
 checkAnswerStr DE = "Antwort prüfen"
 checkAnswerStr EN = "Check answer"
 
+newGameStr : Language -> String
+newGameStr DE = "Neues Spiel"
+newGameStr EN = "New game"
+
 reply : Result -> String
 reply (Ended EN)   = "The game has ended."
 reply (Correct EN) = "Correct!"
@@ -194,6 +197,11 @@ content l =
              , onClick Check
              , classes [widget,btn]
              ] [Text $ checkAnswerStr l]
+
+    , button [ id newBtn.id
+             , onClick NewGame
+             , classes [widget,btn]
+             ] [Text $ newGameStr l]
      
     , div [ id out.id ] []
 

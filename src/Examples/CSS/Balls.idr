@@ -1,6 +1,6 @@
 module Examples.CSS.Balls
 
-import Data.List
+import Data.Vect
 import Examples.CSS.Colors
 import public Examples.CSS.Core
 import Rhone.JS
@@ -38,43 +38,67 @@ export
 lblCount : String
 lblCount = "balls_lblcount"
 
+data Tag = LNum | INum | BRun | LFPS | Anim | Dot
+
+AreaTag Tag where
+  showTag LNum = "LNum"
+  showTag INum = "INum"
+  showTag BRun = "BRun"
+  showTag LFPS = "LFPS"
+  showTag Anim = "Anim"
+  showTag Dot  = "."
+
 export
-css : List Rule
+css : List (Rule 1)
 css =
-  [ class ballsContent !!
-      [ Display             .= Grid
-      , ColumnGap           .= px 10
-      , RowGap              .= px 10
-      , GridTemplateColumns .= [px 170, fr 1, fr 3]
-      , GridTemplateRows    .= replicate 3 MinContent ++ [fr 1]
-      , Padding             .= VH (px 20) (px 10)
+  [ Media "min-width: 300px"
+      [ class ballsContent !!
+          [ Display             .= Area
+              (replicate 4 MinContent)
+              [MaxContent, MaxContent]
+              [ [LNum, INum]
+              , [Dot,  BRun]
+              , [LFPS, LFPS]
+              , [Anim, Anim]
+              ]
+
+          , ColumnGap           .= px 10
+          , RowGap              .= px 10
+          , Padding             .= VH (px 20) (px 10)
+          ]
       ]
 
-  , class lblCount !!
-      [ GridColumn      .= At 1
-      , GridRow         .= At 1
+  , Media "min-width: 800px"
+      [ class ballsContent !!
+          [ Display             .= Area
+              (replicate 4 MinContent)
+              [MaxContent, MaxContent, fr 1]
+              [ [LNum, INum, Anim]
+              , [Dot,  BRun, Anim]
+              , [LFPS, LFPS, Anim]
+              , [Dot,  Dot,  Anim]
+              ]
+
+          , ColumnGap           .= px 10
+          , RowGap              .= px 10
+          , Padding             .= VH (px 20) (px 10)
+          ]
       ]
+
+  , class lblCount !! [ GridArea .= LNum ]
 
   , id txtCount.id !!
-      [ GridColumn      .= At 2
-      , GridRow         .= At 1
+      [ GridArea        .= INum
       , TextAlign       .= End
       ]
 
-  , id btnRun.id !!
-      [ GridColumn      .= At 1
-      , GridRow         .= At 2
-      ]
+  , id btnRun.id !! [ GridArea .= BRun ]
 
-  , id log.id !!
-      [ GridColumn      .= At 1
-      , GridRow         .= At 3
-      ]
+  , id log.id !! [ GridArea .= LFPS ]
 
   , id out.id !!
       [ JustifySelf     .= Center
-      , GridColumn      .= At 3
-      , GridRow         .= FromTo 1 5
+      , GridArea        .= Anim
       , MaxWidth        .= px 500
       , Width           .= px 500
       ]

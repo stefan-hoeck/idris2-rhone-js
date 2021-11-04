@@ -1,7 +1,7 @@
 ||| CSS Rules for the Inc. Buttons Example
 module Examples.CSS.Reset
 
-import Data.List
+import Data.Vect
 import Examples.CSS.Colors
 import public Examples.CSS.Core
 import Rhone.JS
@@ -59,57 +59,53 @@ export
 resetBtn : String
 resetBtn = "reset_incbtn"
 
+data Tag = LRes | BRes | LInc | BInc | LDec | BDec | LCnt | OCnt
+
+AreaTag Tag where
+  showTag LRes = "LRes"
+  showTag BRes = "BRes"
+  showTag LInc = "LInc"
+  showTag BInc = "BInc"
+  showTag LDec = "LDec"
+  showTag BDec = "BDec"
+  showTag LCnt = "LCnt"
+  showTag OCnt = "OCnt"
+
 export
-css : List Rule
+css : List (Rule 1)
 css =
   [ class resetContent !!
-      [ Display             .= Grid
+      [ Display             .= Area
+          (replicate 4 MinContent)
+          [MaxContent, MaxContent]
+          [ [LRes, BRes]
+          , [LInc, BInc]
+          , [LDec, BDec]
+          , [LCnt, OCnt]
+          ]
+
       , ColumnGap           .= px 10
       , RowGap              .= px 10
-      , GridTemplateColumns .= [px 170, fr 1, fr 3]
-      , GridTemplateRows    .= replicate 4 MinContent
       , Padding             .= VH (px 20) (px 10)
       ]
 
-  , class resetLbl  !!
-      [ GridColumn      .= At 1
-      , GridRow         .= At 1
-      ]
+  , class resetLbl  !! [ GridArea .= LRes ]
 
-  , id btnReset.id  !!
-      [ GridColumn      .= At 2
-      , GridRow         .= At 1
-      ]
+  , id btnReset.id  !! [ GridArea .= BRes ]
 
-  , class incLbl  !!
-      [ GridColumn      .= At 1
-      , GridRow         .= At 2
-      ]
+  , class incLbl    !! [ GridArea .= LInc ]
 
-  , id btnInc.id  !!
-      [ GridColumn      .= At 2
-      , GridRow         .= At 2
-      ]
+  , id btnInc.id    !! [ GridArea .= BInc ]
 
-  , class decLbl  !!
-      [ GridColumn      .= At 1
-      , GridRow         .= At 3
-      ]
+  , class decLbl    !! [ GridArea .= LDec ]
 
-  , id btnDec.id  !!
-      [ GridColumn      .= At 2
-      , GridRow         .= At 3
-      ]
+  , id btnDec.id    !! [ GridArea .= BDec ]
 
-  , class countLbl  !!
-      [ GridColumn      .= At 1
-      , GridRow         .= At 4
-      ]
+  , class countLbl  !! [ GridArea .= LCnt ]
 
   , id out.id  !!
       [ FontSize        .= Large
-      , GridColumn      .= At 2
-      , GridRow         .= At 4
+      , GridArea        .= OCnt
       , TextAlign       .= End
       ]
   ]

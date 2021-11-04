@@ -1,38 +1,38 @@
 module Text.CSS.Flexbox
 
+import Text.CSS.Render
+
 %default total
 
-namespace FlexDirection
-  public export
-  data FlexDirection =
-      Row
-    | RowReverse
-    | Column
-    | ColumnReverse
+public export
+data FlexDirection =
+    Row
+  | RowReverse
+  | Column
+  | ColumnReverse
 
-  export
-  render : FlexDirection -> String
+export
+Render FlexDirection where
   render Row           = "row"
   render RowReverse    = "row-reverse"
   render Column        = "column"
   render ColumnReverse = "column-reverse"
 
-namespace FlexAlign
-  public export
-  data FlexAlign =
-      Normal
-    | Stretch
-    | Center
-    | Start
-    | End
-    | FlexStart
-    | FlexEnd
-    | Baseline
-    | FirstBaseline
-    | LastBaseline
+public export
+data FlexAlign =
+    Normal
+  | Stretch
+  | Center
+  | Start
+  | End
+  | FlexStart
+  | FlexEnd
+  | Baseline
+  | FirstBaseline
+  | LastBaseline
 
-  export
-  render : FlexAlign -> String
+export
+Render FlexAlign where
   render Normal        = "normal"
   render Stretch       = "stretch"
   render Center        = "center"
@@ -61,16 +61,16 @@ namespace FlexJustify
     | Stretch
 
   export
-  render : FlexJustify -> String
-  render Center       = "center"
-  render Start        = "start"
-  render End          = "end"
-  render FlexStart    = "flex-start"
-  render FlexEnd      = "flex-end"
-  render Left         = "left"
-  render Right        = "right"
-  render Normal       = "normal"
-  render SpaceBetween = "space-between"
-  render SpaceAround  = "space-around"
-  render SpaceEvenly  = "space-evenly"
-  render Stretch      = "stretch"
+  Render FlexJustify where
+    render Center       = "center"
+    render Start        = "start"
+    render End          = "end"
+    render FlexStart    = "flex-start"
+    render FlexEnd      = "flex-end"
+    render Left         = "left"
+    render Right        = "right"
+    render Normal       = "normal"
+    render SpaceBetween = "space-between"
+    render SpaceAround  = "space-around"
+    render SpaceEvenly  = "space-evenly"
+    render Stretch      = "stretch"
