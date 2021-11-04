@@ -1,3 +1,4 @@
+||| Types and utilities for laying out components in a grid.
 module Text.CSS.Grid
 
 import Data.List
@@ -28,9 +29,12 @@ Render Flex where
 
 public export
 data MinMaxValue : Type where
-  MML : Length     -> MinMaxValue
-  MMP : Percentage -> MinMaxValue
-  MMF : Flex       -> MinMaxValue
+  Auto       : MinMaxValue
+  MML        : Length     -> MinMaxValue
+  MMP        : Percentage -> MinMaxValue
+  MMF        : Flex       -> MinMaxValue
+  MinContent : MinMaxValue
+  MaxContent : MinMaxValue
 
 export %inline
 Cast Length MinMaxValue where
@@ -46,22 +50,26 @@ Cast Flex MinMaxValue where
 
 export
 Render MinMaxValue where
-  render (MML x) = render x
-  render (MMP x) = render x
-  render (MMF x) = render x
+  render Auto       = "auto"
+  render MinContent = "min-content"
+  render MaxContent = "max-content"
+  render (MML x)    = render x
+  render (MMP x)    = render x
+  render (MMF x)    = render x
 
 --------------------------------------------------------------------------------
 --          GridValue
 --------------------------------------------------------------------------------
 
-public export
-data GridValue : Type where
-  GL         : Length -> GridValue
-  GP         : Percentage -> GridValue
-  GF         : Flex -> GridValue
-  MinMax     : (min,max : MinMaxValue) -> GridValue
-  MaxContent : GridValue
-  MinContent : GridValue
+namespace GridValue
+  public export
+  data GridValue : Type where
+    GL         : Length -> GridValue
+    GP         : Percentage -> GridValue
+    GF         : Flex -> GridValue
+    MinMax     : (min,max : MinMaxValue) -> GridValue
+    MaxContent : GridValue
+    MinContent : GridValue
 
 export
 Render GridValue where

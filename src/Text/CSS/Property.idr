@@ -49,10 +49,12 @@ namespace Display
   renderArea rs cs as =
     let rsStr = "grid-template-rows: " ++ render (toList rs)
         csStr = "grid-template-columns: " ++ render (toList cs)
-        aStr  =   fastConcat 
-              $   (++ " ") . show . intersperse " " . map showTag . toList
-              <$> toList as
+        aStr  = fastConcat . intersperse " " . map col $ toList as
      in "display: grid; \{rsStr}; \{csStr}; grid-template-areas: \{aStr}"
+    where col : Vect (S n) a -> String
+          col vs =
+            let str = concat . intersperse " " . map showTag $ toList vs
+             in #""\#{str}""#
 
 namespace FlexBasis
   public export
@@ -244,6 +246,7 @@ data Property : Type -> Type where
   FlexWrap            : Property String
   FontFamily          : Property String
   FontSize            : Property FontSize
+  GridArea            : AreaTag a => Property a
   GridColumn          : Property GridPosition
   GridRow             : Property GridPosition
   GridTemplateColumns : Property (List GridValue)
@@ -284,6 +287,7 @@ renderProp FlexDirection y       = "flex-direction: " ++ render y
 renderProp FlexWrap y            = "flex-wrap: " ++ y
 renderProp FontFamily y          = "font-family: " ++ y
 renderProp FontSize y            = "font-size: " ++ render y
+renderProp GridArea y            = "grid-area: " ++ showTag y
 renderProp GridColumn y          = "grid-column: " ++ render y
 renderProp GridRow y             = "grid-row: " ++ render y
 renderProp GridTemplateColumns y = "grid-template-columns: " ++ render y
