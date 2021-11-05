@@ -66,9 +66,14 @@ data DOMEvent : Type -> Type where
   MouseOut   : (MouseInfo -> Maybe a) -> DOMEvent a
   MouseMove  : (MouseInfo -> Maybe a) -> DOMEvent a
 
+  -- Focus
+  Blur       : a -> DOMEvent a
+  Focus      : a -> DOMEvent a
+
   -- Keyboard
   KeyDown    : (KeyInfo -> Maybe a) -> DOMEvent a
   KeyUp      : (KeyInfo -> Maybe a) -> DOMEvent a
 
+  -- Keyboard
   Change     : (InputInfo -> Maybe a) -> DOMEvent a
   Input      : (InputInfo -> Maybe a) -> DOMEvent a
