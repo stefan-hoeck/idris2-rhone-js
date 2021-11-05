@@ -366,3 +366,15 @@ onInput f = Event . Input $ Just . f . value
 export
 onEnterDown : ev -> Attribute ev
 onEnterDown va = Event . KeyDown $ \k => toMaybe (k.code == "Enter") va
+
+export
+onEscDown : ev -> Attribute ev
+onEscDown va = Event . KeyDown $ \k => toMaybe (k.code == "Esc") va
+
+export
+onBlur : ev -> Attribute ev
+onBlur = Event . Blur
+
+export
+onFocus : ev -> Attribute ev
+onFocus = Event . Focus
