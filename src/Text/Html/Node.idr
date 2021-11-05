@@ -31,8 +31,16 @@ a : List (Attribute ev) -> List (Node ev) -> Node ev
 a = El A
 
 public export %inline
+address : List (Attribute ev) -> List (Node ev) -> Node ev
+address = El Address
+
+public export %inline
 area : List (Attribute ev) -> List (Node ev) -> Node ev
 area = El Area
+
+public export %inline
+article : List (Attribute ev) -> List (Node ev) -> Node ev
+article = El Article
 
 public export %inline
 audio : List (Attribute ev) -> List (Node ev) -> Node ev
@@ -111,6 +119,10 @@ fieldset : List (Attribute ev) -> List (Node ev) -> Node ev
 fieldset = El FieldSet
 
 public export %inline
+footer : List (Attribute ev) -> List (Node ev) -> Node ev
+footer = El Footer
+
+public export %inline
 form : List (Attribute ev) -> List (Node ev) -> Node ev
 form = El Form
 
@@ -137,6 +149,10 @@ h5 = El H5
 public export %inline
 h6 : List (Attribute ev) -> List (Node ev) -> Node ev
 h6 = El H6
+
+public export %inline
+header : List (Attribute ev) -> List (Node ev) -> Node ev
+header = El Header
 
 public export %inline
 hr : List (Attribute ev) -> List (Node ev) -> Node ev
@@ -241,6 +257,10 @@ q = El Q
 public export %inline
 script : List (Attribute ev) -> List (Node ev) -> Node ev
 script = El Script
+
+public export %inline
+section : List (Attribute ev) -> List (Node ev) -> Node ev
+section = El Section
 
 public export %inline
 select : List (Attribute ev) -> List (Node ev) -> Node ev
