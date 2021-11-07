@@ -18,47 +18,51 @@ import Web.Html
 
 public export
 interface SafeCast t => HasValue t where
-  getValue : t -> JSIO String
+  getValue' : t -> JSIO String
 
 public export
 HasValue HTMLButtonElement where
-  getValue = to value
+  getValue' = to value
 
 public export
 HasValue HTMLDataElement where
-  getValue = to value
+  getValue' = to value
 
 public export
 HasValue HTMLInputElement where
-  getValue = to value
+  getValue' = to value
 
 public export
 HasValue HTMLOptionElement where
-  getValue = to value
+  getValue' = to value
 
 public export
 HasValue HTMLOutputElement where
-  getValue = to value
+  getValue' = to value
 
 public export
 HasValue HTMLParamElement where
-  getValue = to value
+  getValue' = to value
 
 public export
 HasValue HTMLSelectElement where
-  getValue = to value
+  getValue' = to value
 
 public export
 HasValue HTMLTextAreaElement where
-  getValue = to value
+  getValue' = to value
 
 public export
 HasValue RadioNodeList where
-  getValue = to value
+  getValue' = to value
+
+export
+getValue : LiftJSIO m => HasValue t => t -> m String
+getValue = liftJSIO . getValue'
 
 export
 value : LiftJSIO m => HasValue t => MSF m (ElemRef t) String
-value = arrM $ \r => liftJSIO (getElementByRef r >>= getValue)
+value = arrM $ \r => getElementByRef r >>= getValue
 
 export %inline
 valueOf : LiftJSIO m => HasValue t => ElemRef t -> MSF m i String
@@ -85,8 +89,12 @@ progressValueOf r = const r >>> progressValue
 --------------------------------------------------------------------------------
 
 export
+getChecked : LiftJSIO m => HTMLInputElement -> m Bool
+getChecked el = liftJSIO $ get el checked
+
+export
 checked : LiftJSIO m => MSF m (ElemRef HTMLInputElement) Bool
-checked = arrM $ \r => liftJSIO (getElementByRef r >>= to checked)
+checked = arrM getElementByRef >>! getChecked
 
 export %inline
 checkedAt : LiftJSIO m => ElemRef HTMLInputElement -> MSF m i Bool

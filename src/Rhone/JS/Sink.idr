@@ -150,48 +150,56 @@ leftInvalid ref = either id (const "") ^>> validityMessageAt ref
 
 public export
 interface SafeCast t => SetValue t where
-  setValue : String -> t -> JSIO ()
+  setValue' : String -> t -> JSIO ()
 
 public export
 SetValue HTMLButtonElement where
-  setValue = (value =.)
+  setValue' = (value =.)
 
 public export
 SetValue HTMLDataElement where
-  setValue = (value =.)
+  setValue' = (value =.)
 
 public export
 SetValue HTMLInputElement where
-  setValue = (value =.)
+  setValue' = (value =.)
 
 public export
 SetValue HTMLOptionElement where
-  setValue = (value =.)
+  setValue' = (value =.)
 
 public export
 SetValue HTMLOutputElement where
-  setValue = (value =.)
+  setValue' = (value =.)
 
 public export
 SetValue HTMLParamElement where
-  setValue = (value =.)
+  setValue' = (value =.)
 
 public export
 SetValue HTMLSelectElement where
-  setValue = (value =.)
+  setValue' = (value =.)
 
 public export
 SetValue HTMLTextAreaElement where
-  setValue = (value =.)
+  setValue' = (value =.)
 
 public export
 SetValue RadioNodeList where
-  setValue = (value =.)
+  setValue' = (value =.)
+
+export
+setValue : LiftJSIO m => SetValue t => String -> t -> m ()
+setValue s = liftJSIO . setValue' s
 
 export
 value : LiftJSIO m => SetValue t => MSF m (NP I [ElemRef t,String]) ()
-value = arrM $ \[r,s] => liftJSIO (getElementByRef r >>= setValue s)
+value = arrM $ \[r,s] => getElementByRef r >>= setValue s
 
 export %inline
 valueOf : LiftJSIO m => SetValue t => ElemRef t -> MSF m String ()
 valueOf = firstArg value
+
+export
+setChecked : LiftJSIO m => Bool -> HTMLInputElement -> m ()
+setChecked b el = liftJSIO $ set (checked el) b

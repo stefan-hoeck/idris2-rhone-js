@@ -357,7 +357,11 @@ onDblClick = dblClick . const . Just
 
 export
 onChange : (String -> ev) -> Attribute ev
-onChange f = Event . Input $ Just . f . value
+onChange f = Event . Change $ Just . f . value
+
+export
+onChecked : (Bool -> ev) -> Attribute ev
+onChecked f = Event . Change $ Just . f . checked
 
 export
 onInput : (String -> ev) -> Attribute ev

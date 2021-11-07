@@ -30,7 +30,8 @@ record MouseInfo where
 public export
 record InputInfo where
   constructor MkInputInfo
-  value : String
+  value   : String
+  checked : Bool
 
 public export
 record KeyInfo where
@@ -74,6 +75,6 @@ data DOMEvent : Type -> Type where
   KeyDown    : (KeyInfo -> Maybe a) -> DOMEvent a
   KeyUp      : (KeyInfo -> Maybe a) -> DOMEvent a
 
-  -- Keyboard
+  -- Input
   Change     : (InputInfo -> Maybe a) -> DOMEvent a
   Input      : (InputInfo -> Maybe a) -> DOMEvent a

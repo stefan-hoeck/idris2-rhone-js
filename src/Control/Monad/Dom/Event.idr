@@ -10,6 +10,9 @@ import Web.Raw.UIEvents
 %foreign "browser:lambda:x=>x.target.value || x.target.innerHTML || ''"
 prim__input : Event -> PrimIO String
 
+%foreign "browser:lambda:x=>x.target.checked?1:0"
+prim__checked : Event -> PrimIO Bits8
+
 export
 mouseInfo : MouseEvent -> JSIO MouseInfo
 mouseInfo e =
@@ -42,8 +45,14 @@ keyInfo e =
 
 export
 inputInfo : InputEvent -> JSIO InputInfo
-inputInfo e = MkInputInfo <$> primIO (prim__input $ up e)
+inputInfo e =
+  [| MkInputInfo
+       (primIO (prim__input $ up e))
+       ((1 ==) <$> primIO (prim__checked $ up e)) |]
 
 export
 changeInfo : Event -> JSIO InputInfo
-changeInfo e = MkInputInfo <$> primIO (prim__input e)
+changeInfo e =
+  [| MkInputInfo
+       (primIO (prim__input e))
+       ((1 ==) <$> primIO (prim__checked e)) |]

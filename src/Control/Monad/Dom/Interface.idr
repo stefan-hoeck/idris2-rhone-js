@@ -133,17 +133,18 @@ mutual
 ||| an exception in the `JSIO` monad if the element is not found
 ||| or can't be safely cast to the desired type.
 export
-strictGetElementById : SafeCast t => (tag,id : String) -> JSIO t
+strictGetElementById : LiftJSIO m => SafeCast t => (tag,id : String) -> m t
 strictGetElementById tag id = do
   Nothing <- castElementById t id | Just t => pure t
-  throwError $ Caught #"Control.Monad.Dom.Interface.strictGetElementById: Could not find \#{tag} with id \#{id}"#
+  liftJSIO $ throwError $
+    Caught "Control.Monad.Dom.Interface.strictGetElementById: Could not find \{tag} with id \{id}"
 
 ||| Tries to retrieve a HTMLElement by looking
 ||| up its ID in the DOM. Unlike `getElementById`, this will throw
 ||| an exception in the `JSIO` monad if the element is not found
 ||| or can't be safely cast to the desired type.
 export %inline
-strictGetHTMLElementById : (tag,id : String) -> JSIO HTMLElement
+strictGetHTMLElementById : LiftJSIO m => (tag,id : String) -> m HTMLElement
 strictGetHTMLElementById = strictGetElementById
 
 ||| Tries to retrieve an element of the given type by looking
@@ -151,7 +152,7 @@ strictGetHTMLElementById = strictGetElementById
 ||| an exception in the `JSIO` monad if the element is not found
 ||| or can't be safely cast to the desired type.
 export
-getElementByRef : SafeCast t => ElemRef t -> JSIO t
+getElementByRef : LiftJSIO m => SafeCast t => ElemRef t -> m t
 getElementByRef (MkRef {tag} _ id) = strictGetElementById tag id
 
 ||| Sets up the reactive behavior of the given `Node` and
