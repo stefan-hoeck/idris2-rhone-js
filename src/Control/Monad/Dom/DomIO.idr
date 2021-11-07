@@ -9,6 +9,7 @@ import Control.WellFounded
 import Data.Contravariant
 import Data.MSF
 import Data.IORef
+import Data.Iterable
 import JS
 import Text.Html
 import Web.Dom
@@ -35,32 +36,43 @@ export
 Contravariant DomEnv where
   contramap f  = record {handler $= (. f) }
 
+||| Low level method for registering `DOMEvents` at
+||| HTML elements.
+|||
+||| Use this, for instance, to register `DOMEvents` at
+||| a HTMLElement of a static document.
+export
+registerDOMEvent :  (el : HTMLElement)
+                 -> DOMEvent e
+                 -> (handler : e -> JSIO ())
+                 -> JSIO ()
+registerDOMEvent el de h = case de of
+  Input f      => oninput      el !> handle inputInfo f
+  Change f     => onchange     el !> handle changeInfo f
+  Click f      => onclick      el !> handle mouseInfo f
+  DblClick f   => ondblclick   el !> handle mouseInfo f
+  KeyDown f    => onkeydown    el !> handle keyInfo f
+  KeyUp f      => onkeyup      el !> handle keyInfo f
+  Blur v       => onblur       el !> handle (const $ pure v) Just
+  Focus v      => onfocus      el !> handle (const $ pure v) Just
+  MouseDown f  => onmousedown  el !> handle mouseInfo f
+  MouseUp f    => onmouseup    el !> handle mouseInfo f
+  MouseEnter f => onmouseenter el !> handle mouseInfo f
+  MouseLeave f => onmouseleave el !> handle mouseInfo f
+  MouseOver f  => onmouseover  el !> handle mouseInfo f
+  MouseOut f   => onmouseout   el !> handle mouseInfo f
+  MouseMove f  => onmousemove  el !> handle mouseInfo f
+
+  where handle : {0 a,b : _} -> (a -> JSIO b) -> (b -> Maybe e) -> a -> JSIO ()
+        handle conv f va = conv va >>= maybe (pure ()) h . f
+
 
 -- how to listen to a DOMEvent
 registerImpl : (ref : ElemRef t) -> DOMEvent e -> DomEnv e -> JSIO ()
 registerImpl r@(MkRef {tag} _ id) de (MkDomEnv _ _ h) = do
-  -- first, we look up the interactive HTML elemnt
   t <- strictGetHTMLElementById tag id
-  -- next, we inspect the DOM event and register our handler
-  -- accordingly
-  case de of
-    Input f      => oninput      t !> handle inputInfo f
-    Change f     => onchange     t !> handle changeInfo f
-    Click f      => onclick      t !> handle mouseInfo f
-    DblClick f   => ondblclick   t !> handle mouseInfo f
-    KeyDown f    => onkeydown    t !> handle keyInfo f
-    KeyUp f      => onkeyup      t !> handle keyInfo f
-    Blur va      => onblur       t !> handle (const $ pure va) Just
-    Focus va     => onfocus      t !> handle (const $ pure va) Just
-    MouseDown f  => onmousedown  t !> handle mouseInfo f
-    MouseUp f    => onmouseup    t !> handle mouseInfo f
-    MouseEnter f => onmouseenter t !> handle mouseInfo f
-    MouseLeave f => onmouseleave t !> handle mouseInfo f
-    MouseOver f  => onmouseover  t !> handle mouseInfo f
-    MouseOut f   => onmouseout   t !> handle mouseInfo f
-    MouseMove f  => onmousemove  t !> handle mouseInfo f
-  where handle : {0 a,b : _} -> (a -> JSIO b) -> (b -> Maybe e) -> a -> JSIO ()
-        handle conv f va = conv va >>= maybe (pure ()) h . f
+  registerDOMEvent t de h
+
 
 createId : DomEnv e -> JSIO String
 createId (MkDomEnv pre u _) = do
@@ -127,6 +139,28 @@ export %inline
 LiftJSIO io => MonadDom ev (DomIO ev io) where
   registerEvent ref e = MkDom $ liftJSIO . registerImpl ref e
   uniqueId = MkDom $ liftJSIO . createId
+
+export
+handleEvent : LiftJSIO m => HTMLElement -> DOMEvent ev -> DomIO ev m ()
+handleEvent el ev = do
+  MkDomEnv _ _ h <- env
+  liftJSIO $ registerDOMEvent el ev h
+
+export
+setAttribute : LiftJSIO m => HTMLElement -> Attribute ev -> DomIO ev m ()
+setAttribute el (Id v)         = liftJSIO $ setAttribute el "id" v
+setAttribute el (Str n v)      = liftJSIO $ setAttribute el n v
+setAttribute el (Bool n True)  = liftJSIO $ setAttribute el n ""
+setAttribute el (Bool n False) = liftJSIO $ removeAttribute el n
+setAttribute el (Event ev)     = handleEvent el ev
+
+export
+setAttributes :  MonadRec m
+              => LiftJSIO m
+              => HTMLElement
+              -> List (Attribute ev)
+              -> DomIO ev m ()
+setAttributes el = forM_ (setAttribute el)
 
 --------------------------------------------------------------------------------
 --          Reactimate
