@@ -62,6 +62,7 @@ registerDOMEvent el de h = case de of
   MouseOver f  => handle "mouseover" mouseInfo f
   MouseOut f   => handle "mouseout" mouseInfo f
   MouseMove f  => handle "mousemove" mouseInfo f
+  HashChange v => handle "hashchange" {a = Event} (const $ pure v) Just
 
   where handle :  {0 a,b : _}
                -> SafeCast a
