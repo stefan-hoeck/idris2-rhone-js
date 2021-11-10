@@ -369,11 +369,11 @@ onInput f = Event . Input $ Just . f . value
 
 export
 onEnterDown : ev -> Attribute ev
-onEnterDown va = Event . KeyDown $ \k => toMaybe (k.code == "Enter") va
+onEnterDown va = Event . KeyDown $ \k => toMaybe (k.key == "Enter") va
 
 export
 onEscDown : ev -> Attribute ev
-onEscDown va = Event . KeyDown $ \k => toMaybe (k.code == "Esc") va
+onEscDown va = Event . KeyDown $ \k => toMaybe (k.key == "Escape") va
 
 export
 onBlur : ev -> Attribute ev

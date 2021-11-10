@@ -12,24 +12,24 @@ import Text.CSS
 --------------------------------------------------------------------------------
 
 ||| Where the accumulated count is printed to
-export
+public export
 out : ElemRef Div
-out = MkRef Div "reset_out"
+out = Id Div "reset_out"
 
 ||| ID of the increasing button
-export
+public export
 btnInc : ElemRef Button
-btnInc = MkRef Button "reset_inc"
+btnInc = Id Button "reset_inc"
 
 ||| ID of the decreasing button
-export
+public export
 btnDec : ElemRef Button
-btnDec = MkRef Button "reset_dec"
+btnDec = Id Button "reset_dec"
 
 ||| ID of the reset button
-export
+public export
 btnReset : ElemRef Button
-btnReset = MkRef Button "reset_reset"
+btnReset = Id Button "reset_reset"
 
 --------------------------------------------------------------------------------
 --          CSS
@@ -91,19 +91,19 @@ css =
 
   , class resetLbl  !! [ GridArea .= LRes ]
 
-  , id btnReset.id  !! [ GridArea .= BRes ]
+  , idRef btnReset  !! [ GridArea .= BRes ]
 
   , class incLbl    !! [ GridArea .= LInc ]
 
-  , id btnInc.id    !! [ GridArea .= BInc ]
+  , idRef btnInc    !! [ GridArea .= BInc ]
 
   , class decLbl    !! [ GridArea .= LDec ]
 
-  , id btnDec.id    !! [ GridArea .= BDec ]
+  , idRef btnDec    !! [ GridArea .= BDec ]
 
   , class countLbl  !! [ GridArea .= LCnt ]
 
-  , id out.id  !!
+  , idRef out  !!
       [ FontSize        .= Large
       , GridArea        .= OCnt
       , TextAlign       .= End

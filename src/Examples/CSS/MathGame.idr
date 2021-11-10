@@ -13,39 +13,39 @@ import Text.CSS
 
 ||| Where the message about the correct result
 ||| is printed to.
-export
+public export
 out : ElemRef Div
-out = MkRef Div "mathgame_out"
+out = Id Div "mathgame_out"
 
 ||| Select box where users choose the language.
-export
+public export
 langIn : ElemRef Select
-langIn = MkRef Select "mathgame_language"
+langIn = Id Select "mathgame_language"
 
 ||| Text field where users enter their result.
-export
+public export
 resultIn : ElemRef Input
-resultIn = MkRef Input "mathgame_input"
+resultIn = Id Input "mathgame_input"
 
 ||| Button to check the entered result
-export
+public export
 checkBtn : ElemRef Button
-checkBtn = MkRef Button "mathgame_check_btn"
+checkBtn = Id Button "mathgame_check_btn"
 
 ||| Button to start a new game
-export
+public export
 newBtn : ElemRef Button
-newBtn = MkRef Button "mathgame_newbtn"
+newBtn = Id Button "mathgame_newbtn"
 
 ||| ID of the picture canvas
-export
+public export
 pic : ElemRef Canvas
-pic = MkRef Canvas "mathgame_pic"
+pic = Id Canvas "mathgame_pic"
 
 ||| ID of the calculation label
-export
+public export
 calc : ElemRef Div
-calc = MkRef Div "mathgame_calc"
+calc = Id Div "mathgame_calc"
 
 --------------------------------------------------------------------------------
 --          CSS
@@ -125,35 +125,35 @@ css =
 
   , class lblLang !! [ GridArea .= LLan ]
 
-  , id langIn.id  !!
+  , idRef langIn  !!
       [ GridArea        .= ILan
       , FontSize        .= Large
       , TextAlign       .= End
       ]
 
-  , id calc.id  !!
+  , idRef calc  !!
       [ GridArea        .= OClc
       , FontSize        .= Large
       , TextAlign       .= Start
       ]
 
-  , id resultIn.id  !!
+  , idRef resultIn  !!
       [ GridArea        .= IRes
       , FontSize        .= Large
       , TextAlign       .= End
       ]
 
-  , id checkBtn.id  !! [ GridArea .= BChk ]
+  , idRef checkBtn  !! [ GridArea .= BChk ]
 
-  , id newBtn.id  !! [ GridArea .= BNew ]
+  , idRef newBtn  !! [ GridArea .= BNew ]
 
-  , id out.id  !!
+  , idRef out  !!
       [ GridArea        .= ORep
       , FontSize        .= Large
       , TextAlign       .= Start
       ]
 
-  , id pic.id  !!
+  , idRef pic  !!
       [ BackgroundSize  .= perc 100
       , JustifySelf     .= Center
       , GridArea        .= OPic

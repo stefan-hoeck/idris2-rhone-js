@@ -19,18 +19,12 @@ export %inline
 innerHtml : LiftJSIO m => ElemRef t -> MSF m String ()
 innerHtml = arrM . rawInnerHtmlAt
 
-||| Renders the input `Node` and sets the innerHTML property
-||| of the target. Does not register any event listeners.
-export
-rawInnerHtml : LiftJSIO m => ElemRef t -> MSF m (Node ev) ()
-rawInnerHtml ref = arrM $ rawInnerHtmlAt ref . render
-
 ||| Replaces the target's child nodes with a `Text` node
 ||| displaying the input `String`. The `String` will be
 ||| properly escaped before being inserted.
 export
 text : LiftJSIO m => ElemRef t -> MSF m String ()
-text ref = arr Text >>> rawInnerHtml {ev = ()} ref
+text ref = escape ^>> innerHtml ref
 
 --------------------------------------------------------------------------------
 --          Attributes
@@ -43,8 +37,8 @@ attribute :  LiftJSIO m
           => (name : String)
           -> MSF m (NP I [ElemRef t, Maybe String]) ()
 attribute name =
-  arrM $ \[MkRef {tag} _ id, m] => liftJSIO $ do
-    el <- strictGetElementById {t = Element} tag id
+  arrM $ \[ref,m] => liftJSIO $ do
+    el <- castElementByRef {t2 = Element} ref
     case m of
       Just s  => setAttribute el name s
       Nothing => removeAttribute el name
@@ -89,6 +83,16 @@ disabled = boolAttribute "disabled"
 export %inline
 disabledAt : LiftJSIO m => ElemRef t -> MSF m Bool ()
 disabledAt = firstArg disabled
+
+||| Sets or unsets the `hidden` attribute of the given element.
+export %inline
+hidden : LiftJSIO m => MSF m (NP I [ElemRef t, Bool]) ()
+hidden = boolAttribute "hidden"
+
+||| Sets or unsets the `hidden` attribute of the given element.
+export %inline
+hiddenAt : LiftJSIO m => ElemRef t -> MSF m Bool ()
+hiddenAt = firstArg hidden
 
 --------------------------------------------------------------------------------
 --          Input Validation
@@ -189,12 +193,12 @@ SetValue RadioNodeList where
   setValue' = (value =.)
 
 export
-setValue : LiftJSIO m => SetValue t => String -> t -> m ()
-setValue s = liftJSIO . setValue' s
+setValue : LiftJSIO m => SetValue t => ElemRef t -> String -> m ()
+setValue r s = getElementByRef r >>= liftJSIO . setValue' s
 
 export
 value : LiftJSIO m => SetValue t => MSF m (NP I [ElemRef t,String]) ()
-value = arrM $ \[r,s] => getElementByRef r >>= setValue s
+value = arrM $ \[r,s] => setValue r s
 
 export %inline
 valueOf : LiftJSIO m => SetValue t => ElemRef t -> MSF m String ()
@@ -203,3 +207,11 @@ valueOf = firstArg value
 export
 setChecked : LiftJSIO m => Bool -> HTMLInputElement -> m ()
 setChecked b el = liftJSIO $ set (checked el) b
+
+export
+checked : LiftJSIO m => MSF m (NP I [ElemRef HTMLInputElement,Bool]) ()
+checked = arrM $ \[r,b] => getElementByRef r >>= setChecked b
+
+export %inline
+isChecked : LiftJSIO m => ElemRef HTMLInputElement -> MSF m Bool ()
+isChecked = firstArg checked
