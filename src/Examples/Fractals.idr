@@ -24,7 +24,7 @@ data Fractal = Dragon
 
 %runElab derive "Fractal" [Generic,Meta,Show,Eq]
 
-data Ev = Fract Fractal | Iter | Redraw | Run | Next
+data Ev = Fract Fractal | Iter | Redraw | Run | Inc
 
 %runElab derive "Ev" [Generic,Meta,Show,Eq]
 
@@ -88,7 +88,7 @@ msf timer = drswitchWhen neutral config fractal
   where fractal : Config -> MSF M Ev ()
         fractal c =
           let Element dragons prf = mkDragons c.iterations.value
-           in ifIs Next $ cycle dragons >>> innerHtml out
+           in ifIs Inc $ cycle dragons >>> innerHtml out
 
         readAll : MSF M Ev (Either String Config)
         readAll =    MkConfig Dragon
@@ -143,7 +143,7 @@ ui = do
       timer   : RedrawAfter -> JSIO ()
       timer ra = do
         cleanup
-        newID <- setInterval ra.value (h Next)
+        newID <- setInterval ra.value (h Inc)
         writeIORef ref (Just newID)
 
   pure (msf timer, cleanup)
