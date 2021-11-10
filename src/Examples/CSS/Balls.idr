@@ -10,21 +10,21 @@ import Text.CSS
 --          IDs
 --------------------------------------------------------------------------------
 
-export
+public export
 out : ElemRef HTMLCanvasElement
-out = MkRef Canvas "balls_out"
+out = Id Canvas "balls_out"
 
-export
+public export
 btnRun : ElemRef HTMLButtonElement
-btnRun = MkRef Button "balls_run"
+btnRun = Id Button "balls_run"
 
-export
+public export
 txtCount : ElemRef HTMLInputElement
-txtCount = MkRef Input "balls_numballs"
+txtCount = Id Input "balls_numballs"
 
-export
+public export
 log : ElemRef HTMLDivElement
-log = MkRef Div "balls_log"
+log = Id Div "balls_log"
 
 --------------------------------------------------------------------------------
 --          Rules
@@ -87,16 +87,16 @@ css =
 
   , class lblCount !! [ GridArea .= LNum ]
 
-  , id txtCount.id !!
+  , idRef txtCount !!
       [ GridArea        .= INum
       , TextAlign       .= End
       ]
 
-  , id btnRun.id !! [ GridArea .= BRun ]
+  , idRef btnRun !! [ GridArea .= BRun ]
 
-  , id log.id !! [ GridArea .= LFPS ]
+  , idRef log !! [ GridArea .= LFPS ]
 
-  , id out.id !!
+  , idRef out !!
       [ JustifySelf     .= Center
       , GridArea        .= Anim
       , MaxWidth        .= px 500

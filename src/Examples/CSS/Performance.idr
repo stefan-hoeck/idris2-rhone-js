@@ -11,28 +11,28 @@ import Text.CSS
 --------------------------------------------------------------------------------
 
 -- displays the current sum of clicks
-export
+public export
 out : ElemRef Div
-out = MkRef Div "performance_sum"
+out = Id Div "performance_sum"
 
 -- text fields where users can enter the number of buttons
-export
+public export
 natIn : ElemRef Input
-natIn = MkRef Input "performance_numbuttons"
+natIn = Id Input "performance_numbuttons"
 
-export
+public export
 btnRun : ElemRef HTMLButtonElement
-btnRun = MkRef Button "performance_run"
+btnRun = Id Button "performance_run"
 
 -- where the created buttons go
-export
+public export
 buttons : ElemRef Div
-buttons = MkRef Div "performance_buttons"
+buttons = Id Div "performance_buttons"
 
 -- displays the time take to create the buttons
-export
+public export
 time : ElemRef Div
-time = MkRef Div "performance_time"
+time = Id Div "performance_time"
 
 --------------------------------------------------------------------------------
 --          Classes
@@ -111,23 +111,23 @@ css =
 
   , class numButtonsLbl !! [ GridArea .= LBtn ]
 
-  , id natIn.id !!
+  , idRef natIn !!
       [ GridArea        .= NBtn
       , TextAlign       .= End
       ]
 
-  , id btnRun.id !! [ GridArea .= BRun ]
+  , idRef btnRun !! [ GridArea .= BRun ]
 
   , class sumLbl !! [ GridArea .= LSum ]
 
-  , id out.id  !!
+  , idRef out  !!
       [ GridArea        .= OSum
       , FontSize        .= Large
       ]
 
-  , id time.id  !! [ GridArea .= OTme ]
+  , idRef time  !! [ GridArea .= OTme ]
 
-  , id buttons.id  !!
+  , idRef buttons  !!
       [ GridArea        .= Btns
       , BorderStyle     .= Left Solid
       , BorderWidth     .= Left (px 2)

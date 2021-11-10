@@ -99,3 +99,15 @@ checked = arrM getElementByRef >>! getChecked
 export %inline
 checkedAt : LiftJSIO m => ElemRef HTMLInputElement -> MSF m i Bool
 checkedAt r = const r >>> checked
+
+--------------------------------------------------------------------------------
+--          Routing
+--------------------------------------------------------------------------------
+
+export
+windowLocation : LiftJSIO m => MSF m i Location
+windowLocation = constM $ liftJSIO (window >>= location)
+
+export
+windowHash : LiftJSIO m => MSF m i String
+windowHash = windowLocation >>! (liftJSIO . to Location.hash)

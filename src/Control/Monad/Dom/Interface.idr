@@ -9,24 +9,67 @@ import Data.Iterable
 import Data.Nat
 import Data.SOP
 import JS
+import Text.CSS
 import Text.Html
 import Web.Dom
 
 %default total
 
 --------------------------------------------------------------------------------
---          Types
+--          ElemRef
 --------------------------------------------------------------------------------
 
-||| A typed ID string referencing an element in the DOM.
+||| A typed reference to an element in the DOM. Elements can
+||| either be referenced by their ID string or their CSS class
+||| (both of which must be unique), or by holding a value directly.
 ||| This can be used to access the element in question,
 ||| for instance by invoking `getElementByRef`.
 public export
-record ElemRef (t : Type) where
-  constructor MkRef
-  {tag : String}
-  tpe  : ElementType tag t
-  id   : String
+data ElemRef : (t : Type) -> Type where
+  Id :  {tag : String}
+     -> (tpe : ElementType tag t)
+     -> (id : String)
+     -> ElemRef t
+
+  Class :  {tag   : String}
+        -> (tpe   : ElementType tag t)
+        -> (class : String)
+        -> ElemRef t
+
+  Ref : (ref : t) -> ElemRef t
+
+||| Predicate witnessing that a given `ElemRef` is a reference
+||| by ID.
+public export
+data ById : ElemRef t -> Type where
+  IsById : {0 tpe : _} -> {0 id : _} -> ById (Id tpe id)
+
+||| Predicate witnessing that a given `ElemRef` is a reference
+||| by Class.
+public export
+data ByClass : ElemRef t -> Type where
+  IsByClass : {0 tpe : _} -> {0 id : _} -> ByClass (Class tpe id)
+
+namespace Attribute
+  ||| Uses an element ref as an ID attribute
+  export
+  ref : (r : ElemRef t) -> {auto 0 _ : ById r} -> Attribute ev
+  ref (Id _ i) = id i
+
+namespace CSS
+  ||| Uses an element ref as an ID selector
+  export
+  idRef : (r : ElemRef t) -> {auto 0 _ : ById r} -> Selector 0 False False
+  idRef (Id _ i) = Id i
+
+  ||| Uses an element ref as a class selector
+  export
+  classRef : (r : ElemRef t) -> {auto 0 _ : ByClass r} -> Selector 0 False False
+  classRef (Class _ i) = Class i
+
+--------------------------------------------------------------------------------
+--          Types
+--------------------------------------------------------------------------------
 
 public export
 data Position = BeforeBegin | AfterBegin | BeforeEnd | AfterEnd
@@ -83,8 +126,8 @@ getRef :  {str : String}
        -> ElementType str t
        -> m (Attributes ev, ElemRef t)
 getRef as tpe = case getId as of
-  Just i  => pure (as, MkRef tpe i)
-  Nothing => (\i => (Id i :: as, MkRef tpe i)) <$> uniqueId
+  Just i  => pure (as, Id tpe i)
+  Nothing => (\i => (Id i :: as, Id tpe i)) <$> uniqueId
 
 PrepareRes : Type -> (Type -> Type) -> Type
 PrepareRes ev m = (List (Node ev), List (m ()))
@@ -153,7 +196,38 @@ strictGetHTMLElementById = strictGetElementById
 ||| or can't be safely cast to the desired type.
 export
 getElementByRef : LiftJSIO m => SafeCast t => ElemRef t -> m t
-getElementByRef (MkRef {tag} _ id) = strictGetElementById tag id
+getElementByRef (Id {tag} _ id) = strictGetElementById tag id
+getElementByRef (Class _ class) = getElementByClass class
+getElementByRef (Ref t)         = pure t
+
+||| Tries to retrieve an element of the given type by looking
+||| up its ID in the DOM. Unlike `getElementById`, this will throw
+||| an exception in the `JSIO` monad if the element is not found
+||| or can't be safely cast to the desired type.
+export
+castElementByRef : LiftJSIO m => SafeCast t2 => ElemRef t -> m t2
+castElementByRef (Id {tag} _ id) = strictGetElementById tag id
+castElementByRef (Class _ class) = getElementByClass class
+castElementByRef (Ref t)         =
+  liftJSIO $ tryCast "Control.Monad.Dom.Interface.castElementByRef" t
+
+||| Sets up the reactive behavior of the given `Node` and
+||| inserts it as the only child of the given target.
+|||
+||| This adds unique IDs and event listeners to the generated
+||| nodes as required in their attributes.
+export
+innerHtmlAtN :  LiftJSIO m
+             => MonadRec m
+             => MonadDom ev m
+             => ElemRef t
+             -> List (Node ev)
+             -> m ()
+innerHtmlAtN ref ns = do
+  elem     <- castElementByRef {t2 = Element} ref
+  (n2, es) <- prepareNodes ns
+  liftJSIO $ innerHTML elem .= renderMany n2
+  forM_ (\x => x) es
 
 ||| Sets up the reactive behavior of the given `Node` and
 ||| inserts it as the only child of the given target.
@@ -167,8 +241,8 @@ innerHtmlAt :  LiftJSIO m
             => ElemRef t
             -> Node ev
             -> m ()
-innerHtmlAt (MkRef {tag} _ id) n = do
-  elem     <- liftJSIO $ strictGetHTMLElementById tag id
+innerHtmlAt ref n = do
+  elem     <- castElementByRef {t2 = Element} ref
   (n2, es) <- prepareNode n
   liftJSIO $ innerHTML elem .= render n2
   forM_ (\x => x) es
@@ -178,7 +252,10 @@ innerHtmlAt (MkRef {tag} _ id) n = do
 ||| before being inserted, so don't use this with text from
 ||| untrusted sources.
 export
-rawInnerHtmlAt : LiftJSIO m => ElemRef t -> String -> m ()
-rawInnerHtmlAt (MkRef {tag} _ id) str = liftJSIO $ do
-  elem <- strictGetHTMLElementById tag id
-  innerHTML elem .= str
+rawInnerHtmlAt :  LiftJSIO m
+               => ElemRef t
+               -> String
+               -> m ()
+rawInnerHtmlAt ref str = liftJSIO $ do
+  elem <- castElementByRef {t2 = Element} ref
+  liftJSIO $ innerHTML elem .= str

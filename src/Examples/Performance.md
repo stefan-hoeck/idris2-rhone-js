@@ -85,12 +85,12 @@ since we want to disable them after they have been clicked:
 
 ```idris
 btnRef : Nat -> ElemRef Button
-btnRef n = MkRef Button "BTN\{show n}"
+btnRef n = Id Button "BTN\{show n}"
 
 btn : Nat -> Node Nat
 btn n =
   button
-    [id $ id (btnRef n), onClick n, classes [widget,btn,inc]]
+    [ref (btnRef n), onClick n, classes [widget,btn,inc]]
     [Text $ show n]
 ```
 
@@ -116,17 +116,17 @@ content : Node Ev
 content =
   div [ class performanceContent ]
     [ lbl "Number of buttons:" numButtonsLbl
-    , input [ id natIn.id
-                 , onInput (const Validate)
-                 , onEnterDown Reload
-                 , classes [widget, textIn]
-                 , placeholder "Enter a positive integer"
-                 ] []
-    , button [id btnRun.id, onClick Reload, classes [widget, btn]] ["Run"]
+    , input [ ref natIn
+            , onInput (const Validate)
+            , onEnterDown Reload
+            , classes [widget, textIn]
+            , placeholder "Enter a positive integer"
+            ] []
+    , button [ref btnRun, onClick Reload, classes [widget, btn]] ["Run"]
     , lbl "Sum:" sumLbl
-    , div [id out.id] []
-    , div [id time.id] []
-    , div [id buttons.id] []
+    , div [ref out] []
+    , div [ref time] []
+    , div [ref buttons] []
     ]
 ```
 

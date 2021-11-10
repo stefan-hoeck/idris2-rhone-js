@@ -10,21 +10,21 @@ import Text.CSS
 --          IDs
 --------------------------------------------------------------------------------
 
-export
+public export
 out : ElemRef HTMLDivElement
-out = MkRef Div "fractals_out"
+out = Id Div "fractals_out"
 
-export
+public export
 btnRun : ElemRef HTMLButtonElement
-btnRun = MkRef Button "fractals_run"
+btnRun = Id Button "fractals_run"
 
-export
+public export
 txtIter : ElemRef HTMLInputElement
-txtIter = MkRef Input "fractals_iterations"
+txtIter = Id Input "fractals_iterations"
 
-export
+public export
 txtRedraw : ElemRef HTMLInputElement
-txtRedraw = MkRef Input "fractals_redrawdelay"
+txtRedraw = Id Input "fractals_redrawdelay"
 
 --------------------------------------------------------------------------------
 --          Classes
@@ -95,21 +95,21 @@ css =
       ]
   , class lblIter !! [ GridArea .= LIter ]
 
-  , id txtIter.id !!
+  , idRef txtIter !!
       [ GridArea        .= IIter
       , TextAlign       .= End
       ]
 
   , class lblDelay !! [ GridArea .= LDel ]
 
-  , id txtRedraw.id !!
+  , idRef txtRedraw !!
       [ GridArea        .= IDel
       , TextAlign       .= End
       ]
 
-  , id btnRun.id !! [ GridArea .= BRun ]
+  , idRef btnRun !! [ GridArea .= BRun ]
 
-  , id out.id !!
+  , idRef out !!
       [ JustifySelf     .= Center
       , GridArea        .= Fract
       , BorderStyle     .= Left Solid

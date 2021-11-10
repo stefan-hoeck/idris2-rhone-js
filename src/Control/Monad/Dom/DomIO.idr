@@ -42,36 +42,46 @@ Contravariant DomEnv where
 ||| Use this, for instance, to register `DOMEvents` at
 ||| a HTMLElement of a static document.
 export
-registerDOMEvent :  (el : HTMLElement)
+registerDOMEvent :  (el : EventTarget)
                  -> DOMEvent e
                  -> (handler : e -> JSIO ())
                  -> JSIO ()
 registerDOMEvent el de h = case de of
-  Input f      => oninput      el !> handle inputInfo f
-  Change f     => onchange     el !> handle changeInfo f
-  Click f      => onclick      el !> handle mouseInfo f
-  DblClick f   => ondblclick   el !> handle mouseInfo f
-  KeyDown f    => onkeydown    el !> handle keyInfo f
-  KeyUp f      => onkeyup      el !> handle keyInfo f
-  Blur v       => onblur       el !> handle (const $ pure v) Just
-  Focus v      => onfocus      el !> handle (const $ pure v) Just
-  MouseDown f  => onmousedown  el !> handle mouseInfo f
-  MouseUp f    => onmouseup    el !> handle mouseInfo f
-  MouseEnter f => onmouseenter el !> handle mouseInfo f
-  MouseLeave f => onmouseleave el !> handle mouseInfo f
-  MouseOver f  => onmouseover  el !> handle mouseInfo f
-  MouseOut f   => onmouseout   el !> handle mouseInfo f
-  MouseMove f  => onmousemove  el !> handle mouseInfo f
+  Input f      => handle "input" inputInfo f
+  Change f     => handle "change" changeInfo f
+  Click f      => handle "click" mouseInfo f
+  DblClick f   => handle "dblclick" mouseInfo f
+  KeyDown f    => handle "keydown" keyInfo f
+  KeyUp f      => handle "keyup" keyInfo f
+  Blur v       => handle "blur" {a = Event} (const $ pure v) Just
+  Focus v      => handle "focus" {a = Event} (const $ pure v) Just
+  MouseDown f  => handle "mousedown" mouseInfo f
+  MouseUp f    => handle "mouseup" mouseInfo f
+  MouseEnter f => handle "mouseenter" mouseInfo f
+  MouseLeave f => handle "mouseleave" mouseInfo f
+  MouseOver f  => handle "mouseover" mouseInfo f
+  MouseOut f   => handle "mouseout" mouseInfo f
+  MouseMove f  => handle "mousemove" mouseInfo f
 
-  where handle : {0 a,b : _} -> (a -> JSIO b) -> (b -> Maybe e) -> a -> JSIO ()
-        handle conv f va = conv va >>= maybe (pure ()) h . f
+  where handle :  {0 a,b : _}
+               -> SafeCast a
+               => String
+               -> (a -> JSIO b)
+               -> (b -> Maybe e)
+               -> JSIO ()
+        handle s conv f = do
+          c <- callback {cb = EventListener} $ \e => do
+            va <- tryCast_ a "Control.Monad.Dom.DomIO.handle" e
+            conv va >>= maybe (pure ()) h . f
+
+          addEventListener' el s (Just c)
 
 
 -- how to listen to a DOMEvent
 registerImpl : (ref : ElemRef t) -> DOMEvent e -> DomEnv e -> JSIO ()
-registerImpl r@(MkRef {tag} _ id) de (MkDomEnv _ _ h) = do
-  t <- strictGetHTMLElementById tag id
-  registerDOMEvent t de h
+registerImpl ref de (MkDomEnv _ _ h) = do
+  el  <- castElementByRef ref
+  registerDOMEvent el de h
 
 
 createId : DomEnv e -> JSIO String
@@ -141,23 +151,26 @@ LiftJSIO io => MonadDom ev (DomIO ev io) where
   uniqueId = MkDom $ liftJSIO . createId
 
 export
-handleEvent : LiftJSIO m => HTMLElement -> DOMEvent ev -> DomIO ev m ()
+handleEvent : LiftJSIO m => ElemRef t -> DOMEvent ev -> DomIO ev m ()
 handleEvent el ev = do
-  MkDomEnv _ _ h <- env
-  liftJSIO $ registerDOMEvent el ev h
+  e <- env
+  liftJSIO $ registerImpl el ev e
 
 export
-setAttribute : LiftJSIO m => HTMLElement -> Attribute ev -> DomIO ev m ()
-setAttribute el (Id v)         = liftJSIO $ setAttribute el "id" v
-setAttribute el (Str n v)      = liftJSIO $ setAttribute el n v
-setAttribute el (Bool n True)  = liftJSIO $ setAttribute el n ""
-setAttribute el (Bool n False) = liftJSIO $ removeAttribute el n
-setAttribute el (Event ev)     = handleEvent el ev
+setAttribute : LiftJSIO m => ElemRef t -> Attribute ev -> DomIO ev m ()
+setAttribute ref a = do
+  el <- castElementByRef {t2 = HTMLElement} ref
+  case a of
+    Id v         => liftJSIO $ setAttribute el "id" v
+    Str n v      => liftJSIO $ setAttribute el n v
+    Bool n True  => liftJSIO $ setAttribute el n ""
+    Bool n False => liftJSIO $ removeAttribute el n
+    Event ev     => map handler env >>= liftJSIO . registerDOMEvent (up el) ev
 
 export
 setAttributes :  MonadRec m
               => LiftJSIO m
-              => HTMLElement
+              => ElemRef t
               -> List (Attribute ev)
               -> DomIO ev m ()
 setAttributes el = forM_ (setAttribute el)

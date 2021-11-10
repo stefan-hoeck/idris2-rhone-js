@@ -34,7 +34,7 @@ context2D ref = liftJSIO $ do
   m      <- getContext' canvas "2d"
   case m >>= (\ns => extract CanvasRenderingContext2D ns) of
     Just c  => pure c
-    Nothing => throwError $ Caught #"Rhone.Canvas.context2d: No rendering context for \#{ref.id}"#
+    Nothing => throwError $ Caught "Rhone.Canvas.context2d: No rendering context for canvas"
 
 export
 render : LiftJSIO m => Canvas -> m ()

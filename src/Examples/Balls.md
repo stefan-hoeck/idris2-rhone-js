@@ -165,15 +165,15 @@ content : Node Ev
 content =
   div [ class ballsContent ]
     [ lbl "Number of balls:" lblCount
-    , input [ id txtCount.id
+    , input [ ref txtCount
             , onInput (const NumIn)
             , onEnterDown Run
             , class widget
             , placeholder "Range: [1,1000]"
             ] []
-    , button [id btnRun.id, onClick Run, classes [widget,btn]] ["Run"]
-    , div [id log.id] []
-    , canvas [id out.id, width wcanvas, height wcanvas] []
+    , button [ref btnRun, onClick Run, classes [widget,btn]] ["Run"]
+    , div [ref log] []
+    , canvas [ref out, width wcanvas, height wcanvas] []
     ]
 ```
 

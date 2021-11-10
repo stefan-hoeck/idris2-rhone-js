@@ -12,7 +12,7 @@ import Text.CSS
 ||| be placed here.
 public export
 contentDiv : ElemRef HTMLBodyElement
-contentDiv = MkRef Body "content"
+contentDiv = Id Body "content"
 
 ||| The page consists of a static heading with a title an
 ||| (eventually) a short description of the project.
@@ -23,13 +23,13 @@ contentDiv = MkRef Body "content"
 ||| placed in to a `<div>` with ID `"example"`.
 public export
 exampleDiv : ElemRef HTMLDivElement
-exampleDiv = MkRef Div "example"
+exampleDiv = Id Div "example"
 
 ||| ID of a `<style>` element in the page header.
 ||| The generated CSS rules will go here.
 public export
 appStyle : ElemRef HTMLStyleElement
-appStyle = MkRef Style "appstyle"
+appStyle = Id Style "appstyle"
 
 --------------------------------------------------------------------------------
 --          Classes
