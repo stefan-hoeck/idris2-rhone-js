@@ -110,6 +110,10 @@ env : Monad m => DomIO ev m (DomEnv ev)
 env = MkDom pure
 
 export
+fireEvent : LiftJSIO m => ev -> DomIO ev m ()
+fireEvent e =  MkDom $ \env => liftJSIO $ env.handler e
+
+export
 Functor io => Functor (DomIO ev io) where
   map f dom = MkDom (map f . dom.runDom)
 
