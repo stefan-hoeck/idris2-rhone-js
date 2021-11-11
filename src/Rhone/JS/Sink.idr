@@ -225,3 +225,13 @@ checked = arrM $ \[r,b] => getElementByRef r >>= setChecked b
 export %inline
 isChecked : LiftJSIO m => ElemRef HTMLInputElement -> MSF m Bool ()
 isChecked = firstArg checked
+
+namespace LocalStorage
+  export
+  setItem : LiftJSIO m => MSF m (NP I [String,String]) ()
+  setItem = arrM $ \[k,v] =>
+    liftJSIO (window >>= localStorage >>= (\s => setItem s k v))
+
+  export %inline
+  setItemAt : LiftJSIO m => (key : String) -> MSF m String ()
+  setItemAt = firstArg setItem
