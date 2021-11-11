@@ -62,6 +62,7 @@ registerDOMEvent el de h = case de of
   MouseOver f  => handle "mouseover" mouseInfo f
   MouseOut f   => handle "mouseout" mouseInfo f
   MouseMove f  => handle "mousemove" mouseInfo f
+  HashChange v => handle "hashchange" {a = Event} (const $ pure v) Just
 
   where handle :  {0 a,b : _}
                -> SafeCast a
@@ -108,6 +109,10 @@ mapEvent f (MkDom runDom) = MkDom $ runDom . contramap f
 export
 env : Monad m => DomIO ev m (DomEnv ev)
 env = MkDom pure
+
+export
+fireEvent : LiftJSIO m => ev -> DomIO ev m ()
+fireEvent e =  MkDom $ \env => liftJSIO $ env.handler e
 
 export
 Functor io => Functor (DomIO ev io) where

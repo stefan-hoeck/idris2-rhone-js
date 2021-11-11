@@ -19,11 +19,14 @@ import Web.Dom
 --          ElemRef
 --------------------------------------------------------------------------------
 
-||| A typed reference to an element in the DOM. Elements can
+||| A typed reference to an element or container in the DOM. Elements can
 ||| either be referenced by their ID string or their CSS class
 ||| (both of which must be unique), or by holding a value directly.
 ||| This can be used to access the element in question,
 ||| for instance by invoking `getElementByRef`.
+|||
+||| In addition, we provide (pseudo-)element references for
+||| `body`, `document`, and `window`.
 public export
 data ElemRef : (t : Type) -> Type where
   Id :  {tag : String}
@@ -37,6 +40,12 @@ data ElemRef : (t : Type) -> Type where
         -> ElemRef t
 
   Ref : (ref : t) -> ElemRef t
+
+  Body : ElemRef HTMLElement
+
+  Document : ElemRef Document
+
+  Window : ElemRef Window
 
 ||| Predicate witnessing that a given `ElemRef` is a reference
 ||| by ID.
@@ -199,6 +208,12 @@ getElementByRef : LiftJSIO m => SafeCast t => ElemRef t -> m t
 getElementByRef (Id {tag} _ id) = strictGetElementById tag id
 getElementByRef (Class _ class) = getElementByClass class
 getElementByRef (Ref t)         = pure t
+getElementByRef Body            = liftJSIO body
+getElementByRef Document        = liftJSIO document
+getElementByRef Window          = liftJSIO window
+
+err : String
+err = "Control.Monad.Dom.Interface.castElementByRef"
 
 ||| Tries to retrieve an element of the given type by looking
 ||| up its ID in the DOM. Unlike `getElementById`, this will throw
@@ -208,8 +223,10 @@ export
 castElementByRef : LiftJSIO m => SafeCast t2 => ElemRef t -> m t2
 castElementByRef (Id {tag} _ id) = strictGetElementById tag id
 castElementByRef (Class _ class) = getElementByClass class
-castElementByRef (Ref t)         =
-  liftJSIO $ tryCast "Control.Monad.Dom.Interface.castElementByRef" t
+castElementByRef Body            = liftJSIO $ body >>= tryCast err
+castElementByRef Document        = liftJSIO $ document >>= tryCast err
+castElementByRef Window          = liftJSIO $ window >>= tryCast err
+castElementByRef (Ref t)         = liftJSIO $ tryCast err t
 
 ||| Sets up the reactive behavior of the given `Node` and
 ||| inserts it as the only child of the given target.

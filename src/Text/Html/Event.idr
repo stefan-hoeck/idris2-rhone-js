@@ -78,3 +78,6 @@ data DOMEvent : Type -> Type where
   -- Input
   Change     : (InputInfo -> Maybe a) -> DOMEvent a
   Input      : (InputInfo -> Maybe a) -> DOMEvent a
+
+  -- Routing
+  HashChange : a -> DOMEvent a

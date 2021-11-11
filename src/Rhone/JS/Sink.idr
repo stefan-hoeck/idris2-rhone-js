@@ -94,6 +94,16 @@ export %inline
 hiddenAt : LiftJSIO m => ElemRef t -> MSF m Bool ()
 hiddenAt = firstArg hidden
 
+||| Sets the `class` attribute of the given element.
+export %inline
+class : LiftJSIO m => MSF m (NP I [ElemRef t, String]) ()
+class = attribute_ "class"
+
+||| Sets the `class` attribute of the given element.
+export %inline
+classAt : LiftJSIO m => ElemRef t -> MSF m String ()
+classAt = firstArg class
+
 --------------------------------------------------------------------------------
 --          Input Validation
 --------------------------------------------------------------------------------
