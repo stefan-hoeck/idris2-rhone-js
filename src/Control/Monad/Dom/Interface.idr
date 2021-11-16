@@ -148,7 +148,7 @@ mutual
                => MonadRec m
                => List (Node ev)
                -> m (PrepareRes ev m)
-  prepareNodes ns = trSized go ns ([], [])
+  prepareNodes ns = trSized ns ([], []) go
     where go :  (vs : List (Node ev))
              -> PrepareRes ev m
              -> m (Step Smaller vs (PrepareRes ev m) (PrepareRes ev m))
