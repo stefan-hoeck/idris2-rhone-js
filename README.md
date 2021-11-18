@@ -17,14 +17,15 @@ be found [here](src/Examples/Main.md).
 
 This project makes use of several other Idris2 projects:
 
-  * [idris2-elab-util](https://github.com/stefan-hoeck/idris2-elab-util)
-  * [idris2-sop](https://github.com/stefan-hoeck/idris2-sop)
-  * [idris2-dom](https://github.com/stefan-hoeck/idris2-dom)
-  * [idris2-tailrec](https://github.com/stefan-hoeck/idris2-tailrec)
-  * [idris2-rhone](https://github.com/stefan-hoeck/idris2-rhone)
+* [idris2-elab-util](https://github.com/stefan-hoeck/idris2-elab-util)
+* [idris2-sop](https://github.com/stefan-hoeck/idris2-sop)
+* [idris2-dom](https://github.com/stefan-hoeck/idris2-dom)
+* [idris2-tailrec](https://github.com/stefan-hoeck/idris2-tailrec)
+* [idris2-rhone](https://github.com/stefan-hoeck/idris2-rhone)
 
 It is being developed against the current main branch of Idris2.
-The latest commit has been built against Idris 2, version 0.5.1-3536f8dab.
+The latest commit has been built against Idris 2 of version set in the ``.idris-version`` file.
+This file contains a version in the format which ``git describe --tags`` gives.
 
 ## Building the Example Page
 
