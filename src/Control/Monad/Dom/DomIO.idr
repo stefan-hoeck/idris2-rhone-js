@@ -34,7 +34,7 @@ record DomEnv (event : Type) where
 
 export
 Contravariant DomEnv where
-  contramap f  = record {handler $= (. f) }
+  contramap f  = {handler $= (. f) }
 
 ||| Low level method for registering `DOMEvents` at
 ||| HTML elements.
