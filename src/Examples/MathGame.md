@@ -356,7 +356,7 @@ newGame = get >>> lang ^>> randomGame !>- [setPic, put]
 adjLang : MSF (StateT GameState M) Ev ()
 adjLang = readLang ^>> ifJust (
             arrM $ \l => innerHtmlAt exampleDiv (content l)
-                      >> modify (record { lang = l })
+                      >> modify { lang := l }
           )
   where readLang : Ev -> Maybe Language
         readLang (Lang "en") = Just EN
