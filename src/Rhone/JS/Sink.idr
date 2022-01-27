@@ -235,3 +235,31 @@ namespace LocalStorage
   export %inline
   setItemAt : LiftJSIO m => (key : String) -> MSF m String ()
   setItemAt = firstArg setItem
+
+--------------------------------------------------------------------------------
+--          Focus
+--------------------------------------------------------------------------------
+
+export
+setFocus :  LiftJSIO m
+         => (0 _ : JSType t)
+         => (0 _ : Elem HTMLOrSVGElement (Types t))
+         => SafeCast t
+         => t -> m ()
+setFocus = liftJSIO . HTMLOrSVGElement.focus'
+
+export
+focus :  LiftJSIO m
+      => (0 _ : JSType t)
+      => (0 _ : Elem HTMLOrSVGElement (Types t))
+      => SafeCast t
+      => MSF m (ElemRef t) ()
+focus = arrM $ \r => getElementByRef r >>= setFocus
+
+export %inline
+focusAt :  LiftJSIO m
+        => (0 _ : JSType t)
+        => (0 _ : Elem HTMLOrSVGElement (Types t))
+        => SafeCast t
+        => ElemRef t -> MSF m i ()
+focusAt r = const r >>> focus
