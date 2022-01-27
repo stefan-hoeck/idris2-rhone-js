@@ -240,22 +240,17 @@ namespace LocalStorage
 --          Focus
 --------------------------------------------------------------------------------
 
-public export
-interface SafeCast t => Focus t where
-  focus' : t -> JSIO ()
-
-public export
-JSType t => Elem HTMLOrSVGElement (Types t) => SafeCast t => Focus t where
-  focus' = HTMLOrSVGElement.focus'
+export
+setFocus : LiftJSIO m => (0 _ : JSType t) => (0 _ : Elem HTMLOrSVGElement (Types t)) => SafeCast t =>
+           t -> m ()
+setFocus = liftJSIO . HTMLOrSVGElement.focus'
 
 export
-setFocus : LiftJSIO m => Focus t => t -> m ()
-setFocus = liftJSIO . focus'
-
-export
-focus : LiftJSIO m => Focus t => MSF m (ElemRef t) ()
+focus : LiftJSIO m => (0 _ : JSType t) => (0 _ : Elem HTMLOrSVGElement (Types t)) => SafeCast t =>
+        MSF m (ElemRef t) ()
 focus = arrM $ \r => getElementByRef r >>= setFocus
 
 export %inline
-focusAt : LiftJSIO m => Focus t => ElemRef t -> MSF m i ()
+focusAt : LiftJSIO m => (0 _ : JSType t) => (0 _ : Elem HTMLOrSVGElement (Types t)) => SafeCast t =>
+          ElemRef t -> MSF m i ()
 focusAt r = const r >>> focus
