@@ -300,6 +300,10 @@ style : String -> Attribute ev
 style = Str "style"
 
 export %inline
+tabindex : Int32 -> Attribute ev
+tabindex = showAttr "tabindex"
+
+export %inline
 target : String -> Attribute ev
 target = Str "target"
 
@@ -374,6 +378,10 @@ onEnterDown va = Event . KeyDown $ \k => toMaybe (k.key == "Enter") va
 export
 onEscDown : ev -> Attribute ev
 onEscDown va = Event . KeyDown $ \k => toMaybe (k.key == "Escape") va
+
+export
+onKeyUp : (KeyInfo -> ev) -> Attribute ev
+onKeyUp f = Event . KeyUp $ Just . f
 
 export
 onBlur : ev -> Attribute ev
