@@ -2,7 +2,6 @@
 ||| data but produces no relevant output.
 module Rhone.JS.Sink
 
-import Control.Category
 import Control.Monad.Dom
 import Data.Maybe
 import Data.MSF

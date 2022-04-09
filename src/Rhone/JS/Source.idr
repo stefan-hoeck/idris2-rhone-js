@@ -2,7 +2,6 @@
 ||| values independently of the input value.
 module Rhone.JS.Source
 
-import Control.Category
 import Control.Monad.Dom
 import Data.MSF
 import JS
