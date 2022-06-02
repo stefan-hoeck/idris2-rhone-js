@@ -23,9 +23,13 @@ This project makes use of several other Idris2 projects:
 * [idris2-tailrec](https://github.com/stefan-hoeck/idris2-tailrec)
 * [idris2-rhone](https://github.com/stefan-hoeck/idris2-rhone)
 
-It is being developed against the current main branch of Idris2.
-The latest commit has been built against Idris 2 of version set in the ``.idris-version`` file.
-This file contains a version in the format which ``git describe --tags`` gives.
+The latest commit is daily tested to build against the current
+HEAD of the Idris compiler. Since Idris2 releases are happening
+rather infrequently at the moment, it is suggested to use
+a package manager like [pack](https://github.com/stefan-hoeck/idris2-pack)
+to install and maintain matching versions of the Idris compiler
+and this library. Pack will also automatically install all
+required dependencies.
 
 ## Building the Example Page
 

@@ -1,6 +1,8 @@
 package rhone-js
 version    = 0.0.1
-authors    = "Stefan Höck"
+authors    = "stefan-hoeck"
+brief      = "Reactive single page web applications in Idris2"
+
 depends    = base      >= 0.5.1
            , dom       >= 0.1.0
            , elab-util >= 0.5.0
