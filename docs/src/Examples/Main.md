@@ -6,7 +6,7 @@ this tutorial alongside the library and provide examples of
 increasing complexity, both as documentation and to extend
 my own skills in writing web applications in Idris2.
 
-### Prerequisites
+## Prerequisites
 
 All posts in this tutorial are literate Idris2 files that
 can be built and tried in your own browser. All you have to do
@@ -14,7 +14,7 @@ is install the necessary dependencies listed in the project
 README, run `make page` from the project's root directory and
 load `rhone.html` in your browser afterwards.
 
-### The `main` Function
+## The `main` Function
 
 This is the example project's main module, and here is
 the code:
@@ -47,7 +47,7 @@ real-world application, as the console logs in the browser
 will not be inspected by the average user, but it will do
 for these tutorials.
 
-### What next?
+## What next?
 
 Jump to the [examples selector implementation](Selector.md), to learn about the
 general structure of an interactive rhone-js web page.

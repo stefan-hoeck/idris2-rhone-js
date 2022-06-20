@@ -48,7 +48,7 @@ most of the time. `DomIO` is the reference
 implementation of interface `MonadDom` from `Control.Monad.Dom.Interface`.
 This is an IO monad, which right now provides only two additional
 pieces of functionality:
-A way to generate unique id strings, which are used to look up
+A way to generate unique ID strings, which are used to look up
 interactive components in the DOM, and a function to register event
 handlers.
 
@@ -92,7 +92,7 @@ content =
       ]
 ```
 
-A typical node constructor like `div` or `label` takes
+A typical `Node` constructor like `div` or `label` takes
 two arguments: A list of attributes and a list of child
 nodes.
 
