@@ -1,0 +1,9 @@
+[custom.all.rhone-js]
+type   = "local"
+path   = "."
+ipkg   = "rhone-js.ipkg"
+
+[custom.all.rhone-js-docs]
+type   = "local"
+path   = "docs"
+ipkg   = "docs.ipkg"
