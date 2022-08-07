@@ -244,6 +244,7 @@ data Property : Type -> Type where
   FlexBasis           : Property FlexBasis
   FlexDirection       : Property FlexDirection
   FlexWrap            : Property String
+  FlexGrow            : Property Nat
   FontFamily          : Property String
   FontSize            : Property FontSize
   GridArea            : AreaTag a => Property a
@@ -285,6 +286,7 @@ renderProp Flex y                = "flex: " ++ y
 renderProp FlexBasis y           = "flex-basis: " ++ render y
 renderProp FlexDirection y       = "flex-direction: " ++ render y
 renderProp FlexWrap y            = "flex-wrap: " ++ y
+renderProp FlexGrow y            = "flex-grow: " ++ show y
 renderProp FontFamily y          = "font-family: " ++ y
 renderProp FontSize y            = "font-size: " ++ render y
 renderProp GridArea y            = "grid-area: " ++ showTag y
