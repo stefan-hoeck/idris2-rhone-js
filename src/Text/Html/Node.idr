@@ -1,6 +1,5 @@
 module Text.Html.Node
 
-import Data.List.TR
 import Data.String
 import Text.Html.Attribute
 import Text.Html.Event
@@ -345,7 +344,7 @@ video = El Video
 
 export
 escape : String -> String
-escape = fastConcat . mapTR esc . unpack
+escape = fastConcat . map esc . unpack
   where esc : Char -> String
         esc '<'          = "&lt;"
         esc '>'          = "&gt;"
@@ -373,4 +372,4 @@ render n = case n of
 
 export
 renderMany : List (Node ev) -> String
-renderMany = fastConcat . mapTR render
+renderMany = fastConcat . map render
