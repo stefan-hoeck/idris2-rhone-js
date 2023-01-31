@@ -36,8 +36,8 @@ import Data.Nat
 import Data.String
 import Examples.CSS.Performance
 import Examples.Util
-import Generics.Derive
 import Rhone.JS
+import Derive.Prelude
 
 %language ElabReflection
 %default total
@@ -59,7 +59,7 @@ a custom data type:
 ```idris
 data Ev = Reload | Validate
 
-%runElab derive "Ev" [Generic,Meta,Show,Eq]
+%runElab derive "Ev" [Show,Eq]
 
 PosNat : Type
 PosNat = Subset Nat IsSucc
@@ -106,7 +106,7 @@ constant stack space.
 
 ```idris
 btns : PosNat -> Node Nat
-btns (Element n _) = div [class grid] . mapTR btn $ iterateTR n (+1) 1
+btns (Element n _) = div [class grid] . map btn $ iterateTR n (+1) 1
 ```
 
 And, finally, the overall layout of the application:

@@ -10,8 +10,6 @@ on:
   pull_request:
     branches:
       - main
-  schedule:
-    - cron: '0 1 * * *'
 
 defaults:
   run:
@@ -32,4 +30,4 @@ jobs:
       - name: Build lib
         run: pack install rhone-js
       - name: Build docs
-        run: pack build docs/docs.ipkg
+        run: pack typecheck rhone-js-docs

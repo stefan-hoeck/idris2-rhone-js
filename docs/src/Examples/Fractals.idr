@@ -10,8 +10,8 @@ import Data.So
 import Examples.CSS.Fractals
 import Examples.Fractals.Dragon
 import Examples.Util
-import Generics.Derive
 import Rhone.JS
+import Derive.Prelude
 
 %language ElabReflection
 %default total
@@ -22,11 +22,11 @@ import Rhone.JS
 
 data Fractal = Dragon
 
-%runElab derive "Fractal" [Generic,Meta,Show,Eq]
+%runElab derive "Fractal" [Show,Eq]
 
 data Ev = Fract Fractal | Iter | Redraw | Run | Inc
 
-%runElab derive "Ev" [Generic,Meta,Show,Eq]
+%runElab derive "Ev" [Show,Eq]
 
 MaxIter : Nat
 MaxIter = 18
