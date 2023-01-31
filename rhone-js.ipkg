@@ -3,12 +3,11 @@ version    = 0.0.1
 authors    = "stefan-hoeck"
 brief      = "Reactive single page web applications in Idris2"
 
-depends    = base      >= 0.5.1
-           , dom       >= 0.1.0
-           , elab-util >= 0.5.0
-           , rhone     >= 0.0.1
-           , sop       >= 0.5.0
-           , tailrec   >= 0.1.0
+depends    = base      >= 0.6.0
+           , dom
+           , rhone
+           , sop
+           , tailrec
 
 opts       = "--codegen javascript"
 

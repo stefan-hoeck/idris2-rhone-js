@@ -41,7 +41,7 @@ firstDragon = Element [0,800] IsNonEmpty
 
 nextDragon : Dragon -> Dragon
 nextDragon (Element (h :: t) prf) =
-  let new = mapTR (rotateAround90 h) (reverse t)
+  let new = map (rotateAround90 h) (reverse t)
    in Element (new ++ h :: t) (lemma new h t)
 
 dragonSVG : (n : Nat) -> Dragon -> String
@@ -49,7 +49,7 @@ dragonSVG n (Element ps _) =
   let fact = pow 2 (cast (n + 2) / 2.0)
       scale = 1.0 / fact
 
-      attr = fastConcat $ mapTR (\(P x y) => #"\#{show x}, \#{show y} "#) ps
+      attr = fastConcat $ map (\(P x y) => #"\#{show x}, \#{show y} "#) ps
       header =
         the String #"""
                    <svg version="1.1"

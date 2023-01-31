@@ -1,14 +1,7 @@
 package rhone-js-doc
 version    = 0.0.1
 authors    = "Stefan Höck"
-depends    = base      >= 0.5.1
-           , contrib
-           , dom
-           , elab-util
-           , rhone
-           , sop
-           , tailrec
-           , rhone-js
+depends    = rhone-js
 
 opts       = "--codegen javascript"
 

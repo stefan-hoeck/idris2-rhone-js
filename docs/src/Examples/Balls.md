@@ -132,15 +132,10 @@ at a given point in time:
 ballsToScene : List Ball -> Scene
 ballsToScene bs =
   SM  [] (Transform 50 0 0 50 10 10) $
-    [ SM [] Id $ mapTR ballToScene bs
+    [ SM [] Id $ map ballToScene bs
     , S1 [Stroke base80, LineWidth wallThickness] Id walls
     ]
 ```
-
-Note again the call to `mapTR`: We hope to be able to
-animate hundreds of balls at the same time, so we need
-to make sure we are not going to overflow the limited
-call stack.
 
 Of course, we also need to set up the HTML objects of
 our application plus the events they fire: `Next dt`
@@ -263,7 +258,7 @@ renderBalls bs =
 
 animation : List Ball -> MSF M Ev ()
 animation bs = arr next ?>-
-                 [ accumulateWith (mapTR . nextBall) bs >>! renderBalls
+                 [ accumulateWith (map . nextBall) bs >>! renderBalls
                  , fps 15 ?>> showFPS ^>> text log
                  ]
 ```
