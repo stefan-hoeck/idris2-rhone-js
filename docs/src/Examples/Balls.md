@@ -22,11 +22,12 @@ import Data.Nat
 import Data.Vect
 import Data.VectorSpace
 
+import Derive.Prelude
+
 import Examples.CSS.Colors
 import Examples.CSS.Balls
 import Examples.Util
 
-import Generics.Derive
 import Rhone.Canvas
 import Rhone.JS
 import Text.CSS.Color
@@ -150,7 +151,7 @@ next : Ev -> Event Bits32
 next (Next d) = Ev d
 next _        = NoEv
 
-%runElab derive "Ev" [Generic,Meta,Show,Eq]
+%runElab derive "Ev" [Show,Eq]
 
 -- canvas width and height
 wcanvas : Bits32

@@ -19,9 +19,9 @@ import Control.Monad.State
 import Data.List
 import Data.MSF.Trans
 import Data.Vect
+import Derive.Prelude
 import Examples.CSS.MathGame
 import Examples.Util
-import Generics.Derive
 import Rhone.Canvas
 import Rhone.JS
 import System.Random
@@ -41,12 +41,12 @@ and they can change the UI's language:
 ```idris
 data Language = EN | DE
 
-%runElab derive "Language" [Generic,Meta,Show,Eq]
+%runElab derive "Language" [Show,Eq]
 
 public export
 data Ev = Lang String | Check | NewGame
 
-%runElab derive "Ev" [Generic,Meta,Show,Eq]
+%runElab derive "Ev" [Show,Eq]
 ```
 
 We also need data types for representing the calculations
