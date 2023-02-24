@@ -1,11 +1,16 @@
 module Text.CSS.Percentage
 
-import Language.Reflection.Refined
-import public Language.Reflection.Refined.Util
+import Data.Refined
+import Derive.Prelude
+import Derive.Refined
 import Text.CSS.Render
 
 %language ElabReflection
 %default total
+
+public export
+IsPercentage : Double -> Bool
+IsPercentage x = 0 <= x && x <= 100
 
 ||| A floating point percentage value in the the
 ||| range [0,100].
@@ -13,19 +18,13 @@ public export
 record Percentage where
   constructor MkPercentage
   value : Double
-  0 prf : So (0 <= value && value <= 100)
+  {auto 0 prf : Holds IsPercentage value}
 
-%runElab refinedDouble "Percentage"
-
-export
-fromInteger :  (n : Integer)
-            -> {auto 0 _ : IsJust (Percentage.refine (cast n))}
-            -> Percentage
-fromInteger n = fromJust $ Percentage.refine (cast n)
+%runElab derive "Percentage" [Show,Eq,Ord,RefinedDouble]
 
 export
 Render Percentage where
-  render (MkPercentage v _) = show v ++ "%"
+  render (MkPercentage v) = show v ++ "%"
 
 ||| Convenience function for creating percentages with little
 ||| syntactic overhead.
@@ -36,6 +35,6 @@ Render Percentage where
 export %inline
 perc :  Cast Percentage a
      => (v : Double)
-     -> {auto 0 prf : So (0 <= v && v <= 100)}
+     -> {auto 0 prf : Holds IsPercentage v}
      -> a
-perc v = cast $ MkPercentage v prf
+perc v = cast $ MkPercentage v

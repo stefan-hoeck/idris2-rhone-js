@@ -1,6 +1,7 @@
 module Text.CSS.Color
 
 import Data.Maybe
+import Data.Refined
 import Text.CSS.Percentage
 import Text.CSS.Render
 

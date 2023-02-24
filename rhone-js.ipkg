@@ -8,6 +8,7 @@ depends    = base      >= 0.6.0
            , rhone
            , sop
            , tailrec
+           , refined
 
 opts       = "--codegen javascript"
 
