@@ -35,6 +35,8 @@ data Shape : Type where
   Rect   : (x,y,w,h : Double) -> RectType -> Shape
   Path   : List Segment -> PathType -> Shape
   Shapes : List Shape -> Shape
+  Text   : String -> (x,y : Double) -> Optional Double -> Shape
+  Text'  : String -> (x,y : Double) -> Shape
 
 export
 circle : (x,y,radius : Double) -> PathType -> Shape
@@ -85,4 +87,6 @@ mutual
     case st of
       Fill   => fill ctxt Undef
       Stroke => stroke ctxt
+  apply ctxt (Text str x y max)    = fillText ctxt str x y max
+  apply ctxt (Text' str x y)       = fillText' ctxt str x y
   apply ctxt (Shapes xs)           = applyAll ctxt xs
