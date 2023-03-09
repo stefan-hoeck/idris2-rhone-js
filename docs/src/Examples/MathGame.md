@@ -383,5 +383,5 @@ ui = do
   pure (feedback ini (fromState msf), pure ())
 ```
 
-<!-- vi: filetype=idris2
+<!-- vi: filetype=idris2:syntax=markdown
 -->

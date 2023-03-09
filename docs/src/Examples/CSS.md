@@ -59,5 +59,5 @@ allRules =  fastUnlines . map render
          ++ Reset.css
 ```
 
-<!-- vi: filetype=idris2
+<!-- vi: filetype=idris2:syntax=markdown
 -->
