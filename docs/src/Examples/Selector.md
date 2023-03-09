@@ -260,5 +260,5 @@ In the [next part](Reset.md), I'll explain a first sample application
 with some real application state and reactive components in detail.
 Have fun!
 
-<!-- vi: filetype=idris2
+<!-- vi: filetype=idris2:syntax=markdown
 -->

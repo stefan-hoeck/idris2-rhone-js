@@ -184,5 +184,5 @@ logic. It's often better to setup everything by invoking the `MSF`
 once with an *initialization event*. Then everything will behave
 correctly from the very beginning.
 
-<!-- vi: filetype=idris2
+<!-- vi: filetype=idris2:syntax=markdown
 -->

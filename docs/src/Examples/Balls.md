@@ -295,5 +295,5 @@ ui = do
   pure (msf, liftIO clear)
 ```
 
-<!-- vi: filetype=idris2
+<!-- vi: filetype=idris2:syntax=markdown
 -->

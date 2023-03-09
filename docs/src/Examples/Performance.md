@@ -242,5 +242,5 @@ ui : MI (MSF MI Ev (), JSIO ())
 ui = innerHtmlAt exampleDiv content $> (msf, pure ())
 ```
 
-<!-- vi: filetype=idris2
+<!-- vi: filetype=idris2:syntax=markdown
 -->
