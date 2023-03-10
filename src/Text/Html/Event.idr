@@ -16,10 +16,14 @@ record MouseInfo where
   buttons : Bits16
 
   -- coordinates
-  clientX : Int32
-  clientY : Int32
-  screenX : Int32
-  screenY : Int32
+  clientX : Double
+  clientY : Double
+  offsetX : Double
+  offsetY : Double
+  pageX   : Double
+  pageY   : Double
+  screenX : Double
+  screenY : Double
 
   -- keys
   alt     : Bool
