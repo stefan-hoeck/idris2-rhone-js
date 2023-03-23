@@ -68,13 +68,13 @@ namespace Attribute
 namespace CSS
   ||| Uses an element ref as an ID selector
   export
-  idRef : (r : ElemRef t) -> {auto 0 _ : ById r} -> Selector 0 False False
-  idRef (Id _ i) = Id i
+  idRef : (r : ElemRef t) -> {auto 0 _ : ById r} -> List Declaration -> Rule n
+  idRef (Id _ i) = id i
 
   ||| Uses an element ref as a class selector
   export
-  classRef : (r : ElemRef t) -> {auto 0 _ : ByClass r} -> Selector 0 False False
-  classRef (Class _ i) = Class i
+  classRef : (r : ElemRef t) -> {auto 0 _ : ByClass r} -> List Declaration -> Rule n
+  classRef (Class _ i) = class i
 
 --------------------------------------------------------------------------------
 --          Types

@@ -78,8 +78,8 @@ export
 css : List (Rule 1)
 css =
   [ Media "min-width: 300px"
-      [ class performanceContent !!
-          [ Display             .= Area
+      [ class performanceContent
+          [ Display             $ Area
               (replicate 4 MinContent)
               [MaxContent, fr 1, MaxContent]
               [ [LBtn, NBtn, BRun]
@@ -87,15 +87,15 @@ css =
               , [OTme, OTme, OTme]
               , [Btns, Btns, Btns]
               ]
-          , ColumnGap           .= px 10
-          , RowGap              .= px 10
-          , Padding             .= VH (px 20) (px 10)
+          , columnGap           $ px 10
+          , rowGap              $ px 10
+          , padding             $ VH (px 20) (px 10)
           ]
       ]
 
   , Media "min-width: 800px"
-      [ class performanceContent !!
-          [ Display             .= Area
+      [ class performanceContent
+          [ Display             $ Area
               (replicate 4 MinContent)
               [MaxContent, MaxContent, MaxContent, fr 1]
               [ [LBtn, NBtn, BRun, Btns]
@@ -103,45 +103,45 @@ css =
               , [OTme, OTme, OTme, Btns]
               , [Dot,  Dot,  Dot,  Btns]
               ]
-          , ColumnGap           .= px 10
-          , RowGap              .= px 10
-          , Padding             .= VH (px 20) (px 10)
+          , columnGap           $ px 10
+          , rowGap              $ px 10
+          , padding             $ VH (px 20) (px 10)
           ]
       ]
 
-  , class numButtonsLbl !! [ GridArea .= LBtn ]
+  , class numButtonsLbl [ gridArea LBtn ]
 
-  , idRef natIn !!
-      [ GridArea        .= NBtn
-      , TextAlign       .= End
+  , idRef natIn
+      [ gridArea        NBtn
+      , textAlign       End
       ]
 
-  , idRef btnRun !! [ GridArea .= BRun ]
+  , idRef btnRun [ gridArea BRun ]
 
-  , class sumLbl !! [ GridArea .= LSum ]
+  , class sumLbl [ gridArea LSum ]
 
-  , idRef out  !!
-      [ GridArea        .= OSum
-      , FontSize        .= Large
+  , idRef out
+      [ gridArea        OSum
+      , fontSize        Large
       ]
 
-  , idRef time  !! [ GridArea .= OTme ]
+  , idRef time  [ gridArea OTme ]
 
-  , idRef buttons  !!
-      [ GridArea        .= Btns
-      , BorderStyle     .= Left Solid
-      , BorderWidth     .= Left (px 2)
-      , BorderColor     .= Left base80
-      , Padding         .= Left (px 10)
+  , idRef buttons
+      [ gridArea        Btns
+      , borderStyle     $ Left Solid
+      , borderWidth     $ Left (px 2)
+      , borderColor     $ Left base80
+      , padding         $ Left (px 10)
       ]
 
-  , class grid  !!
-      [ Display         .= Flex
-      , FlexWrap        .= "wrap"
+  , class grid
+      [ display         Flex
+      , flexWrap        "wrap"
       ]
 
-  , class inc !!
-      [ FlexBasis       .= perc 5
-      , FontSize        .= XXSmall
+  , class inc
+      [ flexBasis       $ perc 5
+      , fontSize        XXSmall
       ]
   ]

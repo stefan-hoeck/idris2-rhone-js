@@ -3,7 +3,6 @@ module Rhone.Canvas.Style
 import Data.SOP
 import JS
 import Text.CSS.Color
-import Text.CSS.Render
 import Web.Html
 
 %default total
@@ -24,8 +23,8 @@ data Style : Type where
 
 export
 apply : CanvasRenderingContext2D -> Style -> JSIO ()
-apply ctxt (Fill c)         = fillStyle ctxt    .= inject (render c)
-apply ctxt (Stroke c)       = strokeStyle ctxt  .= inject (render c)
+apply ctxt (Fill c)         = fillStyle ctxt    .= inject (interpolate c)
+apply ctxt (Stroke c)       = strokeStyle ctxt  .= inject (interpolate c)
 apply ctxt (LineWidth v)    = lineWidth ctxt    .= v
 apply ctxt (Font v)         = font ctxt         .= v
 apply ctxt (Direction v)    = direction ctxt    .= v

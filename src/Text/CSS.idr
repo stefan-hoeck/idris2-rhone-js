@@ -10,6 +10,5 @@ import public Text.CSS.Length
 import public Text.CSS.ListStyleType
 import public Text.CSS.Percentage
 import public Text.CSS.Property
-import public Text.CSS.Render
 import public Text.CSS.Rule
 import public Text.CSS.Selector

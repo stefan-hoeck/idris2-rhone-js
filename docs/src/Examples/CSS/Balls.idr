@@ -52,8 +52,8 @@ export
 css : List (Rule 1)
 css =
   [ Media "min-width: 300px"
-      [ class ballsContent !!
-          [ Display             .= Area
+      [ class ballsContent
+          [ display             $ Area
               (replicate 4 MinContent)
               [MaxContent, MaxContent]
               [ [LNum, INum]
@@ -62,15 +62,15 @@ css =
               , [Anim, Anim]
               ]
 
-          , ColumnGap           .= px 10
-          , RowGap              .= px 10
-          , Padding             .= VH (px 20) (px 10)
+          , columnGap           $ px 10
+          , rowGap              $ px 10
+          , padding             $ VH (px 20) (px 10)
           ]
       ]
 
   , Media "min-width: 800px"
-      [ class ballsContent !!
-          [ Display             .= Area
+      [ class ballsContent
+          [ display             $ Area
               (replicate 4 MinContent)
               [MaxContent, MaxContent, fr 1]
               [ [LNum, INum, Anim]
@@ -79,27 +79,27 @@ css =
               , [Dot,  Dot,  Anim]
               ]
 
-          , ColumnGap           .= px 10
-          , RowGap              .= px 10
-          , Padding             .= VH (px 20) (px 10)
+          , columnGap           $ px 10
+          , rowGap              $ px 10
+          , padding             $ VH (px 20) (px 10)
           ]
       ]
 
-  , class lblCount !! [ GridArea .= LNum ]
+  , class lblCount [ gridArea LNum ]
 
-  , idRef txtCount !!
-      [ GridArea        .= INum
-      , TextAlign       .= End
+  , idRef txtCount
+      [ gridArea        INum
+      , textAlign       End
       ]
 
-  , idRef btnRun !! [ GridArea .= BRun ]
+  , idRef btnRun [ gridArea BRun ]
 
-  , idRef log !! [ GridArea .= LFPS ]
+  , idRef log [ gridArea LFPS ]
 
-  , idRef out !!
-      [ JustifySelf     .= Center
-      , GridArea        .= Anim
-      , MaxWidth        .= px 500
-      , Width           .= px 500
+  , idRef out
+      [ justifySelf     Center
+      , gridArea        Anim
+      , maxWidth        $ px 500
+      , width           $ px 500
       ]
   ]

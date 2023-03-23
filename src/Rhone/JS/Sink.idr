@@ -154,7 +154,12 @@ validityMessageAt = arrM . setValidityMessageAt
 ||| Sets or unsets a custom validity message at the given target element
 ||| depending on whether the input value is a `Left`.
 export
-leftInvalid : SetValidity t => LiftJSIO m => ElemRef t -> MSF m (Either String x) ()
+leftInvalid :
+     {0 x : _}
+  -> SetValidity t
+  => LiftJSIO m
+  => ElemRef t
+  -> MSF m (Either String x) ()
 leftInvalid ref = either id (const "") ^>> validityMessageAt ref
 
 --------------------------------------------------------------------------------

@@ -4,7 +4,6 @@ module Text.CSS.Grid
 import Data.List
 import Text.CSS.Length
 import Text.CSS.Percentage
-import Text.CSS.Render
 
 --------------------------------------------------------------------------------
 --          Flex Values
@@ -20,8 +19,8 @@ fr : Cast Flex a => Bits16 -> a
 fr = cast . MkFlex
 
 export
-Render Flex where
-  render f = "\{show f.value}fr"
+Interpolation Flex where
+  interpolate f = "\{show f.value}fr"
 
 --------------------------------------------------------------------------------
 --          MinMax Values
@@ -49,13 +48,13 @@ Cast Flex MinMaxValue where
   cast = MMF
 
 export
-Render MinMaxValue where
-  render Auto       = "auto"
-  render MinContent = "min-content"
-  render MaxContent = "max-content"
-  render (MML x)    = render x
-  render (MMP x)    = render x
-  render (MMF x)    = render x
+Interpolation MinMaxValue where
+  interpolate Auto       = "auto"
+  interpolate MinContent = "min-content"
+  interpolate MaxContent = "max-content"
+  interpolate (MML x)    = interpolate x
+  interpolate (MMP x)    = interpolate x
+  interpolate (MMF x)    = interpolate x
 
 --------------------------------------------------------------------------------
 --          GridValue
@@ -72,17 +71,17 @@ namespace GridValue
     MinContent : GridValue
 
 export
-Render GridValue where
-  render (GL x)           = render x
-  render (GP x)           = render x
-  render (GF x)           = render x
-  render (MinMax min max) = "minmax(\{render min}, \{render max})"
-  render MaxContent       = "max-content"
-  render MinContent       = "min-content"
+Interpolation GridValue where
+  interpolate (GL x)           = interpolate x
+  interpolate (GP x)           = interpolate x
+  interpolate (GF x)           = interpolate x
+  interpolate (MinMax min max) = "minmax(\{min}, \{max})"
+  interpolate MaxContent       = "max-content"
+  interpolate MinContent       = "min-content"
 
 export
-Render (List GridValue) where
-  render = fastConcat . intersperse " " . map render
+Interpolation (List GridValue) where
+  interpolate = fastConcat . intersperse " " . map interpolate
 
 export %inline
 Cast Length GridValue where
@@ -106,6 +105,6 @@ data GridPosition : Type where
   FromTo : Bits32 -> Bits32 -> GridPosition
 
 export
-Render GridPosition where
-  render (At x)       = show x
-  render (FromTo x y) = "\{show x} / \{show y}"
+Interpolation GridPosition where
+  interpolate (At x)       = show x
+  interpolate (FromTo x y) = "\{show x} / \{show y}"

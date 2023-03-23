@@ -3,7 +3,6 @@ module Text.CSS.Color
 import Data.Maybe
 import Data.Refined
 import Text.CSS.Percentage
-import Text.CSS.Render
 
 %default total
 
@@ -29,12 +28,12 @@ transparent : Color
 transparent = RGBA 0 0 0 0
 
 export
-Render Color where
-  render (RGBA r g b a) = "rgba(\{show r},\{show g},\{show b},\{render a})"
-  render (HSLA h s l a) = "hsla(\{show h},\{render s},\{render l},\{render a})"
+Interpolation Color where
+  interpolate (RGBA r g b a) = "rgba(\{show r},\{show g},\{show b},\{a})"
+  interpolate (HSLA h s l a) = "hsla(\{show h},\{s},\{l},\{a})"
 
 export
-Show Color where show = render
+Show Color where show = interpolate
 
 --------------------------------------------------------------------------------
 --          X11 Colors (https://www.w3.org/TR/css3-color/#svg-color)

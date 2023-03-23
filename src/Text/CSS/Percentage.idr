@@ -3,7 +3,6 @@ module Text.CSS.Percentage
 import Data.Refined
 import Derive.Prelude
 import Derive.Refined
-import Text.CSS.Render
 
 %language ElabReflection
 %default total
@@ -23,8 +22,8 @@ record Percentage where
 %runElab derive "Percentage" [Show,Eq,Ord,RefinedDouble]
 
 export
-Render Percentage where
-  render (MkPercentage v) = show v ++ "%"
+Interpolation Percentage where
+  interpolate (MkPercentage v) = show v ++ "%"
 
 ||| Convenience function for creating percentages with little
 ||| syntactic overhead.
@@ -33,8 +32,9 @@ Render Percentage where
 ||| perc 12
 ||| ```
 export %inline
-perc :  Cast Percentage a
-     => (v : Double)
-     -> {auto 0 prf : Holds IsPercentage v}
-     -> a
+perc :
+     Cast Percentage a
+  => (v : Double)
+  -> {auto 0 prf : Holds IsPercentage v}
+  -> a
 perc v = cast $ MkPercentage v

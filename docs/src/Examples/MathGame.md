@@ -129,8 +129,8 @@ data Result = Ended Language
 
 style : Result -> Maybe String
 style (Ended _)     = Nothing
-style (Correct _)   = Just "color : \{render green}"
-style (Wrong _ _ _) = Just "color : \{render red}"
+style (Correct _)   = Just "color : \{green}"
+style (Wrong _ _ _) = Just "color : \{red}"
 
 language : Language -> String
 language DE = "Sprache"

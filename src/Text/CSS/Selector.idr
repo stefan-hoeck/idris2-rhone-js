@@ -3,7 +3,6 @@ module Text.CSS.Selector
 import Data.List
 import Data.String
 import Text.CSS.Property
-import Text.CSS.Render
 import Web.Dom
 
 %default total
@@ -110,55 +109,55 @@ data PseudoClass : Type where
   Visited : PseudoClass
 
 export
-Render PseudoClass where
-  render Active            = "active"
-  render AnyLink           = "any-link"
-  render Blank             = "blank"
-  render Checked           = "checked"
-  render Current           = "current"
-  render Default           = "default"
-  render (Dir x)           = "dir(\{render x})"
-  render Disabled          = "disabled"
-  render Empty             = "empty"
-  render Enabled           = "enabled"
-  render First             = "first"
-  render FirstChild        = "first-child"
-  render FirstOfType       = "first-of-type"
-  render Focus             = "focus"
-  render FocusVisible      = "focus-visible"
-  render FocusWithin       = "focus-within"
-  render Future            = "future"
-  render Hover             = "hover"
-  render Indeterminate     = "indeterminate"
-  render InRange           = "in-range"
-  render Invalid           = "invalid"
-  render (Lang x)          = "lang(\{x})"
-  render LastChild         = "last-child"
-  render LastOfType        = "last-of-type"
-  render Left              = "left"
-  render Link              = "link"
-  render LocalLink         = "local-link"
-  render (NthChild x)      = "nth-child(\{x})"
-  render (NthOfType x)     = "nth-of-type(\#{x})"
-  render (NthLastChild x)  = "nth-last-child(\#{x})"
-  render (NthLastOfType x) = "nth-last-of-type(\#{x})"
-  render OnlyChild         = "only-child"
-  render OnlyOfType        = "only-of-type"
-  render Optional          = "optional"
-  render OutOfRange        = "out-of-range"
-  render Past              = "past"
-  render PlaceholderShown  = "placeholder-shown"
-  render Playing           = "playing"
-  render Paused            = "paused"
-  render ReadOnly          = "read-only"
-  render ReadWrite         = "read-write"
-  render Required          = "required"
-  render Right             = "right"
-  render Root              = "root"
-  render Scope             = "scope"
-  render Valid             = "valid"
-  render Target            = "target"
-  render Visited           = "visited"
+Interpolation PseudoClass where
+  interpolate Active            = "active"
+  interpolate AnyLink           = "any-link"
+  interpolate Blank             = "blank"
+  interpolate Checked           = "checked"
+  interpolate Current           = "current"
+  interpolate Default           = "default"
+  interpolate (Dir x)           = "dir(\{x})"
+  interpolate Disabled          = "disabled"
+  interpolate Empty             = "empty"
+  interpolate Enabled           = "enabled"
+  interpolate First             = "first"
+  interpolate FirstChild        = "first-child"
+  interpolate FirstOfType       = "first-of-type"
+  interpolate Focus             = "focus"
+  interpolate FocusVisible      = "focus-visible"
+  interpolate FocusWithin       = "focus-within"
+  interpolate Future            = "future"
+  interpolate Hover             = "hover"
+  interpolate Indeterminate     = "indeterminate"
+  interpolate InRange           = "in-range"
+  interpolate Invalid           = "invalid"
+  interpolate (Lang x)          = "lang(\{x})"
+  interpolate LastChild         = "last-child"
+  interpolate LastOfType        = "last-of-type"
+  interpolate Left              = "left"
+  interpolate Link              = "link"
+  interpolate LocalLink         = "local-link"
+  interpolate (NthChild x)      = "nth-child(\{x})"
+  interpolate (NthOfType x)     = "nth-of-type(\#{x})"
+  interpolate (NthLastChild x)  = "nth-last-child(\#{x})"
+  interpolate (NthLastOfType x) = "nth-last-of-type(\#{x})"
+  interpolate OnlyChild         = "only-child"
+  interpolate OnlyOfType        = "only-of-type"
+  interpolate Optional          = "optional"
+  interpolate OutOfRange        = "out-of-range"
+  interpolate Past              = "past"
+  interpolate PlaceholderShown  = "placeholder-shown"
+  interpolate Playing           = "playing"
+  interpolate Paused            = "paused"
+  interpolate ReadOnly          = "read-only"
+  interpolate ReadWrite         = "read-write"
+  interpolate Required          = "required"
+  interpolate Right             = "right"
+  interpolate Root              = "root"
+  interpolate Scope             = "scope"
+  interpolate Valid             = "valid"
+  interpolate Target            = "target"
+  interpolate Visited           = "visited"
 
 public export
 data Selector :  (dept : Nat)
@@ -188,11 +187,14 @@ export %inline
 id : String -> Selector 0 False False
 id = Id
 
-export
-Render (Selector n b1 b2) where
-  render Star           = "*"
-  render (Id x)         = "#" ++ x
-  render (Class x)      = "." ++ x
-  render (Elem {str} _) = str
-  render (Many ss)      = fastConcat . intersperse ", " $ map render ss
-  render (Pseudo s p)   = "\{render s}:\{render p}"
+render : Selector n b1 b2 -> String
+render Star           = "*"
+render (Id x)         = "#" ++ x
+render (Class x)      = "." ++ x
+render (Elem {str} _) = str
+render (Many ss)      = fastConcat . intersperse ", " $ map render ss
+render (Pseudo s p)   = render s ++ ":" ++ interpolate p
+
+export %inline
+Interpolation (Selector n b1 b2) where
+  interpolate = render

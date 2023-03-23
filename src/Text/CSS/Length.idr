@@ -1,7 +1,5 @@
 module Text.CSS.Length
 
-import Text.CSS.Render
-
 %default total
 
 public export
@@ -12,11 +10,11 @@ data Length : Type where
   Rem      : Double -> Length
 
 export
-Render Length where
-  render (Pt x)   = show x ++ "pt"
-  render (Px x)   = show x ++ "px"
-  render (Em x)   = show x ++ "em"
-  render (Rem x)  = show x ++ "rem"
+Interpolation Length where
+  interpolate (Pt x)  = show x ++ "pt"
+  interpolate (Px x)  = show x ++ "px"
+  interpolate (Em x)  = show x ++ "em"
+  interpolate (Rem x) = show x ++ "rem"
 
 export %inline
 pt : Cast Length a => Bits16 -> a

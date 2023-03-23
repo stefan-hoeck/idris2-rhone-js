@@ -55,12 +55,12 @@ public export
 widget : String
 widget = "widget"
 
-||| a list of input widgets,
-||| each on its own line, often with a label
-||| on the left.
-public export
-widgetList : String
-widgetList = "widgetList"
+-- ||| a list of input widgets,
+-- ||| each on its own line, often with a label
+-- ||| on the left.
+-- public export
+-- widgetList : String
+-- widgetList = "widgetList"
 
 ||| the main content, split into three rows:
 ||| a title, the example selector, and the
@@ -86,11 +86,11 @@ public export
 exampleSelector : String
 exampleSelector = "example_selector"
 
-||| a single line in a column
-||| of input widgets.
-public export
-widgetLine : String
-widgetLine = "widgetline"
+-- ||| a single line in a column
+-- ||| of input widgets.
+-- public export
+-- widgetLine : String
+-- widgetLine = "widgetline"
 
 ||| a label on the left of an input
 ||| widget.
@@ -105,109 +105,108 @@ widgetLabel = "widgetlabel"
 export
 coreCSS : List (Rule 1)
 coreCSS =
-  [ elem Html !!
-      [ Height          .= perc 100]
+  [ elem Html
+      [ height          $ perc 100]
 
-  , elem Body !!
-      [ BackgroundColor .= black
-      , Color           .= base100
-      , Display         .= Flex
-      , FlexDirection   .= Column
-      , FontFamily      .= "Helvetica, Arial, sans-serif"
-      , Height          .= perc 100
-      , Margin          .= px 0
+  , elem Body
+      [ backgroundColor black
+      , color           base100
+      , display         Flex
+      , flexDirection   Column
+      , fontFamily      "Helvetica, Arial, sans-serif"
+      , height          $ perc 100
+      , margin          $ px 0
       ]
 
-  , class contentList !!
-      [ AlignSelf       .= Center
-      , BackgroundColor .= darker_grey
-      , Display         .= Flex
-      , Flex            .= "1"
-      , FlexDirection   .= Column
-      , JustifyContent  .= FlexStart
-      , Padding         .= VH (px 0) (pt 20)
-      , MinWidth        .= perc 80
+  , class contentList
+      [ alignSelf        Center
+      , backgroundColor  darker_grey
+      , display          Flex
+      , flex             "1"
+      , flexDirection    Column
+      , justifyContent   FlexStart
+      , padding          $ VH (px 0) (pt 20)
+      , minWidth         $ perc 80
       ]
 
-  , class pageTitle !!
-      [ BorderStyle     .= Bottom Solid
-      , BorderWidth     .= Bottom (px 5)
-      , BorderColor     .= Bottom base80
-      , FontSize        .= XLarge
-      , Padding         .= VH (px 40) (px 0)
-      , TextAlign       .= Center
+  , class pageTitle
+      [ borderStyle      $ Bottom Solid
+      , borderWidth      $ Bottom (px 5)
+      , borderColor      $ Bottom base80
+      , fontSize         XLarge
+      , padding          $ VH (px 40) (px 0)
+      , textAlign        Center
       ]
 
-  , class contentHeader !!
-      [ Display             .= Grid
-      , ColumnGap           .= px 10
-      , GridTemplateColumns .= [px 170, fr 1, fr 3]
-      , BorderStyle         .= Bottom Solid
-      , BorderWidth         .= Bottom (px 2)
-      , BorderColor         .= Bottom base80
-      , Padding             .= VH (px 30) (px 10)
+  , class contentHeader
+      [ display              Grid
+      , columnGap            $ px 10
+      , gridTemplateColumns  [px 170, fr 1, fr 3]
+      , borderStyle          $ Bottom Solid
+      , borderWidth          $ Bottom (px 2)
+      , borderColor          $ Bottom base80
+      , padding              $ VH (px 30) (px 10)
       ]
 
-  , class widget !!
-      [ BackgroundColor .= lighter_grey
-      , BorderRadius    .= px 8
-      , BorderStyle     .= All Solid
-      , BorderWidth     .= px 2
-      , BorderColor     .= All comp100
-      , Color           .= darker_grey
-      , FontSize        .= Large
-      , Padding         .= px 3
+  , class widget
+      [ backgroundColor lighter_grey
+      , borderRadius    $ px 8
+      , borderStyle     $ All Solid
+      , borderWidth     $ px 2
+      , borderColor     $ All comp100
+      , color           darker_grey
+      , fontSize        Large
+      , padding         $ px 3
       ]
 
-  , Pseudo (class widget) Hover !!
-      [ BackgroundColor .= lightest_grey
-      , BorderColor     .= All comp60
+  , pseudo (class widget) Hover
+      [ backgroundColor lightest_grey
+      , borderColor     $ All comp60
       ]
 
-  , Pseudo (class widget) Active !!
-      [ BackgroundColor .= lightest_grey
-      , BorderColor     .= All comp60
+  , pseudo (class widget) Active
+      [ backgroundColor lightest_grey
+      , borderColor     $ All comp60
       ]
 
-  , Pseudo (class widget) FocusVisible !!
-      [ BackgroundColor .= lightest_grey
-      , BorderColor     .= All comp60
+  , pseudo (class widget) FocusVisible
+      [ backgroundColor lightest_grey
+      , borderColor     $ All comp60
       ]
 
-  , Pseudo (class widget) Disabled !!
-      [ BackgroundColor .= light_grey
-      , BorderColor     .= All dark_grey
+  , pseudo (class widget) Disabled
+      [ backgroundColor light_grey
+      , borderColor     $ All dark_grey
       ]
 
-  , class textIn  !!
-      [ TextAlign       .= End ]
+  , class textIn
+      [ textAlign       End ]
 
-  , class selectIn  !!
-      [ TextAlign       .= End ]
+  , class selectIn
+      [ textAlign       End ]
 
-  , class exampleSelector  !!
-      [ FontSize        .= Large
-      , GridColumn      .= At 2
+  , class exampleSelector
+      [ fontSize        Large
+      , gridColumn      $ At 2
       ]
 
-  , Pseudo (class widget) Invalid !!
-      [ BorderColor     .= All red ]
+  , pseudo (class widget) Invalid
+      [ borderColor     $ All red ]
 
-  -- deprecated
-  , class widgetList !!
-      [ ListStyleType   .= None
-      , Display         .= Flex
-      , FlexDirection   .= Column
-      , JustifyContent  .= FlexStart
-      ]
+  -- -- deprecated
+  -- , class widgetList !!
+  --     [ ListStyleType   .= None
+  --     , Display         .= Flex
+  --     , FlexDirection   .= Column
+  --     , JustifyContent  .= FlexStart
+  --     ]
 
-  -- deprecated
-  , class widgetLine !!
-      [ AlignItems      .= FlexStart
-      , Display         .= Flex
-      , Margin          .= Bottom (px 5)
-      ]
+  -- -- deprecated
+  -- , class widgetLine !!
+  --     [ AlignItems      .= FlexStart
+  --     , Display         .= Flex
+  --     , Margin          .= Bottom (px 5)
+  --     ]
 
-  , class widgetLabel !!
-      [ FontSize        .= Large ]
+  , class widgetLabel [ fontSize Large ]
   ]

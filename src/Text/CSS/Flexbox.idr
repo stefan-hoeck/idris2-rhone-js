@@ -1,7 +1,6 @@
 module Text.CSS.Flexbox
 
 import Data.List
-import Text.CSS.Render
 
 %default total
 
@@ -13,11 +12,11 @@ data FlexDirection =
   | ColumnReverse
 
 export
-Render FlexDirection where
-  render Row           = "row"
-  render RowReverse    = "row-reverse"
-  render Column        = "column"
-  render ColumnReverse = "column-reverse"
+Interpolation FlexDirection where
+  interpolate Row           = "row"
+  interpolate RowReverse    = "row-reverse"
+  interpolate Column        = "column"
+  interpolate ColumnReverse = "column-reverse"
 
 public export
 data FlexAlign =
@@ -33,17 +32,17 @@ data FlexAlign =
   | LastBaseline
 
 export
-Render FlexAlign where
-  render Normal        = "normal"
-  render Stretch       = "stretch"
-  render Center        = "center"
-  render Start         = "start"
-  render End           = "end"
-  render FlexStart     = "flex-start"
-  render FlexEnd       = "flex-end"
-  render Baseline      = "baseline"
-  render FirstBaseline = "first baseline"
-  render LastBaseline  = "last baseline"
+Interpolation FlexAlign where
+  interpolate Normal        = "normal"
+  interpolate Stretch       = "stretch"
+  interpolate Center        = "center"
+  interpolate Start         = "start"
+  interpolate End           = "end"
+  interpolate FlexStart     = "flex-start"
+  interpolate FlexEnd       = "flex-end"
+  interpolate Baseline      = "baseline"
+  interpolate FirstBaseline = "first baseline"
+  interpolate LastBaseline  = "last baseline"
 
 namespace FlexJustify
   public export
@@ -62,19 +61,19 @@ namespace FlexJustify
     | Stretch
 
   export
-  Render FlexJustify where
-    render Center       = "center"
-    render Start        = "start"
-    render End          = "end"
-    render FlexStart    = "flex-start"
-    render FlexEnd      = "flex-end"
-    render Left         = "left"
-    render Right        = "right"
-    render Normal       = "normal"
-    render SpaceBetween = "space-between"
-    render SpaceAround  = "space-around"
-    render SpaceEvenly  = "space-evenly"
-    render Stretch      = "stretch"
+  Interpolation FlexJustify where
+    interpolate Center       = "center"
+    interpolate Start        = "start"
+    interpolate End          = "end"
+    interpolate FlexStart    = "flex-start"
+    interpolate FlexEnd      = "flex-end"
+    interpolate Left         = "left"
+    interpolate Right        = "right"
+    interpolate Normal       = "normal"
+    interpolate SpaceBetween = "space-between"
+    interpolate SpaceAround  = "space-around"
+    interpolate SpaceEvenly  = "space-evenly"
+    interpolate Stretch      = "stretch"
 
 namespace FlexFlow
   public export
@@ -93,20 +92,20 @@ namespace FlexFlow
     | WrapReverse
 
   export
-  Render FlexFlow where
-    render Column = "column"
-    render ColumnReverse = "column-reverse"
-    render Inherit = "inherit"
-    render Initial = "initial"
-    render Nowrap = "nowrap"
-    render Revert = "revert"
-    render RevertLayout = "revert-layout"
-    render Row = "row"
-    render RowReverse = "row-reverse"
-    render Unset = "unset"
-    render Wrap = "wrap"
-    render WrapReverse = "wrap-reverse"
+  Interpolation FlexFlow where
+    interpolate Column        = "column"
+    interpolate ColumnReverse = "column-reverse"
+    interpolate Inherit       = "inherit"
+    interpolate Initial       = "initial"
+    interpolate Nowrap        = "nowrap"
+    interpolate Revert        = "revert"
+    interpolate RevertLayout  = "revert-layout"
+    interpolate Row           = "row"
+    interpolate RowReverse    = "row-reverse"
+    interpolate Unset         = "unset"
+    interpolate Wrap          = "wrap"
+    interpolate WrapReverse   = "wrap-reverse"
 
 export
-Render (List FlexFlow) where
-  render = fastConcat . intersperse " " . map render
+Interpolation (List FlexFlow) where
+  interpolate = concat . intersperse " " . map interpolate
