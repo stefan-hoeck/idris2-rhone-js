@@ -55,13 +55,6 @@ public export
 widget : String
 widget = "widget"
 
--- ||| a list of input widgets,
--- ||| each on its own line, often with a label
--- ||| on the left.
--- public export
--- widgetList : String
--- widgetList = "widgetList"
-
 ||| the main content, split into three rows:
 ||| a title, the example selector, and the
 ||| currently loaded example application
@@ -85,12 +78,6 @@ pageTitle = "pageTitle"
 public export
 exampleSelector : String
 exampleSelector = "example_selector"
-
--- ||| a single line in a column
--- ||| of input widgets.
--- public export
--- widgetLine : String
--- widgetLine = "widgetline"
 
 ||| a label on the left of an input
 ||| widget.
@@ -192,21 +179,6 @@ coreCSS =
 
   , pseudo (class widget) Invalid
       [ borderColor     $ All red ]
-
-  -- -- deprecated
-  -- , class widgetList !!
-  --     [ ListStyleType   .= None
-  --     , Display         .= Flex
-  --     , FlexDirection   .= Column
-  --     , JustifyContent  .= FlexStart
-  --     ]
-
-  -- -- deprecated
-  -- , class widgetLine !!
-  --     [ AlignItems      .= FlexStart
-  --     , Display         .= Flex
-  --     , Margin          .= Bottom (px 5)
-  --     ]
 
   , class widgetLabel [ fontSize Large ]
   ]
