@@ -171,6 +171,22 @@ data Selector :  (dept : Nat)
   Many   : List (Selector 0 True True) -> Selector 1 True True
   Pseudo : Selector 0 False False -> PseudoClass -> Selector 0 True b2
 
+export %inline
+class : String -> Selector 0 False False
+class = Class
+
+export %inline
+classes : List String -> Selector 1 True True
+classes = Many . map Class
+
+export %inline
+elem : {str : _} -> (0 tpe : ElementType str t) -> Selector 0 False False
+elem = Elem
+
+export %inline
+id : String -> Selector 0 False False
+id = Id
+
 render : Selector n b1 b2 -> String
 render Star           = "*"
 render (Id x)         = "#" ++ x
