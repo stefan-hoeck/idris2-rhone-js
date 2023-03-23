@@ -118,6 +118,39 @@ namespace FontSize
   Cast Percentage FontSize where
     cast = FP
 
+namespace FontWeight
+  public export
+  data FontWeight : Type where
+    Normal  : FontWeight
+    Bold    : FontWeight
+    Lighter : FontWeight
+    Bolder  : FontWeight
+    FW100   : FontWeight
+    FW200   : FontWeight
+    FW300   : FontWeight
+    FW400   : FontWeight
+    FW500   : FontWeight
+    FW600   : FontWeight
+    FW700   : FontWeight
+    FW800   : FontWeight
+    FW900   : FontWeight
+
+  export
+  Interpolation FontWeight where
+    interpolate Normal  = "normal"
+    interpolate Bold    = "bold"
+    interpolate Lighter = "lighter"
+    interpolate Bolder  = "bolder"
+    interpolate FW100   = "100"
+    interpolate FW200   = "200"
+    interpolate FW300   = "300"
+    interpolate FW400   = "400"
+    interpolate FW500   = "500"
+    interpolate FW600   = "600"
+    interpolate FW700   = "700"
+    interpolate FW800   = "800"
+    interpolate FW900   = "900"
+
 namespace BorderRadius
   public export
   data BorderRadius : Type where
