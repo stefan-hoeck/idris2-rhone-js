@@ -3,7 +3,6 @@ module Text.CSS.Dir
 import Data.List
 import Text.CSS.Length
 import Text.CSS.Percentage
-import Text.CSS.Render
 
 %default total
 
@@ -21,14 +20,6 @@ data Dir : Type -> Type where
   ||| Top, right, bottom, left
   TRBL : (t, r, b, l : a) -> Dir a
 
--- prefix
-prfx : Dir a -> String
-prfx (Left _)   = "-left"
-prfx (Right _)  = "-right"
-prfx (Top _)    = "-top"
-prfx (Bottom _) = "-bottom"
-prfx _          = ""
-
 export
 vals : Dir a -> List a
 vals (All  x)       = [x]
@@ -39,20 +30,6 @@ vals (Bottom  x)    = [x]
 vals (VH   v h)     = [v,h]
 vals (THB  t h b)   = [t,h,b]
 vals (TRBL t r b l) = [t,r,b,l]
-
-export
-render : (prop : String) -> (a -> String) -> Dir a -> String
-render prop f d =
-  let vs  = fastConcat . intersperse " " . map f $ vals d
-      pre = prfx d
-   in "\{prop}\{pre}: \{vs}"
-
-export
-render2 : (prop,suffix : String) -> (a -> String) -> Dir a -> String
-render2 prop suffix f d =
-  let vs  = fastConcat . intersperse " " . map f $ vals d
-      pre = prfx d
-   in "\{prop}\{pre}-\{suffix}: \{vs}"
 
 export %inline
 Cast Length a => Cast Length (Dir a) where

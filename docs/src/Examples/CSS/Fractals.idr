@@ -61,8 +61,8 @@ export
 css : List (Rule 1)
 css =
   [ Media "min-width: 300px"
-      [ class fractalContent !!
-          [ Display             .= Area
+      [ class fractalContent
+          [ Display             $ Area
               (replicate 4 MinContent)
               [MaxContent, MaxContent]
               [ [LIter, IIter]
@@ -71,15 +71,15 @@ css =
               , [Fract, Fract]
               ]
 
-          , ColumnGap           .= px 10
-          , RowGap              .= px 10
-          , Padding             .= VH (px 20) (px 10)
+          , columnGap           $ px 10
+          , rowGap              $ px 10
+          , padding             $ VH (px 20) (px 10)
           ]
       ]
 
   , Media "min-width: 800px"
-      [ class fractalContent !!
-          [ Display             .= Area
+      [ class fractalContent
+          [ Display             $ Area
               (replicate 4 MinContent)
               [MaxContent, MaxContent, fr 1]
               [ [LIter, IIter, Fract]
@@ -88,34 +88,34 @@ css =
               , [Dot,   Dot,   Fract]
               ]
 
-          , ColumnGap           .= px 10
-          , RowGap              .= px 10
-          , Padding             .= VH (px 20) (px 10)
+          , columnGap           $ px 10
+          , rowGap              $ px 10
+          , padding             $ VH (px 20) (px 10)
           ]
       ]
-  , class lblIter !! [ GridArea .= LIter ]
+  , class lblIter [ gridArea LIter ]
 
-  , idRef txtIter !!
-      [ GridArea        .= IIter
-      , TextAlign       .= End
+  , idRef txtIter
+      [ gridArea        IIter
+      , textAlign       End
       ]
 
-  , class lblDelay !! [ GridArea .= LDel ]
+  , class lblDelay [ gridArea LDel ]
 
-  , idRef txtRedraw !!
-      [ GridArea        .= IDel
-      , TextAlign       .= End
+  , idRef txtRedraw
+      [ gridArea        IDel
+      , textAlign       End
       ]
 
-  , idRef btnRun !! [ GridArea .= BRun ]
+  , idRef btnRun [ gridArea BRun ]
 
-  , idRef out !!
-      [ JustifySelf     .= Center
-      , GridArea        .= Fract
-      , BorderStyle     .= Left Solid
-      , BorderWidth     .= Left (px 2)
-      , BorderColor     .= Left base80
-      , MaxWidth        .= px 500
-      , Width           .= px 500
+  , idRef out
+      [ justifySelf     Center
+      , gridArea        Fract
+      , borderStyle     $ Left Solid
+      , borderWidth     $ Left (px 2)
+      , borderColor     $ Left base80
+      , maxWidth        $ px 500
+      , width           $ px 500
       ]
   ]

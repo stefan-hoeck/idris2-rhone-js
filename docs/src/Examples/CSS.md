@@ -50,7 +50,7 @@ upon loading the page.
 ```idris
 export
 allRules : String
-allRules =  fastUnlines . map render
+allRules =  fastUnlines . map interpolate
          $  coreCSS
          ++ Balls.css
          ++ Fractals.css

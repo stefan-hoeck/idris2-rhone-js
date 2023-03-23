@@ -74,8 +74,8 @@ AreaTag Tag where
 export
 css : List (Rule 1)
 css =
-  [ class resetContent !!
-      [ Display             .= Area
+  [ class resetContent
+      [ Display             $ Area
           (replicate 4 MinContent)
           [MaxContent, MaxContent]
           [ [LRes, BRes]
@@ -84,28 +84,28 @@ css =
           , [LCnt, OCnt]
           ]
 
-      , ColumnGap           .= px 10
-      , RowGap              .= px 10
-      , Padding             .= VH (px 20) (px 10)
+      , columnGap           $ px 10
+      , rowGap              $ px 10
+      , padding             $ VH (px 20) (px 10)
       ]
 
-  , class resetLbl  !! [ GridArea .= LRes ]
+  , class resetLbl  [ gridArea LRes ]
 
-  , idRef btnReset  !! [ GridArea .= BRes ]
+  , idRef btnReset  [ gridArea BRes ]
 
-  , class incLbl    !! [ GridArea .= LInc ]
+  , class incLbl    [ gridArea LInc ]
 
-  , idRef btnInc    !! [ GridArea .= BInc ]
+  , idRef btnInc    [ gridArea BInc ]
 
-  , class decLbl    !! [ GridArea .= LDec ]
+  , class decLbl    [ gridArea LDec ]
 
-  , idRef btnDec    !! [ GridArea .= BDec ]
+  , idRef btnDec    [ gridArea BDec ]
 
-  , class countLbl  !! [ GridArea .= LCnt ]
+  , class countLbl  [ gridArea LCnt ]
 
-  , idRef out  !!
-      [ FontSize        .= Large
-      , GridArea        .= OCnt
-      , TextAlign       .= End
+  , idRef out
+      [ fontSize        Large
+      , gridArea        OCnt
+      , textAlign       End
       ]
   ]

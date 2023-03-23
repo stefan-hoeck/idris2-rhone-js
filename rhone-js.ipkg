@@ -40,7 +40,6 @@ modules    = Control.Monad.Dom
            , Text.CSS.ListStyleType
            , Text.CSS.Percentage
            , Text.CSS.Property
-           , Text.CSS.Render
            , Text.CSS.Rule
            , Text.CSS.Selector
 

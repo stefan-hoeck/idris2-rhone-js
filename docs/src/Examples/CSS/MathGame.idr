@@ -86,8 +86,8 @@ export
 css : List (Rule 1)
 css =
   [ Media "min-width: 300px"
-      [ class mathContent !!
-          [ Display             .= Area
+      [ class mathContent
+          [ Display           $ Area
               (replicate 6 MinContent)
               [MaxContent, MaxContent]
               [ [LLan, ILan]
@@ -98,15 +98,15 @@ css =
               , [OPic, OPic]
               ]
 
-          , ColumnGap           .= px 10
-          , RowGap              .= px 10
-          , Padding             .= VH (px 20) (px 10)
+          , columnGap           $ px 10
+          , rowGap              $ px 10
+          , padding             $ VH (px 20) (px 10)
           ]
       ]
 
   , Media "min-width: 800px"
-      [ class mathContent !!
-          [ Display             .= Area
+      [ class mathContent
+          [ Display           $ Area
               (replicate 6 MinContent)
               [MaxContent, MaxContent, fr 1]
               [ [LLan, ILan, OPic]
@@ -117,53 +117,51 @@ css =
               , [Dot,  Dot,  OPic]
               ]
 
-          , ColumnGap           .= px 10
-          , RowGap              .= px 10
-          , Padding             .= VH (px 20) (px 10)
+          , columnGap           $ px 10
+          , rowGap              $ px 10
+          , padding             $ VH (px 20) (px 10)
           ]
       ]
 
-  , class lblLang !! [ GridArea .= LLan ]
+  , class lblLang [ gridArea LLan ]
 
-  , idRef langIn  !!
-      [ GridArea        .= ILan
-      , FontSize        .= Large
-      , TextAlign       .= End
+  , idRef langIn
+      [ gridArea        ILan
+      , fontSize        Large
+      , textAlign       End
       ]
 
-  , idRef calc  !!
-      [ GridArea        .= OClc
-      , FontSize        .= Large
-      , TextAlign       .= Start
+  , idRef calc
+      [ gridArea        OClc
+      , fontSize        Large
+      , textAlign       Start
       ]
 
-  , idRef resultIn  !!
-      [ GridArea        .= IRes
-      , FontSize        .= Large
-      , TextAlign       .= End
+  , idRef resultIn
+      [ gridArea        IRes
+      , fontSize        Large
+      , textAlign       End
       ]
 
-  , idRef checkBtn  !! [ GridArea .= BChk ]
+  , idRef checkBtn  [ gridArea BChk ]
 
-  , idRef newBtn  !! [ GridArea .= BNew ]
+  , idRef newBtn  [ gridArea BNew ]
 
-  , idRef out  !!
-      [ GridArea        .= ORep
-      , FontSize        .= Large
-      , TextAlign       .= Start
+  , idRef out
+      [ gridArea        ORep
+      , fontSize        Large
+      , textAlign       Start
       ]
 
-  , idRef pic  !!
-      [ BackgroundSize  .= perc 100
-      , JustifySelf     .= Center
-      , GridArea        .= OPic
-      , MaxWidth        .= px 500
-      , Width           .= px 500
+  , idRef pic
+      [ backgroundSize  $ perc 100
+      , justifySelf     Center
+      , gridArea        OPic
+      , maxWidth        $ px 500
+      , width           $ px 500
       ]
 
-  , class correct !!
-      [ Color           .= green ]
+  , class correct [ color green ]
 
-  , class wrong !!
-      [ Color           .= red ]
+  , class wrong [ color red ]
   ]
