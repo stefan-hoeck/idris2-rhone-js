@@ -45,6 +45,10 @@ export %inline
 pseudo : Selector 0 False False -> PseudoClass -> List Declaration -> Rule n
 pseudo x y = sel (Pseudo x y)
 
+export %inline
+star : List Declaration -> Rule n
+star = sel Star
+
 export
 Interpolation (Rule n) where
   interpolate (Sel s ds)    = "\{s}{\{concat $ map interpolate ds}}"

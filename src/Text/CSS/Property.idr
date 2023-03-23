@@ -13,6 +13,15 @@ import Text.CSS.Percentage
 
 %default total
 
+namespace BoxSizing
+  public export
+  data BoxSizing = BorderBox | ContentBox
+
+  export
+  Interpolation BoxSizing where
+    interpolate BorderBox  = "border-box"
+    interpolate ContentBox = "content-box"
+
 namespace Direction
   public export
   data Direction = LTR | RTL
@@ -108,6 +117,39 @@ namespace FontSize
   export %inline
   Cast Percentage FontSize where
     cast = FP
+
+namespace FontWeight
+  public export
+  data FontWeight : Type where
+    Normal  : FontWeight
+    Bold    : FontWeight
+    Lighter : FontWeight
+    Bolder  : FontWeight
+    FW100   : FontWeight
+    FW200   : FontWeight
+    FW300   : FontWeight
+    FW400   : FontWeight
+    FW500   : FontWeight
+    FW600   : FontWeight
+    FW700   : FontWeight
+    FW800   : FontWeight
+    FW900   : FontWeight
+
+  export
+  Interpolation FontWeight where
+    interpolate Normal  = "normal"
+    interpolate Bold    = "bold"
+    interpolate Lighter = "lighter"
+    interpolate Bolder  = "bolder"
+    interpolate FW100   = "100"
+    interpolate FW200   = "200"
+    interpolate FW300   = "300"
+    interpolate FW400   = "400"
+    interpolate FW500   = "500"
+    interpolate FW600   = "600"
+    interpolate FW700   = "700"
+    interpolate FW800   = "800"
+    interpolate FW900   = "900"
 
 namespace BorderRadius
   public export
@@ -205,6 +247,41 @@ namespace TextAlign
     interpolate Right   = "right"
     interpolate Center  = "center"
     interpolate Justify = "justify"
+
+namespace TextDecorationLine
+
+  public export
+  data TextDecorationLine : Type where
+    None        : TextDecorationLine
+    Underline   : TextDecorationLine
+    Overline    : TextDecorationLine
+    LineThrough : TextDecorationLine
+
+  export
+  Interpolation TextDecorationLine where
+    interpolate None        = "none"
+    interpolate Underline   = "underline"
+    interpolate Overline    = "overline"
+    interpolate LineThrough = "line-through"
+
+namespace TextDecorationStyle
+
+  public export
+  data TextDecorationStyle : Type where
+    Solid  : TextDecorationStyle
+    Dbl    : TextDecorationStyle
+    Dotted : TextDecorationStyle
+    Dashed : TextDecorationStyle
+    Wavy   : TextDecorationStyle
+
+  export
+  Interpolation TextDecorationStyle where
+    interpolate Solid  = "solid"
+    interpolate Dbl    = "double"
+    interpolate Dotted = "dotted"
+    interpolate Dashed = "dashed"
+    interpolate Wavy   = "wavy"
+
 
 namespace Width
   public export

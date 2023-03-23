@@ -69,6 +69,10 @@ backgroundSize : Width -> Declaration
 backgroundSize = decl "background-size"
 
 export %inline
+border : String -> Declaration
+border = Decl "border"
+
+export %inline
 borderColor : Dir Color -> Declaration
 borderColor = dirDecl2 "border" "color" interpolate
 
@@ -83,6 +87,10 @@ borderStyle = dirDecl2 "border" "style" interpolate
 export %inline
 borderWidth : Dir BorderWidth -> Declaration
 borderWidth = dirDecl2 "border" "width" interpolate
+
+export %inline
+boxSizing : BoxSizing -> Declaration
+boxSizing = decl "box-sizing"
 
 export %inline
 color : Color -> Declaration
@@ -131,6 +139,10 @@ fontFamily = Decl "font-family"
 export %inline
 fontSize : FontSize -> Declaration
 fontSize = decl "font-size"
+
+export %inline
+fontWeight : FontWeight -> Declaration
+fontWeight = decl "font-weight"
 
 export %inline
 gridArea : AreaTag a => a -> Declaration
@@ -199,6 +211,22 @@ rowGap = decl "row-gap"
 export %inline
 textAlign : TextAlign -> Declaration
 textAlign = decl "text-align"
+
+export %inline
+textDecoration : String -> Declaration
+textDecoration = Decl "text-decoration"
+
+export %inline
+textDecorationColor : Color -> Declaration
+textDecorationColor = decl "text-decoration-color"
+
+export %inline
+textDecorationLine : TextDecorationLine -> Declaration
+textDecorationLine = decl "text-decoration-line"
+
+export %inline
+textDecorationStyle : TextDecorationStyle -> Declaration
+textDecorationStyle = decl "text-decoration-style"
 
 export %inline
 width : Width -> Declaration
