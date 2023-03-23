@@ -13,6 +13,15 @@ import Text.CSS.Percentage
 
 %default total
 
+namespace BoxSizing
+  public export
+  data BoxSizing = BorderBox | ContentBox
+
+  export
+  Interpolation BoxSizing where
+    interpolate BorderBox  = "border-box"
+    interpolate ContentBox = "content-box"
+
 namespace Direction
   public export
   data Direction = LTR | RTL
@@ -205,6 +214,41 @@ namespace TextAlign
     interpolate Right   = "right"
     interpolate Center  = "center"
     interpolate Justify = "justify"
+
+namespace TextDecorationLine
+
+  public export
+  data TextDecorationLine : Type where
+    None        : TextDecorationLine
+    Underline   : TextDecorationLine
+    Overline    : TextDecorationLine
+    LineThrough : TextDecorationLine
+
+  export
+  Interpolation TextDecorationLine where
+    interpolate None        = "none"
+    interpolate Underline   = "underline"
+    interpolate Overline    = "overline"
+    interpolate LineThrough = "line-through"
+
+namespace TextDecorationStyle
+
+  public export
+  data TextDecorationStyle : Type where
+    Solid  : TextDecorationStyle
+    Dbl    : TextDecorationStyle
+    Dotted : TextDecorationStyle
+    Dashed : TextDecorationStyle
+    Wavy   : TextDecorationStyle
+
+  export
+  Interpolation TextDecorationStyle where
+    interpolate Solid  = "solid"
+    interpolate Dbl    = "double"
+    interpolate Dotted = "dotted"
+    interpolate Dashed = "dashed"
+    interpolate Wavy   = "wavy"
+
 
 namespace Width
   public export
