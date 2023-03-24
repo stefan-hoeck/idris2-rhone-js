@@ -223,6 +223,46 @@ namespace BorderWidth
   Cast Length BorderWidth where
     cast = BL
 
+namespace Overflow
+
+  ||| The `overflow-x` and `overflow-y` CSS properties set
+  ||| what shows when content overflows a block-level element's
+  ||| edges. This may be nothing, a scroll bar,
+  ||| or the overflow content.
+  public export
+  data Overflow : Type where
+
+    ||| Content is not clipped and may be rendered outside the padding box's edges.
+    Visible : Overflow
+
+    ||| Content is clipped if necessary to fit horizontally
+    ||| in the padding box. No scrollbars are provided.
+    ||| Programmatic scrolling is still possible.
+    Hidden  : Overflow
+
+    ||| Like `Hidden` but forbidding also programmatic scrolling.
+    Clip    : Overflow
+
+    ||| Content is clipped if necessary to fit in the padding box.
+    ||| Browsers display scrollbars whether or not any content is actually clipped.
+    ||| (This prevents scrollbars from appearing or disappearing when the
+    ||| content changes.)
+    Scroll  : Overflow
+
+    ||| Depends on the user agent. If content fits inside the
+    ||| padding box, it looks the same as visible, but still
+    ||| establishes a new block-formatting context. Desktop browsers
+    ||| provide scrollbars if content overflows.
+    Auto    : Overflow
+
+  export
+  Interpolation Overflow where
+    interpolate Visible = "visible"
+    interpolate Hidden  = "hidden"
+    interpolate Clip    = "clip"
+    interpolate Scroll  = "scroll"
+    interpolate Auto    = "auto"
+
 namespace TextAlign
   public export
   data TextAlign : Type where
@@ -282,6 +322,14 @@ namespace TextDecorationStyle
     interpolate Dashed = "dashed"
     interpolate Wavy   = "wavy"
 
+namespace TextOverflow
+  public export
+  data TextOverflow = Clip | Ellipsis
+
+  export
+  Interpolation TextOverflow where
+    interpolate Clip     = "clip"
+    interpolate Ellipsis = "ellipsis"
 
 namespace Width
   public export
@@ -301,3 +349,48 @@ namespace Width
   export %inline
   Cast Percentage Width where
     cast = WP
+
+namespace WiteSpace
+
+  ||| Handles white space inside an element
+  public export
+  data WhiteSpace : Type where
+    ||| White space is collapsed (several white space characters
+    ||| are treated as a single space character) and lines are
+    ||| broken as necessary.
+    Normal      : WhiteSpace
+
+    ||| Like `Normal` but suppresses line breaks (text wrapping)
+    Nowrap      : WhiteSpace
+
+    ||| Sequences of white space are preserved. Lines are broken at
+    ||| newline characters and at `<br>` elements.
+    Pre         : WhiteSpace
+
+    ||| Sequences of white space are preserved. Lines are broken at
+    ||| newline characters, at `<br>` elements, and as necessary
+    ||| to fill the box.
+    PreWrap     : WhiteSpace
+
+    ||| Like `PreWrap` but collapses sequences of white space.
+    PreLine     : WhiteSpace
+
+    ||| The behavior is identical to that of `PreWrap`, except that:
+    |||
+    ||| * Any sequence of preserved white space always takes up space,
+    |||   including at the end of the line.
+    ||| * A line breaking opportunity exists after every preserved
+    |||   white space character, including between white space characters.
+    ||| * Such preserved spaces take up space and do not hang,
+    |||   and thus affect the box's intrinsic sizes
+    |||   (min-content size and max-content size).
+    BreakSpaces : WhiteSpace
+
+  export
+  Interpolation WhiteSpace where
+    interpolate Normal      = "normal"
+    interpolate Nowrap      = "nowrap"
+    interpolate Pre         = "pre"
+    interpolate PreWrap     = "pre-wrap"
+    interpolate PreLine     = "pre-line"
+    interpolate BreakSpaces = "break-spaces"
