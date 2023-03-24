@@ -237,6 +237,14 @@ textDecorationStyle : TextDecorationStyle -> Declaration
 textDecorationStyle = decl "text-decoration-style"
 
 export %inline
+textOverflow : TextOverflow -> Declaration
+textOverflow = decl "text-overflow"
+
+export %inline
+textOverflow2 : TextOverflow -> TextOverflow -> Declaration
+textOverflow2 x y = Decl "text-overflow" "\{x} \{y}"
+
+export %inline
 width : Width -> Declaration
 width = decl "width"
 

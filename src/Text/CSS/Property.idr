@@ -322,6 +322,14 @@ namespace TextDecorationStyle
     interpolate Dashed = "dashed"
     interpolate Wavy   = "wavy"
 
+namespace TextOverflow
+  public export
+  data TextOverflow = Clip | Ellipsis
+
+  export
+  Interpolation TextOverflow where
+    interpolate Clip     = "clip"
+    interpolate Ellipsis = "ellipsis"
 
 namespace Width
   public export
