@@ -177,7 +177,7 @@ class = Class
 
 export %inline
 classes : List String -> Selector 0 False False
-classes = Class . concat . intersperse "."
+classes = Class . fastConcat . intersperse "."
 
 export %inline
 elem : {str : _} -> (0 tpe : ElementType str t) -> Selector 0 False False
