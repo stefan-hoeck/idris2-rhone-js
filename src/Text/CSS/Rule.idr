@@ -31,7 +31,7 @@ class s = sel (Class s)
 
 export
 classes : List String -> List Declaration -> Rule n
-classes cs = Sel (Many $ map Class cs)
+classes = Sel . classes
 
 export %inline
 elem : {str : _} -> (0 tpe : ElementType str t) -> List Declaration -> Rule n
