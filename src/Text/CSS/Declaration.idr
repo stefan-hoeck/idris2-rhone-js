@@ -231,3 +231,7 @@ textDecorationStyle = decl "text-decoration-style"
 export %inline
 width : Width -> Declaration
 width = decl "width"
+
+export %inline
+witespace : WhiteSpace -> Declaration
+witespace = decl "white-space"
