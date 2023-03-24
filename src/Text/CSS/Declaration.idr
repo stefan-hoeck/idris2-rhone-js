@@ -201,6 +201,14 @@ minWidth : Width -> Declaration
 minWidth = decl "min-width"
 
 export %inline
+overflowX : Overflow -> Declaration
+overflowX = decl "overflow-x"
+
+export %inline
+overflowY : Overflow -> Declaration
+overflowY = decl "overflow-y"
+
+export %inline
 padding : Dir Length -> Declaration
 padding = dirDecl "padding" interpolate
 

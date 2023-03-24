@@ -223,6 +223,46 @@ namespace BorderWidth
   Cast Length BorderWidth where
     cast = BL
 
+namespace Overflow
+
+  ||| The `overflow-x` and `overflow-y` CSS properties set
+  ||| what shows when content overflows a block-level element's
+  ||| edges. This may be nothing, a scroll bar,
+  ||| or the overflow content.
+  public export
+  data Overflow : Type where
+
+    ||| Content is not clipped and may be rendered outside the padding box's edges.
+    Visible : Overflow
+
+    ||| Content is clipped if necessary to fit horizontally
+    ||| in the padding box. No scrollbars are provided.
+    ||| Programmatic scrolling is still possible.
+    Hidden  : Overflow
+
+    ||| Like `Hidden` but forbidding also programmatic scrolling.
+    Clip    : Overflow
+
+    ||| Content is clipped if necessary to fit in the padding box.
+    ||| Browsers display scrollbars whether or not any content is actually clipped.
+    ||| (This prevents scrollbars from appearing or disappearing when the
+    ||| content changes.)
+    Scroll  : Overflow
+
+    ||| Depends on the user agent. If content fits inside the
+    ||| padding box, it looks the same as visible, but still
+    ||| establishes a new block-formatting context. Desktop browsers
+    ||| provide scrollbars if content overflows.
+    Auto    : Overflow
+
+  export
+  Interpolation Overflow where
+    interpolate Visible = "visible"
+    interpolate Hidden  = "hidden"
+    interpolate Clip    = "clip"
+    interpolate Scroll  = "scroll"
+    interpolate Auto    = "auto"
+
 namespace TextAlign
   public export
   data TextAlign : Type where
