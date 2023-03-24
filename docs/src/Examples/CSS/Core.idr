@@ -146,22 +146,22 @@ coreCSS =
       , padding         $ px 3
       ]
 
-  , pseudo (class widget) Hover
+  , sel [class widget, Hover]
       [ backgroundColor lightest_grey
       , borderColor     $ All comp60
       ]
 
-  , pseudo (class widget) Active
+  , sel [class widget, Active]
       [ backgroundColor lightest_grey
       , borderColor     $ All comp60
       ]
 
-  , pseudo (class widget) FocusVisible
+  , sel [class widget, FocusVisible]
       [ backgroundColor lightest_grey
       , borderColor     $ All comp60
       ]
 
-  , pseudo (class widget) Disabled
+  , sel [class widget, Disabled]
       [ backgroundColor light_grey
       , borderColor     $ All dark_grey
       ]
@@ -177,7 +177,7 @@ coreCSS =
       , gridColumn      $ At 2
       ]
 
-  , pseudo (class widget) Invalid
+  , sel [class widget, Invalid]
       [ borderColor     $ All red ]
 
   , class widgetLabel [ fontSize Large ]

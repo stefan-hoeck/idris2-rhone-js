@@ -10,10 +10,8 @@ import Web.Dom
 public export
 data Rule : (n : Nat) -> Type where
   Sel :
-       {0 selDepth : Nat}
-    -> {0 hasPseudoClass, hasPseudoElem : Bool}
-    -> (selector : Selector selDepth hasPseudoClass hasPseudoElem)
-    -> (decls    : List Declaration)
+       (selectors : List Selector)
+    -> (decls     : List Declaration)
     -> Rule n
 
   Media :
@@ -22,28 +20,24 @@ data Rule : (n : Nat) -> Type where
     -> Rule 1
 
 export %inline
-sel : Selector 0 True True -> List Declaration -> Rule n
-sel = Sel
+sel : Selector -> List Declaration -> Rule n
+sel s = Sel [s]
 
 export %inline
 class : String -> List Declaration -> Rule n
-class s = sel (Class s)
+class s = sel (class s)
 
 export
 classes : List String -> List Declaration -> Rule n
-classes = Sel . classes
+classes = sel . classes
 
 export %inline
 elem : {str : _} -> (0 tpe : ElementType str t) -> List Declaration -> Rule n
-elem v = sel (Elem v)
+elem v = sel $ elem v
 
 export %inline
 id : String -> List Declaration -> Rule n
-id s = sel (Id s)
-
-export %inline
-pseudo : Selector 0 False False -> PseudoClass -> List Declaration -> Rule n
-pseudo x y = sel (Pseudo x y)
+id = sel . id
 
 export %inline
 star : List Declaration -> Rule n
@@ -51,5 +45,8 @@ star = sel Star
 
 export
 Interpolation (Rule n) where
-  interpolate (Sel s ds)    = "\{s}{\{concat $ map interpolate ds}}"
+  interpolate (Sel s ds)    =
+    let dss := fastConcat $ map interpolate ds
+        ss  := fastConcat . intersperse ", " $ map interpolate s
+     in "\{ss}{\{dss}}"
   interpolate (Media q rs)  = "@media (\{q}){\{unlines $ map interpolate rs}}"

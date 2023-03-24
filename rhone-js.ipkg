@@ -31,10 +31,12 @@ modules    = Control.Monad.Dom
            , Rhone.JS.Util
 
            , Text.CSS
+           , Text.CSS.Angle
            , Text.CSS.Color
            , Text.CSS.Declaration
            , Text.CSS.Dir
            , Text.CSS.Flexbox
+           , Text.CSS.Gradient
            , Text.CSS.Grid
            , Text.CSS.Length
            , Text.CSS.ListStyleType

@@ -4,6 +4,7 @@ import Data.List
 import Text.CSS.Color
 import Text.CSS.Dir
 import Text.CSS.Flexbox
+import Text.CSS.Gradient
 import Text.CSS.Grid
 import Text.CSS.Length
 import Text.CSS.ListStyleType
@@ -63,6 +64,14 @@ alignSelf = decl "align-self"
 export %inline
 backgroundColor : Color -> Declaration
 backgroundColor = decl "background-color"
+
+export %inline
+backgroundImage : (url : String) -> Declaration
+backgroundImage = Decl "background-image"
+
+export %inline
+backgroundImageGradient : Gradient -> Declaration
+backgroundImageGradient = decl "background-image"
 
 export %inline
 backgroundSize : Width -> Declaration
