@@ -249,5 +249,5 @@ width : Width -> Declaration
 width = decl "width"
 
 export %inline
-witespace : WhiteSpace -> Declaration
-witespace = decl "white-space"
+whitespace : WhiteSpace -> Declaration
+whitespace = decl "white-space"
