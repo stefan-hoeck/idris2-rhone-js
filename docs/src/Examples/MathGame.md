@@ -294,7 +294,7 @@ It takes a pair of the user input and the current game state
 and returns a `Result` plus the updated state:
 
 ```idris
-checkAnswer : String -> GameState -> NP I [Result,GameState]
+checkAnswer : String -> GameState -> HList [Result,GameState]
 checkAnswer s (MkGS l nr wrong (h :: t) pic) =
   let answer = cast s
    in if result h.calc == answer

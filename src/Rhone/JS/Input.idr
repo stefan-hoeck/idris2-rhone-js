@@ -8,7 +8,7 @@ import Rhone.JS.Source
 import Web.Dom
 import Web.Html
 
-fireAndHold : o -> MSF m (Event o) (NP I [o, Event o])
+fireAndHold : o -> MSF m (Event o) (HList [o, Event o])
 fireAndHold v = fan [hold v, id <|> once v]
 
 export

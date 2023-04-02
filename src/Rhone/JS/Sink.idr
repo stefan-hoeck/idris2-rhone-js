@@ -34,7 +34,7 @@ text ref = escape ^>> innerHtml ref
 export
 attribute :  LiftJSIO m
           => (name : String)
-          -> MSF m (NP I [ElemRef t, Maybe String]) ()
+          -> MSF m (HList [ElemRef t, Maybe String]) ()
 attribute name =
   arrM $ \[ref,m] => liftJSIO $ do
     el <- castElementByRef {t2 = Element} ref
@@ -54,7 +54,7 @@ attributeAt = firstArg . attribute
 export
 attribute_ :  LiftJSIO m
            => (name : String)
-           -> MSF m (NP I [ElemRef t, String]) ()
+           -> MSF m (HList [ElemRef t, String]) ()
 attribute_ name = (\[a,b] => [a,Just b]) ^>> attribute name
 
 ||| Sets or unsets the attribute of the given element.
@@ -70,12 +70,12 @@ attributeAt_ = firstArg . attribute_
 export
 boolAttribute :  LiftJSIO m
               => (name : String)
-              -> MSF m (NP I [ElemRef t, Bool]) ()
+              -> MSF m (HList [ElemRef t, Bool]) ()
 boolAttribute name = (\[a,b] => [a,toMaybe b ""]) ^>> attribute name
 
 ||| Sets or unsets the `disabled` attribute of the given element.
 export %inline
-disabled : LiftJSIO m => MSF m (NP I [ElemRef t, Bool]) ()
+disabled : LiftJSIO m => MSF m (HList [ElemRef t, Bool]) ()
 disabled = boolAttribute "disabled"
 
 ||| Sets or unsets the `disabled` attribute of the given element.
@@ -85,7 +85,7 @@ disabledAt = firstArg disabled
 
 ||| Sets or unsets the `hidden` attribute of the given element.
 export %inline
-hidden : LiftJSIO m => MSF m (NP I [ElemRef t, Bool]) ()
+hidden : LiftJSIO m => MSF m (HList [ElemRef t, Bool]) ()
 hidden = boolAttribute "hidden"
 
 ||| Sets or unsets the `hidden` attribute of the given element.
@@ -95,7 +95,7 @@ hiddenAt = firstArg hidden
 
 ||| Sets the `class` attribute of the given element.
 export %inline
-class : LiftJSIO m => MSF m (NP I [ElemRef t, String]) ()
+class : LiftJSIO m => MSF m (HList [ElemRef t, String]) ()
 class = attribute_ "class"
 
 ||| Sets the `class` attribute of the given element.
@@ -211,7 +211,7 @@ setValue : LiftJSIO m => SetValue t => ElemRef t -> String -> m ()
 setValue r s = getElementByRef r >>= liftJSIO . setValue' s
 
 export
-value : LiftJSIO m => SetValue t => MSF m (NP I [ElemRef t,String]) ()
+value : LiftJSIO m => SetValue t => MSF m (HList [ElemRef t,String]) ()
 value = arrM $ \[r,s] => setValue r s
 
 export %inline
@@ -223,7 +223,7 @@ setChecked : LiftJSIO m => Bool -> HTMLInputElement -> m ()
 setChecked b el = liftJSIO $ set (checked el) b
 
 export
-checked : LiftJSIO m => MSF m (NP I [ElemRef HTMLInputElement,Bool]) ()
+checked : LiftJSIO m => MSF m (HList [ElemRef HTMLInputElement,Bool]) ()
 checked = arrM $ \[r,b] => getElementByRef r >>= setChecked b
 
 export %inline
@@ -232,7 +232,7 @@ isChecked = firstArg checked
 
 namespace LocalStorage
   export
-  setItem : LiftJSIO m => MSF m (NP I [String,String]) ()
+  setItem : LiftJSIO m => MSF m (HList [String,String]) ()
   setItem = arrM $ \[k,v] =>
     liftJSIO (window >>= localStorage >>= (\s => setItem s k v))
 
