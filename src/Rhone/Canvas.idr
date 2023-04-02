@@ -1,9 +1,9 @@
 module Rhone.Canvas
 
-import Control.Monad.Dom
 import Data.List
 import Data.SOP
 import JS
+import Rhone.JS.Reactimate
 import Web.Html
 
 import public Rhone.Canvas.Angle
@@ -26,10 +26,8 @@ record Canvas where
 --------------------------------------------------------------------------------
 
 export
-context2D :  LiftJSIO m
-          => ElemRef HTMLCanvasElement
-          -> m CanvasRenderingContext2D
-context2D ref = liftJSIO $ do
+context2D : ElemRef HTMLCanvasElement -> JSIO CanvasRenderingContext2D
+context2D ref = do
   canvas <- getElementByRef ref
   m      <- getContext' canvas "2d"
   case m >>= (\ns => extract CanvasRenderingContext2D ns) of
@@ -37,8 +35,8 @@ context2D ref = liftJSIO $ do
     Nothing => throwError $ Caught "Rhone.Canvas.context2d: No rendering context for canvas"
 
 export
-render : LiftJSIO m => Canvas -> m ()
-render (MkCanvas ref w h scene) = liftJSIO $ do
+render : Canvas -> JSIO ()
+render (MkCanvas ref w h scene) = do
   ctxt <- context2D ref
   apply ctxt $ Rect 0 0 w h Clear
   apply ctxt scene

@@ -15,7 +15,8 @@ speak English).
 ```idris
 module Examples.MathGame
 
-import Control.Monad.State
+import Control.RIO.State
+import Data.IORef
 import Data.List
 import Data.MSF.Trans
 import Data.Vect
@@ -229,7 +230,7 @@ dispState gs =
         , SM [ Fill stuckColor ] Id $ map tile gs.wrong
         ]
 
-renderGame : LiftJSIO m => GameState -> m ()
+renderGame : GameState -> JSIO ()
 renderGame gs =
   render $ MkCanvas pic (cast wcanvas) (cast wcanvas) (dispState gs)
 ```
@@ -310,19 +311,20 @@ top of the picture, display the next calculation, and clear
 the input text field:
 
 ```idris
-setPic : LiftJSIO m => MSF m GameState ()
+setPic : MSF JSIO GameState ()
 setPic =   (\gs => "background-image : url('\{gs.pic}');")
        ^>> attributeAt_ "style" pic
 
-dispGame : LiftJSIO m => MSF m GameState ()
-dispGame = fan_ [ currentCalc ^>-
+dispGame : MSF JSIO GameState ()
+dispGame =
+  fan_ [ currentCalc ^>-
                     [ isNothing ^>- [disabledAt checkBtn, disabledAt resultIn]
                     , maybe "" dispCalc ^>> text calc
                     ]
-                , arrM renderGame
-                , const "" >>> Sink.valueOf resultIn
-                , setPic
-                ]
+       , arrM renderGame
+       , const "" >>> Sink.valueOf resultIn
+       , setPic
+       ]
 ```
 
 For checking answers entered by users, we need a stream function
@@ -332,9 +334,9 @@ the two forms are interconvertible (see `fromState` and `toState`
 from `Data.MSF.Trans`).
 
 ```idris
-check : MonadState GameState m => LiftJSIO m => MSF m i ()
-check =  [| checkAnswer (valueOf resultIn) get |]
-      >>- [ snd >>! put
+check : ST () GameState => MSF JSIO i ()
+check =  [| checkAnswer (valueOf resultIn) (constM $ getAt ()) |]
+      >>- [ snd >>! setAt ()
           , hd  >>> reply ^>> text out
           , hd  >>> style ^>> attributeAt "style" out
           ]
@@ -346,17 +348,17 @@ should overwrite the corresponding field of the game state
 and redraw the UI:
 
 ```idris
-public export
-M : Type -> Type
-M = DomIO Ev JSIO
+newGame : ST () GameState => MSF JSIO i ()
+newGame =
+      constM (getAt ())
+  >>> lang
+  ^>> randomGame
+  !>- [setPic, arrM $ setAt ()]
 
-newGame : LiftJSIO m => MSF (StateT GameState m) i ()
-newGame = get >>> lang ^>> randomGame !>- [setPic, put]
-
-adjLang : MSF (StateT GameState M) Ev ()
+adjLang : Unique => Handler JSIO Ev => ST () GameState => MSF JSIO Ev ()
 adjLang = readLang ^>> ifJust (
             arrM $ \l => innerHtmlAt exampleDiv (content l)
-                      >> modify { lang := l }
+                      >> modifyAt () { lang := l }
           )
   where readLang : Ev -> Maybe Language
         readLang (Lang "en") = Just EN
@@ -368,19 +370,20 @@ We put everything together in the main controller, which
 just broadcasts the current event to the sub-controllers:
 
 ```idris
-msf : MSF (StateT GameState M) Ev ()
+msf : Handler JSIO Ev => Unique => ST () GameState => MSF JSIO Ev ()
 msf =  fan_ [ ifIs NewGame newGame
             , ifIs Check check
             , adjLang
-            , get >>> dispGame
+            , constM (getAt ()) >>> dispGame
             ]
 
 export
-ui : M (MSF M Ev (), JSIO ())
+ui : Handler JSIO Ev => Unique => JSIO (MSF JSIO Ev (), JSIO ())
 ui = do
-  innerHtmlAt exampleDiv (content DE)
   ini <- randomGame DE
-  pure (feedback ini (fromState msf), pure ())
+  _ <- MkState <$> newIORef ini
+  innerHtmlAt exampleDiv (content DE)
+  pure (msf, pure ())
 ```
 
 <!-- vi: filetype=idris2:syntax=markdown

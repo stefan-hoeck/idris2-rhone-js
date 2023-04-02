@@ -1,4 +1,4 @@
-module Control.Monad.Dom.Event
+module Rhone.JS.Event
 
 import JS
 import Text.Html.Event

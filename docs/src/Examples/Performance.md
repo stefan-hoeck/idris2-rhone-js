@@ -31,7 +31,6 @@ module Examples.Performance
 
 import Data.DPair
 import Data.Either
-import Data.List.TR
 import Data.Nat
 import Data.String
 import Examples.CSS.Performance
@@ -105,8 +104,12 @@ so the JS backends can convert them to while loops using
 constant stack space.
 
 ```idris
+iterateTR : SnocList t -> Nat -> (t -> t) -> t -> List t
+iterateTR sx 0     f x = sx <>> []
+iterateTR sx (S k) f x = iterateTR (sx :< x) k f (f x)
+
 btns : PosNat -> Node Nat
-btns (Element n _) = div [class grid] . map btn $ iterateTR n (+1) 1
+btns (Element n _) = div [class grid] . map btn $ iterateTR [<] n (+1) 1
 ```
 
 And, finally, the overall layout of the application:
@@ -145,17 +148,6 @@ parts in the UI (unrelated meaning, that they do not
 react on a shared set of events), so we need
 two aliases for the corresponding effect types:
 
-```idris
-
-public export
-MI : Type -> Type
-MI = DomIO Ev JSIO
-
-public export
-MB : Type -> Type
-MB = DomIO Nat JSIO
-```
-
 We also need a way to calculate the time taken to create
 and display the buttons. The idris2-dom library does not
 yet provide this functionality, but it is available
@@ -184,7 +176,7 @@ are many similar combinator and they are very
 convenient to use.
 
 ```idris
-sumNats : MSF MB Nat ()
+sumNats : MSF JSIO Nat ()
 sumNats = fan_
   [ accumulateWith (+) 0 >>> show ^>> text out
   , ifIsNot 0 $ fan [arr btnRef, const True] >>> disabled
@@ -196,8 +188,8 @@ buttons, add them to the UI and display the time taken
 to do so:
 
 ```idris
-btnsSF : PosNat -> MB (MSF MB Nat (), JSIO ())
-btnsSF n = do
+btnsSF : Unique => PosNat -> Handler JSIO Nat -> JSIO (MSF JSIO Nat (), JSIO ())
+btnsSF n h = do
   t1 <- currentTime
   innerHtmlAt buttons (btns n)
   t2 <- currentTime
@@ -211,7 +203,7 @@ field), and reloading the button grid upon a
 `Reload` event:
 
 ```idris
-count : MSF MI Ev (Either String PosNat)
+count : MSF JSIO Ev (Either String PosNat)
 count =    getInput Validate validate natIn
        >>> observeWith (isLeft ^>> disabledAt btnRun)
 ```
@@ -223,10 +215,10 @@ However, we also need to make sure to disable the *Run* button
 in case of invalid input.
 
 ```idris
-msf : MSF MI Ev ()
+msf : Unique => MSF JSIO Ev ()
 msf =   fan [count, is Reload]
     >>> rightOnEvent
-    ?>> arrM (ignore . reactimateInDomIni 0 . btnsSF)
+    ?>> arrM (ignore . reactimateIni 0 . btnsSF)
 ```
 
 The `rightOnEvent` combinator comes up often in user
@@ -238,7 +230,7 @@ an `a` to continue. There are of course also combinators
 
 ```idris
 export
-ui : MI (MSF MI Ev (), JSIO ())
+ui : Unique => Handler JSIO Ev => JSIO (MSF JSIO Ev (), JSIO ())
 ui = innerHtmlAt exampleDiv content $> (msf, pure ())
 ```
 

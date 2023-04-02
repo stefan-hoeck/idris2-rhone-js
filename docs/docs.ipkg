@@ -3,6 +3,7 @@ version    = 0.0.1
 authors    = "Stefan Höck"
 depends    = rhone-js
            , contrib
+           , rio
 
 opts       = "--codegen javascript"
 

@@ -16,7 +16,6 @@ be the animation itself.
 module Examples.Balls
 
 import Data.Either
-import Data.List.TR
 import Data.MSF.Switch
 import Data.Nat
 import Data.Vect
@@ -249,19 +248,16 @@ accumulater for the balls and advance them the given
 number of milliseconds:
 
 ```idris
-public export
-M : Type -> Type
-M = DomIO Ev JSIO
-
-renderBalls : List Ball -> M ()
+renderBalls : List Ball -> JSIO ()
 renderBalls bs =
   liftJSIO . render $ MkCanvas out (cast wcanvas) (cast wcanvas) (ballsToScene bs)
 
-animation : List Ball -> MSF M Ev ()
-animation bs = arr next ?>-
-                 [ accumulateWith (map . nextBall) bs >>! renderBalls
-                 , fps 15 ?>> showFPS ^>> text log
-                 ]
+animation : List Ball -> MSF JSIO Ev ()
+animation bs =
+  arr next ?>-
+    [ accumulateWith (map . nextBall) bs >>! renderBalls
+    , fps 15 ?>> showFPS ^>> text log
+    ]
 ```
 
 We now only need to write the controllers for reading user
@@ -275,23 +271,21 @@ read s =
         then Right (initialBalls n)
         else Left "Enter a number between 1 and 1000"
 
-
-msf : MSF M Ev ()
+msf : MSF JSIO Ev ()
 msf = drswitchWhen neutral initialBalls animation
-  where readInit : MSF M Ev (Either String (List Ball))
+  where readInit : MSF JSIO Ev (Either String (List Ball))
         readInit =    getInput NumIn read txtCount
                  >>>  observeWith (isLeft ^>> disabledAt btnRun)
 
-        initialBalls : MSF M Ev (MSFEvent $ List Ball)
+        initialBalls : MSF JSIO Ev (MSFEvent $ List Ball)
         initialBalls =   fan [readInit, is Run]
                      >>> rightOnEvent
 
 export
-ui : M (MSF M Ev (), JSIO ())
+ui : Unique => Handler JSIO Ev => JSIO (MSF JSIO Ev (), JSIO ())
 ui = do
   innerHtmlAt exampleDiv content
-  h     <- handler <$> env
-  clear <- animate (h . Next)
+  clear <- animate (handle . Next)
   pure (msf, liftIO clear)
 ```
 

@@ -29,7 +29,9 @@ import Rhone.JS
 
 covering
 main : IO ()
-main = runJS . ignore $ reactimateDomIni "reset" "select" ui
+main = runJS . ignore $ do
+  u <- liftIO $ mkUnique "select"
+  reactimateIni "reset" (ui u)
 ```
 
 This just imports and runs the user interface `ui` defined in module

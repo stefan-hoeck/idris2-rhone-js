@@ -79,24 +79,20 @@ record Config where
 --          Controller
 --------------------------------------------------------------------------------
 
-public export
-M : Type -> Type
-M = DomIO Ev JSIO
-
-msf : (timer : RedrawAfter -> JSIO ()) -> MSF M Ev ()
+msf : (timer : RedrawAfter -> JSIO ()) -> MSF JSIO Ev ()
 msf timer = drswitchWhen neutral config fractal
-  where fractal : Config -> MSF M Ev ()
+  where fractal : Config -> MSF JSIO Ev ()
         fractal c =
           let Element dragons prf = mkDragons c.iterations.value
            in ifIs Inc $ cycle dragons >>> innerHtml out
 
-        readAll : MSF M Ev (Either String Config)
+        readAll : MSF JSIO Ev (Either String Config)
         readAll =    MkConfig Dragon
                 <$$> getInput Iter   read txtIter
                 <**> getInput Redraw read txtRedraw
                 >>>  observeWith (isLeft ^>> disabledAt btnRun)
 
-        config : MSF M Ev (MSFEvent Config)
+        config : MSF JSIO Ev (MSFEvent Config)
         config =   fan [readAll, is Run]
                >>> rightOnEvent
                >>> observeWith (ifEvent $ arrM (liftJSIO . timer . redraw))
@@ -131,11 +127,10 @@ content =
 --------------------------------------------------------------------------------
 
 export
-ui : M (MSF M Ev (), JSIO ())
+ui : Unique => Handler JSIO Ev => JSIO (MSF JSIO Ev (), JSIO ())
 ui = do
   innerHtmlAt exampleDiv content
   ref  <- newIORef {a = Maybe IntervalID} Nothing
-  h    <- handler <$> env
 
   let cleanup : JSIO ()
       cleanup = readIORef ref >>= traverse_ clearInterval
@@ -143,7 +138,7 @@ ui = do
       timer   : RedrawAfter -> JSIO ()
       timer ra = do
         cleanup
-        newID <- setInterval ra.value (h Inc)
+        newID <- setInterval ra.value (handle Inc)
         writeIORef ref (Just newID)
 
   pure (msf timer, cleanup)

@@ -1,7 +1,6 @@
 module Rhone.Canvas.Shape
 
-import Control.MonadRec
-import Data.Iterable
+import Rhone.JS.Reactimate
 import JS
 import Rhone.Canvas.Angle
 import Web.Html
@@ -74,7 +73,7 @@ applySegment ctxt (ArcTo x1 y1 x2 y2 radius) =
 mutual
   export
   applyAll : CanvasRenderingContext2D -> List Shape -> JSIO ()
-  applyAll ctxt = assert_total $ forM_ (apply ctxt)
+  applyAll ctxt = assert_total $ traverseJSIO_ (apply ctxt)
 
   export
   apply : CanvasRenderingContext2D -> Shape -> JSIO ()
@@ -83,7 +82,7 @@ mutual
   apply ctxt (Rect x y w h Clear)  = clearRect ctxt x y w h
   apply ctxt (Path ss st)          = do
     beginPath ctxt
-    forM_ (applySegment ctxt) ss
+    traverseJSIO_ (applySegment ctxt) ss
     case st of
       Fill   => fill ctxt Undef
       Stroke => stroke ctxt

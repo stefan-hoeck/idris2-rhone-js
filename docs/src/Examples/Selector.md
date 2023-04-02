@@ -36,12 +36,6 @@ know a bit about its implementation and hence its limitations.
 I therefore start with this: A short explanation of what is going on under the
 hood and where to start looking for further information.
 
-```idris
-public export
-MSel : Type -> Type
-MSel = DomIO String JSIO
-```
-
 I typically start the examples with an alias for the effect type being
 used, and we will use `DomIO` from module `Control.Monad.Dom.DomIO`
 most of the time. `DomIO` is the reference
@@ -167,22 +161,19 @@ directly from within an MSF.
 Enough talk, here's the code:
 
 ```idris
-cleanup : LiftJSIO io => (clean : JSIO ()) -> io ()
-cleanup = liftJSIO
-
-msf : MSF MSel String ()
-msf = feedback (pure ()) $ par [arrM cleanup, arrM select] >>> swap
-  where select : String -> MSel (JSIO ())
-        select "reset"       = reactimateInDomIni (const 0) Reset.ui
-        select "performance" = reactimateInDom Performance.ui
-        select "fractals"    = reactimateInDom Fractals.ui
-        select "balls"       = reactimateInDom Balls.ui
-        select "math"        = reactimateInDomIni NewGame MathGame.ui
+msf : Unique => MSF JSIO String ()
+msf = feedback (pure ()) $ par [arrM id, arrM select] >>> swap
+  where select : String -> JSIO (JSIO ())
+        select "reset"       = reactimateIni (const 0) (\_ => Reset.ui)
+        select "performance" = reactimate (\_ => Performance.ui)
+        select "fractals"    = reactimate (\_ => Fractals.ui)
+        select "balls"       = reactimate (\_ => Balls.ui)
+        select "math"        = reactimateIni NewGame (\_ => MathGame.ui)
         select _             = pure (pure ())
 
 export
-ui : MSel (MSF MSel String (), JSIO ())
-ui = do
+ui : Unique -> Handler JSIO String -> JSIO (MSF JSIO String (), JSIO ())
+ui u h = do
   rawInnerHtmlAt appStyle allRules
   innerHtmlAt contentDiv content
   pure (msf, pure ())
