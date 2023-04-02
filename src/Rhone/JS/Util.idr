@@ -100,6 +100,6 @@ showFPS n = #"FPS: \#{show n}"#
 export
 fps : (n : Nat) -> MSF m DTime (Event Bits32)
 fps n = mealy acc (n,0)
-  where acc : DTime -> (Nat,DTime) -> NP I [(Nat,DTime),Event Bits32]
+  where acc : DTime -> (Nat,DTime) -> HList [(Nat,DTime),Event Bits32]
         acc dt (0,tot)   = [(n,0),Ev $ (1000 * cast (S n)) `div` (tot + dt)]
         acc dt (S k,tot) = [(k, tot + dt), NoEv]
