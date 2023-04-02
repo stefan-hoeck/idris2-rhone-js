@@ -4,7 +4,6 @@ module Examples.Fractals.Dragon
 
 import Data.DPair
 import Data.List
-import Data.List.TR
 import Data.String
 
 record Point where

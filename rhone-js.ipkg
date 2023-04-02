@@ -6,17 +6,11 @@ brief      = "Reactive single page web applications in Idris2"
 depends    = base      >= 0.6.0
            , dom
            , rhone
-           , tailrec
            , refined
 
 opts       = "--codegen javascript"
 
-modules    = Control.Monad.Dom
-           , Control.Monad.Dom.DomIO
-           , Control.Monad.Dom.Event
-           , Control.Monad.Dom.Interface
-
-           , Rhone.Canvas
+modules    = Rhone.Canvas
            , Rhone.Canvas.Angle
            , Rhone.Canvas.Scene
            , Rhone.Canvas.Shape
@@ -24,9 +18,11 @@ modules    = Control.Monad.Dom
            , Rhone.Canvas.Transformation
 
            , Rhone.JS
+           , Rhone.JS.Event
+           , Rhone.JS.Input
+           , Rhone.JS.Reactimate
            , Rhone.JS.Sink
            , Rhone.JS.Source
-           , Rhone.JS.Input
            , Rhone.JS.Util
 
            , Text.CSS

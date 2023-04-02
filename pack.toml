@@ -13,3 +13,9 @@ type   = "git"
 url    = "https://github.com/stefan-hoeck/idris2-rhone"
 commit = "latest:main"
 ipkg   = "rhone.ipkg"
+
+[custom.all.rio]
+type   = "git"
+url    = "https://github.com/stefan-hoeck/idris2-rio"
+commit = "latest:main"
+ipkg   = "rio.ipkg"

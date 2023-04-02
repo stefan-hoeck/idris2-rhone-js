@@ -70,11 +70,12 @@ text and need to know about the event they fire
 when they are being clicked:
 
 ```idris
-btn :  (r : ElemRef Button)
-    -> {auto 0 _ : ById r}
-    -> Ev
-    -> (lbl: String)
-    -> Node Ev
+btn :
+     (r : ElemRef Button)
+  -> {auto 0 _ : ById r}
+  -> Ev
+  -> (lbl: String)
+  -> Node Ev
 btn r ev lbl =
   button [ref r, onClick ev, classes [widget,btn]] [Text lbl]
 ```
@@ -95,14 +96,6 @@ content =
 
 ## Controller
 
-We first define our effect type:
-
-```idris
-public export
-M : Type -> Type
-M = DomIO Ev JSIO
-```
-
 The actual controlling MSF is a simple state accumulator, the
 output of which will be broadcast to the different dynamic
 elements. We use the `fan_` combinator to broadcast
@@ -110,7 +103,7 @@ some input to several data sinks (a *sink* is a monadic stream function
 that produces no output of interest):
 
 ```idris
-msf : MSF M Ev ()
+msf : MSF JSIO Ev ()
 msf =
   accumulateWith apply 0 >>> fan_
     [ show     ^>> text out
@@ -139,7 +132,7 @@ and returning the stream function.
 
 ```idris
 export
-ui : M (MSF M Ev (), JSIO ())
+ui : Unique => Handler JSIO Ev => JSIO (MSF JSIO Ev (), JSIO ())
 ui = innerHtmlAt exampleDiv content $> (msf, pure ())
 ```
 

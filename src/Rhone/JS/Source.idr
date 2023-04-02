@@ -2,9 +2,9 @@
 ||| values independently of the input value.
 module Rhone.JS.Source
 
-import Control.Monad.Dom
 import Data.MSF
 import JS
+import Rhone.JS.Reactimate
 import Text.Html
 import Web.Dom
 import Web.Html
@@ -17,70 +17,66 @@ import Web.Html
 
 public export
 interface SafeCast t => HasValue t where
-  getValue' : t -> JSIO String
+  getValue : t -> JSIO String
 
 public export
 HasValue HTMLButtonElement where
-  getValue' = to value
+  getValue = to value
 
 public export
 HasValue HTMLDataElement where
-  getValue' = to value
+  getValue = to value
 
 public export
 HasValue HTMLInputElement where
-  getValue' = to value
+  getValue = to value
 
 public export
 HasValue HTMLOptionElement where
-  getValue' = to value
+  getValue = to value
 
 public export
 HasValue HTMLOutputElement where
-  getValue' = to value
+  getValue = to value
 
 public export
 HasValue HTMLParamElement where
-  getValue' = to value
+  getValue = to value
 
 public export
 HasValue HTMLSelectElement where
-  getValue' = to value
+  getValue = to value
 
 public export
 HasValue HTMLTextAreaElement where
-  getValue' = to value
+  getValue = to value
 
 public export
 HasValue RadioNodeList where
-  getValue' = to value
+  getValue = to value
 
 export
-getValue : LiftJSIO m => HasValue t => t -> m String
-getValue = liftJSIO . getValue'
-
-export
-value : LiftJSIO m => HasValue t => MSF m (ElemRef t) String
+value : HasValue t => MSF JSIO (ElemRef t) String
 value = arrM $ \r => getElementByRef r >>= getValue
 
 export %inline
-valueOf : LiftJSIO m => HasValue t => ElemRef t -> MSF m i String
+valueOf : HasValue t => ElemRef t -> MSF JSIO i String
 valueOf r = const r >>> value
 
 export
-meterValue : LiftJSIO m => MSF m (ElemRef HTMLMeterElement) Double
-meterValue = arrM $ \r => liftJSIO (getElementByRef r >>= to value)
+meterValue : MSF JSIO (ElemRef HTMLMeterElement) Double
+meterValue = arrM $ \r => getElementByRef r >>= to value
 
 export %inline
-meterValueOf : LiftJSIO m => ElemRef HTMLMeterElement -> MSF m i Double
+meterValueOf : ElemRef HTMLMeterElement -> MSF JSIO i Double
 meterValueOf r = const r >>> meterValue
 
 export
-progressValue : LiftJSIO m => MSF m (ElemRef HTMLProgressElement) Double
-progressValue = arrM $ \r => liftJSIO (getElementByRef r >>= to value)
+progressValue : MSF JSIO (ElemRef HTMLProgressElement) Double
+progressValue = arrM $ \r => getElementByRef r >>= to value
 
 export %inline
-progressValueOf : LiftJSIO m => ElemRef HTMLProgressElement -> MSF m i Double
+progressValueOf : ElemRef HTMLProgressElement -> MSF JSIO i Double
 progressValueOf r = const r >>> progressValue
 
 --------------------------------------------------------------------------------
@@ -88,15 +84,15 @@ progressValueOf r = const r >>> progressValue
 --------------------------------------------------------------------------------
 
 export
-getChecked : LiftJSIO m => HTMLInputElement -> m Bool
-getChecked el = liftJSIO $ get el checked
+getChecked : HTMLInputElement -> JSIO Bool
+getChecked el = get el checked
 
 export
-checked : LiftJSIO m => MSF m (ElemRef HTMLInputElement) Bool
+checked : MSF JSIO (ElemRef HTMLInputElement) Bool
 checked = arrM getElementByRef >>! getChecked
 
 export %inline
-checkedAt : LiftJSIO m => ElemRef HTMLInputElement -> MSF m i Bool
+checkedAt : ElemRef HTMLInputElement -> MSF JSIO i Bool
 checkedAt r = const r >>> checked
 
 --------------------------------------------------------------------------------
@@ -104,9 +100,9 @@ checkedAt r = const r >>> checked
 --------------------------------------------------------------------------------
 
 export
-windowLocation : LiftJSIO m => MSF m i Location
-windowLocation = constM $ liftJSIO (window >>= location)
+windowLocation : MSF JSIO i Location
+windowLocation = constM $ window >>= location
 
 export
-windowHash : LiftJSIO m => MSF m i String
-windowHash = windowLocation >>! (liftJSIO . to Location.hash)
+windowHash : MSF JSIO i String
+windowHash = windowLocation >>! to Location.hash
