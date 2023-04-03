@@ -132,7 +132,7 @@ and returning the stream function.
 
 ```idris
 export
-ui : Unique => Handler JSIO Ev => JSIO (MSF JSIO Ev (), JSIO ())
+ui : Handler JSIO Ev => JSIO (MSF JSIO Ev (), JSIO ())
 ui = innerHtmlAt exampleDiv content $> (msf, pure ())
 ```
 

@@ -188,7 +188,7 @@ buttons, add them to the UI and display the time taken
 to do so:
 
 ```idris
-btnsSF : Unique => PosNat -> Handler JSIO Nat -> JSIO (MSF JSIO Nat (), JSIO ())
+btnsSF : PosNat -> Handler JSIO Nat -> JSIO (MSF JSIO Nat (), JSIO ())
 btnsSF n h = do
   t1 <- currentTime
   innerHtmlAt buttons (btns n)
@@ -215,7 +215,7 @@ However, we also need to make sure to disable the *Run* button
 in case of invalid input.
 
 ```idris
-msf : Unique => MSF JSIO Ev ()
+msf : MSF JSIO Ev ()
 msf =   fan [count, is Reload]
     >>> rightOnEvent
     ?>> arrM (ignore . reactimateIni 0 . btnsSF)
@@ -230,7 +230,7 @@ an `a` to continue. There are of course also combinators
 
 ```idris
 export
-ui : Unique => Handler JSIO Ev => JSIO (MSF JSIO Ev (), JSIO ())
+ui : Handler JSIO Ev => JSIO (MSF JSIO Ev (), JSIO ())
 ui = innerHtmlAt exampleDiv content $> (msf, pure ())
 ```
 

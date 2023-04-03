@@ -8,14 +8,8 @@ type   = "local"
 path   = "docs"
 ipkg   = "docs.ipkg"
 
-[custom.all.rhone]
+[custom.all.dom]
 type   = "git"
-url    = "https://github.com/stefan-hoeck/idris2-rhone"
+url    = "https://github.com/stefan-hoeck/idris2-dom"
 commit = "latest:main"
-ipkg   = "rhone.ipkg"
-
-[custom.all.rio]
-type   = "git"
-url    = "https://github.com/stefan-hoeck/idris2-rio"
-commit = "latest:main"
-ipkg   = "rio.ipkg"
+ipkg   = "dom.ipkg"

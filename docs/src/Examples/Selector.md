@@ -161,7 +161,7 @@ directly from within an MSF.
 Enough talk, here's the code:
 
 ```idris
-msf : Unique => MSF JSIO String ()
+msf : MSF JSIO String ()
 msf = feedback (pure ()) $ par [arrM id, arrM select] >>> swap
   where select : String -> JSIO (JSIO ())
         select "reset"       = reactimateIni (const 0) (\_ => Reset.ui)
@@ -172,8 +172,8 @@ msf = feedback (pure ()) $ par [arrM id, arrM select] >>> swap
         select _             = pure (pure ())
 
 export
-ui : Unique -> Handler JSIO String -> JSIO (MSF JSIO String (), JSIO ())
-ui u h = do
+ui : Handler JSIO String -> JSIO (MSF JSIO String (), JSIO ())
+ui h = do
   rawInnerHtmlAt appStyle allRules
   innerHtmlAt contentDiv content
   pure (msf, pure ())

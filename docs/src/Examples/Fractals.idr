@@ -127,7 +127,7 @@ content =
 --------------------------------------------------------------------------------
 
 export
-ui : Unique => Handler JSIO Ev => JSIO (MSF JSIO Ev (), JSIO ())
+ui : Handler JSIO Ev => JSIO (MSF JSIO Ev (), JSIO ())
 ui = do
   innerHtmlAt exampleDiv content
   ref  <- newIORef {a = Maybe IntervalID} Nothing

@@ -238,7 +238,7 @@ setFocus :
   -> {auto sc  : SafeCast t}
   -> t
   -> JSIO ()
-setFocus = HTMLOrSVGElement.focus'
+setFocus v = HTMLOrSVGElement.focus v
 
 export
 focus :
