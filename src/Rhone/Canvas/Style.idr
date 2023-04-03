@@ -1,6 +1,5 @@
 module Rhone.Canvas.Style
 
-import Data.SOP
 import JS
 import Text.CSS.Color
 import Web.Html

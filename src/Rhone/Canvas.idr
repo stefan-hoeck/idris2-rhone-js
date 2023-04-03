@@ -1,7 +1,6 @@
 module Rhone.Canvas
 
 import Data.List
-import Data.SOP
 import JS
 import Rhone.JS.Reactimate
 import Web.Html
@@ -30,7 +29,7 @@ context2D : ElemRef HTMLCanvasElement -> JSIO CanvasRenderingContext2D
 context2D ref = do
   canvas <- getElementByRef ref
   m      <- getContext canvas "2d"
-  case m >>= (\ns => extract CanvasRenderingContext2D ns) of
+  case m >>= (\ns => project {t = CanvasRenderingContext2D} ns) of
     Just c  => pure c
     Nothing => throwError $ Caught "Rhone.Canvas.context2d: No rendering context for canvas"
 
