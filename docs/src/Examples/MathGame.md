@@ -355,7 +355,7 @@ newGame =
   ^>> randomGame
   !>- [setPic, arrM $ setAt ()]
 
-adjLang : Unique => Handler JSIO Ev => ST () GameState => MSF JSIO Ev ()
+adjLang : Handler JSIO Ev => ST () GameState => MSF JSIO Ev ()
 adjLang = readLang ^>> ifJust (
             arrM $ \l => innerHtmlAt exampleDiv (content l)
                       >> modifyAt () { lang := l }
@@ -370,7 +370,7 @@ We put everything together in the main controller, which
 just broadcasts the current event to the sub-controllers:
 
 ```idris
-msf : Handler JSIO Ev => Unique => ST () GameState => MSF JSIO Ev ()
+msf : Handler JSIO Ev => ST () GameState => MSF JSIO Ev ()
 msf =  fan_ [ ifIs NewGame newGame
             , ifIs Check check
             , adjLang
@@ -378,7 +378,7 @@ msf =  fan_ [ ifIs NewGame newGame
             ]
 
 export
-ui : Handler JSIO Ev => Unique => JSIO (MSF JSIO Ev (), JSIO ())
+ui : Handler JSIO Ev => JSIO (MSF JSIO Ev (), JSIO ())
 ui = do
   ini <- randomGame DE
   _ <- MkState <$> newIORef ini

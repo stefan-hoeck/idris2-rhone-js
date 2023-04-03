@@ -66,7 +66,7 @@ applySegment : CanvasRenderingContext2D -> Segment -> JSIO ()
 applySegment ctxt (Move x y) = moveTo ctxt x y
 applySegment ctxt (Line x y) = lineTo ctxt x y
 applySegment ctxt (Arc x y r start stop ccw) = do
-  arc ctxt x y r (toRadians start) (toRadians stop) (Def ccw)
+  arc' ctxt x y r (toRadians start) (toRadians stop) (Def ccw)
 applySegment ctxt (ArcTo x1 y1 x2 y2 radius) =
   arcTo ctxt x1 y1 x2 y2 radius
 
@@ -84,8 +84,8 @@ mutual
     beginPath ctxt
     traverseJSIO_ (applySegment ctxt) ss
     case st of
-      Fill   => fill ctxt Undef
+      Fill   => fill ctxt
       Stroke => stroke ctxt
-  apply ctxt (Text str x y max)    = fillText ctxt str x y max
-  apply ctxt (Text' str x y)       = fillText' ctxt str x y
+  apply ctxt (Text str x y max)    = fillText' ctxt str x y max
+  apply ctxt (Text' str x y)       = fillText ctxt str x y
   apply ctxt (Shapes xs)           = applyAll ctxt xs

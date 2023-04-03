@@ -156,33 +156,6 @@ castElementByRef Document        = document >>= tryCast err
 castElementByRef Window          = window >>= tryCast err
 castElementByRef (Ref t)         = tryCast err t
 
---------------------------------------------------------------------------------
---          Unique
---------------------------------------------------------------------------------
-
-||| A utility for generating unique IDs
-public export
-record Unique where
-  [noHints]
-  constructor U
-  unique : IO String
-
-||| A new generator of unique IDs. These will consist of a natural number
-||| prefixed with the given string.
-export
-mkUnique : (pre : String) -> IO Unique
-mkUnique pre = do
-  ref <- newIORef Z
-  pure . U $ do
-    n <- readIORef ref
-    writeIORef ref (S n)
-    pure $ pre ++ show n
-
-||| Generate a unique ID to be used in the DOM
-export %inline
-uniqueId : {auto u : Unique} -> IO String
-uniqueId = u.unique
-
 ||| Low level method for registering `DOMEvents` at
 ||| HTML elements.
 |||
@@ -221,7 +194,7 @@ registerDOMEvent el de = case de of
         va <- tryCast_ a "Control.Monad.Dom.Interface.inst" e
         conv va >>= maybe (pure ()) handle . f
 
-      addEventListener' el s (Just c)
+      addEventListener el s (Just c)
 
 parameters {0    e : Type}
            {auto h : Handler JSIO e}
@@ -234,19 +207,23 @@ parameters {0    e : Type}
     registerDOMEvent el de
 
   export
-  setAttribute : ElemRef t -> Attribute e -> JSIO ()
-  setAttribute ref a = do
-    el <- castElementByRef {t2 = HTMLElement} ref
-    case a of
-      Id v         => setAttribute el "id" v
-      Str n v      => setAttribute el n v
-      Bool n True  => setAttribute el n ""
-      Bool n False => removeAttribute el n
-      Event ev     => registerDOMEvent (up el) ev
+  setAttribute : Element -> Attribute e -> JSIO ()
+  setAttribute el (Id value)        = setAttribute el "id" value
+  setAttribute el (Str name value)  = setAttribute el name value
+  setAttribute el (Bool name value) = case value of
+    True  => setAttribute el name ""
+    False => removeAttribute el name
+  setAttribute el (Event ev) = registerDOMEvent (up el) ev
 
   export
-  setAttributes : ElemRef t -> List (Attribute e) -> JSIO ()
-  setAttributes el = traverseJSIO_ (setAttribute el)
+  setAttributeRef : ElemRef t -> Attribute e -> JSIO ()
+  setAttributeRef ref a = do
+    el <- castElementByRef {t2 = Element} ref
+    setAttribute el a
+
+  export
+  setAttributesRef : ElemRef t -> List (Attribute e) -> JSIO ()
+  setAttributesRef el = traverseJSIO_ (setAttributeRef el)
 
 --------------------------------------------------------------------------------
 --          Node Preparation
@@ -254,52 +231,42 @@ parameters {0    e : Type}
 
 parameters {0    e : Type}           -- event type
            {auto h : Handler JSIO e} -- event handler
-           {auto u : Unique}         -- unique ID generator
 
-  -- generates an `ElemRef` for the given HTMLElement type `t`,
-  -- either by using the ID already defined in the attribute list,
-  -- or by creating a new unique ID.
-  --
-  -- This ID will be used by `innerHtmlAt` to properly set up the
-  -- necessary event listeners.
-  getRef :
-       {str : String}
-    -> Attributes e
-    -> ElementType str t
-    -> IO (Attributes e, ElemRef t)
-  getRef as tpe = case getId as of
-    Just i  => pure (as, Id tpe i)
-    Nothing => (\i => (Id i :: as, Id tpe i)) <$> uniqueId
+  createNode : Document -> String -> List (Attribute e) -> JSIO Element
+  createNode doc str xs = do
+    el <- createElement doc str
+    traverseJSIO_ (setAttribute el) xs
+    pure el
 
-  0 PrepareRes : Type
-  PrepareRes = (List (Node e), List (JSIO ()))
+  addNodes :
+       {auto 0 _ : JSType t}
+    -> {auto 0 _ : Elem ParentNode (Types t)}
+    -> (doc      : Document)
+    -> (parent   : t)
+    -> (nodes    : List (Node e))
+    -> JSIO ()
 
-  -- inserts unique IDs where necessary and extracts a list of
-  -- actions, which will register the necessary event listeners
-  -- after creating the nodes in the DOM
-  prepareNode : Node e -> PrimIO (Node e, List $ JSIO ())
+  addNode :
+       {auto 0 _ : JSType t}
+    -> {auto 0 _ : Elem ParentNode (Types t)}
+    -> (doc      : Document)
+    -> (parent   : t)
+    -> (node     : Node e)
+    -> JSIO ()
+  addNode doc p (El tag xs ys) = do
+    n <- createNode doc tag xs
+    append p [inject $ n :> Node]
+    addNodes doc n ys
+  addNode doc p (Raw str) = do
+    el <- createElement doc "template"
+    Just temp <- pure (castTo HTMLTemplateElement el) | Nothing => pure ()
+    innerHTML temp .= str
+    c         <- content temp
+    append p [inject $ c :> Node]
 
-  prepareNodes :
-       SnocList (Node e)
-    -> SnocList (JSIO ())
-    -> List (Node e)
-    -> PrimIO PrepareRes
-  prepareNodes sx sy []        w = MkIORes (sx <>> [], sy <>> []) w
-  prepareNodes sx sy (x :: xs) w =
-    let MkIORes (x2,ys) w2 := prepareNode x w
-     in prepareNodes (sx :< x2) (sy <>< ys) xs w2
+  addNode doc p (Text str) = append p [inject str]
 
-  prepareNode (El tpe as ns) w = case getEvents as of
-    Nil =>
-      let MkIORes (ns2, ens) w2 := prepareNodes [<] [<] ns w
-       in MkIORes (El tpe as ns2, ens) w2
-    es  =>
-      let MkIORes (as2,r)    w2 := toPrim (getRef as tpe) w
-          MkIORes (ns2, ens) w3 := prepareNodes [<] [<] ns w2
-       in MkIORes (El tpe as2 ns2, map (handleEvent r) es ++ ens) w3
-
-  prepareNode r@(Raw _)  w = MkIORes (r,[]) w
-  prepareNode r@(Text _) w = MkIORes (r,[]) w
+  addNodes doc p = assert_total $ traverseJSIO_ (addNode doc p)
 
   ||| Sets up the reactive behavior of the given `Node` and
   ||| inserts it as the only child of the given target.
@@ -309,23 +276,21 @@ parameters {0    e : Type}           -- event type
   export
   innerHtmlAtN : ElemRef t -> List (Node e) -> JSIO ()
   innerHtmlAtN ref ns = do
-    elem     <- castElementByRef {t2 = Element} ref
-    (n2, es) <- liftIO $ fromPrim $ prepareNodes [<] [<] ns
-    innerHTML elem .= renderMany n2
-    traverseJSIO_ (\x => x) es
+    doc  <- document
+    elem <- castElementByRef {t2 = Element} ref
+    innerHTML elem .= ""
+    df   <- createDocumentFragment doc
+    addNodes doc df ns
+    append elem [inject $ df :> Node]
 
   ||| Sets up the reactive behavior of the given `Node` and
   ||| inserts it as the only child of the given target.
   |||
   ||| This adds unique IDs and event listeners to the generated
   ||| nodes as required in their attributes.
-  export
+  export %inline
   innerHtmlAt : ElemRef t -> Node e -> JSIO ()
-  innerHtmlAt ref n = do
-    elem     <- castElementByRef {t2 = Element} ref
-    (n2, es) <- liftIO $ fromPrim $ prepareNode n
-    innerHTML elem .= render n2
-    traverseJSIO_ (\x => x) es
+  innerHtmlAt ref n = innerHtmlAtN ref [n]
 
 ||| Replaces the `innerHTML` property of the target with the
 ||| given `String`. Warning: The string will not be escaped

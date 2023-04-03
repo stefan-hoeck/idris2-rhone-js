@@ -29,7 +29,7 @@ export
 context2D : ElemRef HTMLCanvasElement -> JSIO CanvasRenderingContext2D
 context2D ref = do
   canvas <- getElementByRef ref
-  m      <- getContext' canvas "2d"
+  m      <- getContext canvas "2d"
   case m >>= (\ns => extract CanvasRenderingContext2D ns) of
     Just c  => pure c
     Nothing => throwError $ Caught "Rhone.Canvas.context2d: No rendering context for canvas"
