@@ -115,7 +115,7 @@ data ColorStopList : (st : CSLState) -> Type where
     -> {auto 0 prf : Match sh st}
     -> ColorStopList sh
 
-export %inline
+export
 Interpolation (ColorStopList st) where
   interpolate [v]    = "\{v}"
   interpolate (h::t) = "\{h}, \{t}"
