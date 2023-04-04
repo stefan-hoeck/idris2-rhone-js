@@ -215,7 +215,7 @@ export %inline
 class : String -> Selector
 class = Class
 
-export %inline
+export
 classes : List String -> Selector
 classes []        = []
 classes (x :: xs) = class x :: classes xs
