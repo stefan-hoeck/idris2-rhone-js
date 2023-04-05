@@ -2,7 +2,7 @@ module Rhone.Canvas
 
 import Data.List
 import JS
-import Rhone.JS.Reactimate
+import Rhone.JS.ElemRef
 import Web.Html
 
 import public Rhone.Canvas.Angle

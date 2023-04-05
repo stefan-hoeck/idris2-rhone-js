@@ -2,7 +2,7 @@
 ||| data but produces no relevant output.
 module Rhone.JS.Sink
 
-import Rhone.JS.Reactimate
+import Rhone.JS.ElemRef
 import Data.Maybe
 import Data.MSF
 import JS
@@ -11,6 +11,16 @@ import Web.Dom
 import Web.Html
 
 %default total
+
+||| Replaces the `innerHTML` property of the target with the
+||| given `String`. Warning: The string will not be escaped
+||| before being inserted, so don't use this with text from
+||| untrusted sources.
+export
+rawInnerHtmlAt : ElemRef t -> String -> JSIO ()
+rawInnerHtmlAt ref str = do
+  elem <- castElementByRef {t2 = Element} ref
+  innerHTML elem .= str
 
 ||| Sets the innerHTML property of the referenced node to
 ||| the input string value.
