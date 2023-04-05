@@ -2,7 +2,7 @@ module Rhone.JS.Input
 
 import Data.MSF
 import JS
-import Rhone.JS.Reactimate
+import Rhone.JS.ElemRef
 import Rhone.JS.Sink
 import Rhone.JS.Source
 import Web.Dom

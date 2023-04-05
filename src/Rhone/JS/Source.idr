@@ -4,7 +4,7 @@ module Rhone.JS.Source
 
 import Data.MSF
 import JS
-import Rhone.JS.Reactimate
+import Rhone.JS.ElemRef
 import Text.Html
 import Web.Dom
 import Web.Html

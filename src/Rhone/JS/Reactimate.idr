@@ -4,6 +4,7 @@ import Data.IORef
 import Data.MSF
 import Data.Nat
 import JS
+import Rhone.JS.ElemRef
 import Rhone.JS.Event
 import Text.CSS
 import Text.Html
@@ -28,133 +29,6 @@ traverseJSIO_ f xs = MkEitherT $ fromPrim $ primTraverse_ f xs
 export %inline
 forJSIO_ : List t -> (t -> JSIO ()) -> JSIO ()
 forJSIO_ as f = traverseJSIO_ f as
-
---------------------------------------------------------------------------------
---          ElemRef
---------------------------------------------------------------------------------
-
-||| A typed reference to an element or container in the DOM. Elements can
-||| either be referenced by their ID string or their CSS class
-||| (both of which must be unique), or by holding a value directly.
-||| This can be used to access the element in question,
-||| for instance by invoking `getElementByRef`.
-|||
-||| In addition, we provide (pseudo-)element references for
-||| `body`, `document`, and `window`.
-public export
-data ElemRef : (t : Type) -> Type where
-  Id :  {tag : String}
-     -> (tpe : ElementType tag t)
-     -> (id : String)
-     -> ElemRef t
-
-  Class :  {tag   : String}
-        -> (tpe   : ElementType tag t)
-        -> (class : String)
-        -> ElemRef t
-
-  Ref : (ref : t) -> ElemRef t
-
-  Body : ElemRef HTMLElement
-
-  Document : ElemRef Document
-
-  Window : ElemRef Window
-
-||| Predicate witnessing that a given `ElemRef` is a reference
-||| by ID.
-public export
-data ById : ElemRef t -> Type where
-  IsById : {0 tpe : _} -> {0 id : _} -> ById (Id tpe id)
-
-||| Predicate witnessing that a given `ElemRef` is a reference
-||| by Class.
-public export
-data ByClass : ElemRef t -> Type where
-  IsByClass : {0 tpe : _} -> {0 id : _} -> ByClass (Class tpe id)
-
-namespace Attribute
-  ||| Uses an element ref as an ID attribute
-  export
-  ref : (r : ElemRef t) -> {auto 0 _ : ById r} -> Attribute ev
-  ref (Id _ i) = id i
-
-namespace CSS
-  ||| Uses an element ref as an ID selector
-  export
-  idRef : (r : ElemRef t) -> {auto 0 _ : ById r} -> List Declaration -> Rule n
-  idRef (Id _ i) = id i
-
-  ||| Uses an element ref as a class selector
-  export
-  classRef : (r : ElemRef t) -> {auto 0 _ : ByClass r} -> List Declaration -> Rule n
-  classRef (Class _ i) = class i
-
---------------------------------------------------------------------------------
---          Types
---------------------------------------------------------------------------------
-
-public export
-data Position = BeforeBegin | AfterBegin | BeforeEnd | AfterEnd
-
-export
-positionStr : Position -> String
-positionStr BeforeBegin = "beforebegin"
-positionStr AfterBegin  = "afterbegin"
-positionStr BeforeEnd   = "beforeend"
-positionStr AfterEnd    = "afterend"
-
---------------------------------------------------------------------------------
---          Inserting Nodes
---------------------------------------------------------------------------------
-
-||| Tries to retrieve an element of the given type by looking
-||| up its ID in the DOM. Unlike `getElementById`, this will throw
-||| an exception in the `JSIO` monad if the element is not found
-||| or can't be safely cast to the desired type.
-export
-strictGetElementById : SafeCast t => (tag,id : String) -> JSIO t
-strictGetElementById tag id = do
-  Nothing <- castElementById t id | Just t => pure t
-  liftJSIO $ throwError $
-    Caught "Control.Monad.Dom.Interface.strictGetElementById: Could not find \{tag} with id \{id}"
-
-||| Tries to retrieve a HTMLElement by looking
-||| up its ID in the DOM. Unlike `getElementById`, this will throw
-||| an exception in the `JSIO` monad if the element is not found
-||| or can't be safely cast to the desired type.
-export %inline
-strictGetHTMLElementById : (tag,id : String) -> JSIO HTMLElement
-strictGetHTMLElementById = strictGetElementById
-
-||| Tries to retrieve an element of the given type by looking
-||| up its ID in the DOM. Unlike `getElementById`, this will throw
-||| an exception in the `JSIO` monad if the element is not found
-||| or can't be safely cast to the desired type.
-export
-getElementByRef : SafeCast t => ElemRef t -> JSIO t
-getElementByRef (Id {tag} _ id) = strictGetElementById tag id
-getElementByRef (Class _ class) = getElementByClass class
-getElementByRef (Ref t)         = pure t
-getElementByRef Body            = liftJSIO body
-getElementByRef Document        = liftJSIO document
-getElementByRef Window          = liftJSIO window
-
-err : String
-err = "Control.Monad.Dom.Interface.castElementByRef"
-
-||| Tries to retrieve an element of the given type by looking
-||| up its ID in the DOM. Unlike `getElementById`, this will throw
-||| an exception in the `JSIO` monad if the element is not found
-||| or can't be safely cast to the desired type.
-export
-castElementByRef : SafeCast t2 => ElemRef t -> JSIO t2
-castElementByRef (Id {tag} _ id) = strictGetElementById tag id
-castElementByRef (Class _ class) = getElementByClass class
-castElementByRef Body            = body >>= tryCast err
-castElementByRef Document        = document >>= tryCast err
-castElementByRef Window          = window >>= tryCast err
-castElementByRef (Ref t)         = tryCast err t
 
 ||| Low level method for registering `DOMEvents` at
 ||| HTML elements.
@@ -291,13 +165,3 @@ parameters {0    e : Type}           -- event type
   export %inline
   innerHtmlAt : ElemRef t -> Node e -> JSIO ()
   innerHtmlAt ref n = innerHtmlAtN ref [n]
-
-||| Replaces the `innerHTML` property of the target with the
-||| given `String`. Warning: The string will not be escaped
-||| before being inserted, so don't use this with text from
-||| untrusted sources.
-export
-rawInnerHtmlAt : ElemRef t -> String -> JSIO ()
-rawInnerHtmlAt ref str = do
-  elem <- castElementByRef {t2 = Element} ref
-  innerHTML elem .= str

@@ -18,6 +18,7 @@ modules    = Rhone.Canvas
            , Rhone.Canvas.Transformation
 
            , Rhone.JS
+           , Rhone.JS.ElemRef
            , Rhone.JS.Event
            , Rhone.JS.Input
            , Rhone.JS.Reactimate
