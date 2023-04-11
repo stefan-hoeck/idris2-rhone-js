@@ -381,7 +381,7 @@ export
 ui : Handler JSIO Ev => JSIO (MSF JSIO Ev (), JSIO ())
 ui = do
   ini <- randomGame DE
-  _ <- MkState <$> newIORef ini
+  _ <- mkST ini
   innerHtmlAt exampleDiv (content DE)
   pure (msf, pure ())
 ```
