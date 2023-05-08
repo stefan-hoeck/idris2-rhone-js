@@ -28,13 +28,9 @@ entry points for our single-page web page: A `style` element
 in the header, where our CSS rules go, and the body element,
 where the content of our web page goes. We typically refer
 to HTML elements via `ElemRef` values
-(defined in `Control.Monad.Dom.Interface`), which come with
+(defined in `Rhone.JS.ElemRef`), which come with
 an ID and a tag to allow us to safely request the properly
-typed element from the DOM:
-
-I like to keep my CSS simple and use classes and pseudo
-classes whenever possible, so here are the ones that
-come up in most examples:
+typed element from the DOM.
 
 ## CSS Rules
 
@@ -42,10 +38,8 @@ Note: I'm by no means an expert, so
 the CSS rules below might quite well seem horrible
 to purists; suggestions of improvements are welcome.
 
-Here are the core rules for laying out the web page.
-
-Finally, we will need a way to apply our CSS rules
-upon loading the page.
+Here are the core rules for laying out the web page (the details can
+be found in the corresponding submodules).
 
 ```idris
 export

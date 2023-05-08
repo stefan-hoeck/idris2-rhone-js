@@ -34,7 +34,7 @@ main = runJS . ignore $ reactimateIni "reset" ui
 
 This just imports and runs the user interface `ui` defined in module
 `Examples.Selector`. We will have a closer
-look at function `reactimateDomIni` once we understand the general
+look at function `reactimateIni` once we understand the general
 structure of a rhone-js project. Function `runJS` comes from
 the [idris2-dom](https://github.com/stefan-hoeck/idris2-dom)
 library: To properly deal with the uncertainties of the

@@ -215,7 +215,7 @@ nextBall delta (MkBall c p v) =
 ```
 
 We also need a way to create an initial set of
-balls based user input. We evenly distribute
+balls based on user input. We evenly distribute
 them at a height of nine meters, giving them
 slightly different colors and starting velocities:
 
@@ -244,7 +244,7 @@ initialBalls n = go n Nil
 ```
 
 The controller handling the animation will use a state
-accumulater for the balls and advance them the given
+accumulator for the balls and advance them the given
 number of milliseconds:
 
 ```idris
