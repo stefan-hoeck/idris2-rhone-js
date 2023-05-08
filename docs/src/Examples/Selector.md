@@ -25,37 +25,11 @@ most of the CSS rules for the page are defined. In addition, `Rhone.JS`
 is imported, the kitchen sink re-exporting the core functionality necessary
 to write a rhone-js wep application.
 
-## The Effect Type: `MonadDom`
+## ~~The Effect Type: `MonadDom`~~
 
-Most tutorials about writing functional web applications that I have come
-across so far show nice examples of increasing complexity but leave out the
-gory details about the actual implementation. I don't like this approach. In
-order to truly make use of a web framework, you will eventually need to
-know a bit about its implementation and hence its limitations.
-
-I therefore start with this: A short explanation of what is going on under the
-hood and where to start looking for further information.
-
-I typically start the examples with an alias for the effect type being
-used, and we will use `DomIO` from module `Control.Monad.Dom.DomIO`
-most of the time. `DomIO` is the reference
-implementation of interface `MonadDom` from `Control.Monad.Dom.Interface`.
-This is an IO monad, which right now provides only two additional
-pieces of functionality:
-A way to generate unique ID strings, which are used to look up
-interactive components in the DOM, and a function to register event
-handlers.
-
-`MonadDom` and `DomIO` are parameterized over the event type they
-understand, and in case of the select widget we define in
-this module, we just use `String`
-as our event type. In addition, `DomIO` is parameterized over the effect
-type it uses internally. This will be just `JSIO` most of the
-time. When you look at the implementation of `DomIO` you'll see
-that it's structure is very simple: It's just a reader monad in disguise,
-taking a value of type `DomEnv ev` as input, and `DomEnv ev` is a record
-holding a mutable reference for creating unique integers plus
-a function for handling UI events.
+This library used to have its own effect type called `MonadDom`. However, it
+turned out that this made the whole thing unnecessarily complex with adding
+any benefit. Nowadays, we can just use plain `JSIO`.
 
 ## Writing HTML in Idris2
 
@@ -100,13 +74,11 @@ in HTML and similar markup languages. It is used to define the
 appearance of the example web page.)
 
 DOM identifiers like `exampleDiv` are of type `ElementRef t` (defined
-in `Control.Monad.Dom.Interface`), where `t` is the type of the
+in `Rhone.JS.ElemRef`), where `t` is the type of the
 corresponding HTML element. They are mainly typed wrappers around ID
 strings and are used to lookup HTML elements in the DOM.
 We need these, whenever an element in the DOM is not static.
-We can either define these manually, or let the runtime generate
-a unique identifier for us by invoking the `MonadDom` function
-`uniqueId`. In the example above, `exampleDiv` points to the DOM element
+In the example above, `exampleDiv` points to the DOM element
 where the content of the example applications will go. It's the
 only part of the main web page that is not static.
 
@@ -179,7 +151,7 @@ ui h = do
   pure (msf, pure ())
 ```
 
-I'll quickliy break this down a bit: The first line
+I'll quickly break this down a bit: The first line
 renders and applies the page's CSS rules to a `<style>`
 element in the HTML header referenced by `ElementRef`
 `appStyle`. The second line,
@@ -187,14 +159,8 @@ element in the HTML header referenced by `ElementRef`
 happens: We change the inner HTML of the element with ID
 `"content"` (the string wrapped up in `contentDiv`) to the
 result of rendering `content` (the HTML `Node` we defined above).
-But before doing so, every element that can fire an event is
-given its own unique ID (if it doesn't already have one) and
-after adding these updated elements to the DOM, theses IDs are
-looked up and the necessary event handlers are registered
-at the elements. So the procedure is as follows: Add IDs where
-necessary, render to text form, replace inner HTML of `contentDiv`
-with the rendered text, lookup reactive components by their
-IDs and register the event handlers.
+At the same time, event listeners are attached to all interactive
+elements of our web page.
 
 Afterwards, the monadic stream function is created: We
 use `arrM` to lift an effectful computation to the MSF context.
@@ -205,9 +171,10 @@ by invoking the mysterious `reactimateInDom` function. This
 is where the other half of the magic happens, but that's for
 another post.
 
-Just a final note: `reactimateInDom` might set up resources (for instances
-running timers) we ned to cleanup once we switch to another
-example application. The `feedback` loop takes care of this:
+Just a final note: `reactimate` and `reactimateIni`
+might set up resources (for instance running timers) we need to cleanup
+once we switch to another example application.
+The `feedback` loop takes care of this:
 After a new example has been started, its cleanup hook is
 sent back to the input of the controlling MSF and invoked
 before the next application is started.
@@ -239,7 +206,7 @@ which can have an impact on performance, especially when
 the web page - and thus the virtual DOM - consists of
 many elements.
 
-So far, rhone-js doesn't use a virtual DOM, but interacts with
+So far, rhone-js does not use a virtual DOM but interacts with
 the real DOM directly through a network of monadic stream
 functions. Whether this will result in a nice way to write web applications
 or will lead to unmaintainable tangles of code, only time

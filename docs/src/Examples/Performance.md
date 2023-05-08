@@ -16,12 +16,11 @@ create and display the buttons.
 
 We are going to iterate over large lists of
 items, therefore we need to be conscious about stack space and make
-use of the tail-recursive functions from
-[idris2-tailrec](https://github.com/stefan-hoeck/idris2-tailrec).
+use of the tail-recursive functions.
 We also write our first event data type, for which we will
 automatically derive certain interfaces using elaborator
 reflection. The corresponding functionality comes from
-the [idris2-sop](https://github.com/stefan-hoeck/idris2-sop)
+the [idris2-elab-util](https://github.com/stefan-hoeck/idris2-elab-util)
 library.
 
 Here's the list of imports:
@@ -96,12 +95,13 @@ btn n =
 Next, we write the function to create a grid of buttons.
 Since we plan to create thousands of buttons at once, we must
 make sure to do this in a stack-safe manner.
-List functions like `map` or `range` (used to implement
-the range syntax: `[1..1000]`) are (so far) not stack safe,
-so we use `mapTR` and `iterateTR` from `Data.List.TR`
-instead. For these, the recursive calls are in tail position,
-so the JS backends can convert them to while loops using
-constant stack space.
+Some list functions in the standard libraries are not (yet)
+stack safe, so we define our own stack-safe `iterateTR` function here.
+In this case, the recursive calls are in tail position,
+so the JS backends can convert the function to a while loop using
+constant stack space. Luckily, in recent commits of the Idris project,
+`map` for `List` *is* stack-safe, so we can use it without further
+modification.
 
 ```idris
 iterateTR : SnocList t -> Nat -> (t -> t) -> t -> List t
@@ -141,12 +141,10 @@ buttons should be generated. This should also happen if the
 
 ## Controller
 
-The controller - especially the MSF used for
-generating the buttons and validating the user input -
-is quite a bit more involved. We have two unrelated
-parts in the UI (unrelated meaning, that they do not
-react on a shared set of events), so we need
-two aliases for the corresponding effect types:
+We have to implement two controllers: One for calculating the
+sum of buttons clicked (and disabling the clicked buttons),
+and one for validating user input and setting up new grids of
+buttons.
 
 We also need a way to calculate the time taken to create
 and display the buttons. The idris2-dom library does not

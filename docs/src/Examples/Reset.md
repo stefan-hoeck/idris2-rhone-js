@@ -4,11 +4,12 @@ I have been told by the nice people of the Idris community
 on Discord that every functional web framework has some clickable
 counter as its first example.
 
-If that's true, I'm not the one to break with tradition, so here we go.
+If that's true, I'm not going to be the one to break with
+tradition, so here we go.
 
 The application will consist of three buttons and an internal
-counter: One button to increase the counter by one, one button
-to decrease the counter, and one button to reset the counter to
+counter: One button for increasing the counter by one, one button
+for decreasing the counter, and one button for resetting the counter to
 zero. On every button click, the user interface should be updated
 and display the actual count. In addition, we do not want users
 to increase or decrease the counter too much, so the corresponding
@@ -35,7 +36,7 @@ our event type will be a function on integers:
 
 ```idris
 public export
-Ev : Type
+0 Ev : Type
 Ev = Int8 -> Int8
 ```
 
@@ -152,21 +153,21 @@ will be an effectful computation of an output value together with
 a new MSF, which will be used in the next evaluation step.
 
 All of this is set up by invoking one of the `reactimateXY` functions
-from `Control.Monad.Dom.DomIO`. Go ahead and have a look at their implementations:
+from `Data.MSF.Running`. Go ahead and have a look at their implementations:
 I tried to properly annotate the code to make it easier to understand
 what's going on: An event handler is being setup and registered at all
 active components (this happens, when `innerHtmlAt` is executed), which
 will read the current `MSF` (holding the current application state!)
 from a mutable variable
-and evaluate it using `Data.MSF.step`, whenever an event is fired.
+and evaluate it using `Data.MSF.Running.step`, whenever an event is fired.
 The resulting continuation is then written back to the mutable
 variable.
 
 When you look again at the [selector implementation](Selector.md), you
-will see that the MSF we defined there will invoke `reactimateDomIni`
+will see that the MSF we defined there will invoke `reactimateIni`
 on our `ui` function whenever the user selected the `"reset"` application.
 
-Why the call to `reactimateDomIni`? When you have a closer look at
+Why the call to `reactimateIni`? When you have a closer look at
 the structure of `content` above, you will note that the initial output
 field shows no text, and the *reset* button is enabled (the `disabled`
 attribute has not been set explicitly). This is not what we want: The current
