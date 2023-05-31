@@ -131,9 +131,15 @@ export %inline
 beforeDF : Element -> DocumentFragment -> JSIO ()
 beforeDF elem = before elem . nodeList
 
+||| Inserts the given document fragment before a DOM element.
+export %inline
+replaceDF : Element -> DocumentFragment -> JSIO ()
+replaceDF elem = replaceWith elem . nodeList
+
 public export
 data DOMUpdate : Type -> Type where
   Children : ElemRef t -> (ns : List (Node e)) -> DOMUpdate e
+  Replace  : ElemRef t -> (ns : List (Node e)) -> DOMUpdate e
   Append   : ElemRef t -> (ns : List (Node e)) -> DOMUpdate e
   Prepend  : ElemRef t -> (ns : List (Node e)) -> DOMUpdate e
   After    : ElemRef t -> (ns : List (Node e)) -> DOMUpdate e
@@ -264,10 +270,23 @@ parameters {0    e : Type}           -- event type
   prepend : ElemRef t -> Node e -> JSIO ()
   prepend = setupNode prependDF
 
+  ||| Sets up the reactive behavior of the given `Node`s and
+  ||| replaces the given element.
+  export %inline
+  replaceN : ElemRef t -> List (Node e) -> JSIO ()
+  replaceN = setupNodes replaceDF
+
+  ||| Sets up the reactive behavior of the given `Node` and
+  ||| replaces the given element.
+  export %inline
+  replace : ElemRef t -> Node e -> JSIO ()
+  replace = setupNode replaceDF
+
   ||| Execute a single DOM update instruction
   export
   updateDOM1 : DOMUpdate e -> JSIO ()
   updateDOM1 (Children x ns) = innerHtmlAtN x ns
+  updateDOM1 (Replace x ns)  = replaceN x ns
   updateDOM1 (Append x ns)   = appendN x ns
   updateDOM1 (Prepend x ns)  = prependN x ns
   updateDOM1 (After x ns)    = afterN x ns
