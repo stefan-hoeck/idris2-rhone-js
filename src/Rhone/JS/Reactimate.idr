@@ -100,6 +100,48 @@ parameters {0    e : Type}
   setAttributesRef el = traverseJSIO_ (setAttributeRef el)
 
 --------------------------------------------------------------------------------
+--          DOM Update
+--------------------------------------------------------------------------------
+
+nodeList : DocumentFragment -> List (HSum [Node,String])
+nodeList df = [inject $ df :> Node]
+
+||| Replaces all children of the given node with a new document fragment.
+export %inline
+replaceChildren : Element -> DocumentFragment -> JSIO ()
+replaceChildren elem = replaceChildren elem . nodeList
+
+||| Appends the given document fragment to a DOM element's children
+export %inline
+appendDF : Element -> DocumentFragment -> JSIO ()
+appendDF elem = append elem . nodeList
+
+||| Prepends the given document fragment to a DOM element's children
+export %inline
+prependDF : Element -> DocumentFragment -> JSIO ()
+prependDF elem = prepend elem . nodeList
+
+||| Inserts the given document fragment after a DOM element.
+export %inline
+afterDF : Element -> DocumentFragment -> JSIO ()
+afterDF elem = after elem . nodeList
+
+||| Inserts the given document fragment before a DOM element.
+export %inline
+beforeDF : Element -> DocumentFragment -> JSIO ()
+beforeDF elem = before elem . nodeList
+
+public export
+data DOMUpdate : Type -> Type where
+  Children : ElemRef t -> (ns : List (Node e)) -> DOMUpdate e
+  Append   : ElemRef t -> (ns : List (Node e)) -> DOMUpdate e
+  Prepend  : ElemRef t -> (ns : List (Node e)) -> DOMUpdate e
+  After    : ElemRef t -> (ns : List (Node e)) -> DOMUpdate e
+  Before   : ElemRef t -> (ns : List (Node e)) -> DOMUpdate e
+  Attr     : ElemRef t -> Attribute e -> DOMUpdate e
+  Remove   : ElemRef t -> DOMUpdate e
+
+--------------------------------------------------------------------------------
 --          Node Preparation
 --------------------------------------------------------------------------------
 
@@ -142,26 +184,98 @@ parameters {0    e : Type}           -- event type
 
   addNodes doc p = assert_total $ traverseJSIO_ (addNode doc p)
 
-  ||| Sets up the reactive behavior of the given `Node` and
-  ||| inserts it as the only child of the given target.
-  |||
-  ||| This adds unique IDs and event listeners to the generated
-  ||| nodes as required in their attributes.
-  export
-  innerHtmlAtN : ElemRef t -> List (Node e) -> JSIO ()
-  innerHtmlAtN ref ns = do
+  setupNodes :
+       (Element -> DocumentFragment -> JSIO ())
+    -> ElemRef t
+    -> List (Node e)
+    -> JSIO ()
+  setupNodes adj ref ns = do
     doc  <- document
     elem <- castElementByRef {t2 = Element} ref
-    innerHTML elem .= ""
     df   <- createDocumentFragment doc
     addNodes doc df ns
-    append elem [inject $ df :> Node]
+    adj elem df
+
+  %inline
+  setupNode :
+       (Element -> DocumentFragment -> JSIO ())
+    -> ElemRef t
+    -> Node e
+    -> JSIO ()
+  setupNode adj ref n = setupNodes adj ref [n]
+
+  ||| Sets up the reactive behavior of the given `Node`s and
+  ||| inserts them as the children of the given target.
+  export %inline
+  innerHtmlAtN : ElemRef t -> List (Node e) -> JSIO ()
+  innerHtmlAtN = setupNodes replaceChildren
 
   ||| Sets up the reactive behavior of the given `Node` and
   ||| inserts it as the only child of the given target.
-  |||
-  ||| This adds unique IDs and event listeners to the generated
-  ||| nodes as required in their attributes.
   export %inline
   innerHtmlAt : ElemRef t -> Node e -> JSIO ()
-  innerHtmlAt ref n = innerHtmlAtN ref [n]
+  innerHtmlAt = setupNode replaceChildren
+
+  ||| Sets up the reactive behavior of the given `Node`s and
+  ||| inserts them after the given child node.
+  export %inline
+  afterN : ElemRef t -> List (Node e) -> JSIO ()
+  afterN = setupNodes afterDF
+
+  ||| Sets up the reactive behavior of the given `Node` and
+  ||| inserts it after the given child node.
+  export %inline
+  after : ElemRef t -> Node e -> JSIO ()
+  after = setupNode afterDF
+
+  ||| Sets up the reactive behavior of the given `Node`s and
+  ||| inserts them before the given child node.
+  export %inline
+  beforeN : ElemRef t -> List (Node e) -> JSIO ()
+  beforeN = setupNodes beforeDF
+
+  ||| Sets up the reactive behavior of the given `Node` and
+  ||| inserts it before the given child node.
+  export %inline
+  before : ElemRef t -> Node e -> JSIO ()
+  before = setupNode beforeDF
+
+  ||| Sets up the reactive behavior of the given `Node`s and
+  ||| appends them to the given element's list of children
+  export %inline
+  appendN : ElemRef t -> List (Node e) -> JSIO ()
+  appendN = setupNodes appendDF
+
+  ||| Sets up the reactive behavior of the given `Node` and
+  ||| appends it to the given element's list of children
+  export %inline
+  append : ElemRef t -> Node e -> JSIO ()
+  append = setupNode appendDF
+
+  ||| Sets up the reactive behavior of the given `Node`s and
+  ||| prepends them to the given element's list of children
+  export %inline
+  prependN : ElemRef t -> List (Node e) -> JSIO ()
+  prependN = setupNodes prependDF
+
+  ||| Sets up the reactive behavior of the given `Node` and
+  ||| prepends it to the given element's list of children
+  export %inline
+  prepend : ElemRef t -> Node e -> JSIO ()
+  prepend = setupNode prependDF
+
+  ||| Execute a single DOM update instruction
+  export
+  updateDOM1 : DOMUpdate e -> JSIO ()
+  updateDOM1 (Children x ns) = innerHtmlAtN x ns
+  updateDOM1 (Append x ns)   = appendN x ns
+  updateDOM1 (Prepend x ns)  = prependN x ns
+  updateDOM1 (After x ns)    = afterN x ns
+  updateDOM1 (Before x ns)   = beforeN x ns
+  updateDOM1 (Attr x a)      = setAttributeRef x a
+  updateDOM1 (Remove x)      = castElementByRef {t2 = Element} x >>= remove
+
+  ||| Execute several DOM update instructions
+  export %inline
+  updateDOM : List (DOMUpdate e) -> JSIO ()
+  updateDOM = traverseJSIO_ updateDOM1
