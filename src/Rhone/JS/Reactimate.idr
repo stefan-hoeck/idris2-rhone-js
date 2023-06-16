@@ -188,6 +188,8 @@ parameters {0    e : Type}           -- event type
 
   addNode doc p (Text str) = append p [inject str]
 
+  addNode doc p Empty      = pure ()
+
   addNodes doc p = assert_total $ traverseJSIO_ (addNode doc p)
 
   setupNodes :
