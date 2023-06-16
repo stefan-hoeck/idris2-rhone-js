@@ -11,15 +11,17 @@ import Web.Dom
 
 public export
 data Node : (event : Type) -> Type where
-  El   :  {0 ev : Type}
-       -> (tag : String)
-       -> List (Attribute ev)
-       -> List (Node ev)
-       -> Node ev
+  El    :  {0 ev : Type}
+        -> (tag : String)
+        -> List (Attribute ev)
+        -> List (Node ev)
+        -> Node ev
 
-  Raw  : String -> Node ev
+  Raw   : String -> Node ev
 
-  Text : String -> Node ev
+  Text  : String -> Node ev
+
+  Empty : Node ev
 
 public export %inline
 FromString (Node ev) where
@@ -373,6 +375,7 @@ render n = case n of
   Raw x         => x
   Text x        => escape x
   El tag as ns  => "<\{tag}\{attrs as}>\{go [<] ns}</\{tag}>"
+  Empty         => ""
 
   where
     go : SnocList String -> List (Node ev) -> String
