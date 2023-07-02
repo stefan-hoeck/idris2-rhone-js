@@ -382,6 +382,30 @@ onEscDown : ev -> Attribute ev
 onEscDown va = Event . KeyDown $ \k => toMaybe (k.key == "Escape") va
 
 export
+onShiftDown : ev -> Attribute ev
+onShiftDown va = Event . KeyDown $ \k => toMaybe (k.key == "Shift") va
+
+export
+onShiftUp : ev -> Attribute ev
+onShiftUp va = Event . KeyUp $ \k => toMaybe (k.key == "Shift") va
+
+export
+onAltDown : ev -> Attribute ev
+onAltDown va = Event . KeyDown $ \k => toMaybe (k.key == "Alt") va
+
+export
+onAltUp : ev -> Attribute ev
+onAltUp va = Event . KeyUp $ \k => toMaybe (k.key == "Alt") va
+
+export
+onCtrlUp : ev -> Attribute ev
+onCtrlUp va = Event . KeyUp $ \k => toMaybe (k.key == "Control") va
+
+export
+onCtrlDown : ev -> Attribute ev
+onCtrlDown va = Event . KeyDown $ \k => toMaybe (k.key == "Control") va
+
+export
 onKeyUp : (KeyInfo -> ev) -> Attribute ev
 onKeyUp f = Event . KeyUp $ Just . f
 
