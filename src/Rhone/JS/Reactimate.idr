@@ -54,6 +54,7 @@ registerDOMEvent el de = case de of
   MouseOut f   => inst "mouseout" mouseInfo f
   MouseMove f  => inst "mousemove" mouseInfo f
   HashChange v => inst "hashchange" {a = Event} (const $ pure v) Just
+  Wheel f      => inst "wheel" wheelInfo f
 
   where
     inst :
