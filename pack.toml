@@ -8,14 +8,8 @@ type   = "local"
 path   = "docs"
 ipkg   = "docs.ipkg"
 
-[custom.all.algebra]
+[custom.all.tailrec]
 type   = "git"
-url    = "https://github.com/stefan-hoeck/idris2-algebra"
+url    = "https://github.com/stefan-hoeck/idris2-tailrec"
 commit = "latest:main"
-ipkg   = "algebra.ipkg"
-
-[custom.all.refined]
-type   = "git"
-url    = "https://github.com/stefan-hoeck/idris2-refined"
-commit = "latest:main"
-ipkg   = "refined.ipkg"
+ipkg   = "tailrec.ipkg"

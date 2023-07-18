@@ -1,5 +1,6 @@
 module Rhone.JS.Reactimate
 
+import Control.Monad.Either.Extra
 import Data.IORef
 import Data.MSF
 import Data.Nat
@@ -12,23 +13,6 @@ import Web.Dom
 import Web.Html
 
 %default total
-
-primTraverse_ : (t -> JSIO ()) -> List t -> PrimIO (Either JSErr ())
-primTraverse_ f []        w = MkIORes (Right ()) w
-primTraverse_ f (x :: xs) w =
-  let MkIORes (Right ()) w2 := toPrim (runEitherT (f x)) w
-        | MkIORes (Left err) w2 => MkIORes (Left err) w2
-   in primTraverse_ f xs w2
-
--- TODO : This should got to the JS module
-export
-traverseJSIO_ : (t -> JSIO ()) -> List t -> JSIO ()
-traverseJSIO_ f xs = MkEitherT $ fromPrim $ primTraverse_ f xs
-
--- TODO : This should got to the JS module
-export %inline
-forJSIO_ : List t -> (t -> JSIO ()) -> JSIO ()
-forJSIO_ as f = traverseJSIO_ f as
 
 ||| Low level method for registering `DOMEvents` at
 ||| HTML elements.
@@ -97,7 +81,7 @@ parameters {0    e : Type}
 
   export
   setAttributesRef : ElemRef t -> List (Attribute e) -> JSIO ()
-  setAttributesRef el = traverseJSIO_ (setAttributeRef el)
+  setAttributesRef el = traverseList_ (setAttributeRef el)
 
 --------------------------------------------------------------------------------
 --          DOM Update
@@ -157,7 +141,7 @@ parameters {0    e : Type}           -- event type
   createNode : Document -> String -> List (Attribute e) -> JSIO Element
   createNode doc str xs = do
     el <- createElement doc str
-    traverseJSIO_ (setAttribute el) xs
+    traverseList_ (setAttribute el) xs
     pure el
 
   addNodes :
@@ -190,7 +174,7 @@ parameters {0    e : Type}           -- event type
 
   addNode doc p Empty      = pure ()
 
-  addNodes doc p = assert_total $ traverseJSIO_ (addNode doc p)
+  addNodes doc p = assert_total $ traverseList_ (addNode doc p)
 
   setupNodes :
        (Element -> DocumentFragment -> JSIO ())
@@ -299,4 +283,4 @@ parameters {0    e : Type}           -- event type
   ||| Execute several DOM update instructions
   export %inline
   updateDOM : List (DOMUpdate e) -> JSIO ()
-  updateDOM = traverseJSIO_ updateDOM1
+  updateDOM = traverseList_ updateDOM1
