@@ -17,34 +17,34 @@ export
 mouseInfo : MouseEvent -> JSIO MouseInfo
 mouseInfo e =
   [| MkMouseInfo
-     (button e)
-     (buttons e)
-     (clientX e)
-     (clientY e)
-     (offsetX e)
-     (offsetY e)
-     (pageX e)
-     (pageY e)
-     (screenX e)
-     (screenY e)
-     (altKey e)
-     (ctrlKey e)
-     (metaKey e)
-     (shiftKey e)
+       (button e)
+       (buttons e)
+       (clientX e)
+       (clientY e)
+       (offsetX e)
+       (offsetY e)
+       (pageX e)
+       (pageY e)
+       (screenX e)
+       (screenY e)
+       (altKey e)
+       (ctrlKey e)
+       (metaKey e)
+       (shiftKey e)
   |]
 
 export
 keyInfo : KeyboardEvent -> JSIO KeyInfo
 keyInfo e =
   [| MkKeyInfo
-     (key e)
-     (code e)
-     (location e)
-     (isComposing e)
-     (altKey e)
-     (ctrlKey e)
-     (metaKey e)
-     (shiftKey e)
+       (key e)
+       (code e)
+       (location e)
+       (isComposing e)
+       (altKey e)
+       (ctrlKey e)
+       (metaKey e)
+       (shiftKey e)
   |]
 
 export
@@ -52,14 +52,16 @@ inputInfo : InputEvent -> JSIO InputInfo
 inputInfo e =
   [| MkInputInfo
        (primIO (prim__input $ up e))
-       ((1 ==) <$> primIO (prim__checked $ up e)) |]
+       ((1 ==) <$> primIO (prim__checked $ up e))
+  |]
 
 export
 changeInfo : Event -> JSIO InputInfo
 changeInfo e =
   [| MkInputInfo
        (primIO (prim__input e))
-       ((1 ==) <$> primIO (prim__checked e)) |]
+       ((1 ==) <$> primIO (prim__checked e))
+  |]
 
 export
 wheelInfo : WheelEvent -> JSIO WheelInfo
@@ -68,4 +70,5 @@ wheelInfo e =
      (deltaMode e)
      (deltaX e)
      (deltaY e)
-     (deltaZ e) |]
+     (deltaZ e)
+  |]

@@ -87,12 +87,13 @@ the overall application layout:
 ```idris
 content : Node Ev
 content =
-  div [ class resetContent ]
-      [ lbl "Reset counter:"    resetLbl, btn btnReset (const 0) "Reset"
-      , lbl "Increase counter:" incLbl,   btn btnInc   (+ 1)     "+"
-      , lbl "Decrease counter:" decLbl,   btn btnDec   (+ (-1))  "-"
-      , lbl "Count:"            countLbl, div [ref out] []
-      ]
+  div
+    [ class resetContent ]
+    [ lbl "Reset counter:"    resetLbl, btn btnReset (const 0) "Reset"
+    , lbl "Increase counter:" incLbl,   btn btnInc   (+ 1)     "+"
+    , lbl "Decrease counter:" decLbl,   btn btnDec   (+ (-1))  "-"
+    , lbl "Count:"            countLbl, div [ref out] []
+    ]
 ```
 
 ## Controller
@@ -106,7 +107,8 @@ that produces no output of interest):
 ```idris
 msf : MSF JSIO Ev ()
 msf =
-  accumulateWith apply 0 >>> fan_
+  accumulateWith apply 0 >>>
+  fan_
     [ show     ^>> text out
     , (<= -10) ^>> disabledAt btnDec
     , (>=  10) ^>> disabledAt btnInc

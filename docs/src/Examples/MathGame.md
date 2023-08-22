@@ -70,10 +70,12 @@ result (MkCalc x y Mult)  = x * y
 
 dispCalc : Calc -> String
 dispCalc (MkCalc x y op) = "\{show x} \{dispOp op} \{show y} = "
-  where dispOp : Op -> String
-        dispOp Plus  = "+"
-        dispOp Minus = "-"
-        dispOp Mult  = "*"
+
+  where
+    dispOp : Op -> String
+    dispOp Plus  = "+"
+    dispOp Minus = "-"
+    dispOp Mult  = "*"
 ```
 
 Next, we need to keep track of the current game state:
@@ -124,9 +126,10 @@ a [separate module](CSS/MathGame.idr). We start with defining
 the localized strings we need:
 
 ```idris
-data Result = Ended Language
-            | Correct Language
-            | Wrong Language Calc Integer
+data Result : Type where
+  Ended   : Language -> Result
+  Correct : Language -> Result
+  Wrong   : Language -> Calc -> Integer -> Result
 
 style : Result -> Maybe String
 style (Ended _)     = Nothing
@@ -188,21 +191,24 @@ content l =
 
     , div [ ref calc ] []
 
-    , input [ ref resultIn
-            , onEnterDown Check
-            , class widget
-            , placeholder (resultStr l)
-            ] []
+    , input
+        [ ref resultIn
+        , onEnterDown Check
+        , class widget
+        , placeholder (resultStr l)
+        ] []
 
-    , button [ ref checkBtn
-             , onClick Check
-             , classes [widget,btn]
-             ] [Text $ checkAnswerStr l]
+    , button
+        [ ref checkBtn
+        , onClick Check
+        , classes [widget,btn]
+        ] [Text $ checkAnswerStr l]
 
-    , button [ ref newBtn
-             , onClick NewGame
-             , classes [widget,btn]
-             ] [Text $ newGameStr l]
+    , button
+        [ ref newBtn
+        , onClick NewGame
+        , classes [widget,btn]
+        ] [Text $ newGameStr l]
 
     , div [ ref out ] []
 
@@ -297,7 +303,7 @@ and returns a `Result` plus the updated state:
 ```idris
 checkAnswer : String -> GameState -> HList [Result,GameState]
 checkAnswer s (MkGS l nr wrong (h :: t) pic) =
-  let answer = cast s
+  let answer := cast s
    in if result h.calc == answer
       then [Correct l, MkGS l nr wrong t pic]
       else [Wrong l h.calc answer, MkGS l nr (h :: wrong) t pic]
@@ -317,14 +323,15 @@ setPic =   (\gs => "background-image : url('\{gs.pic}');")
 
 dispGame : MSF JSIO GameState ()
 dispGame =
-  fan_ [ currentCalc ^>-
-                    [ isNothing ^>- [disabledAt checkBtn, disabledAt resultIn]
-                    , maybe "" dispCalc ^>> text calc
-                    ]
-       , arrM renderGame
-       , const "" >>> Sink.valueOf resultIn
-       , setPic
-       ]
+  fan_
+    [ currentCalc ^>-
+        [ isNothing ^>- [disabledAt checkBtn, disabledAt resultIn]
+        , maybe "" dispCalc ^>> text calc
+        ]
+    , arrM renderGame
+    , const "" >>> Sink.valueOf resultIn
+    , setPic
+    ]
 ```
 
 For checking answers entered by users, we need a stream function
@@ -335,11 +342,12 @@ from `Data.MSF.Trans`).
 
 ```idris
 check : ST () GameState => MSF JSIO i ()
-check =  [| checkAnswer (valueOf resultIn) (constM $ getAt ()) |]
-      >>- [ snd >>! setAt ()
-          , hd  >>> reply ^>> text out
-          , hd  >>> style ^>> attributeAt "style" out
-          ]
+check =
+      [| checkAnswer (valueOf resultIn) (constM $ getAt ()) |]
+  >>- [ snd >>! setAt ()
+      , hd  >>> reply ^>> text out
+      , hd  >>> style ^>> attributeAt "style" out
+      ]
 ```
 
 When creating a new game, we need to make sure to take over
@@ -360,10 +368,12 @@ adjLang = readLang ^>> ifJust (
             arrM $ \l => innerHtmlAt exampleDiv (content l)
                       >> modifyAt () { lang := l }
           )
-  where readLang : Ev -> Maybe Language
-        readLang (Lang "en") = Just EN
-        readLang (Lang "de") = Just DE
-        readLang _           = Nothing
+
+  where
+    readLang : Ev -> Maybe Language
+    readLang (Lang "en") = Just EN
+    readLang (Lang "de") = Just DE
+    readLang _           = Nothing
 ```
 
 We put everything together in the main controller, which

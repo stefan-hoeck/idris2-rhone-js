@@ -119,12 +119,13 @@ content : Node Ev
 content =
   div [ class performanceContent ]
     [ lbl "Number of buttons:" numButtonsLbl
-    , input [ ref natIn
-            , onInput (const Validate)
-            , onEnterDown Reload
-            , classes [widget, textIn]
-            , placeholder "Enter a positive integer"
-            ] []
+    , input
+        [ ref natIn
+        , onInput (const Validate)
+        , onEnterDown Reload
+        , classes [widget, textIn]
+        , placeholder "Enter a positive integer"
+        ] []
     , button [ref btnRun, onClick Reload, classes [widget, btn]] ["Run"]
     , lbl "Sum:" sumLbl
     , div [ref out] []
@@ -202,8 +203,9 @@ field), and reloading the button grid upon a
 
 ```idris
 count : MSF JSIO Ev (Either String PosNat)
-count =    getInput Validate validate natIn
-       >>> observeWith (isLeft ^>> disabledAt btnRun)
+count =
+      getInput Validate validate natIn
+  >>> observeWith (isLeft ^>> disabledAt btnRun)
 ```
 
 Input validation can be quite involved (I wrote a lengthy
@@ -214,9 +216,10 @@ in case of invalid input.
 
 ```idris
 msf : MSF JSIO Ev ()
-msf =   fan [count, is Reload]
-    >>> rightOnEvent
-    ?>> arrM (ignore . reactimateIni 0 . btnsSF)
+msf =
+      fan [count, is Reload]
+  >>> rightOnEvent
+  ?>> arrM (ignore . reactimateIni 0 . btnsSF)
 ```
 
 The `rightOnEvent` combinator comes up often in user
