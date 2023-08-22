@@ -4,15 +4,15 @@ module Text.CSS.ListStyleType
 
 public export
 data ListStyleType : Type where
-  None                : ListStyleType
-  Disc                : ListStyleType
-  Circle              : ListStyleType
-  Square              : ListStyleType
-  Decimal             : ListStyleType
-  LowerAlpha          : ListStyleType
-  UpperAlpha          : ListStyleType
-  LowerRoman          : ListStyleType
-  UpperRoman          : ListStyleType
+  None       : ListStyleType
+  Disc       : ListStyleType
+  Circle     : ListStyleType
+  Square     : ListStyleType
+  Decimal    : ListStyleType
+  LowerAlpha : ListStyleType
+  UpperAlpha : ListStyleType
+  LowerRoman : ListStyleType
+  UpperRoman : ListStyleType
 
 export
 Interpolation ListStyleType where

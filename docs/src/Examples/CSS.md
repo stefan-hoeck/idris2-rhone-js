@@ -44,13 +44,14 @@ be found in the corresponding submodules).
 ```idris
 export
 allRules : String
-allRules =  fastUnlines . map interpolate
-         $  coreCSS
-         ++ Balls.css
-         ++ Fractals.css
-         ++ MathGame.css
-         ++ Performance.css
-         ++ Reset.css
+allRules =
+  fastUnlines . map interpolate
+    $  coreCSS
+    ++ Balls.css
+    ++ Fractals.css
+    ++ MathGame.css
+    ++ Performance.css
+    ++ Reset.css
 ```
 
 <!-- vi: filetype=idris2:syntax=markdown

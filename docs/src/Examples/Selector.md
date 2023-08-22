@@ -135,13 +135,15 @@ Enough talk, here's the code:
 ```idris
 msf : MSF JSIO String ()
 msf = feedback (pure ()) $ par [arrM id, arrM select] >>> swap
-  where select : String -> JSIO (JSIO ())
-        select "reset"       = reactimateIni (const 0) (\_ => Reset.ui)
-        select "performance" = reactimate (\_ => Performance.ui)
-        select "fractals"    = reactimate (\_ => Fractals.ui)
-        select "balls"       = reactimate (\_ => Balls.ui)
-        select "math"        = reactimateIni NewGame (\_ => MathGame.ui)
-        select _             = pure (pure ())
+
+  where
+    select : String -> JSIO (JSIO ())
+    select "reset"       = reactimateIni (const 0) (\_ => Reset.ui)
+    select "performance" = reactimate (\_ => Performance.ui)
+    select "fractals"    = reactimate (\_ => Fractals.ui)
+    select "balls"       = reactimate (\_ => Balls.ui)
+    select "math"        = reactimateIni NewGame (\_ => MathGame.ui)
+    select _             = pure (pure ())
 
 export
 ui : Handler JSIO String -> JSIO (MSF JSIO String (), JSIO ())

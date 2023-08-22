@@ -38,9 +38,10 @@ record Iterations where
 
 namespace Iterations
   export
-  fromInteger :  (n : Integer)
-              -> {auto 0 prf : LTE (fromInteger n) MaxIter}
-              -> Iterations
+  fromInteger :
+       (n : Integer)
+    -> {auto 0 prf : LTE (fromInteger n) MaxIter}
+    -> Iterations
   fromInteger n = MkIterations (cast n) prf
 
   export
@@ -81,21 +82,25 @@ record Config where
 
 msf : (timer : RedrawAfter -> JSIO ()) -> MSF JSIO Ev ()
 msf timer = drswitchWhen neutral config fractal
-  where fractal : Config -> MSF JSIO Ev ()
-        fractal c =
-          let Element dragons prf = mkDragons c.iterations.value
-           in ifIs Inc $ cycle dragons >>> innerHtml out
 
-        readAll : MSF JSIO Ev (Either String Config)
-        readAll =    MkConfig Dragon
-                <$$> getInput Iter   read txtIter
-                <**> getInput Redraw read txtRedraw
-                >>>  observeWith (isLeft ^>> disabledAt btnRun)
+  where
+    fractal : Config -> MSF JSIO Ev ()
+    fractal c =
+      let Element dragons prf := mkDragons c.iterations.value
+       in ifIs Inc $ cycle dragons >>> innerHtml out
 
-        config : MSF JSIO Ev (MSFEvent Config)
-        config =   fan [readAll, is Run]
-               >>> rightOnEvent
-               >>> observeWith (ifEvent $ arrM (liftJSIO . timer . redraw))
+    readAll : MSF JSIO Ev (Either String Config)
+    readAll =
+           MkConfig Dragon
+      <$$> getInput Iter   read txtIter
+      <**> getInput Redraw read txtRedraw
+      >>>  observeWith (isLeft ^>> disabledAt btnRun)
+
+    config : MSF JSIO Ev (MSFEvent Config)
+    config =
+          fan [readAll, is Run]
+      >>> rightOnEvent
+      >>> observeWith (ifEvent $ arrM (liftJSIO . timer . redraw))
 
 --------------------------------------------------------------------------------
 --          View
@@ -105,19 +110,21 @@ content : Node Ev
 content =
   div [ class fractalContent ]
     [ lbl "Number of iterations:" lblIter
-    , input [ ref txtIter
-            , onInput (const Iter)
-            , onEnterDown Run
-            , class widget
-            , placeholder "Range: [0, \{show MaxIter}]"
-            ] []
+    , input
+        [ ref txtIter
+        , onInput (const Iter)
+        , onEnterDown Run
+        , class widget
+        , placeholder "Range: [0, \{show MaxIter}]"
+        ] []
     , lbl "Iteration delay [ms]:" lblDelay
-    , input [ ref txtRedraw
-            , onInput (const Redraw)
-            , onEnterDown Run
-            , class widget
-            , placeholder "Range: [100,10'000]"
-            ] []
+    , input
+        [ ref txtRedraw
+        , onInput (const Redraw)
+        , onEnterDown Run
+        , class widget
+        , placeholder "Range: [100,10'000]"
+        ] []
     , button [ref btnRun, onClick Run, classes [widget,btn]] ["Run"]
     , div [ref out] []
     ]

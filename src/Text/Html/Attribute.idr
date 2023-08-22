@@ -100,10 +100,12 @@ getId []                = Nothing
 export
 getEvents : Attributes ev -> List (DOMEvent ev)
 getEvents = go Nil
-  where go : List (DOMEvent ev) -> Attributes ev -> List (DOMEvent ev)
-        go es []              = es
-        go es (Event e :: xs) = go (e :: es) xs
-        go es (_ :: xs)       = go es xs
+
+  where
+    go : List (DOMEvent ev) -> Attributes ev -> List (DOMEvent ev)
+    go es []              = es
+    go es (Event e :: xs) = go (e :: es) xs
+    go es (_ :: xs)       = go es xs
 
 export
 dispAttr : String -> (a -> String) -> a -> Attribute ev

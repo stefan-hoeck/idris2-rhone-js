@@ -121,7 +121,7 @@ wallThickness = 0.20
 -- walls and floor of the room.
 walls : Shape
 walls =
-  let hwt = wallThickness / 2
+  let hwt := wallThickness / 2
    in polyLine [(-hwt, 0), (-hwt, w+hwt), (w+hwt,w+hwt), (w+hwt,0)]
 ```
 
@@ -160,12 +160,13 @@ content : Node Ev
 content =
   div [ class ballsContent ]
     [ lbl "Number of balls:" lblCount
-    , input [ ref txtCount
-            , onInput (const NumIn)
-            , onEnterDown Run
-            , class widget
-            , placeholder "Range: [1,1000]"
-            ] []
+    , input
+        [ ref txtCount
+        , onInput (const NumIn)
+        , onEnterDown Run
+        , class widget
+        , placeholder "Range: [1,1000]"
+        ] []
     , button [ref btnRun, onClick Run, classes [widget,btn]] ["Run"]
     , div [ref log] []
     , canvas [ref out, width wcanvas, height wcanvas] []
@@ -208,9 +209,9 @@ checkBounds b@(MkBall c [px,py] [vx,vy]) =
 -- by adjusting its position and velocity
 nextBall : DTime -> Ball -> Ball
 nextBall delta (MkBall c p v) =
-  let dt   = cast delta / the Double 1000 -- time in seconds
-      v2   = v ^+^ (dt *^ acc)
-      p2   = p ^+^ (dt / 2 *^ (v ^+^ v2))
+  let dt := cast delta / the Double 1000 -- time in seconds
+      v2 := v ^+^ (dt *^ acc)
+      p2 := p ^+^ (dt / 2 *^ (v ^+^ v2))
    in checkBounds (MkBall c p2 v2)
 ```
 
@@ -224,23 +225,25 @@ slightly different colors and starting velocities:
 export
 initialBalls : (n : Nat) -> List Ball
 initialBalls n = go n Nil
-  where col : Bits8 -> Color
-        col 0 = comp100
-        col 1 = comp80
-        col 2 = comp60
-        col 3 = comp40
-        col _ = comp20
 
-        ball : Nat -> Ball
-        ball k =
-          let factor = cast {to = Double} k / (cast n - 1.0)
-              phi    = pi * factor
-              x0     = 1.0 + factor * 8
-           in MkBall (col $ cast k `mod` 5) [x0,9] (v0 *^ [sin phi, cos phi])
+  where
+    col : Bits8 -> Color
+    col 0 = comp100
+    col 1 = comp80
+    col 2 = comp60
+    col 3 = comp40
+    col _ = comp20
 
-        go : (k : Nat) -> List Ball -> List Ball
-        go 0     bs = bs
-        go (S k) bs = go k $ ball k :: bs
+    ball : Nat -> Ball
+    ball k =
+      let factor = cast {to = Double} k / (cast n - 1.0)
+          phi    = pi * factor
+          x0     = 1.0 + factor * 8
+       in MkBall (col $ cast k `mod` 5) [x0,9] (v0 *^ [sin phi, cos phi])
+
+    go : (k : Nat) -> List Ball -> List Ball
+    go 0     bs = bs
+    go (S k) bs = go k $ ball k :: bs
 ```
 
 The controller handling the animation will use a state
@@ -250,7 +253,8 @@ number of milliseconds:
 ```idris
 renderBalls : List Ball -> JSIO ()
 renderBalls bs =
-  liftJSIO . render $ MkCanvas out (cast wcanvas) (cast wcanvas) (ballsToScene bs)
+  liftJSIO . render $
+    MkCanvas out (cast wcanvas) (cast wcanvas) (ballsToScene bs)
 
 animation : List Ball -> MSF JSIO Ev ()
 animation bs =
@@ -266,20 +270,23 @@ input and running the application:
 ```idris
 read : String -> Either String (List Ball)
 read s =
-  let n = cast {to = Nat} s
+  let n := cast {to = Nat} s
    in if 0 < n && n <= 1000
         then Right (initialBalls n)
         else Left "Enter a number between 1 and 1000"
 
 msf : MSF JSIO Ev ()
 msf = drswitchWhen neutral initialBalls animation
-  where readInit : MSF JSIO Ev (Either String (List Ball))
-        readInit =    getInput NumIn read txtCount
-                 >>>  observeWith (isLeft ^>> disabledAt btnRun)
 
-        initialBalls : MSF JSIO Ev (MSFEvent $ List Ball)
-        initialBalls =   fan [readInit, is Run]
-                     >>> rightOnEvent
+  where
+    readInit : MSF JSIO Ev (Either String (List Ball))
+    readInit =
+          getInput NumIn read txtCount
+      >>> observeWith (isLeft ^>> disabledAt btnRun)
+
+    initialBalls : MSF JSIO Ev (MSFEvent $ List Ball)
+    initialBalls =
+      fan [readInit, is Run] >>> rightOnEvent
 
 export
 ui : Handler JSIO Ev => JSIO (MSF JSIO Ev (), JSIO ())
