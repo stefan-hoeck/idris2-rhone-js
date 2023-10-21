@@ -65,7 +65,7 @@ namespace Display
       col : Vect (S n) a -> String
       col vs =
         let str := concat . intersperse " " . map showTag $ toList vs
-         in "\{str}"
+         in #""\#{str}""#
 
 namespace FlexBasis
   public export
